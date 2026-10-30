@@ -646,6 +646,8 @@ tr.sel td{background:var(--accent-soft);font-weight:500}
 .pw-t:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 .sem-sessao .ft{display:none}
 @media (max-width:600px){ .auth{min-height:0;padding:var(--s6) 0;place-content:start center} .auth-card{padding:var(--s6) var(--s5)} }
+.lnk{all:unset;cursor:pointer;color:var(--accent);font-weight:500;text-decoration:underline;text-underline-offset:2px}
+.lnk:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .skip{position:absolute;left:var(--s4);top:-60px;z-index:100;background:var(--accent);color:var(--accent-ink);padding:var(--s2) var(--s4);border-radius:var(--r-sm);font:500 14px/20px var(--font);text-decoration:none}
 .skip:focus{top:var(--s3)}
 h1:focus{outline:none}
@@ -790,7 +792,7 @@ function explicaSit(c){ const s=situacao(c), E=c.eleg||[];
   const pend=ELQ.map((q,i)=>E[i]==="verificar"?q.t.toLowerCase():null).filter(Boolean), nao=ELQ.map((q,i)=>E[i]==="não"?{i,q}:null).filter(Boolean);
   if(s==="A responder") return {s,cls:"",t:`Faltam ${[0,1,2,3,4,5].filter(i=>!E[i]).length} respostas.`};
   if(nao.length) return {s,cls:"bad",t:`Não passa na porta. ${nao.map(x=>`Pergunta ${x.i+1}: ${x.q.no}`).join(" ")}`};
-  if(s==="Segue sem recurso novo") return {s,cls:"",t:"Passa nas seis condições, mas não pede recurso novo para 2027. Segue com o orçamento já comprometido e não entra na disputa."};
+  if(s==="Segue sem recurso novo") return {s,cls:"",t:"Passa nas seis condições, mas não pede recurso novo para 2027. Segue com o orçamento já comprometido, não entra na disputa pelo teto e por isso não vai para a pontuação."};
   if(pend.length) return {s,cls:"warn",t:`Segue para as notas, com pendência a resolver antes da Diretoria Executiva: ${pend.join(", ")}.`};
   return {s,cls:"good",t:"Passa nas seis condições e segue para a atribuição de notas."}; }
 function N1(c){ const g=(c.grades||[0,0,0,0,0,0]).map(Number), mx=Math.max(...g), n2=g.filter(x=>x>=2).length; return Math.min(5,1+mx+(n2>=2?1:0)); }
@@ -1313,6 +1315,7 @@ function vNtLista(M,banner){
   const minha=enviados().filter(apta).filter(c=>!(p.slot==="A3"&&c.dir===p.dir)), meu=code=>S.aval[code+"__"+p.slot];
   const st=c=>{ const m=meu(c.code), dr=LOC.draft[dkey(c.code)]; return m&&m.enviada?"Enviada":m||(dr&&(Object.keys(dr.notas).length||dr.exq.some(x=>x!=="")))?"Em andamento":"A pontuar"; };
   const feitas=minha.filter(c=>st(c)==="Enviada").length, q=(LOC.q.notas||"").trim().toLowerCase(), fil=minha.filter(c=>!q||(c.code+" "+c.nome).toLowerCase().includes(q));
+  const semRec=enviados().filter(c=>situacao(c)==="Segue sem recurso novo").filter(c=>!q||(c.code+" "+c.nome).toLowerCase().includes(q));
   const refs=fil.filter(c=>REFS.includes(c.code)), resto=fil.filter(c=>!REFS.includes(c.code)), refFeitas=minha.filter(c=>REFS.includes(c.code)&&st(c)==="Enviada").length, nRef=minha.filter(c=>REFS.includes(c.code)).length;
   const row=c=>{ const s=st(c), d=LOC.draft[dkey(c.code)], n=d?ITENS.filter(it=>okI(d,it)).length:0, outras=["A1","A2","A3"].filter(sl=>S.aval[c.code+"__"+sl]&&S.aval[c.code+"__"+sl].enviada).length;
     return `<button class="row" data-open="notas/${esc(c.code)}">${mt(misOf(c))}<span><span class="nm">${esc(c.nome)}</span><br><span class="sb">${esc(c.code)}, eixo ${esc(c.eixo)}</span></span><span class="rt">${s==="Em andamento"?`<span class="tiny muted">${n} de 17</span>`:""}<span class="dots" title="${outras} de 3 leituras enviadas">${[0,1,2].map(i=>`<i class="${i<outras?"on":""}"></i>`).join("")}</span><span class="stc"><span class="chip ${s==="Enviada"?"good":s==="Em andamento"?"acc":"warn"}">${s}</span></span></span></button>`; };
@@ -1320,8 +1323,9 @@ function vNtLista(M,banner){
    <div class="meter"><div><b>${feitas}</b> de ${minha.length} projetos pontuados</div><div class="prog"><i style="width:${minha.length?feitas/minha.length*100:0}%"></i></div></div>
    <div class="listbar"><input type="search" data-q="notas" placeholder="Buscar por código ou nome" value="${esc(LOC.q.notas||"")}" aria-label="Buscar projeto"></div>
    ${refs.length?`<section class="grp calib"><h2 class="grph"><i style="background:var(--yellow)"></i>Comece pelos projetos de referência<span>${refFeitas} de ${nRef}</span></h2><p class="small" style="margin:0 0 10px">A equipe pontua estes projetos em conjunto, antes do restante, para alinhar o uso das escalas. Eles cobrem missões e eixos diferentes.</p><div class="rows">${refs.map(row).join("")}</div></section>`:""}
-   <section class="grp"><h2 class="grph"><i style="background:var(--accent)"></i>Demais projetos aptos<span>${resto.length}</span></h2><div class="rows">${resto.map(row).join("")||`<p class="empty">Nenhum projeto apto. Os filtros de entrada precisam ser respondidos primeiro.</p>`}</div></section>`;
-  $("troca").onclick=()=>{ LOC.perfil={slot:"",dir:""}; render(); }; ligarLista(M); }
+   <section class="grp"><h2 class="grph"><i style="background:var(--accent)"></i>${refs.length?"Demais projetos aptos":"Projetos aptos"}<span>${resto.length}</span></h2><div class="rows">${resto.map(row).join("")||(q&&minha.length?`<p class="empty">Nenhum projeto apto com "${esc(LOC.q.notas)}". <button class="lnk" id="limpaQ">Limpar a busca</button></p>`:`<p class="empty">Nenhum projeto apto ainda. Um projeto chega aqui quando passa nos seis filtros de entrada e pede recurso novo para 2027.</p>`)}</div></section>
+   ${semRec.length?`<section class="grp"><h2 class="grph"><i style="background:var(--ink-3)"></i>Passaram nos filtros, mas não pontuam<span>${semRec.length}</span></h2><p class="small" style="margin:0 0 10px">Não pedem recurso novo para 2027: seguem com o orçamento já comprometido e não entram na disputa pelo teto, por isso não recebem nota.</p><div class="rows">${semRec.map(c=>`<button class="row" data-open="elegibilidade/${esc(c.code)}">${mt(misOf(c))}<span><span class="nm">${esc(c.nome)}</span><br><span class="sb">${esc(c.code)}, ${esc(c.dir||"")}</span></span><span class="stc">${chipSit("Segue sem recurso novo")}</span></button>`).join("")}</div></section>`:""}`;
+  $("troca").onclick=()=>{ LOC.perfil={slot:"",dir:""}; render(); }; if($("limpaQ")) $("limpaQ").onclick=()=>{ LOC.q.notas=""; render(); }; ligarLista(M); }
 const BCOR={K:"#183eff",N:"#00a3e6",S:"#2e9e4f",X:"#e0b800"};
 function vNtWork(M,banner,c){
   const p=LOC.perfil; if(!p.slot||(p.slot==="A3"&&!p.dir)) return escolherPerfil(M,banner);
