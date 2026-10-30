@@ -967,8 +967,10 @@ function dbNuvem(sb){
   const emit=c=>{ if(st[c]) st[c].cbs.forEach(f=>{ try{ f(snap(c)); }catch(e){ console.error(e); } }); };
   async function carregar(c){ let rows=[],de=0; for(;;){ const {data,error}=await sb.from("docs").select("id,dados").eq("colecao",c).order("id").range(de,de+999); if(error) throw error; rows=rows.concat(data); if(data.length<1000) break; de+=1000; }
     st[c].m=new Map(rows.map(r=>[r.id,r.dados])); emit(c); }
-  sb.channel("docs-mudancas").on("postgres_changes",{event:"*",schema:"public",table:"docs"},p=>{ const r=(p.new&&p.new.colecao)?p.new:p.old; if(!r||!st[r.colecao]) return;
-    if(p.eventType==="DELETE") st[r.colecao].m.delete(r.id); else st[r.colecao].m.set(r.id,r.dados); emit(r.colecao); }).subscribe();
+  const ouvir=()=>sb.channel("docs-mudancas").on("postgres_changes",{event:"*",schema:"public",table:"docs"},p=>{ const r=(p.new&&p.new.colecao)?p.new:p.old; if(!r||!st[r.colecao]) return;
+    if(p.eventType==="DELETE") st[r.colecao].m.delete(r.id); else st[r.colecao].m.set(r.id,r.dados); emit(r.colecao); }).subscribe(s=>{ if(s==="SUBSCRIBED") Object.keys(st).forEach(c=>carregar(c).catch(()=>{})); });
+  // o canal precisa da credencial de quem entrou; sem ela, o banco não envia inclusões nem alterações
+  Promise.resolve(sb.realtime&&sb.realtime.setAuth?sb.realtime.setAuth(SESSAO&&SESSAO.access_token):null).catch(()=>{}).then(ouvir);
   clearInterval(window.__poll); window.__poll=setInterval(()=>{ if(document.visibilityState==="visible"&&SESSAO) Object.keys(st).forEach(c=>carregar(c).catch(()=>{})); },60000);
   return {
     collection:c=>({onSnapshot:(f,err)=>{ if(!st[c]) st[c]={m:new Map(),cbs:[]}; st[c].cbs.push(f); carregar(c).catch(e=>err&&err(e)); return ()=>{ st[c].cbs=st[c].cbs.filter(x=>x!==f); }; }}),
@@ -1033,7 +1035,7 @@ function vImportar(M,banner){
       linhas.push({colecao:col,id:f.name.replace(/\.json$/i,""),dados:d,atualizado_em:new Date().toISOString()}); }
     for(let i=0;i<linhas.length;i+=50){ const {error}=await SB.from("docs").upsert(linhas.slice(i,i+50)); if(error){ log("Falhou ao gravar os dados: "+error.message); $("impB").disabled=false; return; } ok+=Math.min(50,linhas.length-i); log(`Dados: ${ok} de ${linhas.length}.`); }
     let np=0; for(const f of pdfs){ const {error}=await SB.storage.from("canvas").upload(f.name,f,{upsert:true,contentType:"application/pdf"}); if(error) falha.push(f.name); else np++; log(`Dados: ${ok} de ${linhas.length}. PDFs: ${np} de ${pdfs.length}.`); }
-    log(`Importação concluída: ${ok} documentos e ${np} PDFs.${falha.length?` Não entraram: ${falha.join(", ")}.`:""}`); toast("Base importada"); $("impB").disabled=false; }; }
+    log(`Importação concluída: ${ok} documentos e ${np} PDFs.${falha.length?` Não entraram: ${falha.join(", ")}.`:""}`); toast("Base importada"); $("impB").disabled=false; setTimeout(()=>{ S.uid=null; aplicarSessao(SESSAO); },2500); }; }
 
 /* ================= entrada ================= */
 const iniciais=n=>String(n||"").trim().split(/\s+/).filter(Boolean).slice(0,2).map(x=>x[0].toUpperCase()).join("")||"?";
