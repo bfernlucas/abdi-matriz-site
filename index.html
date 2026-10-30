@@ -923,7 +923,7 @@ function render(){
     $("usrB").onclick=e=>{ e.stopPropagation(); abrir(um.hidden); };
     um.onkeydown=e=>{ if(e.key==="Escape"){ abrir(false); $("usrB").focus(); } };
     document.onclick=e=>{ if(!um.hidden&&!e.target.closest("#usr")) abrir(false); };
-    $("usrS").onclick=async()=>{ abrir(false); if(S.nuvem){ await SB.auth.signOut(); return; } LOC.usuario=null; salvarLocal(); go("inicio"); render(); focoTitulo(); }; }
+    $("usrS").onclick=async()=>{ abrir(false); if(S.nuvem){ await SB.auth.signOut({scope:"local"}); return; } LOC.usuario=null; salvarLocal(); go("inicio"); render(); focoTitulo(); }; }
   if(!LOC.usuario){ $("nav").innerHTML=""; vEntrada(M,banner); salvarLocal(); return; }
   const [r,a]=ROTA;
   if(r==="canvas") a?vWizard(M,banner,a):vCanvasLista(M,banner);
