@@ -874,8 +874,10 @@ async function renderPDF(url,host,token){
       const cv=document.createElement("canvas"); cv.width=vp.width; cv.height=vp.height; cv.setAttribute("aria-label","Página "+p); host.appendChild(cv);
       await pg.render({canvasContext:cv.getContext("2d"),viewport:vp}).promise; }
   }catch(e){ host.innerHTML=`<p class="empty">Não foi possível abrir o PDF aqui. Use o botão Baixar.</p>`; } }
-function reader(c,hl){ const ax=c.anexos||[]; const def=c.cv||!ax.length?"c":0; let modo=LOC.doc[c.code]??def; if(modo!=="c"&&!ax[modo]) modo="c";
-  const tabs=[["c","Canvas"],...ax.map((x,i)=>[i,x.ciclo?"PDF "+x.ciclo:"Anexo "+(i+1)])]; const a=modo==="c"?null:ax[modo];
+function reader(c,hl){ const ax=c.anexos||[];
+  // com PDF, mostra só os PDFs originais; a ficha montada a partir do formulário fica para Canvas sem anexo
+  let modo=ax.length?(ax[+LOC.doc[c.code]]&&LOC.doc[c.code]!=="c"?+LOC.doc[c.code]:0):"c";
+  const tabs=ax.length?ax.map((x,i)=>[i,x.ciclo?"PDF "+x.ciclo:"Anexo "+(i+1)]):[["c","Canvas"]]; const a=modo==="c"?null:ax[modo];
   return `<aside class="reader" aria-label="Canvas do projeto"><div class="rh"><div class="seg">${tabs.map(([k,t])=>`<button data-doc="${k}" data-c="${esc(c.code)}" aria-pressed="${String(modo)===String(k)}">${esc(t)}</button>`).join("")}</div>
    ${a?`<button class="btn sm" data-dlpdf="${esc(c.code)}" data-i="${modo}">Baixar PDF</button>`:`<button class="btn sm" data-dlficha="${esc(c.code)}">Baixar Canvas</button>`}</div>
    ${a?`<div class="rb pdf" id="rb" tabindex="0" aria-label="Páginas do PDF do Canvas" data-url="${esc(a.url)}"><p class="empty">Abrindo ${esc(a.nome)}…</p></div>`:`<div class="rb" id="rb" tabindex="0" aria-label="Conteúdo do Canvas">${canvasHTML(c,hl)}</div>`}</aside>`; }
