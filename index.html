@@ -665,50 +665,64 @@ tr.sel td{background:var(--accent-soft);font-weight:500}
 .fx-chk input{accent-color:var(--accent);width:16px;height:16px}
 .fx-scroll{flex:1;overflow:auto;padding:var(--s6)}
 .fx-scroll:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
-.fx{display:grid;grid-template-columns:repeat(6,minmax(190px,1fr));column-gap:var(--s5);row-gap:var(--s3);min-width:1180px;align-items:stretch}
-.fx-c{min-width:0}
-.fx-fase{background:var(--sunk);border-radius:var(--r-sm);padding:var(--s3) var(--s4);text-align:center;display:grid;gap:2px;align-content:center}
-.fx-fase b{font:500 13px/18px var(--font);color:var(--ink)}
-.fx-fase span{font:400 12px/16px var(--font);color:var(--ink-3)}
-.fx-h{position:relative;display:flex;gap:10px;align-items:center;background:var(--accent);color:#fff;border-radius:var(--r-sm);padding:var(--s3);margin-top:var(--s2)}
-.fx-h:not([style*="grid-column:6"])::after{content:"";position:absolute;right:calc(-1*var(--s5) + 4px);top:50%;width:0;height:0;border:7px solid transparent;border-left:9px solid var(--accent);transform:translateY(-50%)}
-.fx-n{flex:none;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.18);font:600 15px/1 var(--font)}
-.fx-h h3{margin:0;font:600 14px/20px var(--font);color:#fff;hyphens:auto}
+.fx-leg{display:flex;flex-wrap:wrap;gap:var(--s3) var(--s6);margin-bottom:var(--s4);font:400 13px/20px var(--font);color:var(--ink-2)}
+.fx-leg span{display:flex;align-items:center;gap:8px}
+.fx-leg i{display:inline-block;width:14px;height:14px;border-radius:3px}
+.lg-mgp{background:#fff;border:1.5px solid var(--accent)}
+.lg-p3{background:var(--yellow-soft);border:1.5px solid var(--yellow-line)}
+.fx{display:grid;grid-template-columns:minmax(200px,240px) minmax(0,1fr) minmax(0,1.25fr);column-gap:var(--s4);row-gap:var(--s5)}
+.fx-col{position:relative;grid-column:1/-1;display:grid;grid-template-columns:subgrid;grid-template-rows:auto 1fr;row-gap:var(--s3);min-width:0}
+.fx-col>.fx-h{grid-column:1;grid-row:1}
+.fx-col>.fx-a{grid-column:1;grid-row:2}
+.fx-col>.fx-mgp{grid-column:2;grid-row:1/3}
+.fx-col>.fx-p3{grid-column:3;grid-row:1/3}
+.fx-col:not(:last-child)::after{content:"";position:absolute;left:113px;bottom:calc(-1*var(--s5) + 3px);border:7px solid transparent;border-top:9px solid var(--accent-line)}
+.fx-h{position:relative;display:flex;gap:10px;align-items:center;background:var(--accent);color:#fff;border-radius:var(--r-sm);padding:var(--s3)}
+.fx-tag{display:inline-block;margin-top:4px;padding:1px 8px;border-radius:var(--pill);background:var(--yellow);color:#1d2433;font:600 11px/16px var(--font);font-style:normal}
+.fx-h div span{display:block}
+.fx-h.fora{background:#fff;color:var(--ink);border:1.5px dashed var(--accent-line)}
+.fx-h.fora h3{color:var(--ink)} .fx-h.fora div span{color:var(--ink-3)} .fx-h.fora .fx-n{background:var(--accent-soft);color:var(--accent)}
 .fx-h>div{min-width:0}
+.fx-n{flex:none;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.18);font:600 14px/1 var(--font)}
+.fx-h h3{margin:0;font:600 14px/20px var(--font);color:#fff;hyphens:auto}
 .fx-h div span{font:400 12px/16px var(--font);color:rgba(255,255,255,.85)}
-.fx-h[style*="grid-column:5"],.fx-h[style*="grid-column:6"]{background:#fff;color:var(--ink);border:1.5px dashed var(--accent-line)}
-.fx-h[style*="grid-column:5"] h3,.fx-h[style*="grid-column:6"] h3{color:var(--ink)}
-.fx-h[style*="grid-column:5"] div span,.fx-h[style*="grid-column:6"] div span{color:var(--ink-3)}
-.fx-h[style*="grid-column:5"] .fx-n,.fx-h[style*="grid-column:6"] .fx-n{background:var(--accent-soft);color:var(--accent)}
-.fx-o,.fx-r{border:1px solid var(--line);border-radius:var(--r-sm);padding:var(--s3) var(--s4);background:#fff}
-.fx-o h4{margin:0 0 6px;font:600 14px/20px var(--font);color:var(--accent)}
-.fx-o p,.fx-r p,.fx-ref p,.fx-x p{margin:0;font:400 13px/20px var(--font);color:var(--ink-2)}
-.fx-l{display:block;margin-bottom:4px;font:500 12px/16px var(--font);color:var(--ink-3)}
-.fx-ref{padding:0 var(--s2)}
-.fx-ref p{font-style:italic;color:var(--ink-3)}
-.fx-x{position:relative;margin-top:var(--s4);border:1px solid var(--yellow-line);background:var(--yellow-soft);border-radius:var(--r-sm);padding:var(--s3) var(--s4)}
-.fx-x::before{content:"";position:absolute;left:50%;top:calc(-1*var(--s4) - 2px);height:var(--s4);border-left:2px dashed var(--yellow-line)}
-.fx-x b{display:block;margin-bottom:2px;font:600 13px/18px var(--font);color:var(--ink)}
-.fx-x.vazio{border:0;background:none;padding:0;margin:0}
-.fx-x.vazio::before{display:none}
+.fx-mgp{border:1.5px solid var(--accent);border-radius:var(--r-sm);padding:var(--s3);background:#fff}
+.fx-p3{border:1.5px solid var(--yellow-line);border-radius:var(--r-sm);padding:var(--s3);background:var(--yellow-soft)}
+.fx-l{display:block;margin-bottom:6px;font:600 12px/16px var(--font);color:var(--ink-3)}
+.fx-pp{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.fx-pp li,.fx-p3 p{margin:0;font:400 13px/20px var(--font);color:var(--ink-2)}
+.fx-pp b{display:block;font:600 13px/18px var(--font);color:var(--accent)}
+.fx-passos{list-style:none;margin:var(--s3) 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--s3);counter-reset:ps}
+.fx-passos li{counter-increment:ps;background:#fff;border:1px solid var(--line);border-radius:var(--r-sm);padding:var(--s3);display:grid;gap:6px;align-content:start}
+.fx-passos li>b{font:600 13px/18px var(--font);color:var(--ink)}
+.fx-passos li>b::before{content:counter(ps,lower-alpha) ") ";color:var(--accent)}
+.fx-q{font:500 12px/16px var(--font);color:var(--accent)}
+.fx-passos p{font-size:12.5px;line-height:19px}
+.fx-x{border-left:3px solid var(--yellow-line);padding-left:8px;font-weight:500!important;color:var(--ink)!important}
+.fx-passos .btn{justify-self:start}
+.fx-fora{margin-top:var(--s3)!important;padding-top:var(--s2);border-top:1px dashed var(--yellow-line);font-style:italic}
 .fx-a{display:flex;align-items:flex-start}
+.fx-off{font:400 12px/16px var(--font);color:var(--ink-3)}
 .fx-loop{display:flex;gap:var(--s3);align-items:center;margin-top:var(--s3);border:1.5px dashed var(--line-2);border-radius:var(--r-sm);padding:var(--s3) var(--s4)}
 .fx-loop span{font:600 22px/1 var(--font);color:var(--accent)}
 .fx-loop p{margin:0;font:400 13px/20px var(--font);color:var(--ink-2)}
 @media (max-width:900px){
   .fx-dlg{width:100vw;height:100vh;border-radius:0;border:0}
   .fx-top{padding:var(--s4)} .fx-scroll{padding:var(--s4)}
-  .fx{display:flex;flex-direction:column;min-width:0;gap:var(--s2)}
-  .fx-h{margin-top:var(--s4)} .fx-h::after{display:none}
-  .fx-x{margin-top:var(--s2)} .fx-x::before{display:none}
-  .fx-fase{text-align:left;margin-top:var(--s4)}
+  .fx{display:flex;flex-direction:column;gap:var(--s6)}
+  .fx-col{display:flex;flex-direction:column;gap:var(--s2)}
+  .fx-col>.fx-a{order:9}
+  .fx-col::after{display:none}
+  .fx-passos{grid-template-columns:1fr}
 }
 @media print{
   body.imprime-fx>*:not(#fxDlg){display:none!important}
   body.imprime-fx #fxDlg{position:static;width:auto;height:auto;border:0;box-shadow:none;overflow:visible}
   body.imprime-fx .fx-tools{display:none}
   body.imprime-fx .fx-scroll{overflow:visible;padding:0}
-  body.imprime-fx .fx{min-width:0;grid-template-columns:repeat(6,minmax(0,1fr));column-gap:10px}
+  body.imprime-fx .fx{row-gap:10px}
+  body.imprime-fx .fx-col{break-inside:avoid}
+  body.imprime-fx .fx-passos .btn{display:none}
   body.imprime-fx .fx-a{display:none}
   @page{size:A4 landscape;margin:10mm}
 }
@@ -1107,34 +1121,53 @@ function vImportar(M,banner){
 
 
 /* ================= fluxograma da governança ================= */
-const FASES=[[1,1,"Abertura do ciclo e identificação","4.1 e 4.2"],[2,3,"Balanceamento: subsídios da Unidade de Gestão Estratégica","4.3"],[4,4,"Balanceamento, programas e autorização","4.3 a 4.5"],[5,5,"Execução e monitoramento","4.7"],[6,6,"Encerramento","4.8"]];
-const ETAPAS=[
- {t:"Entrada",k:"Filtros de entrada",rota:"elegibilidade",abrir:"Abrir os filtros",o:"Fichas Canvas de propostas novas, projetos em andamento e demandas fora do ciclo. Mandato, vínculo com objetivo estratégico, indicador do Plano de Ação e missão, adicionalidade e sobreposição, verificados antes da nota e sem compensação.",r:"Unidade de Gestão Estratégica, na revisão das fichas",ref:"Corporação Financeira Internacional; Proparco; Banco Africano de Desenvolvimento",x:["Não passa","Reformular, transferir a outro órgão ou Incorporar"]},
- {t:"Pontuação",k:"Valor e exequibilidade",rota:"notas",abrir:"Abrir a pontuação",o:"Critérios de mérito em escalas de 1 a 5, com os níveis 1, 3 e 5 descritos; justificativa, fonte e confiança da evidência; exequibilidade pontuada à parte do valor.",r:"Unidade de Gestão Estratégica, com segunda leitura por técnico de outra diretoria; a unidade proponente fornece as evidências",ref:"BID Invest; Banco Europeu para Reconstrução e Desenvolvimento; Agência Francesa de Desenvolvimento",x:["Risco crítico sem mitigação","Trava: o projeto não pode ser priorizado"]},
- {t:"Carteira",k:"Carteira sob o teto",rota:"painel",abrir:"Abrir a carteira na DIREX",o:"Razão entre valor e custo até o teto de 2027; compromissos e dependências; equilíbrio entre os quatro programas e cobertura dos indicadores do Plano de Ação; teste de robustez: dentro, fronteira e fora.",r:"Unidade de Gestão Estratégica",ref:"Phillips e Bana e Costa; Novo Banco de Desenvolvimento; Financiadora de Estudos e Projetos",x:null},
- {t:"Deliberação",k:"Deliberação registrada",rota:"painel",abrir:"Abrir a deliberação na DIREX",o:"Recomendação técnica consultiva; relevância político-institucional tratada nesta etapa, de forma explícita; desvios justificados.",r:"Diretoria Executiva aprova a proposta; Conselho Deliberativo delibera; ministério supervisor aprova",ref:"Agência Francesa de Desenvolvimento; Banco Mundial; Innovate UK",x:["Desvio da recomendação","Registro da justificativa e do responsável (cumprir ou explicar)"]},
- {t:"Acompanhamento",k:"Acompanhamento e repontuação",rota:null,o:"Exequibilidade atualizada a cada semestre com a execução física e orçamentária; valor revisto quando o escopo muda.",r:"Gerentes informam a execução no sistema; a Unidade de Gestão Estratégica repontua",ref:"BID Invest; Banco Europeu para Reconstrução e Desenvolvimento",x:["Execução física abaixo de 80% da meta","Alerta e exame antes do ciclo seguinte"]},
- {t:"Validação",k:"Validação da nota",rota:null,o:"Nota de entrada comparada ao resultado na conclusão; amostra aleatória anual de projetos concluídos; complementa a avaliação anual por indicador do Contrato de Gestão.",r:"Equipe sem vínculo com os projetos",ref:"Cooperação financeira alemã (KfW); Banco Interamericano de Desenvolvimento",x:null}];
-function fluxoHTML(comRef){
-  const cel=(i,row,cls,html)=>`<div class="fx-c ${cls}" style="grid-column:${i+1};grid-row:${row};order:${i*10+row}">${html}</div>`;
-  const fases=FASES.map(([a,b,t,sec])=>`<div class="fx-c fx-fase" style="grid-column:${a}/${b+1};grid-row:1;order:${(a-1)*10}"><b>${esc(t)}</b><span>Seção ${esc(sec)} da metodologia</span></div>`).join("");
-  const corpo=ETAPAS.map((e,i)=>[
-    cel(i,2,"fx-h",`<span class="fx-n" aria-hidden="true">${i+1}</span><div><h3>${esc(e.t)}</h3><span>${e.rota?"na esteira":"fora da esteira piloto"}</span></div>`),
-    cel(i,3,"fx-o",`<h4>${esc(e.k)}</h4><p>${esc(e.o)}</p>`),
-    cel(i,4,"fx-r",`<span class="fx-l">Responsável</span><p>${esc(e.r)}</p>`),
-    comRef?cel(i,5,"fx-ref",`<span class="fx-l">Referências</span><p>${esc(e.ref)}</p>`):"",
-    cel(i,6,e.x?"fx-x":"fx-x vazio",e.x?`<b>${esc(e.x[0])}</b><p>${esc(e.x[1])}</p>`:""),
-    cel(i,7,"fx-a",e.rota?`<button class="btn sm" data-fxgo="${e.rota}">${esc(e.abrir)}</button>`:"")
-  ].join("")).join("");
-  return `<div class="fx" aria-label="Seis etapas da governança da seleção">${fases}${corpo}
-    <div class="fx-c fx-loop" style="grid-column:1/-1;grid-row:8;order:999"><span aria-hidden="true">↺</span><p><b>Ciclo seguinte:</b> os projetos em andamento voltam à entrada com os dados de execução, e a validação revisa critérios, descrição dos níveis e pesos.</p></div></div>`; }
+const MGP_NOME="Metodologia de Gerenciamento de Portfólio, Programas e Projetos (MGP³), edição de março de 2026";
+const MGP8=[
+ {t:"Abertura do ciclo anual e análise inicial",sec:"4.1",
+  mgp:[["Unidade de Gestão Estratégica","elabora o checklist de abertura do ciclo, com cronograma, prazos e responsáveis, e revisa o modelo de Canvas"],["Unidade Administrativa","prepara o módulo de orçamento (Budget Manager) com os valores de referência do ano anterior"]],
+  p3:"O checklist passa a trazer o calendário da seleção, o teto de referência e os campos novos do Canvas.",esteira:null},
+ {t:"Identificação",sec:"4.2",
+  mgp:[["Responsável pelo projeto","preenche o Canvas no Document Manager, seguindo o Codebook, e lança o orçamento no Budget Manager"],["Unidade Administrativa","faz a gestão do orçamento proposto no sistema financeiro"]],
+  p3:"O Canvas ganha evidência de adicionalidade, projetos com entregas semelhantes, missão principal e no máximo uma secundária, e separa recurso comprometido de recurso novo.",esteira:["canvas","Abrir o cadastro do Canvas"]},
+ {t:"Balanceamento do portfólio",sec:"4.3",largo:true,
+  mgp:[["Unidade de Gestão Estratégica","analisa os Canvas e elabora a avaliação qualitativa e orçamentária comparativa, como subsídio"],["Diretoria Executiva","em reunião colegiada, analisa os Canvas e os resultados da Ferramenta Avaliativa para Balanceamento de Portfólio e delibera a composição do portfólio, podendo pedir novos projetos, ajustes ou cancelamentos"]],
+  p3:"A matriz é a Ferramenta Avaliativa citada na metodologia. Ela organiza o subsídio da Unidade de Gestão Estratégica em três passos e registra a deliberação:",
+  passos:[["Filtros de entrada","Unidade de Gestão Estratégica","seis condições de sim ou não, antes de qualquer nota, sem compensação","elegibilidade","Não passa: Reformular, Incorporar ou Outro órgão"],
+   ["Pontuação","Unidade de Gestão Estratégica, com segunda leitura por técnico de outra diretoria; o responsável pelo projeto fornece as evidências e pode contestar","valor e exequibilidade de 1 a 5, com justificativa, fonte e confiança da evidência","notas","Risco crítico sem mitigação: não pode ser priorizado"],
+   ["Carteira sob o teto","Unidade de Gestão Estratégica","valor por real pedido até o teto, compromissos, equilíbrio entre programas e teste de robustez","painel",null],
+   ["Deliberação","Diretoria Executiva","recomendação técnica consultiva; relevância político-institucional tratada aqui; decisão registrada","painel","Desvio da recomendação: justificativa e responsável (cumprir ou explicar)"]],esteira:null},
+ {t:"Criação dos programas e portfólio",sec:"4.4",
+  mgp:[["Unidade de Gestão Estratégica","após a aprovação da Diretoria Executiva, agrupa os projetos em programas (Canvas de Programa) e cria o Portfólio Anual no Strategic Adviser"]],
+  p3:"O equilíbrio entre os programas já é testado na carteira, antes da deliberação.",esteira:null},
+ {t:"Autorização",sec:"4.5",
+  mgp:[["Diretoria Executiva","autoriza, única e exclusivamente, por Resolução de aprovação do portfólio; projeto novo ao longo do ano exige nova Resolução"],["Unidade de Gestão Estratégica","divulga o portfólio anual no Portal da Transparência"]],
+  p3:"A minuta de registro gerada na DIREX acompanha a Resolução, com as decisões e os desvios.",fora:"Fora da metodologia, pelo Contrato de Gestão: o Plano de Ação e o orçamento seguem ao Conselho Deliberativo e ao ministério supervisor.",esteira:["painel","Abrir a DIREX"]},
+ {t:"Detalhamento do projeto",sec:"4.6",
+  mgp:[["Responsável pelo projeto","detalha o cronograma no Project Manager, os custos e os riscos; a gestão de riscos é obrigatória"]],
+  p3:"Os riscos críticos apontados na pontuação entram no mapa de riscos do projeto.",esteira:null},
+ {t:"Execução e monitoramento",sec:"4.7",
+  mgp:[["Responsável pelo projeto","atualiza no Strategic Adviser, até o 5º dia útil de cada mês, desempenho, evidências, riscos e beneficiários"],["Unidade de Gestão Estratégica","valida mudanças de escopo e cronograma, divulga os painéis, elabora os relatórios semestral e anual e mede mensalmente a aderência à metodologia"],["Unidade Administrativa","valida as mudanças de custo"]],
+  p3:"A Unidade de Gestão Estratégica revê a exequibilidade a cada semestre; execução física abaixo de 80% da meta gera alerta antes do ciclo seguinte.",esteira:null},
+ {t:"Encerramento",sec:"4.8",
+  mgp:[["Responsável pelo projeto","encerra contratos, riscos e cronograma e registra as lições aprendidas e as considerações finais"],["Unidade de Gestão Estratégica","analisa a conformidade e arquiva o projeto"]],
+  p3:"Validação da nota: numa amostra anual de projetos concluídos, uma equipe sem vínculo com eles compara a nota de entrada com o resultado.",esteira:null}];
+const ETAPAS=MGP8.map(e=>({t:e.t,rota:e.esteira?e.esteira[0]:(e.passos?"elegibilidade":null)}));
+function fluxoHTML(){
+  const papeis=l=>`<ul class="fx-pp">${l.map(([q,o])=>`<li><b>${esc(q)}</b> ${esc(o)}</li>`).join("")}</ul>`;
+  const col=(e,i)=>`<section class="fx-col${e.largo?" largo":""}" aria-label="Etapa ${i+1}: ${esc(e.t)}">
+     <header class="fx-h ${e.esteira||e.passos?"":"fora"}"><span class="fx-n" aria-hidden="true">${i+1}</span><div><h3>${esc(e.t)}</h3><span>Seção ${e.sec} da metodologia</span>${e.esteira||e.passos?`<em class="fx-tag">Na esteira</em>`:""}</div></header>
+     <div class="fx-mgp"><span class="fx-l">Na metodologia vigente</span>${papeis(e.mgp)}</div>
+     <div class="fx-p3"><span class="fx-l">Proposta do Produto 3</span><p>${esc(e.p3)}</p>${e.passos?`<ol class="fx-passos">${e.passos.map(([t,q,o,r,x])=>`<li><b>${esc(t)}</b><span class="fx-q">${esc(q)}</span><p>${esc(o)}</p>${x?`<p class="fx-x">${esc(x)}</p>`:""}<button class="btn sm" data-fxgo="${r}">Abrir ${esc(t.toLowerCase())}</button></li>`).join("")}</ol>`:""}${e.fora?`<p class="fx-fora">${esc(e.fora)}</p>`:""}</div>
+     <div class="fx-a">${e.esteira?`<button class="btn sm" data-fxgo="${e.esteira[0]}">${esc(e.esteira[1])}</button>`:e.passos?"":`<span class="fx-off">Fora da esteira piloto</span>`}</div></section>`;
+  return `<div class="fx-leg"><span><i class="lg-mgp"></i>Na metodologia vigente: o que a MGP³ já determina e quem faz</span><span><i class="lg-p3"></i>Proposta do Produto 3: o que a matriz acrescenta</span></div>
+   <div class="fx">${MGP8.map(col).join("")}</div>
+   <div class="fx-loop"><span aria-hidden="true">↺</span><p><b>Ciclo seguinte:</b> os projetos em andamento voltam à Identificação com os dados de execução, e a validação das notas revisa critérios, descrição dos níveis e pesos.</p></div>`; }
 function abrirFluxo(){
   let d=$("fxDlg"); if(!d){ d=document.createElement("dialog"); d.id="fxDlg"; d.className="fx-dlg"; d.setAttribute("aria-labelledby","fxT"); document.body.appendChild(d); }
-  const desenhar=()=>{ d.innerHTML=`<div class="fx-top"><div><h2 id="fxT">Governança da seleção da carteira</h2><p>Seis etapas, com responsáveis, exceções e a correspondência com a Metodologia de Gestão de Projetos, Programas e Portfólio da Agência (MGP³).</p></div>
-     <div class="fx-tools"><label class="fx-chk"><input type="checkbox" id="fxRef" ${LOC.fxRef?"checked":""}> Mostrar referências</label><button class="btn sm" id="fxPr">Imprimir</button><button class="btn sm primary" id="fxX">Fechar</button></div></div>
-     <div class="fx-scroll" tabindex="0">${fluxoHTML(!!LOC.fxRef)}</div>`;
+  const desenhar=()=>{ d.innerHTML=`<div class="fx-top"><div><h2 id="fxT">Governança da seleção na MGP³</h2><p>As oito etapas da ${esc(MGP_NOME)}, quem faz cada uma, e onde a matriz do Produto 3 entra.</p></div>
+     <div class="fx-tools"><button class="btn sm" id="fxPr">Imprimir</button><button class="btn sm primary" id="fxX">Fechar</button></div></div>
+     <div class="fx-scroll" tabindex="0">${fluxoHTML()}</div>`;
     $("fxX").onclick=()=>d.close(); $("fxPr").onclick=()=>{ document.body.classList.add("imprime-fx"); window.print(); setTimeout(()=>document.body.classList.remove("imprime-fx"),500); };
-    $("fxRef").onchange=e=>{ LOC.fxRef=e.target.checked; salvarLocal(); desenhar(); $("fxRef").focus(); };
     d.querySelectorAll("[data-fxgo]").forEach(b=>b.onclick=()=>{ d.close(); go(b.dataset.fxgo); }); };
   desenhar(); d.showModal(); $("fxX").focus();
   d.onclick=e=>{ if(e.target===d) d.close(); }; }
@@ -1198,13 +1231,14 @@ function ligarLista(M){
   M.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>go(b.dataset.open)); }
 const crumb=(itens)=>`<nav class="crumb" aria-label="Você está em">${itens.map(([t,h],i)=>h?`<a href="#${h}">${t}</a>`:`<span>${t}</span>`).join('<span class="sep">›</span>')}</nav>`;
 const phead=(crumbs,t,lead,meta,aside)=>`<header class="ph">${crumb(crumbs)}<div class="ph-row"><h1>${t}</h1>${aside?`<div class="ph-aside">${aside}</div>`:""}</div>${lead?`<p class="ph-lead">${lead}</p>`:""}${meta?`<dl class="ph-meta">${meta.map(([k,v])=>`<div><dt>${k}</dt><dd>${v}</dd></div>`).join("")}</dl>`:""}</header>`;
-const headM=(t,d,quem,quando,acao)=>phead([["Início","inicio"],[t]],t,d,[["Quem faz",quem],["Quando",quando]],acao);
+const ETAPA_MOD={"Cadastro do Canvas":"Identificação (4.2)","Filtros de entrada":"Balanceamento (4.3): análise dos Canvas","Pontuação de valor e exequibilidade":"Balanceamento (4.3): Ferramenta Avaliativa"};
+const headM=(t,d,quem,quando,acao,etapa=ETAPA_MOD[t])=>phead([["Início","inicio"],[t]],t,d,[["Quem faz",quem],["Quando",quando],...(etapa?[["Etapa da MGP³",etapa]]:[])],acao);
 const head=(t,d,acao)=>phead([["Início","inicio"],[t]],t,d,null,acao);
 
 /* ================= 1. cadastro do Canvas ================= */
 const stCanvas=c=>c.status==="rascunho"?"Rascunho":c.cv?"Enviado":"Importado do PDF";
 function vCanvasLista(M,banner){
-  M.innerHTML=`${banner}${headM("Cadastro do Canvas","Propostas novas, projetos em andamento e demandas fora do ciclo entram por aqui. O formulário segue as seções do guia de preenchimento do Canvas e pode ser salvo e retomado.","Unidade proponente, com o responsável nomeado","ficha final de 22 a 30 de outubro no ciclo 2027; a proposta é antecipá-la para o início do ciclo",`<button class="btn primary" id="novo" ${S.podeEscrever?"":"disabled"}>Cadastrar novo Canvas</button>`)}
+  M.innerHTML=`${banner}${headM("Cadastro do Canvas","Propostas novas, projetos em andamento e demandas fora do ciclo entram por aqui. O formulário segue as seções do guia de preenchimento do Canvas e pode ser salvo e retomado.","Responsável pelo projeto, sob orientação da Unidade de Gestão Estratégica","ficha final de 22 a 30 de outubro no ciclo 2027; a proposta é antecipá-la para o início do ciclo",`<button class="btn primary" id="novo" ${S.podeEscrever?"":"disabled"}>Cadastrar novo Canvas</button>`)}
    ${lista("canvas",todos(),c=>{ const s=stCanvas(c); return `<span class="stc">${s==="Importado do PDF"?"":`<span class="chip ${s==="Rascunho"?"warn":"good"}">${s}</span>`}</span><span class="num">R$ ${mi(c.novos)} mi</span>`; },{fn:stCanvas,ordem:["Rascunho","Enviado","Importado do PDF"]},"Nenhum Canvas com esse filtro.")}`;
   $("novo").onclick=()=>{ delete LOC.cvd.__novo; LOC.wstep.__novo=0; go("canvas/__novo"); }; ligarLista(M); }
 const PASSOS=[
@@ -1346,7 +1380,7 @@ function vElLista(M,banner){
   const cv=enviados(), q=(LOC.q.elegibilidade||"").trim().toLowerCase(), fil=cv.filter(c=>!q||(c.code+" "+c.nome).toLowerCase().includes(q));
   const g={}; DESTINO.forEach(d=>g[d]=[]); fil.forEach(c=>g[situacao(c)].push(c));
   const tot=Math.max(1,cv.length), cont=d=>cv.filter(c=>situacao(c)===d).length;
-  M.innerHTML=`${banner}${headM("Filtros de entrada","Seis perguntas de sim ou não aplicadas na revisão do Canvas, antes de qualquer nota. Os filtros não se compensam: um único não tira o projeto da disputa.","Unidade de Gestão Estratégica","na revisão das fichas, no início do ciclo")}
+  M.innerHTML=`${banner}${headM("Filtros de entrada","Seis perguntas de sim ou não aplicadas na revisão do Canvas, antes de qualquer nota. Os filtros não se compensam: um único não tira o projeto da disputa.","Unidade de Gestão Estratégica (Escritório de Projetos)","na análise dos Canvas, antes de qualquer nota")}
    <section class="triage" aria-label="Destino dos Canvas">
     <div class="tbar">${DESTINO.filter(cont).map(d=>`<i style="flex:${cont(d)};background:${DCOR[d]}" title="${esc(d)}: ${cont(d)}"></i>`).join("")}</div>
     <div class="tleg">${DESTINO.filter(cont).map(d=>`<span><i style="background:${DCOR[d]}"></i>${esc(d)} <b>${cont(d)}</b></span>`).join("")}</div>
@@ -1610,7 +1644,7 @@ function vPainel(M,banner){
        return `<tr class="click" data-drw="${esc(c.code)}"><td><b>${esc(c.nome)}</b><div class="tiny muted">${esc(c.code)}</div></td><td><span class="dots">${[0,1,2].map(i=>`<i class="${i<n?"on":""}"></i>`).join("")}</span> <span class="small muted">${n} de 3</span></td><td>${n<3?`<span class="chip">aguardando</span>`:cons.conciliar.length?`<span class="chip warn">conciliar ${cons.conciliar.length} critério(s)</span>`:`<span class="chip good">consolidado</span>`}</td></tr>`; }).join("")||`<tr><td colspan="3" class="empty">Nenhum projeto passou nos filtros ainda.</td></tr>`}</tbody></table></div>
      <p class="small muted">A nota de cada critério é a mediana das três leituras. Distância de 2 pontos ou mais leva o critério à conciliação.</p>`; }
   const dd=diasAte("2026-11-10");
-  M.innerHTML=`${banner}${phead([["Início","inicio"],["DIREX"]],"DIREX","Diretoria Executiva. A Unidade de Gestão Estratégica monta a carteira sob o teto e testa a robustez; a Diretoria Executiva delibera e registra as decisões.",[["Quem faz","Diretoria Executiva, com a Unidade de Gestão Estratégica"],["Quando","aprovação em 10/11; Conselho Deliberativo em 25/11"]],dd>=0?`<span class="tag">${dd===0?"Reunião da Diretoria Executiva hoje":dd===1?"Falta 1 dia para a Diretoria Executiva":`Faltam ${dd} dias para a Diretoria Executiva`}</span>`:"")}
+  M.innerHTML=`${banner}${phead([["Início","inicio"],["DIREX"]],"DIREX","Diretoria Executiva. A Unidade de Gestão Estratégica monta a carteira sob o teto e testa a robustez; a Diretoria Executiva delibera e registra as decisões.",[["Quem faz","Diretoria Executiva, com a Unidade de Gestão Estratégica"],["Quando","aprovação em 10/11; depois, Conselho Deliberativo em 25/11, pelo Contrato de Gestão"],["Etapa da MGP³","Balanceamento (4.3) e Autorização (4.5)"]],dd>=0?`<span class="tag">${dd===0?"Reunião da Diretoria Executiva hoje":dd===1?"Falta 1 dia para a Diretoria Executiva":`Faltam ${dd} dias para a Diretoria Executiva`}</span>`:"")}
    ${linhaTempo()}${balanca(R)}
    <div class="ptabs" role="tablist">${TABS.map(([k,t],i)=>`<button role="tab" data-ptab="${k}" aria-selected="${tab===k}"><span>${i+1}</span>${t}</button>`).join("")}<button role="tab" class="aux" data-ptab="conc" aria-selected="${tab==="conc"}">Conciliação das notas</button></div>
    ${corpo}`;
@@ -1685,16 +1719,18 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&DRW){ DRW=null; re
 
 /* ================= como funciona ================= */
 function vRegras(M){
-  M.innerHTML=`${head("Como funciona a seleção","Responsáveis, missões, eixos, critérios e as duas portas, num só lugar.")}<div class="doc2"><nav class="toc" aria-label="Seções">${[["fluxo","Fluxograma"],["quem","Quem faz o quê"],["missoes","Missões"],["eixos","Eixos"],["pesos","Pesos por bloco"],["porta1","Filtros de entrada"],["porta2","Porta de pontuação"],["prior","Priorização"]].map(([k,t])=>`<a href="javascript:void 0" data-toc="${k}">${t}</a>`).join("")}</nav><div class="prose">
-   <section id="s-fluxo"><h2 class="sech">Fluxograma da governança</h2><p>O caminho de um Canvas, da entrada à validação da nota no ciclo seguinte, como no Produto 3. As quatro primeiras etapas acontecem nesta esteira.</p>
-    <ol class="fx-mini">${ETAPAS.map((e,i)=>`<li class="${e.rota?"":"fora"}"><span>${i+1}</span>${esc(e.t)}</li>`).join("")}</ol>
+  M.innerHTML=`${head("Como funciona a seleção","Responsáveis, missões, eixos, critérios e as duas portas, num só lugar.")}<div class="doc2"><nav class="toc" aria-label="Seções">${[["fluxo","Fluxograma"],["quem","Papéis e responsabilidades"],["missoes","Missões"],["eixos","Eixos"],["pesos","Pesos por bloco"],["porta1","Filtros de entrada"],["porta2","Porta de pontuação"],["prior","Priorização"]].map(([k,t])=>`<a href="javascript:void 0" data-toc="${k}">${t}</a>`).join("")}</nav><div class="prose">
+   <section id="s-fluxo"><h2 class="sech">Fluxograma da governança</h2><p>A seleção segue as oito etapas da ${esc(MGP_NOME)}. A matriz do Produto 3 não cria etapas novas: ela é a Ferramenta Avaliativa que a metodologia prevê no Balanceamento, e acrescenta regras às demais etapas. Esta esteira cobre a Identificação, o Balanceamento e a Autorização.</p>
+    <ol class="fx-mini">${MGP8.map((e,i)=>`<li class="${e.esteira||e.passos?"":"fora"}"><span>${i+1}</span>${esc(e.t)}</li>`).join("")}</ol>
     <p><button class="btn primary" id="verFluxo">Exibir fluxograma</button></p></section>
-   <section id="s-quem"><h2 class="sech">Quem faz o quê</h2><div class="tw"><table><thead><tr><th>Etapa</th><th>Responsável</th><th>O que acontece</th></tr></thead><tbody>
-<tr><td>Entrada</td><td>Unidade proponente</td><td>Preenche o Canvas, com evidência de adicionalidade, projetos semelhantes e no máximo uma missão secundária.</td></tr>
-<tr><td>Filtros de entrada</td><td>Unidade de Gestão Estratégica</td><td>Aplica seis filtros antes da nota, sem compensação. Quem não passa vai para Reformular, Incorporar ou Outro órgão.</td></tr>
-<tr><td>Pontuação</td><td>Unidade de Gestão Estratégica, com segunda leitura por técnico de outra diretoria</td><td>Notas de 1 a 5 com descrição dos níveis 1, 3 e 5, justificativa, fonte e confiança da evidência. A exequibilidade é pontuada à parte. A unidade proponente fornece as evidências e pode contestar, mas não pontua.</td></tr>
-<tr><td>Carteira sob o teto</td><td>Unidade de Gestão Estratégica</td><td>Ordena por valor ajustado por real pedido até o teto e testa a robustez: sempre dentro, na fronteira e sempre fora.</td></tr>
-<tr><td>Deliberação</td><td>Diretoria Executiva; depois, ministério supervisor e Conselho Deliberativo</td><td>A recomendação técnica é consultiva. Desvios seguem a regra de cumprir ou explicar, com justificativa e responsável. A relevância político-institucional é registrada aqui.</td></tr>
+   <section id="s-quem"><h2 class="sech">Papéis e responsabilidades</h2><p>Os papéis são os da seção 3.6 da metodologia. A última coluna diz o que muda com a matriz; o que não está nela segue como hoje.</p><div class="tw"><table><thead><tr><th>Papel</th><th>Na metodologia vigente</th><th>Na seleção proposta</th></tr></thead><tbody>
+<tr><td>Diretoria Executiva</td><td>Orienta o balanceamento; em reunião colegiada, analisa os Canvas e os resultados da Ferramenta Avaliativa e delibera a composição do portfólio; autoriza, única e exclusivamente, por Resolução (3.6.1, 4.3 e 4.5).</td><td>Recebe a recomendação técnica, que é consultiva. Trata a relevância político-institucional na deliberação e registra cada desvio com justificativa e responsável.</td></tr>
+<tr><td>Escritório de Projetos (Unidade de Gestão Estratégica)</td><td>Assessora a alta administração no portfólio; abre o ciclo; analisa os Canvas e faz a avaliação qualitativa e orçamentária comparativa; cria programas e o Portfólio Anual; divulga o portfólio; monitora, valida mudanças de escopo e cronograma e arquiva no encerramento (3.6.4, 4.1, 4.3, 4.4, 4.5, 4.7 e 4.8).</td><td>Aplica os filtros de entrada, faz a pontuação principal, monta a carteira sob o teto e o teste de robustez, e entrega a recomendação à Diretoria Executiva. Revê a exequibilidade a cada semestre.</td></tr>
+<tr><td>Responsável pelo projeto</td><td>Preenche o Canvas e o orçamento sob orientação da Unidade de Gestão Estratégica; detalha cronograma, custos e riscos; atualiza a execução até o 5º dia útil de cada mês; encerra o projeto (3.6.2, 4.2, 4.6, 4.7 e 4.8).</td><td>Preenche os campos novos do Canvas e fornece as evidências da pontuação. Pode contestar a nota, mas não pontua o próprio projeto.</td></tr>
+<tr><td>Equipe do projeto</td><td>Executa e acompanha as atividades; apoia na identificação de riscos e no registro de lições aprendidas (3.6.3).</td><td>Sem mudança.</td></tr>
+<tr><td>Unidade Administrativa</td><td>Prepara o módulo de orçamento na abertura do ciclo, faz a gestão do orçamento proposto e valida as mudanças de custo (4.1, 4.2 e 4.7).</td><td>Sem mudança. O recurso novo e o comprometido saem dos valores que ela consolida.</td></tr>
+<tr><td>Técnico de outra diretoria</td><td>Não existe na metodologia.</td><td>Papel novo: faz a segunda leitura da pontuação, sem vínculo com o projeto. Nunca pontua projeto da própria diretoria.</td></tr>
+<tr><td>Conselho Deliberativo e ministério supervisor</td><td>Não aparecem na metodologia de portfólio.</td><td>Entram pelo Contrato de Gestão, depois da Resolução: recebem o Plano de Ação e o orçamento (no ciclo 2027, Conselho em 25/11 e ministério até 30/11).</td></tr>
 </tbody></table></div>
    </section><section id="s-missoes"><h2 class="sech">Missões da Nova Indústria Brasil</h2><div class="tw"><table><thead><tr><th>Missão</th><th>Meta aspiracional</th><th>Cadeias de referência</th></tr></thead><tbody>${MK.map(m=>`<tr><td>${mt(m)} ${MIS[m].c}</td><td>${esc(MIS[m].meta)}</td><td>${esc(ANM[m].N2)}</td></tr>`).join("")}</tbody></table></div>
    </section><section id="s-eixos"><h2 class="sech">Eixos da ABDI 5.0</h2><ul class="clean"><li><b>Difusão de Tecnologias:</b> adoção de tecnologia nas empresas.</li><li><b>Inteligência e Conhecimento:</b> evidência para a política.</li><li><b>Governança e Articulação:</b> rede, parcerias e controle.</li><li><b>Trabalhador do Futuro:</b> qualificação conectada à demanda.</li></ul>
