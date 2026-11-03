@@ -648,6 +648,70 @@ tr.sel td{background:var(--accent-soft);font-weight:500}
 @media (max-width:600px){ .auth{min-height:0;padding:var(--s6) 0;place-content:start center} .auth-card{padding:var(--s6) var(--s5)} }
 .lnk{all:unset;cursor:pointer;color:var(--accent);font-weight:500;text-decoration:underline;text-underline-offset:2px}
 .lnk:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+#verFluxo{width:auto}
+.fx-mini{list-style:none;margin:var(--s4) 0;padding:0;display:flex;flex-wrap:wrap;gap:var(--s2)}
+.fx-mini li{display:flex;align-items:center;gap:var(--s2);padding:6px 14px 6px 6px;border:1px solid var(--accent-line);border-radius:var(--pill);font:500 14px/20px var(--font);color:var(--ink)}
+.fx-mini li span{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font:600 12px/1 var(--font)}
+.fx-mini li.fora{border-style:dashed;border-color:var(--line-2);color:var(--ink-3)}
+.fx-mini li.fora span{background:var(--line-2);color:var(--ink)}
+.fx-dlg{width:min(1440px,calc(100vw - 32px));max-width:none;height:calc(100vh - 32px);max-height:none;margin:auto;padding:0;border:1px solid var(--line);border-radius:var(--r-md);background:#fff;color:var(--ink-2);box-shadow:0 24px 64px rgba(15,20,36,.24);overflow:hidden}
+.fx-dlg[open]{display:flex;flex-direction:column}
+.fx-dlg::backdrop{background:rgba(15,20,36,.45)}
+.fx-top{display:flex;flex-wrap:wrap;gap:var(--s4);align-items:flex-start;justify-content:space-between;padding:var(--s5) var(--s6);border-bottom:1px solid var(--line)}
+.fx-top h2{margin:0;font:600 22px/30px var(--font);color:var(--ink)}
+.fx-top p{margin:4px 0 0;max-width:70ch;font:400 14px/22px var(--font);color:var(--ink-3)}
+.fx-tools{display:flex;flex-wrap:wrap;gap:var(--s3);align-items:center}
+.fx-chk{display:flex;gap:6px;align-items:center;font:500 13px/20px var(--font);color:var(--ink-2);cursor:pointer}
+.fx-chk input{accent-color:var(--accent);width:16px;height:16px}
+.fx-scroll{flex:1;overflow:auto;padding:var(--s6)}
+.fx-scroll:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.fx{display:grid;grid-template-columns:repeat(6,minmax(190px,1fr));column-gap:var(--s5);row-gap:var(--s3);min-width:1180px;align-items:stretch}
+.fx-c{min-width:0}
+.fx-fase{background:var(--sunk);border-radius:var(--r-sm);padding:var(--s3) var(--s4);text-align:center;display:grid;gap:2px;align-content:center}
+.fx-fase b{font:500 13px/18px var(--font);color:var(--ink)}
+.fx-fase span{font:400 12px/16px var(--font);color:var(--ink-3)}
+.fx-h{position:relative;display:flex;gap:10px;align-items:center;background:var(--accent);color:#fff;border-radius:var(--r-sm);padding:var(--s3);margin-top:var(--s2)}
+.fx-h:not([style*="grid-column:6"])::after{content:"";position:absolute;right:calc(-1*var(--s5) + 4px);top:50%;width:0;height:0;border:7px solid transparent;border-left:9px solid var(--accent);transform:translateY(-50%)}
+.fx-n{flex:none;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.18);font:600 15px/1 var(--font)}
+.fx-h h3{margin:0;font:600 14px/20px var(--font);color:#fff;hyphens:auto}
+.fx-h>div{min-width:0}
+.fx-h div span{font:400 12px/16px var(--font);color:rgba(255,255,255,.85)}
+.fx-h[style*="grid-column:5"],.fx-h[style*="grid-column:6"]{background:#fff;color:var(--ink);border:1.5px dashed var(--accent-line)}
+.fx-h[style*="grid-column:5"] h3,.fx-h[style*="grid-column:6"] h3{color:var(--ink)}
+.fx-h[style*="grid-column:5"] div span,.fx-h[style*="grid-column:6"] div span{color:var(--ink-3)}
+.fx-h[style*="grid-column:5"] .fx-n,.fx-h[style*="grid-column:6"] .fx-n{background:var(--accent-soft);color:var(--accent)}
+.fx-o,.fx-r{border:1px solid var(--line);border-radius:var(--r-sm);padding:var(--s3) var(--s4);background:#fff}
+.fx-o h4{margin:0 0 6px;font:600 14px/20px var(--font);color:var(--accent)}
+.fx-o p,.fx-r p,.fx-ref p,.fx-x p{margin:0;font:400 13px/20px var(--font);color:var(--ink-2)}
+.fx-l{display:block;margin-bottom:4px;font:500 12px/16px var(--font);color:var(--ink-3)}
+.fx-ref{padding:0 var(--s2)}
+.fx-ref p{font-style:italic;color:var(--ink-3)}
+.fx-x{position:relative;margin-top:var(--s4);border:1px solid var(--yellow-line);background:var(--yellow-soft);border-radius:var(--r-sm);padding:var(--s3) var(--s4)}
+.fx-x::before{content:"";position:absolute;left:50%;top:calc(-1*var(--s4) - 2px);height:var(--s4);border-left:2px dashed var(--yellow-line)}
+.fx-x b{display:block;margin-bottom:2px;font:600 13px/18px var(--font);color:var(--ink)}
+.fx-x.vazio{border:0;background:none;padding:0;margin:0}
+.fx-x.vazio::before{display:none}
+.fx-a{display:flex;align-items:flex-start}
+.fx-loop{display:flex;gap:var(--s3);align-items:center;margin-top:var(--s3);border:1.5px dashed var(--line-2);border-radius:var(--r-sm);padding:var(--s3) var(--s4)}
+.fx-loop span{font:600 22px/1 var(--font);color:var(--accent)}
+.fx-loop p{margin:0;font:400 13px/20px var(--font);color:var(--ink-2)}
+@media (max-width:900px){
+  .fx-dlg{width:100vw;height:100vh;border-radius:0;border:0}
+  .fx-top{padding:var(--s4)} .fx-scroll{padding:var(--s4)}
+  .fx{display:flex;flex-direction:column;min-width:0;gap:var(--s2)}
+  .fx-h{margin-top:var(--s4)} .fx-h::after{display:none}
+  .fx-x{margin-top:var(--s2)} .fx-x::before{display:none}
+  .fx-fase{text-align:left;margin-top:var(--s4)}
+}
+@media print{
+  body.imprime-fx>*:not(#fxDlg){display:none!important}
+  body.imprime-fx #fxDlg{position:static;width:auto;height:auto;border:0;box-shadow:none;overflow:visible}
+  body.imprime-fx .fx-tools{display:none}
+  body.imprime-fx .fx-scroll{overflow:visible;padding:0}
+  body.imprime-fx .fx{min-width:0;grid-template-columns:repeat(6,minmax(0,1fr));column-gap:10px}
+  body.imprime-fx .fx-a{display:none}
+  @page{size:A4 landscape;margin:10mm}
+}
 .skip{position:absolute;left:var(--s4);top:-60px;z-index:100;background:var(--accent);color:var(--accent-ink);padding:var(--s2) var(--s4);border-radius:var(--r-sm);font:500 14px/20px var(--font);text-decoration:none}
 .skip:focus{top:var(--s3)}
 h1:focus{outline:none}
@@ -1040,6 +1104,40 @@ function vImportar(M,banner){
     for(let i=0;i<linhas.length;i+=50){ const {error}=await SB.from("docs").upsert(linhas.slice(i,i+50)); if(error){ log("Falhou ao gravar os dados: "+error.message); $("impB").disabled=false; return; } ok+=Math.min(50,linhas.length-i); log(`Dados: ${ok} de ${linhas.length}.`); }
     let np=0; for(const f of pdfs){ const {error}=await SB.storage.from("canvas").upload(f.name,f,{upsert:true,contentType:"application/pdf"}); if(error) falha.push(f.name); else np++; log(`Dados: ${ok} de ${linhas.length}. PDFs: ${np} de ${pdfs.length}.`); }
     log(`Importação concluída: ${ok} documentos e ${np} PDFs.${falha.length?` Não entraram: ${falha.join(", ")}.`:""}`); toast("Base importada"); $("impB").disabled=false; setTimeout(()=>{ S.uid=null; aplicarSessao(SESSAO); },2500); }; }
+
+
+/* ================= fluxograma da governança ================= */
+const FASES=[[1,1,"Abertura do ciclo e identificação","4.1 e 4.2"],[2,3,"Balanceamento: subsídios da Unidade de Gestão Estratégica","4.3"],[4,4,"Balanceamento, programas e autorização","4.3 a 4.5"],[5,5,"Execução e monitoramento","4.7"],[6,6,"Encerramento","4.8"]];
+const ETAPAS=[
+ {t:"Entrada",k:"Filtros de entrada",rota:"elegibilidade",abrir:"Abrir os filtros",o:"Fichas Canvas de propostas novas, projetos em andamento e demandas fora do ciclo. Mandato, vínculo com objetivo estratégico, indicador do Plano de Ação e missão, adicionalidade e sobreposição, verificados antes da nota e sem compensação.",r:"Unidade de Gestão Estratégica, na revisão das fichas",ref:"Corporação Financeira Internacional; Proparco; Banco Africano de Desenvolvimento",x:["Não passa","Reformular, transferir a outro órgão ou Incorporar"]},
+ {t:"Pontuação",k:"Valor e exequibilidade",rota:"notas",abrir:"Abrir a pontuação",o:"Critérios de mérito em escalas de 1 a 5, com os níveis 1, 3 e 5 descritos; justificativa, fonte e confiança da evidência; exequibilidade pontuada à parte do valor.",r:"Unidade de Gestão Estratégica, com segunda leitura por técnico de outra diretoria; a unidade proponente fornece as evidências",ref:"BID Invest; Banco Europeu para Reconstrução e Desenvolvimento; Agência Francesa de Desenvolvimento",x:["Risco crítico sem mitigação","Trava: o projeto não pode ser priorizado"]},
+ {t:"Carteira",k:"Carteira sob o teto",rota:"painel",abrir:"Abrir a carteira na DIREX",o:"Razão entre valor e custo até o teto de 2027; compromissos e dependências; equilíbrio entre os quatro programas e cobertura dos indicadores do Plano de Ação; teste de robustez: dentro, fronteira e fora.",r:"Unidade de Gestão Estratégica",ref:"Phillips e Bana e Costa; Novo Banco de Desenvolvimento; Financiadora de Estudos e Projetos",x:null},
+ {t:"Deliberação",k:"Deliberação registrada",rota:"painel",abrir:"Abrir a deliberação na DIREX",o:"Recomendação técnica consultiva; relevância político-institucional tratada nesta etapa, de forma explícita; desvios justificados.",r:"Diretoria Executiva aprova a proposta; Conselho Deliberativo delibera; ministério supervisor aprova",ref:"Agência Francesa de Desenvolvimento; Banco Mundial; Innovate UK",x:["Desvio da recomendação","Registro da justificativa e do responsável (cumprir ou explicar)"]},
+ {t:"Acompanhamento",k:"Acompanhamento e repontuação",rota:null,o:"Exequibilidade atualizada a cada semestre com a execução física e orçamentária; valor revisto quando o escopo muda.",r:"Gerentes informam a execução no sistema; a Unidade de Gestão Estratégica repontua",ref:"BID Invest; Banco Europeu para Reconstrução e Desenvolvimento",x:["Execução física abaixo de 80% da meta","Alerta e exame antes do ciclo seguinte"]},
+ {t:"Validação",k:"Validação da nota",rota:null,o:"Nota de entrada comparada ao resultado na conclusão; amostra aleatória anual de projetos concluídos; complementa a avaliação anual por indicador do Contrato de Gestão.",r:"Equipe sem vínculo com os projetos",ref:"Cooperação financeira alemã (KfW); Banco Interamericano de Desenvolvimento",x:null}];
+function fluxoHTML(comRef){
+  const cel=(i,row,cls,html)=>`<div class="fx-c ${cls}" style="grid-column:${i+1};grid-row:${row};order:${i*10+row}">${html}</div>`;
+  const fases=FASES.map(([a,b,t,sec])=>`<div class="fx-c fx-fase" style="grid-column:${a}/${b+1};grid-row:1;order:${(a-1)*10}"><b>${esc(t)}</b><span>Seção ${esc(sec)} da metodologia</span></div>`).join("");
+  const corpo=ETAPAS.map((e,i)=>[
+    cel(i,2,"fx-h",`<span class="fx-n" aria-hidden="true">${i+1}</span><div><h3>${esc(e.t)}</h3><span>${e.rota?"na esteira":"fora da esteira piloto"}</span></div>`),
+    cel(i,3,"fx-o",`<h4>${esc(e.k)}</h4><p>${esc(e.o)}</p>`),
+    cel(i,4,"fx-r",`<span class="fx-l">Responsável</span><p>${esc(e.r)}</p>`),
+    comRef?cel(i,5,"fx-ref",`<span class="fx-l">Referências</span><p>${esc(e.ref)}</p>`):"",
+    cel(i,6,e.x?"fx-x":"fx-x vazio",e.x?`<b>${esc(e.x[0])}</b><p>${esc(e.x[1])}</p>`:""),
+    cel(i,7,"fx-a",e.rota?`<button class="btn sm" data-fxgo="${e.rota}">${esc(e.abrir)}</button>`:"")
+  ].join("")).join("");
+  return `<div class="fx" aria-label="Seis etapas da governança da seleção">${fases}${corpo}
+    <div class="fx-c fx-loop" style="grid-column:1/-1;grid-row:8;order:999"><span aria-hidden="true">↺</span><p><b>Ciclo seguinte:</b> os projetos em andamento voltam à entrada com os dados de execução, e a validação revisa critérios, descrição dos níveis e pesos.</p></div></div>`; }
+function abrirFluxo(){
+  let d=$("fxDlg"); if(!d){ d=document.createElement("dialog"); d.id="fxDlg"; d.className="fx-dlg"; d.setAttribute("aria-labelledby","fxT"); document.body.appendChild(d); }
+  const desenhar=()=>{ d.innerHTML=`<div class="fx-top"><div><h2 id="fxT">Governança da seleção da carteira</h2><p>Seis etapas, com responsáveis, exceções e a correspondência com a Metodologia de Gestão de Projetos, Programas e Portfólio da Agência (MGP³).</p></div>
+     <div class="fx-tools"><label class="fx-chk"><input type="checkbox" id="fxRef" ${LOC.fxRef?"checked":""}> Mostrar referências</label><button class="btn sm" id="fxPr">Imprimir</button><button class="btn sm primary" id="fxX">Fechar</button></div></div>
+     <div class="fx-scroll" tabindex="0">${fluxoHTML(!!LOC.fxRef)}</div>`;
+    $("fxX").onclick=()=>d.close(); $("fxPr").onclick=()=>{ document.body.classList.add("imprime-fx"); window.print(); setTimeout(()=>document.body.classList.remove("imprime-fx"),500); };
+    $("fxRef").onchange=e=>{ LOC.fxRef=e.target.checked; salvarLocal(); desenhar(); $("fxRef").focus(); };
+    d.querySelectorAll("[data-fxgo]").forEach(b=>b.onclick=()=>{ d.close(); go(b.dataset.fxgo); }); };
+  desenhar(); d.showModal(); $("fxX").focus();
+  d.onclick=e=>{ if(e.target===d) d.close(); }; }
 
 /* ================= entrada ================= */
 const iniciais=n=>String(n||"").trim().split(/\s+/).filter(Boolean).slice(0,2).map(x=>x[0].toUpperCase()).join("")||"?";
@@ -1587,7 +1685,10 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&DRW){ DRW=null; re
 
 /* ================= como funciona ================= */
 function vRegras(M){
-  M.innerHTML=`${head("Como funciona a seleção","Responsáveis, missões, eixos, critérios e as duas portas, num só lugar.")}<div class="doc2"><nav class="toc" aria-label="Seções">${[["quem","Quem faz o quê"],["missoes","Missões"],["eixos","Eixos"],["pesos","Pesos por bloco"],["porta1","Filtros de entrada"],["porta2","Porta de pontuação"],["prior","Priorização"]].map(([k,t])=>`<a href="javascript:void 0" data-toc="${k}">${t}</a>`).join("")}</nav><div class="prose">
+  M.innerHTML=`${head("Como funciona a seleção","Responsáveis, missões, eixos, critérios e as duas portas, num só lugar.")}<div class="doc2"><nav class="toc" aria-label="Seções">${[["fluxo","Fluxograma"],["quem","Quem faz o quê"],["missoes","Missões"],["eixos","Eixos"],["pesos","Pesos por bloco"],["porta1","Filtros de entrada"],["porta2","Porta de pontuação"],["prior","Priorização"]].map(([k,t])=>`<a href="javascript:void 0" data-toc="${k}">${t}</a>`).join("")}</nav><div class="prose">
+   <section id="s-fluxo"><h2 class="sech">Fluxograma da governança</h2><p>O caminho de um Canvas, da entrada à validação da nota no ciclo seguinte, como no Produto 3. As quatro primeiras etapas acontecem nesta esteira.</p>
+    <ol class="fx-mini">${ETAPAS.map((e,i)=>`<li class="${e.rota?"":"fora"}"><span>${i+1}</span>${esc(e.t)}</li>`).join("")}</ol>
+    <p><button class="btn primary" id="verFluxo">Exibir fluxograma</button></p></section>
    <section id="s-quem"><h2 class="sech">Quem faz o quê</h2><div class="tw"><table><thead><tr><th>Etapa</th><th>Responsável</th><th>O que acontece</th></tr></thead><tbody>
 <tr><td>Entrada</td><td>Unidade proponente</td><td>Preenche o Canvas, com evidência de adicionalidade, projetos semelhantes e no máximo uma missão secundária.</td></tr>
 <tr><td>Filtros de entrada</td><td>Unidade de Gestão Estratégica</td><td>Aplica seis filtros antes da nota, sem compensação. Quem não passa vai para Reformular, Incorporar ou Outro órgão.</td></tr>
@@ -1601,6 +1702,7 @@ function vRegras(M){
    </section><section id="s-porta1"><h2 class="sech">Filtros de entrada</h2><ol class="clean">${ELQ.map(q=>`<li><b>${esc(q.t)}.</b> ${esc(q.q)} Se não: ${esc(q.no)}</li>`).join("")}</ol>
    </section><section id="s-porta2"><h2 class="sech">Porta de pontuação</h2><ul class="clean"><li>Nota mínima ${REGRA.notaMin} em cada critério do núcleo comum.</li><li>Média ponderada do bloco de missão de pelo menos ${REGRA.minBloco}.</li><li>Aderência calculada de pelo menos ${REGRA.travaMin}.</li><li>A exequibilidade reduz o valor em até 25%.</li></ul>
    </section><section id="s-prior"><h2 class="sech">Priorização</h2><p>Fila por valor ajustado por real pedido, até o orçamento disponível. Prioridade 1 ocupa a primeira metade do orçamento, Prioridade 2 a segunda, e quem não cabe forma a lista de reserva (Prioridade 3).</p></section></div></div>`;
+  if($("verFluxo")) $("verFluxo").onclick=abrirFluxo;
   M.querySelectorAll("[data-toc]").forEach(a=>a.onclick=()=>document.getElementById("s-"+a.dataset.toc)?.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"})); }
 
 ROTA=(location.hash.slice(1)||"inicio").split("/").map(decodeURIComponent);
