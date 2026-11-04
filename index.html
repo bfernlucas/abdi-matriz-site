@@ -1030,6 +1030,12 @@ h1:focus{outline:none}
 .dprog-lg{display:flex;flex-wrap:wrap;gap:var(--s1) var(--s5);font-size:12px;line-height:16px;color:var(--ink-2)}
 .dprog-lg span{display:inline-flex;gap:6px;align-items:center} .dprog-lg span::before{content:"";width:12px;height:8px;border-radius:4px}
 .dprog-lg .ok::before{background:var(--good)} .dprog-lg .dv::before{background:var(--yellow)} .dprog-lg .pe::before{background:var(--line)}
+
+/* simulação */
+.simbar{display:flex;flex-wrap:wrap;gap:var(--s3) var(--s5);align-items:center;justify-content:space-between;padding:var(--s3) var(--s4);border-radius:var(--r-md);background:var(--yellow-soft);border:1px solid var(--yellow-line);font-size:14px;line-height:22px;color:var(--ink)}
+.simbar>div:first-child{max-width:92ch;min-width:0} .simbar b{font-weight:600}
+.simbar-a{display:flex;flex-wrap:wrap;gap:var(--s2)}
+.tag.sim{background:var(--yellow);color:var(--ink)}
 </style>
 
 <header class="hd"><a class="skip" href="javascript:void 0" id="skip">Ir para o conteúdo</a><div class="hdi">
@@ -1120,12 +1126,15 @@ const TEMAS=["Adoção e difusão tecnológica","Agro 4.0","Ampliação do acess
 
 /* ================= estado e banco ================= */
 const S={canvas:{},aval:{},dec:{},equipe:{},dbOn:false,ready:false,podeEscrever:true,uid:null,msg:""};
+/* simulação da Diretoria Executiva: com SIM ligado, canvas, avaliações e decisões vêm de um exercício fictício em memória; os dados do banco continuam em REAL */
+const REAL={canvas:S.canvas,aval:S.aval,dec:S.dec}; let SIM=null;
+["canvas","aval","dec"].forEach(k=>Object.defineProperty(S,k,{get:()=>SIM?SIM[k]:REAL[k],set:v=>{ REAL[k]=v; },enumerable:true,configurable:true}));
 const LOC={usuario:null,dados:"real",teto:75,parc:"completos",perfil:{slot:"",dir:""},draft:{},cvd:{},wstep:{},eq:{},ci:{},doc:{},ptab:"funil",lf:{},q:{}};
 const ELD={}; const ABERTO=new Set(); let ROTA=["inicio"], DRW=null;
 let DB=null,USER=null,DL=null,AS=null,pendente=false;
 const EQUIPE0=NUVEM?[]:[{id:"lucas-fernandes",nome:"Lucas Fernandes",time:"Produtos 2 e 3"},{id:"lucas-meireles",nome:"Lucas Meireles",time:"Produtos 2 e 3"},{id:"thomas",nome:"Thomas",time:"Produtos 2 e 3"},{id:"yumi",nome:"Yumi",time:"Produtos 2 e 3"}];
 try{ const o=JSON.parse(localStorage.getItem("esteira-abdi-v4")||"{}"); delete o.dados; for(const k in o) if(o[k]!=null) LOC[k]=o[k]; }catch(e){}
-function salvarLocal(){ try{ localStorage.setItem("esteira-abdi-v4",JSON.stringify(LOC)); }catch(e){} }
+function salvarLocal(){ try{ localStorage.setItem("esteira-abdi-v4",JSON.stringify(SIM&&SIM.tetoAntes!=null?{...LOC,teto:SIM.tetoAntes}:LOC)); }catch(e){} }
 function editando(){ const a=document.activeElement; return !!(a&&(a.tagName==="TEXTAREA"||a.tagName==="SELECT"||(a.tagName==="INPUT"&&/text|search|number|date/.test(a.type)))&&a.closest("#main")); }
 function pedirRender(){ if(editando()){ pendente=true; return; } render(); }
 document.addEventListener("focusout",()=>setTimeout(()=>{ if(pendente&&!editando()){ pendente=false; render(); } },80));
@@ -1146,6 +1155,8 @@ async function iniciar(){
 }
 let tt=null; function toast(t){ const el=$("toast"); el.textContent=t; el.hidden=false; clearTimeout(tt); tt=setTimeout(()=>el.hidden=true,2800); }
 async function gravar(path,obj,ok){
+  if(SIM){ const i=path.indexOf("/"), col={canvas:"canvas",avaliacoes:"aval",decisoes:"dec"}[path.slice(0,i)]; if(!col){ toast("Na simulação, nada é gravado."); return false; }
+    SIM[col]={...SIM[col],[path.slice(i+1)]:JSON.parse(JSON.stringify({...obj,atualizadoPor:LOC.usuario?LOC.usuario.nome:"Simulação",atualizadoEm:new Date().toISOString()}))}; if(ok) toast(ok+" na simulação"); pedirRender(); return true; }
   if(!S.dbOn){ toast("Banco indisponível nesta visualização."); return false; }
   try{ if(LOC.usuario&&!path.startsWith("equipe/")) obj={...obj,atualizadoPor:LOC.usuario.nome,atualizadoEm:new Date().toISOString()}; await DB.doc(path).set(obj); if(ok) toast(ok); return true; }
   catch(e){ toast(!S.podeEscrever?"Sem permissão para gravar.":"Não foi gravado ("+(e&&e.code||"erro")+"). Tente de novo."); return false; } }
@@ -1304,6 +1315,7 @@ document.getElementById("topo").onclick=e=>{ e.preventDefault(); window.scrollTo
 window.addEventListener("hashchange",rota);
 $("logo").onclick=()=>go("inicio");
 function render(){
+  if(SIM&&ROTA[0]!=="painel"){ simSair(); setTimeout(()=>toast("Simulação encerrada: a esteira voltou aos dados reais."),0); }
   const PD=S.ready&&(!S.nuvem||SESSAO)?pendencias():{};
   $("nav").innerHTML=MODS.map(([k,t,l],i)=>`<a href="#${k}" ${ROTA[0]===k?'aria-current="page"':""} title="${l}"><span class="nn" aria-hidden="true">${i+1}</span>${t}${PD[k]?`<b class="nb" aria-label="${PD[k]} pendentes">${PD[k]}</b>`:""}</a>`).join("");
   const M=$("main"); const banner=S.msg?`<div class="banner">${esc(S.msg)}</div>`:"";
@@ -1969,6 +1981,38 @@ const KBG={an:"Pendências",cart:"Na carteira",res:"Fora do teto",disp:"Fora da 
 const CRC={K1:"Contrato de Gestão",K2:"Evidência",K3:"Rede e escala",N1:"Aderência",N2:"Cadeia e elo",N3:"Soberania",N4:"Adensamento",N5:"Instrumento",S1:"Emprego",S2:"Emissões",X1:"Difusão",X2:"Inteligência",X3:"Governança",X4:"Qualificação"};
 const CHEV=`<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M9 3.5 5.5 7 9 10.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 let DRWPRE=null, VZD={}, DRAG=null;
+
+/* ---------- simulação: exercício fictício para ver a Diretoria Executiva preenchida ----------
+   Usa os Canvas cadastrados (ou projetos fictícios, quando não houver) e inventa filtros, leituras e algumas decisões.
+   Fica só neste navegador: gravar() desvia para a memória e o banco da equipe não recebe nada.
+   Sair da Diretoria Executiva encerra a simulação. */
+function simFicticios(){ const ms=["M1","M2","M3","M4","M5","M6","T"], ex=Object.keys(EIX), ds=Object.keys(DIRS); let s=7; const r=()=>{ s=(Math.imul(s,1664525)+1013904223)>>>0; return s/4294967296; };
+  return Array.from({length:18},(_,i)=>{ const m=ms[i%7], g=[0,0,0,0,0,0]; if(m!=="T") g[+m.slice(1)-1]=3; else g.fill(1);
+    return {code:"F"+String(i+1).padStart(2,"0"),nome:`Projeto fictício ${String(i+1).padStart(2,"0")}`,missao:m,eixo:ex[i%ex.length],dir:ds[i%ds.length],novos:i===5?0:Math.round((0.4+r()*8.6)*10)*1e5,grades:g,status:"enviado",ordem:i+1}; }); }
+function simGerar(seed){ let rs=(seed>>>0)||1; const rnd=()=>{ rs=(Math.imul(rs,1664525)+1013904223)>>>0; return rs/4294967296; }, pick=a=>a[Math.floor(rnd()*a.length)];
+  const reais=Object.values(REAL.canvas).filter(c=>c.status!=="rascunho"), base=reais.length>=4?reais:simFicticios();
+  const canvas={}, aval={}, AV=["K1","K2","K3","N2","N3","N4","N5","S1","S2","X1","X2","X3","X4"], JF="Resposta fictícia, criada pela simulação.";
+  base.forEach(c0=>{ const c=JSON.parse(JSON.stringify(c0)), u=rnd(), E=["sim","sim","sim","sim","sim",rnd()<.3?"n/a":"sim"];
+    if(u<.03) E[1]="não"; else if(u<.06) E[2]="não"; else if(u<.075) E[4]="não"; else if(u<.09) E[3]="não"; else if(u<.16) E[3]="verificar";
+    c.eleg=E; c.elegJust=E.map(()=>JF); c.elegConf=E.map(()=>true); canvas[c.code]=c; });
+  Object.values(canvas).forEach(c=>{ if(!situacao(c).startsWith("Apta")) return; const q=(rnd()+rnd()+1)/3, qx=(rnd()+rnd()+q)/3, n=rnd()<.07?(rnd()<.5?1:2):3, risco=rnd()<.04, vies={};
+    AV.forEach(k=>vies[k]=(rnd()-.5)*1.6);
+    ["A1","A2","A3"].slice(0,n).forEach((sl,j)=>{ const notas={}, conf={}, fonte={}, just={};
+      AV.forEach(k=>{ const neg=!!CR[k].neg; let v=Math.round((neg?0.5+4*q:1+4*q)+vies[k]+(rnd()-.5)*1.4); v=Math.max(neg?-2:1,Math.min(5,v)); if(v===0) v=1; notas[k]=v;
+        const r=rnd(); conf[k]=r<.1?"Baixa":r<.45?"Média":"Alta"; fonte[k]=pick(FONTES.slice(0,4)); just[k]=JF; });
+      const exq=[0,1,2,3].map(()=>Math.max(1,Math.min(5,Math.round(1.5+3.5*qx+(rnd()-.5)*1.2))));
+      aval[c.code+"__"+sl]={code:c.code,slot:sl,notas,conf,fonte,just,exq,justX:exq.map(()=>JF),fonteX:exq.map(()=>"Canvas"),confX:exq.map(()=>"Média"),risco:risco&&j<2,mitig:risco?"Risco fictício sem mitigação, criado pela simulação.":"",enviada:true,atualizadoPor:"Simulação"}; }); });
+  return {seed,canvas,aval,dec:{},ficticios:base!==reais}; }
+/* registra parte das decisões, para a deliberação aparecer em andamento, e um desvio de exemplo */
+function simDecisoes(){ const R=esteira(), ts=new Date().toISOString(), dentro=R.fila.filter(l=>l.cabe), reg=(l,d,mo,re)=>SIM.dec[l.c.code]={code:l.c.code,decisao:d,rec:decisaoDe(l).rec,motivo:mo||"",resp:re||"",relev:"",contest:"",ts,atualizadoPor:"Simulação"};
+  dentro.slice(0,Math.ceil(dentro.length/3)).forEach(l=>reg(l,"seguir"));
+  const folga=R.teto-somaN(dentro), cabeFolga=R.fila.filter(l=>!l.cabe&&+l.c.novos<=folga+1e-6).pop(), alvo=dentro.filter(l=>l.acc>R.teto/2+1e-6).pop();
+  if(cabeFolga) reg(cabeFolga,"incluir","Exemplo fictício de desvio: o projeto cabe na folga do teto e entra por decisão da Diretoria Executiva.","Diretoria Executiva (simulação)");
+  else if(alvo) reg(alvo,"fora","Exemplo fictício de desvio: o projeto fica fora da carteira, para mostrar como o desvio aparece no quadro, na balança e na minuta.","Diretoria Executiva (simulação)"); }
+function simLimpa(){ for(const k in ELDV) delete ELDV[k]; DRWPRE=null; DRW=null; }
+/* a simulação usa teto de 60% dos pedidos, para haver lista de reserva; ao sair, volta o teto anterior (que nem chega a ser trocado no armazenamento local) */
+function simLigar(seed){ const antes=SIM?SIM.tetoAntes:LOC.teto; simLimpa(); SIM=simGerar(seed); SIM.tetoAntes=antes; LOC.teto=60; simDecisoes(); }
+function simSair(){ if(SIM&&SIM.tetoAntes!=null) LOC.teto=SIM.tetoAntes; SIM=null; simLimpa(); }
 /* escala com marcações redondas (1, 2, 2,5 ou 5 vezes uma potência de 10) */
 function nice(max,n){ if(!(max>0)) return {top:1,ticks:[0,1]}; const raw=max/(n||4), p=Math.pow(10,Math.floor(Math.log10(raw))), f=raw/p, s=(f<=1?1:f<=2?2:f<=2.5?2.5:f<=5?5:10)*p, top=Math.ceil(max/s-1e-9)*s, ticks=[];
   for(let v=0;v<=top+s*1e-6;v+=s) ticks.push(Math.round(v*1e6)/1e6); return {top,ticks}; }
@@ -2012,7 +2056,7 @@ function balanca(R){ const fin=carteiraFinal(R), tot=somaN(fin), teto=R.teto, ma
   const apr=R.L.filter(l=>l.v&&l.v.passa), regN=apr.filter(l=>S.dec[l.c.code]&&S.dec[l.c.code].ts).length, desv=apr.filter(l=>decisaoDe(l).desvio).length, acima=tot>teto+1e-6;
   const kind=l=>decisaoDe(l).desvio?"dv":l.acc<=teto/2+1e-6?"p1":"p2", KN={p1:"Prioridade 1",p2:"Prioridade 2",dv:"incluído por decisão"};
   return `<section class="bal" aria-label="Balança da carteira">
-    <div class="bal-h"><h2>Balança da carteira</h2><span class="small muted">${fin.length?"carteira recomendada, ajustada pelas decisões registradas":"a carteira aparece quando houver projetos aprovados na pontuação"}</span></div>
+    <div class="bal-h"><h2>Balança da carteira</h2><span class="small muted">${fin.length?"carteira recomendada, ajustada pelas decisões registradas":`a carteira aparece quando houver projetos aprovados na pontuação${SIM?"":". Para ver um exemplo, use Aplicar simulação"}`}</span></div>
     <div class="btrack" role="img" aria-label="Carteira de R$ ${mi(tot)} milhões para um teto de R$ ${mi(teto)} milhões">
       <div class="bfill" style="width:${tot/max*100}%">${fin.map(l=>{ const k=kind(l); return `<i class="bseg ${k}" style="flex:${+l.c.novos}" ${tipA(`${l.c.code} · ${l.c.nome}`,[[`R$ ${mi(l.c.novos)} mi`,"recurso novo"],[`${l.pos}º`,"na fila"],[KN[k],"situação"]])}></i>`; }).join("")}</div>
       ${teto>0?`<span class="bmeio" style="left:${teto/2/max*100}%"><b>metade do teto</b></span><span class="bteto" style="left:${teto/max*100}%"><b>teto</b></span>`:""}</div>
@@ -2030,15 +2074,15 @@ function balanca(R){ const fin=carteiraFinal(R), tot=somaN(fin), teto=R.teto, ma
 function funilHTML(R){ const m=LOC.fmed==="r"?"r":"n", L=R.L, ap=L.filter(l=>l.ok), comp=L.filter(l=>l.completo), apr=R.fila, cabe=apr.filter(l=>l.cabe), fin=carteiraFinal(R);
   const ST=[
    {t:"Canvas recebidos",ls:L,out:[]},
-   {t:"Passam nos filtros",ls:ap,out:[["nao","fora pelos filtros",L.filter(l=>colDe(l,R)==="nao")],["sem","seguem sem recurso novo",L.filter(l=>l.sit==="Segue sem recurso novo")],["ana","com filtros a responder",L.filter(l=>l.sit==="A responder")]]},
+   {t:"Passam nos filtros",ls:ap,out:[["nao","fora pelos filtros",L.filter(l=>colDe(l,R)==="nao")],["sem","seguem sem recurso novo",L.filter(l=>l.sit==="Segue sem recurso novo"),"segue sem recurso novo"],["ana","com filtros a responder",L.filter(l=>l.sit==="A responder")]]},
    {t:"Com as três leituras",ls:comp,out:[["ana","com leituras incompletas",ap.filter(l=>!l.completo)]]},
-   {t:"Aprovados na pontuação",ls:apr,out:[["rep","reprovados na porta de pontuação",comp.filter(l=>l.v&&!l.v.passa)]]},
+   {t:"Aprovados na pontuação",ls:apr,out:[["rep","reprovados na porta de pontuação",comp.filter(l=>l.v&&!l.v.passa),"reprovado na porta de pontuação"]]},
    {t:"Cabem no teto",ls:cabe,out:[["p3","na lista de reserva",apr.filter(l=>!l.cabe)]]},
-   {t:"Carteira deliberada",ls:fin,out:[["p3","deixados fora por decisão",cabe.filter(l=>decisaoDe(l).dec!=="incluir")]],ent:apr.filter(l=>!l.cabe&&decisaoDe(l).dec==="incluir")}];
+   {t:"Carteira deliberada",ls:fin,out:[["p3","deixados fora por decisão",cabe.filter(l=>decisaoDe(l).dec!=="incluir"),"deixado fora por decisão"]],ent:apr.filter(l=>!l.cabe&&decisaoDe(l).dec==="incluir")}];
   const vOf=ls=>m==="n"?ls.length:somaN(ls)/1e6, fmt=v=>m==="n"?String(v):`R$ ${nf1.format(v)} mi`, alt=ls=>m==="n"?`R$ ${mi(somaN(ls))} mi`:qtd(ls.length,"projeto","projetos");
   const mx=Math.max(1e-9,...ST.map(s=>vOf(s.ls))), KC=Object.fromEntries(KB.map(x=>[x.k,x.cor])), cnt=ls=>m==="n"?String(ls.length):`R$ ${mi(somaN(ls))} mi`;
   const rows=ST.map((s,i)=>{ const v=vOf(s.ls), pv=i?vOf(ST[i-1].ls):v, kw=v/mx*100, gw=Math.max(0,(pv-v)/mx*100), conv=i===0?"ponto de partida":pv>0?`${Math.round(v/pv*100)}% da etapa anterior`:"sem base na etapa anterior";
-    const chips=[...s.out.filter(o=>o[2].length).map(([k,t,ls])=>`<button type="button" class="fsai" data-fsai="${k}"><i style="background:${KC[k]}"></i>${cnt(ls)} ${esc(t)}</button>`),...(s.ent&&s.ent.length?[`<button type="button" class="fsai" data-fsai="p2"><i class="dvsw"></i>+${cnt(s.ent)} incluídos por decisão</button>`]:[])].join("");
+    const chips=[...s.out.filter(o=>o[2].length).map(([k,t,ls,t1])=>`<button type="button" class="fsai" data-fsai="${k}"><i style="background:${KC[k]}"></i>${cnt(ls)} ${esc(m==="n"&&ls.length===1&&t1?t1:t)}</button>`),...(s.ent&&s.ent.length?[`<button type="button" class="fsai" data-fsai="p2"><i class="dvsw"></i>+${cnt(s.ent)} ${m==="n"&&s.ent.length===1?"incluído":"incluídos"} por decisão</button>`]:[])].join("");
     return `<li class="fn2-r"><div class="fn2-s"><span class="fn2-i">${i+1}</span><span class="fn2-t"><b>${s.t}</b><span>${conv}</span></span></div>
       <div class="fn2-bar" ${tipA(s.t,[[fmt(v),m==="n"?"projetos":"recursos novos"],[alt(s.ls),m==="n"?"recursos novos":"projetos"],...(i?[[conv,"conversão"]]:[])])}>${v>0?`<span class="fn2-k" style="width:${kw}%"></span>`:""}${gw>0.05?`<span class="fn2-g${v>0?"":" so"}" style="width:${gw}%"></span>`:""}</div>
       <div class="fn2-v"><b>${fmt(v)}</b><span>${alt(s.ls)}</span></div>
@@ -2268,7 +2312,9 @@ function vPainel(M,banner){
        return `<tr class="click" data-drw="${esc(c.code)}"><td><b>${esc(c.nome)}</b><div class="tiny muted">${esc(c.code)}</div></td><td><span class="dots">${[0,1,2].map(i=>`<i class="${i<n?"on":""}"></i>`).join("")}</span> <span class="small muted">${n} de 3</span></td><td>${n<3?`<span class="chip">aguardando</span>`:cons.conciliar.length?`<span class="chip warn">conciliar ${qtd(cons.conciliar.length,"critério","critérios")}</span>`:`<span class="chip good">consolidado</span>`}</td></tr>`; }).join("")||`<tr><td colspan="3" class="empty">Nenhum projeto passou nos filtros ainda.</td></tr>`}</tbody></table></div>
      <p class="small muted">A nota de cada critério é a mediana das três leituras. Distância de 2 pontos ou mais leva o critério à conciliação.</p>`; }
   const dd=diasAte("2026-11-10");
-  M.innerHTML=`${banner}${phead([["Início","inicio"],["Diretoria Executiva"]],"Diretoria Executiva","A Unidade de Gestão Estratégica monta a carteira sob o teto e testa a robustez. A Diretoria Executiva delibera e registra as decisões.",[["Quem faz","Diretoria Executiva, com a Unidade de Gestão Estratégica"],["Quando","aprovação em 10/11; depois, Conselho Deliberativo em 25/11, pelo Contrato de Gestão"],["Etapa da MGP³","Balanceamento (4.3) e Autorização (4.5)"]],dd>=0?`<span class="tag">${dd===0?"Reunião da Diretoria Executiva hoje":dd===1?"Falta 1 dia para a Diretoria Executiva":`Faltam ${dd} dias para a Diretoria Executiva`}</span>`:"")}
+  const simA=SIM?`<span class="tag sim">Simulação</span>`:`<button type="button" class="btn sm" id="simOn" title="Preenche esta página com um exercício fictício, só neste navegador. Nada é gravado no banco.">Aplicar simulação</button>`;
+  M.innerHTML=`${banner}${phead([["Início","inicio"],["Diretoria Executiva"]],"Diretoria Executiva","A Unidade de Gestão Estratégica monta a carteira sob o teto e testa a robustez. A Diretoria Executiva delibera e registra as decisões.",[["Quem faz","Diretoria Executiva, com a Unidade de Gestão Estratégica"],["Quando","aprovação em 10/11; depois, Conselho Deliberativo em 25/11, pelo Contrato de Gestão"],["Etapa da MGP³","Balanceamento (4.3) e Autorização (4.5)"]],simA+(dd>=0?`<span class="tag">${dd===0?"Reunião da Diretoria Executiva hoje":dd===1?"Falta 1 dia para a Diretoria Executiva":`Faltam ${dd} dias para a Diretoria Executiva`}</span>`:""))}
+   ${SIM?`<section class="simbar" aria-label="Simulação em andamento"><div><b>Simulação de um exercício fictício.</b> ${SIM.ficticios?"Os projetos são fictícios, porque não há Canvas nesta visualização. Filtros,":"Os Canvas são os cadastrados; filtros,"} notas e parte das decisões foram inventados para mostrar a página preenchida. O teto começa em 60% dos pedidos, para haver lista de reserva, e pode ser mudado na aba Curva e cenários. Você pode arrastar cards e registrar decisões: tudo fica só neste navegador, e nada vai para o banco da equipe. Sair desta página encerra a simulação e devolve o teto anterior.</div><div class="simbar-a"><button type="button" class="btn sm" id="simNova">Gerar outro exercício</button><button type="button" class="btn sm primary" id="simOff">Sair da simulação</button></div></section>`:""}
    ${linhaTempo()}${balanca(R)}
    <div class="ptabs" role="tablist">${TABS.map(([k,t],i)=>`<button role="tab" data-ptab="${k}" aria-selected="${tab===k}"><span>${i+1}</span>${t}</button>`).join("")}<button role="tab" class="aux" data-ptab="conc" aria-selected="${tab==="conc"}">Conciliação das notas</button></div>
    ${corpo}`;
@@ -2295,14 +2341,17 @@ function vPainel(M,banner){
   const lote=async(ls)=>{ let n=0; for(const l of ls){ if(S.dec[l.c.code]&&S.dec[l.c.code].ts) continue; if(await regDec(l,"seguir")) n++; } toast(n===1?"1 decisão registrada":`${n} decisões registradas`); };
   if($("emBloco")) $("emBloco").onclick=()=>{ const L=R.L.filter(l=>l.v&&l.v.passa&&l.cabe&&(rc[l.c.code]||{}).cls==="dentro"); lote(L); };
   if($("foraBloco")) $("foraBloco").onclick=()=>{ const L=R.L.filter(l=>l.v&&l.v.passa&&!l.cabe&&(rc[l.c.code]||{}).cls==="fora"); lote(L); };
-  if($("minuta")) $("minuta").onclick=()=>salvarArquivo(`Minuta_deliberacao_carteira_2027_${hojeLocal()}.html`,minutaHTML(R,rc));
+  if($("minuta")) $("minuta").onclick=()=>salvarArquivo(`Minuta_${SIM?"SIMULACAO_":""}deliberacao_carteira_2027_${hojeLocal()}.html`,minutaHTML(R,rc));
+  if($("simOn")) $("simOn").onclick=()=>{ simLigar(2027); render(); window.scrollTo({top:0}); focoTitulo(); toast("Simulação aplicada: dados fictícios, só neste navegador"); };
+  if($("simNova")) $("simNova").onclick=()=>{ simLigar((Date.now()%2147483646)+1); render(); toast("Outro exercício fictício gerado"); };
+  if($("simOff")) $("simOff").onclick=()=>{ simSair(); render(); window.scrollTo({top:0}); focoTitulo(); toast("Simulação encerrada: a página voltou aos dados reais"); };
 }
 function minutaHTML(R,rc){ const L=R.L.filter(l=>l.v&&l.v.passa).sort((a,b)=>a.pos-b.pos), fin=L.filter(l=>decisaoDe(l).dec==="incluir"), fora=L.filter(l=>decisaoDe(l).dec!=="incluir"), tot=fin.reduce((a,l)=>a+(+l.c.novos),0);
   const row=l=>{ const D=decisaoDe(l), r=rc[l.c.code]; return `<tr><td>${l.pos}</td><td>${esc(l.c.code)}</td><td>${esc(l.c.nome)}</td><td>${esc(misNome(misOf(l.c)))}</td><td style="text-align:right">${mi(l.c.novos)}</td><td style="text-align:right">${nf1.format(l.v.aj)}</td><td>${r?RCL[r.cls]+" ("+Math.round(r.f*100)+"%)":""}</td><td>${D.desvio?"Desvio":"Recomendação"}</td></tr>`; };
   const tab=ls=>`<table><thead><tr><th>Fila</th><th>Código</th><th>Projeto</th><th>Missão</th><th>R$ mi</th><th>Valor ajustado</th><th>Robustez</th><th>Origem</th></tr></thead><tbody>${ls.map(row).join("")||`<tr><td colspan="8">Nenhum.</td></tr>`}</tbody></table>`;
   const desv=L.filter(l=>decisaoDe(l).desvio), rel=L.filter(l=>S.dec[l.c.code]&&(S.dec[l.c.code].relev||S.dec[l.c.code].contest));
   return `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>Minuta de registro da deliberação</title><style>body{font-family:Poppins,"Segoe UI",Arial,sans-serif;max-width:960px;margin:32px auto;padding:0 24px;color:#1d2433;line-height:1.5}h1{font-size:22px;font-weight:500}h2{font-size:17px;font-weight:500;margin-top:28px}table{border-collapse:collapse;width:100%;font-size:13px}th,td{border-bottom:1px solid #e1e6ef;padding:6px 8px;text-align:left}th{color:#596174;font-weight:500}.m{color:#596174;font-size:13px}</style></head><body>
-   <h1>Minuta de registro da deliberação da Diretoria Executiva sobre a carteira de projetos de 2027</h1>
+   ${SIM?`<p style="padding:8px 12px;background:#fff3c4;border:1px solid #e6c800;border-radius:6px"><b>Simulação com dados fictícios.</b> Este documento não é um registro oficial da Diretoria Executiva.</p>`:""}<h1>Minuta de registro da deliberação da Diretoria Executiva sobre a carteira de projetos de 2027</h1>
    <p class="m">Gerada pela esteira de seleção em ${new Date().toLocaleString("pt-BR")}. A recomendação técnica é consultiva; desvios seguem a regra de cumprir ou explicar.</p>
    <p>Teto orçamentário considerado: <b>R$ ${mi(R.teto)} milhões</b> (${LOC.teto}% dos recursos novos pedidos). Carteira aprovada: <b>${fin.length} projetos, R$ ${mi(tot)} milhões</b>${tot>R.teto+1e-6?`, acima do teto em R$ ${mi(tot-R.teto)} milhões`:""}.</p>
    <h2>Projetos incluídos na carteira</h2>${tab(fin)}
