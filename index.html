@@ -895,32 +895,30 @@ h1:focus{outline:none}
 .kb-mf .sw{width:8px;height:8px;border-radius:2px;flex:none}
 .kb-mf button[aria-pressed="true"] .sw{box-shadow:0 0 0 1.5px var(--accent-ink)}
 .kb-scroll{overflow-x:auto;padding:var(--s1) 2px var(--s3);scroll-snap-type:x proximity;scroll-padding-inline:2px}
-.kb-scroll:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:var(--r-sm)}
-.kb-board{display:flex;gap:var(--s5);align-items:flex-start;width:max-content;padding-top:var(--s5)}
-.kb-grp{display:grid;gap:var(--s2);align-content:start;position:relative}
-.kb-grph{display:flex;gap:var(--s3);align-items:baseline;justify-content:space-between;padding:0 2px 6px;border-bottom:2px solid var(--line)}
-.kb-grph span{font:500 12px/16px var(--font);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);white-space:nowrap}
-.kb-grph b{font:500 12px/16px var(--font);color:var(--ink-2);white-space:nowrap}
-.kb-grp.cart .kb-grph{border-bottom-color:var(--accent)} .kb-grp.cart .kb-grph span{color:var(--accent)}
-.kb-grp.res .kb-grph{border-bottom-color:var(--yellow-line)}
-.kb-grp.res{padding-left:var(--s5);border-left:2px solid var(--ink);margin-left:calc(-1*var(--s2))}
-.kb-teto{position:absolute;left:-1px;top:calc(-1*var(--s5));transform:translateX(-50%);font:600 12px/16px var(--font);color:var(--ink);white-space:nowrap;background:var(--paper);padding:0 6px}
-.kb-cols{display:flex;gap:var(--s3);align-items:flex-start}
-.kb-col{width:272px;flex:none;background:var(--sunk);border-radius:var(--r-md);display:flex;flex-direction:column;max-height:min(74vh,700px);scroll-snap-align:start;transition:box-shadow .12s,opacity .12s,background-color .12s}
-.kb-colh{display:flex;align-items:center;gap:var(--s2);padding:var(--s2) var(--s2) 0 var(--s3);min-height:40px}
+.kb-board{display:grid;grid-template-columns:repeat(5,minmax(192px,1fr));grid-template-rows:auto auto;column-gap:var(--s3);row-gap:var(--s2);align-items:start;padding-top:var(--s5);position:relative}
+.kb-gh{grid-row:1;align-self:end;display:flex;gap:var(--s2);flex-wrap:wrap;align-items:baseline;justify-content:space-between;padding:0 2px 6px;border-bottom:2px solid var(--line);min-width:0}
+.kb-gh span{font:500 12px/16px var(--font);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.kb-gh b{font:500 12px/16px var(--font);color:var(--ink-2);white-space:nowrap}
+.kb-gh.an{grid-column:1} .kb-gh.cart{grid-column:2/4;border-bottom-color:var(--accent)} .kb-gh.cart span{color:var(--accent)} .kb-gh.res{grid-column:4;border-bottom-color:var(--yellow-line)} .kb-gh.disp{grid-column:5}
+.kb-tline{grid-column:4;grid-row:1/3;align-self:stretch;justify-self:start;width:0;border-left:2px solid var(--ink);margin-left:calc(-1*var(--s3)/2 - 1px);margin-top:calc(-1*var(--s1));position:relative;pointer-events:none;z-index:1}
+.kb-tline b{position:absolute;top:calc(-1*var(--s5));left:0;transform:translateX(-50%);font:600 12px/16px var(--font);color:var(--ink);white-space:nowrap;background:var(--paper);padding:0 6px}
+.kb-col{grid-row:2;min-width:0;background:var(--sunk);border-radius:var(--r-md);display:flex;flex-direction:column;max-height:min(74vh,700px);scroll-snap-align:start;transition:box-shadow .12s,opacity .12s,background-color .12s}
+.kb-col.c-ana{grid-column:1} .kb-col.c-p1{grid-column:2} .kb-col.c-p2{grid-column:3} .kb-col.c-p3{grid-column:4} .kb-col.c-disp{grid-column:5}
+.kb-colh{display:flex;align-items:center;gap:var(--s2);padding:var(--s2) var(--s3) 0;min-height:40px}
 .kb-colh h3{font:500 14px/20px var(--font);color:var(--ink);flex:1;min-width:0}
 .kb-dot{width:8px;height:8px;border-radius:50%;background:var(--cc);flex:none}
 .kb-n{font:600 12px/16px var(--font);color:var(--ink-2);background:var(--surface);border-radius:var(--pill);padding:2px 8px;white-space:nowrap;font-variant-numeric:tabular-nums}
-.kb-tg{flex:none;width:28px;height:28px;border:0;border-radius:var(--r-sm);background:transparent;color:var(--ink-3);display:grid;place-items:center;cursor:pointer;padding:0}
-.kb-tg:hover{background:var(--surface);color:var(--accent)} .kb-tg:focus-visible{outline:2px solid var(--accent)}
 .kb-sum{padding:0 var(--s3) 0 calc(var(--s3) + 16px);font-size:12px;line-height:16px;color:var(--ink-3)}
-.kb-cards{display:grid;gap:var(--s2);align-content:start;padding:var(--s2);overflow-y:auto;min-height:64px;overscroll-behavior:contain}
+.kb-cards{display:grid;gap:var(--s2);align-content:start;padding:var(--s2);overflow-y:auto;min-height:64px;overscroll-behavior:contain;scrollbar-width:thin}
 .kb-empty{font-size:12px;line-height:16px;color:var(--ink-3);padding:var(--s2) var(--s1)}
-.kb-col.fech{width:44px}
-.kb-exp{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:var(--s2);width:100%;padding:var(--s3) 0;min-height:220px;border-radius:var(--r-md)}
-.kb-exp:hover{background:var(--accent-soft)} .kb-exp:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.kb-exp b{font:600 12px/16px var(--font);color:var(--ink-2)}
-.kb-exp span{writing-mode:vertical-rl;transform:rotate(180deg);font:500 13px/18px var(--font);color:var(--ink);white-space:nowrap}
+.kb-sub{display:grid;gap:var(--s2)}
+.kb-sub+.kb-sub{border-top:1px solid var(--line-2);padding-top:var(--s2);margin-top:var(--s1)}
+.kb-subh{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:var(--s2);width:100%;min-height:32px;padding:2px var(--s1);border-radius:var(--r-sm);font:500 13px/18px var(--font);color:var(--ink)}
+.kb-subh span{flex:1;min-width:0} .kb-subh b{font:600 12px/16px var(--font);color:var(--ink-2);background:var(--surface);border-radius:var(--pill);padding:2px 8px}
+.kb-subh svg{flex:none;color:var(--ink-3);transform:rotate(-90deg);transition:transform .12s}
+.kb-sub.fech .kb-subh svg{transform:rotate(180deg)}
+.kb-subh:hover{background:var(--surface)} .kb-subh:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+@media (max-width:760px){.kb-board{grid-template-columns:repeat(5,minmax(244px,80vw))}}
 .kc2{background:var(--surface);border-radius:var(--r-sm);box-shadow:0 1px 1px rgba(15,20,36,.08),0 0 0 1px var(--line);padding:var(--s2) var(--s3) var(--s3);display:grid;gap:6px;cursor:pointer;outline:none;transition:box-shadow .12s}
 .kc2:hover{box-shadow:0 2px 6px rgba(15,20,36,.10),0 0 0 1px var(--accent)}
 .kc2:focus-visible{box-shadow:0 0 0 2px var(--accent)}
@@ -944,10 +942,9 @@ h1:focus{outline:none}
 .kb-board.is-dragging .kb-col.no-drop{opacity:.5}
 .kb-board.is-dragging .kb-col.can-drop{box-shadow:inset 0 0 0 2px var(--accent-line)}
 .kb-col.over{box-shadow:inset 0 0 0 2px var(--accent)!important;background:var(--accent-soft)}
-.kb-col.flash{animation:kbflash 1.6s ease-out}
+.kb-col.flash,.kb-sub.flash{animation:kbflash 1.6s ease-out}
 @keyframes kbflash{0%,45%{box-shadow:inset 0 0 0 2px var(--accent);background:var(--accent-soft)}100%{box-shadow:inset 0 0 0 0 transparent}}
 @media (prefers-reduced-motion:reduce){.kb-col.flash{animation:none;box-shadow:inset 0 0 0 2px var(--accent)}.kc2,.kb-col{transition:none}}
-@media (max-width:600px){.kb-col{width:252px}.kb-bar input[type=search]{width:100%}}
 /* composição */
 .cmp{display:grid;gap:var(--s5)}
 .cmp-bar{display:flex;flex-wrap:wrap;gap:var(--s3);align-items:center}
@@ -1036,6 +1033,8 @@ h1:focus{outline:none}
 .simbar>div:first-child{max-width:92ch;min-width:0} .simbar b{font-weight:600}
 .simbar-a{display:flex;flex-wrap:wrap;gap:var(--s2)}
 .tag.sim{background:var(--yellow);color:var(--ink)}
+
+@media (max-width:600px){.kb-bar input[type=search]{width:100%}}
 </style>
 
 <header class="hd"><a class="skip" href="javascript:void 0" id="skip">Ir para o conteúdo</a><div class="hdi">
@@ -1977,7 +1976,7 @@ const KB=[
  {k:"rep",g:"disp",t:"Reprovados na pontuação",cor:"var(--ink-3)",vazio:"Nenhum projeto reprovado na porta de pontuação."},
  {k:"nao",g:"disp",t:"Fora pelos filtros",cor:"var(--bad)",vazio:"Nenhum projeto saiu nos filtros de entrada."},
  {k:"sem",g:"disp",t:"Seguem sem recurso novo",cor:"var(--line-2)",vazio:"Nenhum projeto sem pedido de recurso novo."}];
-const KBG={an:"Pendências",cart:"Na carteira",res:"Fora do teto",disp:"Fora da disputa por recurso novo"};
+const KBG={an:"Pendências",cart:"Na carteira",res:"Fora do teto",disp:"Fora da disputa"};
 const CRC={K1:"Contrato de Gestão",K2:"Evidência",K3:"Rede e escala",N1:"Aderência",N2:"Cadeia e elo",N3:"Soberania",N4:"Adensamento",N5:"Instrumento",S1:"Emprego",S2:"Emissões",X1:"Difusão",X2:"Inteligência",X3:"Governança",X4:"Qualificação"};
 const CHEV=`<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M9 3.5 5.5 7 9 10.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 let DRWPRE=null, VZD={}, DRAG=null;
@@ -2104,12 +2103,18 @@ function kcard(l,k,rc){ const c=l.c, m=misOf(c), pass=!!(l.v&&l.v.passa), D=pass
   return `<div class="kc2${D&&D.desvio?" dv":""}" role="button" tabindex="0" data-drw="${esc(c.code)}" data-kb="${k}"${arr?' draggable="true"':""} aria-label="${esc(c.nome)}, ${esc(c.code)}${l.v?`, valor ${nf1.format(l.v.aj)}`:""}. Abre o detalhe${arr?" e a decisão":""}.">
     <div class="kc2-h">${mt(m)}<span class="kc2-c">${esc(c.code)}</span>${l.v?`<span class="kc2-v" title="Valor ajustado, de 0 a 100">${nf1.format(l.v.aj)}</span>`:""}</div>
     <p class="kc2-n">${esc(c.nome)}</p><div class="kc2-b">${b.join("")}</div>${st?`<div class="kc2-f">${st}</div>`:""}</div>`; }
-function kcol(x,ls,ok,R,rc,fech){ const vis=ls.filter(ok), soma=somaN(ls);
-  if(fech) return `<section class="kb-col fech" data-col="${x.k}" style="--cc:${x.cor}"><button type="button" class="kb-exp" data-kbt="${x.k}" aria-expanded="false" aria-label="Expandir a coluna ${esc(x.t)}, ${qtd(ls.length,"projeto","projetos")}"><i class="kb-dot"></i><b>${vis.length<ls.length?`${vis.length} de ${ls.length}`:ls.length}</b><span>${esc(x.t)}</span></button></section>`;
+function kcol(x,ls,ok,R,rc){ const vis=ls.filter(ok), soma=somaN(ls), cont=vis.length<ls.length?`${vis.length} de ${ls.length}`:ls.length;
   const meta=["p1","p2","p3"].includes(x.k)?`<p class="kb-sum">R$ ${mi(soma)} mi${x.k!=="p3"&&R.teto>0?` · ${nf1.format(soma/R.teto*100)}% do teto`:""}</p>`:x.k==="ana"&&ls.length?`<p class="kb-sum">aguardam filtros ou leituras</p>`:"";
-  return `<section class="kb-col" data-col="${x.k}" style="--cc:${x.cor}" aria-label="${esc(x.t)}, ${qtd(ls.length,"projeto","projetos")}">
-    <header class="kb-colh"><i class="kb-dot"></i><h3>${esc(x.t)}</h3><span class="kb-n">${vis.length<ls.length?`${vis.length} de ${ls.length}`:ls.length}</span><button type="button" class="kb-tg" data-kbt="${x.k}" aria-expanded="true" aria-label="Recolher a coluna ${esc(x.t)}" title="Recolher a coluna">${CHEV}</button></header>${meta}
+  return `<section class="kb-col c-${x.k}" data-col="${x.k}" style="--cc:${x.cor}" aria-label="${esc(x.t)}, ${qtd(ls.length,"projeto","projetos")}">
+    <header class="kb-colh"><i class="kb-dot"></i><h3>${esc(x.t)}</h3><span class="kb-n">${cont}</span></header>${meta}
     <div class="kb-cards">${vis.map(l=>kcard(l,x.k,rc)).join("")||`<p class="kb-empty">${ls.length?"Nenhum projeto com esse filtro.":esc(x.vazio)}</p>`}</div></section>`; }
+/* coluna única para o que está fora da disputa, com uma seção recolhível por motivo */
+function kdisp(g,ok,rc,fech){ const ks=["rep","nao","sem"], tot=ks.reduce((a,k)=>a+g[k].length,0), vis=ks.reduce((a,k)=>a+g[k].filter(ok).length,0);
+  return `<section class="kb-col c-disp" data-col="disp" style="--cc:var(--ink-3)" aria-label="Fora da disputa, ${qtd(tot,"projeto","projetos")}">
+    <header class="kb-colh"><i class="kb-dot"></i><h3>Não disputam recurso novo</h3><span class="kb-n">${vis<tot?`${vis} de ${tot}`:tot}</span></header><p class="kb-sum">por motivo; abra cada grupo</p>
+    <div class="kb-cards">${ks.map(k=>{ const x=KB.find(y=>y.k===k), ls=g[k], v=ls.filter(ok), f=fech.includes(k);
+      return `<div class="kb-sub${f?" fech":""}" data-col="${k}" style="--cc:${x.cor}"><button type="button" class="kb-subh" data-kbt="${k}" aria-expanded="${!f}"><i class="kb-dot"></i><span>${esc(x.t)}</span><b>${v.length<ls.length?`${v.length} de ${ls.length}`:ls.length}</b>${CHEV}</button>
+        ${f?"":(v.map(l=>kcard(l,k,rc)).join("")||`<p class="kb-empty">${ls.length?"Nenhum projeto com esse filtro.":esc(x.vazio)}</p>`)}</div>`; }).join("")}</div></section>`; }
 function quadroHTML(R,rc){ const q=(LOC.q.quadro||"").trim().toLowerCase(), fm=MK.includes(LOC.kbm)?LOC.kbm:"", colz=kbFechadas();
   const ok=l=>(!q||(l.c.code+" "+l.c.nome).toLowerCase().includes(q))&&(!fm||misOf(l.c)===fm);
   const g={}; KB.forEach(x=>g[x.k]=[]); R.L.forEach(l=>g[colDe(l,R)].push(l));
@@ -2118,14 +2123,15 @@ function quadroHTML(R,rc){ const q=(LOC.q.quadro||"").trim().toLowerCase(), fm=M
   g.nao.sort((a,b)=>a.sit.localeCompare(b.sit)||String(a.c.code).localeCompare(b.c.code)); g.sem.sort((a,b)=>String(a.c.code).localeCompare(b.c.code));
   const GR=[["an",["ana"]],["cart",["p1","p2"]],["res",["p3"]],["disp",["rep","nao","sem"]]];
   const gsum=(gk,ks)=>{ const ls=ks.flatMap(k=>g[k]); return gk==="cart"||gk==="res"?`${qtd(ls.length,"projeto","projetos")} · R$ ${mi(somaN(ls))} mi`:qtd(ls.length,"projeto","projetos"); };
-  const board=GR.map(([gk,ks])=>`<div class="kb-grp ${gk}">${gk==="res"?`<span class="kb-teto">teto · R$ ${mi(R.teto)} mi</span>`:""}<div class="kb-grph"><span>${KBG[gk]}</span><b>${gsum(gk,ks)}</b></div><div class="kb-cols">${ks.map(k=>kcol(KB.find(x=>x.k===k),g[k],ok,R,rc,colz.includes(k))).join("")}</div></div>`).join("");
+  const heads=GR.map(([gk,ks])=>`<div class="kb-gh ${gk}"><span>${KBG[gk]}</span><b>${gsum(gk,ks)}</b></div>`).join("");
+  const cols=["ana","p1","p2","p3"].map(k=>kcol(KB.find(x=>x.k===k),g[k],ok,R,rc)).join("")+kdisp(g,ok,rc,colz);
   const nf=R.L.filter(ok).length;
   return `<section class="kb" aria-labelledby="kb-t"><div><h2 class="sech" id="kb-t">Quadro da esteira</h2><p class="small muted kb-p">Cada card é um Canvas, na etapa em que está; o número no alto é o valor ajustado, de 0 a 100. ${S.podeEscrever?"Arraste um card entre a carteira e a lista de reserva para abrir o registro da decisão: nada é gravado antes da confirmação.":"Você tem acesso só de leitura."}</p></div>
    <div class="kb-bar"><input type="search" data-q="quadro" id="kbq" placeholder="Buscar por código ou nome" value="${esc(LOC.q.quadro||"")}" aria-label="Buscar projeto no quadro">
      <div class="kb-mf" role="group" aria-label="Filtrar por missão"><button type="button" data-kbm="" aria-pressed="${!fm}">Todas as missões</button>${MK.map(m=>`<button type="button" data-kbm="${m}" aria-pressed="${fm===m}" title="${esc(misNome(m))}"><i class="sw" style="background:var(--${m==="T"?"mt":m.toLowerCase()})"></i>${m==="T"?"Transversal":"Missão "+m.slice(1)}</button>`).join("")}</div>
      ${q||fm?`<span class="small muted" role="status">${qtd(nf,"projeto encontrado","projetos encontrados")}</span>`:""}</div>
-   <div class="kb-scroll" tabindex="0" role="region" aria-label="Quadro da esteira, com rolagem horizontal"><div class="kb-board">${board}</div></div></section>`; }
-/* colunas recolhidas: por padrão, as duas que não disputam recurso novo */
+   <div class="kb-scroll" role="region" aria-label="Quadro da esteira"><div class="kb-board">${heads}<span class="kb-tline" aria-hidden="true"><b>teto · R$ ${mi(R.teto)} mi</b></span>${cols}</div></div></section>`; }
+/* seções recolhidas da coluna "Fora da disputa": por padrão, as duas que não disputam recurso novo */
 const kbFechadas=()=>Array.isArray(LOC.kbcol)?LOC.kbcol:["nao","sem"];
 const alvoOk=(de,para)=>(["p1","p2"].includes(de)&&para==="p3")||(de==="p3"&&["p1","p2"].includes(para));
 function ligarQuadro(M,R){ const B=M.querySelector(".kb-board"); if(!B) return;
@@ -2326,8 +2332,8 @@ function vPainel(M,banner){
   M.querySelectorAll("[data-kbm]").forEach(b=>b.onclick=()=>{ LOC.kbm=b.dataset.kbm; render(); });
   M.querySelectorAll("[data-kbt]").forEach(b=>b.onclick=()=>{ const k=b.dataset.kbt, s=new Set(kbFechadas()); s.has(k)?s.delete(k):s.add(k); LOC.kbcol=[...s]; render(); setTimeout(()=>{ const n=document.querySelector(`[data-kbt="${k}"]`); if(n) n.focus(); },0); });
   M.querySelectorAll("[data-fsai]").forEach(b=>b.onclick=()=>{ const k=b.dataset.fsai; if(kbFechadas().includes(k)){ LOC.kbcol=kbFechadas().filter(x=>x!==k); render(); }
-    const el=document.querySelector(`.kb-col[data-col="${k}"]`); if(!el) return; const lento=!matchMedia("(prefers-reduced-motion: reduce)").matches;
-    el.scrollIntoView({behavior:lento?"smooth":"auto",block:"nearest",inline:"center"}); el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash"); const f=el.querySelector(".kc2,.kb-tg"); if(f) f.focus({preventScroll:true}); });
+    const el=document.querySelector(`.kb-board [data-col="${k}"]`); if(!el) return; const lento=!matchMedia("(prefers-reduced-motion: reduce)").matches;
+    el.scrollIntoView({behavior:lento?"smooth":"auto",block:"nearest",inline:"center"}); el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash"); const f=el.querySelector(".kc2,.kb-subh"); if(f) f.focus({preventScroll:true}); });
   if($("teto")){ $("teto").oninput=e=>{ LOC.teto=+e.target.value; $("tetoTxt").textContent=`R$ ${mi(somaP()*LOC.teto/100)} mi, ${LOC.teto}% dos pedidos`; }; $("teto").onchange=()=>render(); }
   M.querySelectorAll("[data-tp]").forEach(b=>b.onclick=()=>{ LOC.teto=+b.dataset.tp; render(); });
   const regDec=(l,dec,motivo,resp)=>gravar("decisoes/"+l.c.code,{code:l.c.code,decisao:dec,rec:decisaoDe(l).rec,motivo:motivo||"",resp:resp||"",relev:(S.dec[l.c.code]||{}).relev||"",contest:(S.dec[l.c.code]||{}).contest||"",uid:S.uid,ts:new Date().toISOString()},null);
