@@ -418,27 +418,6 @@ tr.click{cursor:pointer} tr.click:hover td{background:var(--accent-soft)}
 .kpis b{font:600 28px/36px var(--font);color:var(--ink)}
 .kpis .bad-t{color:var(--bad);font-weight:600}
 @media (max-width:700px){.kpis{grid-template-columns:1fr}.kpis>div{border-left:0;border-top:1px solid var(--line)}.kpis>div:first-child{border-top:0}}
-.fun{display:grid;gap:4px}
-.fl{display:flex;justify-content:center}
-.fbar{display:flex;align-items:center;justify-content:center;gap:var(--s3);min-width:max-content;min-height:44px;padding:0 var(--s6);color:#fff;font:400 14px/20px var(--font);clip-path:polygon(0 0,100% 0,calc(100% - 14px) 100%,14px 100%);white-space:nowrap}
-.fbar b{font:600 20px/1 var(--font)}
-.board{display:grid;grid-template-columns:repeat(7,minmax(164px,1fr));gap:var(--s2);overflow-x:auto;padding-bottom:var(--s2);align-items:stretch}
-.col{background:var(--sunk);border-radius:var(--r-md);padding:var(--s2);display:flex;flex-direction:column;gap:var(--s2);min-width:0}
-.colh{display:grid;gap:0;padding:var(--s2) var(--s2) var(--s1)}
-.colh{min-height:48px;align-content:start}
-.colh .t{display:flex;align-items:flex-start;gap:var(--s2);font:500 14px/20px var(--font);color:var(--ink)}
-.colh .t::before{margin-top:6px}
-.colh .t::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--cc);flex:none}
-.colh .t span{margin-left:auto;font-size:12px;color:var(--ink-3);font-weight:500}
-.colh .tiny{padding-left:16px;color:var(--ink-3)}
-.cards{display:grid;gap:var(--s2);align-content:start}
-.kc{all:unset;box-sizing:border-box;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm);padding:var(--s3);display:grid;gap:var(--s1)}
-.kc:hover{border-color:var(--accent)} .kc:focus-visible{outline:2px solid var(--accent)}
-.kc .kh{display:flex;align-items:center;gap:var(--s2);font:600 12px/16px var(--font);color:var(--ink)}
-.kc .kv{margin-left:auto;font:600 13px/16px var(--font);color:var(--accent)}
-.kc .kn{font-size:13px;line-height:18px;color:var(--ink);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.kc .ks{font-size:12px;line-height:16px;color:var(--ink-3);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.col .tiny.muted[style]{padding:var(--s2)!important}
 .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:var(--s5)}
 .mbar{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(120px,1fr) 96px;gap:var(--s4);align-items:center;min-height:32px;font-size:13px;line-height:18px}
 .mbar>span:first-child{display:inline-flex;gap:var(--s2);align-items:flex-start;min-width:0}
@@ -451,12 +430,12 @@ tr.click{cursor:pointer} tr.click:hover td{background:var(--accent-soft)}
 .rob>.small{margin-top:calc(-1*var(--s2))}
 .rlist{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden}
 .rob.fronteira .rlist{border-color:var(--yellow-line);background:color-mix(in srgb,var(--yellow) 5%,var(--surface))}
-.rrow{all:unset;box-sizing:border-box;width:100%;cursor:pointer;display:grid;grid-template-columns:auto minmax(0,1fr) minmax(160px,280px) 52px;gap:var(--s4);align-items:center;min-height:52px;padding:var(--s2) var(--s5);border-bottom:1px solid var(--line)}
+.rrow{all:unset;box-sizing:border-box;width:100%;cursor:pointer;display:grid;grid-template-columns:32px minmax(0,1fr) minmax(160px,280px) 52px;gap:var(--s4);align-items:center;min-height:52px;padding:var(--s2) var(--s5);border-bottom:1px solid var(--line)}
 .rrow:last-child{border-bottom:0} .rrow:hover{background:var(--accent-soft)}
 .rn{font-size:14px;line-height:20px;color:var(--ink)}
 .rn .tiny{display:block}
 .rtrack{position:relative;height:10px;display:flex;gap:2px}
-.rtrack .z1,.rtrack .z3{flex:10;background:var(--sunk)} .rtrack .z2{flex:80;background:transparent;border-top:1px dashed var(--line-2);border-bottom:1px dashed var(--line-2)}
+.rtrack .z1,.rtrack .z3{flex:10;background:var(--sunk)} .rtrack .z2{flex:80;background:transparent;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .rtrack .z1{border-radius:5px 0 0 5px} .rtrack .z3{border-radius:0 5px 5px 0}
 .rtrack b{position:absolute;top:-2px;width:14px;height:14px;border-radius:50%;background:var(--accent);transform:translateX(-50%);box-shadow:0 0 0 2px var(--surface)}
 .rf{font:600 14px/20px var(--font);text-align:right;color:var(--ink)}
@@ -527,7 +506,7 @@ tr.click{cursor:pointer} tr.click:hover td{background:var(--accent-soft)}
 .curva .cb.out{opacity:.45}
 .curva .cb:hover,.curva .cb:focus-visible{opacity:1;stroke:var(--ink);stroke-width:2;outline:none}
 .curva .cbl{font:600 11px var(--font);fill:var(--ink-2)}
-.curva .gx{stroke:var(--line);stroke-dasharray:2 4}
+.curva .gx{stroke:var(--line)}
 .curva .base{stroke:var(--line-2)}
 .curva .ax{font:400 11px var(--font);fill:var(--ink-3)}
 .curva .teto{stroke:var(--ink);stroke-width:2}
@@ -871,6 +850,186 @@ h1:focus{outline:none}
 .av-idx .row[aria-disabled="true"]{cursor:default;opacity:.72}
 .av-idx .row[aria-disabled="true"]:hover{background:transparent}.av-idx .row[aria-disabled="true"]:hover .nm{color:var(--ink)}
 
+
+/* ---------- Diretoria Executiva v1.11: dica, balança, funil, quadro, composição, valor e custo, cenários ---------- */
+.vtip{position:fixed;z-index:70;pointer-events:none;max-width:320px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm);box-shadow:0 8px 24px rgba(15,20,36,.16);padding:var(--s2) var(--s3);display:grid;gap:2px;font:400 12px/16px var(--font);color:var(--ink-3)}
+.vtip>b{font:500 13px/18px var(--font);color:var(--ink);margin-bottom:2px}
+.vtip>div{display:flex;gap:6px;align-items:baseline}
+.vtip strong{font:600 13px/18px var(--font);color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap}
+/* balança */
+.bseg.p2{background:#7b90ff}
+.bmeio{position:absolute;top:-4px;bottom:-4px;border-left:1px solid var(--ink-3)}
+.bmeio b{position:absolute;top:-18px;left:0;transform:translateX(-50%);font:500 11px/16px var(--font);color:var(--ink-3);white-space:nowrap}
+.blg{display:flex;flex-wrap:wrap;gap:var(--s1) var(--s4);font-size:12px;line-height:16px;color:var(--ink-2);margin-top:calc(-1*var(--s2))}
+.blg span{display:inline-flex;gap:6px;align-items:center} .blg span::before{content:"";width:14px;height:8px;border-radius:2px;background:var(--accent)}
+.blg .p2::before{background:#7b90ff} .blg .dv::before{background:repeating-linear-gradient(135deg,var(--yellow) 0 3px,#f2c900 3px 6px)} .blg .tt::before{width:2px;height:12px;background:var(--ink);border-radius:0}
+.bnums .bsub span{white-space:nowrap}
+/* funil */
+.fn2{display:grid;gap:var(--s3)}
+.fn2-h{display:flex;flex-wrap:wrap;gap:var(--s3) var(--s5);align-items:flex-start;justify-content:space-between}
+.fn2-h .small{max-width:72ch;margin-top:var(--s1)}
+.fn2-l{list-style:none;margin:0;padding:0;display:grid}
+.fn2-r{display:grid;grid-template-columns:minmax(190px,232px) minmax(0,1fr) 128px;column-gap:var(--s5);row-gap:var(--s2);align-items:center;padding:var(--s3) 0;border-top:1px solid var(--line)}
+.fn2-r:first-child{border-top:0}
+.fn2-s{display:flex;gap:var(--s3);align-items:center;min-width:0}
+.fn2-i{flex:none;width:24px;height:24px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font:600 12px/1 var(--font)}
+.fn2-t{display:grid;min-width:0} .fn2-t b{font:500 14px/20px var(--font);color:var(--ink)} .fn2-t span{font-size:12px;line-height:16px;color:var(--ink-3)}
+.fn2-bar{display:flex;height:24px;min-width:0}
+.fn2-k{background:var(--accent);border-radius:0 4px 4px 0;min-width:2px}
+.fn2-g{background:var(--line);border-radius:0 4px 4px 0;margin-left:2px} .fn2-g.so{margin-left:0}
+.fn2-v{display:grid;justify-items:end;text-align:right} .fn2-v b{font:600 18px/24px var(--font);color:var(--ink);white-space:nowrap} .fn2-v span{font-size:12px;line-height:16px;color:var(--ink-3);white-space:nowrap}
+.fn2-o{grid-column:2/4;display:flex;flex-wrap:wrap;gap:var(--s1) var(--s2);align-items:center}
+.fn2-o>.tiny{margin-right:var(--s1)}
+.fsai{display:inline-flex;align-items:center;gap:6px;min-height:28px;padding:0 10px;border:1px solid var(--line);border-radius:var(--pill);background:var(--surface);font:500 12px/16px var(--font);color:var(--ink-2);cursor:pointer}
+.fsai:hover{border-color:var(--accent);color:var(--accent)} .fsai i{width:8px;height:8px;border-radius:50%;flex:none} .fsai i.dvsw{background:var(--yellow);box-shadow:0 0 0 1px var(--yellow-line)}
+@media (max-width:760px){.fn2-r{grid-template-columns:minmax(0,1fr) auto}.fn2-bar{grid-column:1/-1;grid-row:2}.fn2-o{grid-column:1/-1}}
+/* quadro da esteira */
+.kb{display:grid;gap:var(--s3)}
+.kb-p{max-width:80ch;margin-top:var(--s1)}
+.kb-bar{display:flex;flex-wrap:wrap;gap:var(--s2) var(--s4);align-items:center}
+.kb-bar input[type=search]{width:260px;min-height:var(--h-sm);font-size:14px}
+.kb-mf{display:flex;flex-wrap:wrap;gap:var(--s1)}
+.kb-mf button{display:inline-flex;align-items:center;gap:6px;min-height:var(--h-sm);padding:0 12px;border:1px solid var(--line-2);border-radius:var(--pill);background:var(--surface);font:500 13px/18px var(--font);color:var(--ink-2);cursor:pointer}
+.kb-mf button:hover{border-color:var(--accent);color:var(--accent)}
+.kb-mf button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.kb-mf .sw{width:8px;height:8px;border-radius:2px;flex:none}
+.kb-mf button[aria-pressed="true"] .sw{box-shadow:0 0 0 1.5px var(--accent-ink)}
+.kb-scroll{overflow-x:auto;padding:var(--s1) 2px var(--s3);scroll-snap-type:x proximity;scroll-padding-inline:2px}
+.kb-scroll:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:var(--r-sm)}
+.kb-board{display:flex;gap:var(--s5);align-items:flex-start;width:max-content;padding-top:var(--s5)}
+.kb-grp{display:grid;gap:var(--s2);align-content:start;position:relative}
+.kb-grph{display:flex;gap:var(--s3);align-items:baseline;justify-content:space-between;padding:0 2px 6px;border-bottom:2px solid var(--line)}
+.kb-grph span{font:500 12px/16px var(--font);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);white-space:nowrap}
+.kb-grph b{font:500 12px/16px var(--font);color:var(--ink-2);white-space:nowrap}
+.kb-grp.cart .kb-grph{border-bottom-color:var(--accent)} .kb-grp.cart .kb-grph span{color:var(--accent)}
+.kb-grp.res .kb-grph{border-bottom-color:var(--yellow-line)}
+.kb-grp.res{padding-left:var(--s5);border-left:2px solid var(--ink);margin-left:calc(-1*var(--s2))}
+.kb-teto{position:absolute;left:-1px;top:calc(-1*var(--s5));transform:translateX(-50%);font:600 12px/16px var(--font);color:var(--ink);white-space:nowrap;background:var(--paper);padding:0 6px}
+.kb-cols{display:flex;gap:var(--s3);align-items:flex-start}
+.kb-col{width:272px;flex:none;background:var(--sunk);border-radius:var(--r-md);display:flex;flex-direction:column;max-height:min(74vh,700px);scroll-snap-align:start;transition:box-shadow .12s,opacity .12s,background-color .12s}
+.kb-colh{display:flex;align-items:center;gap:var(--s2);padding:var(--s2) var(--s2) 0 var(--s3);min-height:40px}
+.kb-colh h3{font:500 14px/20px var(--font);color:var(--ink);flex:1;min-width:0}
+.kb-dot{width:8px;height:8px;border-radius:50%;background:var(--cc);flex:none}
+.kb-n{font:600 12px/16px var(--font);color:var(--ink-2);background:var(--surface);border-radius:var(--pill);padding:2px 8px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.kb-tg{flex:none;width:28px;height:28px;border:0;border-radius:var(--r-sm);background:transparent;color:var(--ink-3);display:grid;place-items:center;cursor:pointer;padding:0}
+.kb-tg:hover{background:var(--surface);color:var(--accent)} .kb-tg:focus-visible{outline:2px solid var(--accent)}
+.kb-sum{padding:0 var(--s3) 0 calc(var(--s3) + 16px);font-size:12px;line-height:16px;color:var(--ink-3)}
+.kb-cards{display:grid;gap:var(--s2);align-content:start;padding:var(--s2);overflow-y:auto;min-height:64px;overscroll-behavior:contain}
+.kb-empty{font-size:12px;line-height:16px;color:var(--ink-3);padding:var(--s2) var(--s1)}
+.kb-col.fech{width:44px}
+.kb-exp{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:var(--s2);width:100%;padding:var(--s3) 0;min-height:220px;border-radius:var(--r-md)}
+.kb-exp:hover{background:var(--accent-soft)} .kb-exp:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.kb-exp b{font:600 12px/16px var(--font);color:var(--ink-2)}
+.kb-exp span{writing-mode:vertical-rl;transform:rotate(180deg);font:500 13px/18px var(--font);color:var(--ink);white-space:nowrap}
+.kc2{background:var(--surface);border-radius:var(--r-sm);box-shadow:0 1px 1px rgba(15,20,36,.08),0 0 0 1px var(--line);padding:var(--s2) var(--s3) var(--s3);display:grid;gap:6px;cursor:pointer;outline:none;transition:box-shadow .12s}
+.kc2:hover{box-shadow:0 2px 6px rgba(15,20,36,.10),0 0 0 1px var(--accent)}
+.kc2:focus-visible{box-shadow:0 0 0 2px var(--accent)}
+.kc2[draggable="true"]{cursor:grab} .kc2[draggable="true"]:active{cursor:grabbing}
+.kc2.is-drag{opacity:.4}
+.kc2.dv{background:color-mix(in srgb,var(--yellow) 8%,var(--surface));box-shadow:0 1px 1px rgba(15,20,36,.08),0 0 0 1px var(--yellow-line)}
+.kc2-h{display:flex;align-items:center;gap:var(--s2);min-height:22px}
+.kc2-c{font:600 12px/16px var(--font);color:var(--ink-2)}
+.kc2-v{margin-left:auto;font:600 14px/18px var(--font);color:var(--accent);font-variant-numeric:tabular-nums}
+.kc2-n{font:500 13px/18px var(--font);color:var(--ink);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.kc2-b{display:flex;flex-wrap:wrap;gap:4px}
+.kb-b{display:inline-flex;align-items:center;gap:4px;min-height:20px;padding:0 6px;border-radius:var(--r-xs);background:var(--sunk);font:500 11px/16px var(--font);color:var(--ink-2)}
+.kb-b.rb-dentro{background:var(--accent-soft);color:var(--accent)} .kb-b.rb-fronteira{background:var(--yellow-soft);color:var(--yellow-ink)} .kb-b.rb-fora{background:var(--sunk);color:var(--ink-3)}
+.kb-b.bad{background:var(--bad-soft);color:var(--bad)}
+.kb-b .dots{gap:3px} .kb-b .dots i{width:6px;height:6px}
+.kc2-f{display:flex;border-top:1px solid var(--line);padding-top:6px}
+.kb-st{display:inline-flex;align-items:center;gap:6px;font:500 11px/16px var(--font);color:var(--ink-3)}
+.kb-st::before{content:"";width:8px;height:8px;border-radius:50%;border:1.5px solid var(--line-2);box-sizing:border-box}
+.kb-st.ok{color:var(--good)} .kb-st.ok::before{background:var(--good);border-color:var(--good)}
+.kb-st.dv{color:var(--yellow-ink)} .kb-st.dv::before{background:var(--yellow);border-color:var(--yellow-line)}
+.kb-board.is-dragging .kb-col.no-drop{opacity:.5}
+.kb-board.is-dragging .kb-col.can-drop{box-shadow:inset 0 0 0 2px var(--accent-line)}
+.kb-col.over{box-shadow:inset 0 0 0 2px var(--accent)!important;background:var(--accent-soft)}
+.kb-col.flash{animation:kbflash 1.6s ease-out}
+@keyframes kbflash{0%,45%{box-shadow:inset 0 0 0 2px var(--accent);background:var(--accent-soft)}100%{box-shadow:inset 0 0 0 0 transparent}}
+@media (prefers-reduced-motion:reduce){.kb-col.flash{animation:none;box-shadow:inset 0 0 0 2px var(--accent)}.kc2,.kb-col{transition:none}}
+@media (max-width:600px){.kb-col{width:252px}.kb-bar input[type=search]{width:100%}}
+/* composição */
+.cmp{display:grid;gap:var(--s5)}
+.cmp-bar{display:flex;flex-wrap:wrap;gap:var(--s3);align-items:center}
+.vz{width:100%;min-width:0}
+.vz svg{display:block;overflow:visible;max-width:100%}
+.tmap .tg{fill:var(--sunk)} .tmap .tgl{font:500 12px var(--font);fill:var(--ink)} .tmap .tgr{font:600 12px var(--font);fill:var(--ink-2)}
+.tmap .tt{cursor:pointer;stroke:transparent;stroke-width:2} .tmap .tt:hover,.tmap .tt:focus-visible{outline:none;stroke:var(--ink)}
+.tmap .tl1{font:600 12px var(--font);fill:#fff;pointer-events:none} .tmap .tl2{font:400 11px var(--font);fill:#fff;opacity:.9;pointer-events:none}
+.cbs{display:grid;gap:var(--s3)}
+.cb-r{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(140px,1fr) minmax(160px,220px);gap:var(--s2) var(--s5);align-items:center;padding-bottom:var(--s3);border-bottom:1px solid var(--line)}
+.cb-r:last-child{border-bottom:0;padding-bottom:0}
+.cb-l{display:flex;gap:var(--s2);align-items:flex-start;font-size:13px;line-height:18px;color:var(--ink);min-width:0}
+.cb-t{position:relative;height:14px}
+.cb-t i{position:absolute;left:0;top:0;bottom:0;border-radius:0 4px 4px 0}
+.cb-p{background:var(--line)} .cb-f{background:var(--accent)}
+.cb-v{display:grid;font-size:12px;line-height:16px;color:var(--ink-3)} .cb-v b{font:600 14px/20px var(--font);color:var(--ink)}
+@media (max-width:760px){.cb-r{grid-template-columns:1fr}}
+/* perfil das notas */
+.hm-w{overflow-x:auto;margin-inline:calc(-1*var(--pad));border-top:1px solid var(--line)}
+.hm-w:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.hm{border-collapse:separate;border-spacing:0;width:100%;font-size:13px;line-height:18px}
+.hm th,.hm td{padding:6px 6px;border-bottom:1px solid var(--line);text-align:center;vertical-align:middle}
+.hm thead th{font:500 11px/14px var(--font);color:var(--ink-3);background:var(--surface);vertical-align:bottom}
+.hm thead .hm-k{width:60px;max-width:68px;hyphens:auto}
+.hm thead .hm-g{font:600 11px/14px var(--font);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+.hm .hm-h0,.hm th[scope=row]{text-align:left;padding-left:var(--pad)}
+.hm th[scope=row]{font-weight:400;min-width:240px;max-width:320px}
+.hm-pb{all:unset;cursor:pointer;display:flex;gap:var(--s2);align-items:flex-start;font-size:13px;line-height:18px;color:var(--ink)}
+.hm-pb>span{display:grid} .hm-pb b{font-weight:600} .hm-pb:hover{color:var(--accent)} .hm-pb:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.hm td.hm-c{position:relative;min-width:42px;font:600 12px/16px var(--font);font-variant-numeric:tabular-nums;color:var(--ink);border:2px solid var(--surface);border-radius:4px}
+.hm .gs{border-left:10px solid var(--surface)!important}
+.hm-c.l1{background:color-mix(in srgb,var(--accent) 8%,var(--surface))} .hm-c.l2{background:color-mix(in srgb,var(--accent) 22%,var(--surface))} .hm-c.l3{background:color-mix(in srgb,var(--accent) 40%,var(--surface))}
+.hm-c.l4{background:color-mix(in srgb,var(--accent) 64%,var(--surface));color:#fff!important} .hm-c.l5{background:color-mix(in srgb,var(--accent) 88%,var(--surface));color:#fff!important}
+.hm-c.neg{background:var(--bad-soft);color:var(--bad)!important} .hm-c.l0{background:var(--surface);color:var(--ink-3)}
+.hm-i{position:absolute;top:3px;right:3px;width:6px;height:6px;border-radius:50%;background:var(--yellow);box-shadow:0 0 0 1px var(--yellow-ink)}
+.hm-v b{font:600 14px/20px var(--font);color:var(--ink)} .hm-x{white-space:nowrap;color:var(--ink-2)}
+.hm-lg{display:flex;flex-wrap:wrap;gap:4px;align-items:center;font-size:12px;line-height:16px;color:var(--ink-3)}
+.hm-lg .hm-c{display:inline-grid;place-items:center;width:26px;height:22px;border-radius:4px;font:600 11px/1 var(--font);color:var(--ink)}
+.hm-lgi{display:inline-flex;align-items:center;gap:6px;margin-left:var(--s3);position:relative} .hm-lgi .hm-i{position:static}
+/* curva, valor e custo, cenários */
+.curva .gy,.disp .gy,.cen .gy{stroke:var(--line);stroke-width:1}
+.disp .base,.curva .base{stroke:var(--line-2)}
+.disp .ax,.cen .ax{font:400 11px var(--font);fill:var(--ink-3)}
+.disp .pt{stroke:var(--surface);stroke-width:2}
+.disp .pt.in{fill:var(--accent)} .disp .pt.out{fill:var(--ink-3)} .disp .pt.dv{fill:var(--yellow);stroke:var(--yellow-ink);stroke-width:1.5}
+.disp .hit,.cen .hit{fill:transparent;cursor:pointer} .cen .hit{cursor:default}
+.disp .hit:focus-visible{outline:none;stroke:var(--ink);stroke-width:2}
+.disp .ray{stroke:var(--ink);stroke-width:1.5}
+.disp .rayl{font:500 11px var(--font);fill:var(--ink)}
+.disp .pl{font:600 11px var(--font);fill:var(--ink-2);pointer-events:none}
+.lg.out::before{background:var(--accent);opacity:.45}
+.lg.pin::before{background:var(--accent);border-radius:50%} .lg.pout::before{background:var(--ink-3);border-radius:50%} .lg.pdv::before{background:var(--yellow);border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--yellow-ink)}
+.lg.ray::before{height:2px;width:16px;border-radius:0;background:var(--ink)}
+.cen-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:var(--s4)}
+.cen-c{border:1px solid var(--line);border-radius:var(--r-md);padding:var(--s3) var(--s4);display:grid;gap:2px;min-width:0}
+.cen-c h3{font:500 14px/20px var(--font)} .cen-c p{font-size:12px;line-height:16px;color:var(--ink-3)} .cen-c p b{font:600 20px/28px var(--font);color:var(--ink);margin-right:2px}
+.cen .ln{fill:none;stroke:var(--accent);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.cen .cur{stroke:var(--ink-3);stroke-width:1} .cen .dot{fill:var(--accent);stroke:var(--surface);stroke-width:2}
+.cen-t summary{cursor:pointer;font:500 14px/20px var(--font);color:var(--accent);padding:var(--s2) 0}
+.cen-t[open] summary{margin-bottom:var(--s2)}
+/* robustez */
+.rsum-c{display:grid;gap:var(--s3)}
+.rsum{display:flex;gap:2px;height:28px}
+.rsum span{display:flex;align-items:center;padding:0 10px;border-radius:4px;font:600 12px/16px var(--font);min-width:4px}
+.rsum .dentro{background:var(--accent);color:#fff} .rsum .fronteira{background:var(--yellow);color:var(--ink)} .rsum .fora{background:var(--line-2);color:var(--ink)}
+.rsum-lg{display:flex;flex-wrap:wrap;gap:var(--s1) var(--s5);font-size:13px;line-height:20px;color:var(--ink-2)}
+.rsum-lg span{display:inline-flex;align-items:center;gap:6px} .rsum-lg span::before{content:"";width:12px;height:12px;border-radius:3px} .rsum-lg b{color:var(--ink)}
+.rsum-lg .dentro::before{background:var(--accent)} .rsum-lg .fronteira::before{background:var(--yellow);box-shadow:inset 0 0 0 1px var(--yellow-line)} .rsum-lg .fora::before{background:var(--line-2)}
+.rhead{display:grid;grid-template-columns:32px minmax(0,1fr) minmax(160px,280px) 52px;gap:var(--s4);align-items:end;min-height:32px;padding:var(--s2) var(--s5) 4px;border-bottom:1px solid var(--line);font:500 11px/16px var(--font);color:var(--ink-3)}
+.rhead>span:last-child{text-align:right}
+.rax{position:relative;height:16px} .rax i{position:absolute;transform:translateX(-50%);font-style:normal;white-space:nowrap}
+.rax i:first-child{transform:none} .rax i:last-child{transform:translateX(-100%)}
+@media (max-width:640px){.rhead{display:none}}
+/* deliberação */
+.dprog{display:grid;gap:var(--s3)}
+.dprog-h{display:flex;flex-wrap:wrap;gap:var(--s2) var(--s4);align-items:baseline;justify-content:space-between}
+.dprog-h b{font-weight:600;color:var(--ink)}
+.dprog-t{display:flex;gap:2px;height:8px} .dprog-t i{border-radius:4px;min-width:4px}
+.dprog-t .ok{background:var(--good)} .dprog-t .dv{background:var(--yellow)} .dprog-t .pe{background:var(--line)}
+.dprog-lg{display:flex;flex-wrap:wrap;gap:var(--s1) var(--s5);font-size:12px;line-height:16px;color:var(--ink-2)}
+.dprog-lg span{display:inline-flex;gap:6px;align-items:center} .dprog-lg span::before{content:"";width:12px;height:8px;border-radius:4px}
+.dprog-lg .ok::before{background:var(--good)} .dprog-lg .dv::before{background:var(--yellow)} .dprog-lg .pe::before{background:var(--line)}
 </style>
 
 <header class="hd"><a class="skip" href="javascript:void 0" id="skip">Ir para o conteúdo</a><div class="hdi">
@@ -1792,12 +1951,33 @@ function vNtWork(M,banner,c){
 }
 
 /* ================= 4. carteira e deliberação ================= */
-const COLS=[{k:"nao",t:"Fora pelos filtros",cor:"var(--bad)"},{k:"sem",t:"Sem recurso novo",cor:"var(--ink-3)"},{k:"ana",t:"Em pontuação",cor:"var(--warn)"},{k:"rep",t:"Reprovados na pontuação",cor:"var(--m2)"},
- {k:"p3",t:"Lista de reserva",cor:"var(--m6)"},{k:"p2",t:"Prioridade 2",cor:"var(--cyan)"},{k:"p1",t:"Prioridade 1",cor:"var(--accent)"}];
+/* v1.11 (04/11/2026): quadro da esteira no estilo Trello, com arrastar e soltar para abrir o registro da decisão;
+   funil com as saídas de cada etapa; aba Composição (mapa de área, pedido e carteira, perfil das notas);
+   valor e custo; cenários do teto em pequenos múltiplos; robustez e deliberação com progresso.
+   Os gráficos são desenhados na largura real do contêiner (montarGraficos), para o texto não encolher no celular. */
+const qtd=(n,s,p)=>`${n} ${n===1?s:p}`;
+const tipA=(t,r)=>`data-tip="${esc(JSON.stringify({t,r}))}"`;
+const KB=[
+ {k:"ana",g:"an",t:"Em análise",cor:"var(--warn)",vazio:"Nenhum projeto aguardando filtros ou leituras."},
+ {k:"p1",g:"cart",t:"Prioridade 1",cor:"var(--accent)",vazio:"Aparece quando houver projetos aprovados na pontuação."},
+ {k:"p2",g:"cart",t:"Prioridade 2",cor:"#7b90ff",vazio:"Nenhum projeto na segunda metade do teto."},
+ {k:"p3",g:"res",t:"Lista de reserva",cor:"var(--yellow)",vazio:"Nenhum projeto aprovado ficou fora do teto."},
+ {k:"rep",g:"disp",t:"Reprovados na pontuação",cor:"var(--ink-3)",vazio:"Nenhum projeto reprovado na porta de pontuação."},
+ {k:"nao",g:"disp",t:"Fora pelos filtros",cor:"var(--bad)",vazio:"Nenhum projeto saiu nos filtros de entrada."},
+ {k:"sem",g:"disp",t:"Seguem sem recurso novo",cor:"var(--line-2)",vazio:"Nenhum projeto sem pedido de recurso novo."}];
+const KBG={an:"Pendências",cart:"Na carteira",res:"Fora do teto",disp:"Fora da disputa por recurso novo"};
+const CRC={K1:"Contrato de Gestão",K2:"Evidência",K3:"Rede e escala",N1:"Aderência",N2:"Cadeia e elo",N3:"Soberania",N4:"Adensamento",N5:"Instrumento",S1:"Emprego",S2:"Emissões",X1:"Difusão",X2:"Inteligência",X3:"Governança",X4:"Qualificação"};
+const CHEV=`<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M9 3.5 5.5 7 9 10.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+let DRWPRE=null, VZD={}, DRAG=null;
+/* escala com marcações redondas (1, 2, 2,5 ou 5 vezes uma potência de 10) */
+function nice(max,n){ if(!(max>0)) return {top:1,ticks:[0,1]}; const raw=max/(n||4), p=Math.pow(10,Math.floor(Math.log10(raw))), f=raw/p, s=(f<=1?1:f<=2?2:f<=2.5?2.5:f<=5?5:10)*p, top=Math.ceil(max/s-1e-9)*s, ticks=[];
+  for(let v=0;v<=top+s*1e-6;v+=s) ticks.push(Math.round(v*1e6)/1e6); return {top,ticks}; }
+const fmtM=v=>{ const r=Math.round(v*10)/10; return Number.isInteger(r)?String(r):nf1.format(r); };
+const somaN=ls=>ls.reduce((a,l)=>a+(+l.c.novos||0),0);
+/* coluna do quadro: as decisões registradas movem o card entre a carteira e a reserva */
 function colDe(l,R){ const s=l.sit; if(["Outro órgão","Incorporar","Reformular","Concluir ou Reformular"].includes(s)) return "nao"; if(s==="Segue sem recurso novo") return "sem";
-  if(s==="A responder"||!l.v) return "ana"; if(!l.v.passa) return "rep"; if(!l.cabe) return "p3"; return l.acc<=R.teto/2+1e-6?"p1":"p2"; }
-function subDe(l,k){ if(k==="nao"||k==="sem") return l.sit; if(k==="ana") return l.sit==="A responder"?"Filtros a responder":`${l.cons?l.cons.n:0} de 3 leituras`;
-  if(k==="rep") return "Não passou: "+l.v.mot.join(", "); if(k==="p3") return `Reserva nº ${l.reserva}`; return `${l.pos}º na fila, R$ ${mi(l.c.novos)} mi`; }
+  if(s==="A responder"||!l.v) return "ana"; if(!l.v.passa) return "rep";
+  const D=decisaoDe(l); if(D.dec!=="incluir") return "p3"; if(!l.cabe) return "p2"; return l.acc<=R.teto/2+1e-6?"p1":"p2"; }
 function robustez(R){ const L=R.L.filter(l=>l.v); if(!L.length) return {N:0,res:[]}; let sd=20271129; const rnd=()=>{ sd=(Math.imul(sd,1664525)+1013904223)>>>0; return sd/4294967296; };
   const N=400, cnt={}; L.forEach(l=>cnt[l.c.code]=0);
   for(let s=0;s<N;s++){ const bm={K:.8+.4*rnd(),N:.8+.4*rnd(),S:.8+.4*rnd(),X:.8+.4*rnd()}, teto=R.teto*(.85+.3*rnd());
@@ -1825,72 +2005,240 @@ function simTeto(R,teto){ let acc=0; const dentro=[]; for(const l of R.fila){ if
   const por={}; dentro.forEach(l=>por[misOf(l.c)]=1); const media=dentro.length?dentro.reduce((a,l)=>a+l.v.aj,0)/dentro.length:null;
   return {n:dentro.length,acc,media,semM:["M1","M2","M3","M4","M5","M6"].filter(m=>!por[m]).length}; }
 function carteiraFinal(R){ return R.L.filter(l=>l.v&&l.v.passa&&decisaoDe(l).dec==="incluir").sort((a,b)=>a.pos-b.pos); }
-function balanca(R){ const fin=carteiraFinal(R), tot=fin.reduce((a,l)=>a+(+l.c.novos),0), teto=R.teto, max=Math.max(teto,tot,1)*1.03;
+
+/* ---------- balança ---------- */
+function balanca(R){ const fin=carteiraFinal(R), tot=somaN(fin), teto=R.teto, max=Math.max(teto,tot,1)*1.03;
   const media=fin.length?fin.reduce((a,l)=>a+l.v.aj,0)/fin.length:null, por={}; fin.forEach(l=>por[misOf(l.c)]=1); const semM=["M1","M2","M3","M4","M5","M6"].filter(m=>!por[m]);
-  const desv=R.L.filter(l=>l.v&&l.v.passa&&decisaoDe(l).desvio).length, acima=tot>teto+1e-6;
+  const apr=R.L.filter(l=>l.v&&l.v.passa), regN=apr.filter(l=>S.dec[l.c.code]&&S.dec[l.c.code].ts).length, desv=apr.filter(l=>decisaoDe(l).desvio).length, acima=tot>teto+1e-6;
+  const kind=l=>decisaoDe(l).desvio?"dv":l.acc<=teto/2+1e-6?"p1":"p2", KN={p1:"Prioridade 1",p2:"Prioridade 2",dv:"incluído por decisão"};
   return `<section class="bal" aria-label="Balança da carteira">
     <div class="bal-h"><h2>Balança da carteira</h2><span class="small muted">${fin.length?"carteira recomendada, ajustada pelas decisões registradas":"a carteira aparece quando houver projetos aprovados na pontuação"}</span></div>
-    <div class="btrack" role="img" aria-label="Carteira de R$ ${mi(tot)} milhões para teto de R$ ${mi(teto)} milhões">
-      <div class="bfill" style="width:${tot/max*100}%">${fin.map(l=>{ const D=decisaoDe(l); return `<i class="bseg ${D.desvio?"dv":""}" style="flex:${+l.c.novos}" title="${esc(l.c.code)}: R$ ${mi(l.c.novos)} mi${D.desvio?" (incluído por desvio)":""}"></i>`; }).join("")}</div>
-      <span class="bteto" style="left:${teto/max*100}%"><b>teto</b></span></div>
+    <div class="btrack" role="img" aria-label="Carteira de R$ ${mi(tot)} milhões para um teto de R$ ${mi(teto)} milhões">
+      <div class="bfill" style="width:${tot/max*100}%">${fin.map(l=>{ const k=kind(l); return `<i class="bseg ${k}" style="flex:${+l.c.novos}" ${tipA(`${l.c.code} · ${l.c.nome}`,[[`R$ ${mi(l.c.novos)} mi`,"recurso novo"],[`${l.pos}º`,"na fila"],[KN[k],"situação"]])}></i>`; }).join("")}</div>
+      ${teto>0?`<span class="bmeio" style="left:${teto/2/max*100}%"><b>metade do teto</b></span><span class="bteto" style="left:${teto/max*100}%"><b>teto</b></span>`:""}</div>
+    ${fin.length?`<div class="blg" aria-hidden="true"><span class="p1">Prioridade 1</span><span class="p2">Prioridade 2</span>${fin.some(l=>kind(l)==="dv")?`<span class="dv">Incluído por decisão</span>`:""}<span class="tt">Teto</span></div>`:""}
     <dl class="bnums">
       <div><dt>Carteira</dt><dd class="${acima?"bad-t":""}">R$ ${mi(tot)} mi</dd><dd class="bsub">${acima?`acima do teto em R$ ${mi(tot-teto)} mi`:`folga de R$ ${mi(teto-tot)} mi`}</dd></div>
       <div><dt>Teto</dt><dd>R$ ${mi(teto)} mi</dd><dd class="bsub">${LOC.teto}% dos pedidos</dd></div>
-      <div><dt>Projetos</dt><dd>${fin.length}</dd><dd class="bsub">${fin.length?`${R.fila.length} aprovados na pontuação`:"nenhum ainda"}</dd></div>
+      <div><dt>Projetos</dt><dd>${fin.length}</dd><dd class="bsub">${R.fila.length?`de ${qtd(R.fila.length,"aprovado","aprovados")} na pontuação`:"nenhum aprovado ainda"}</dd></div>
       <div><dt>Nota média</dt><dd class="${media!=null&&media<60?"warn-t":""}">${media==null?"—":nf1.format(media)}</dd><dd class="bsub">meta de qualidade: 60</dd></div>
-      <div><dt>Missões sem recurso</dt><dd>${fin.length?semM.length:"—"}</dd><dd class="bsub">${fin.length&&semM.length?esc(semM.map(misNome).join("; ")):fin.length?"todas cobertas":"—"}</dd></div>
-      <div><dt>Desvios</dt><dd>${desv}</dd><dd class="bsub">cumprir ou explicar</dd></div>
+      <div><dt>Missões sem recurso</dt><dd>${fin.length?semM.length:"—"}</dd><dd class="bsub">${fin.length?(semM.length?semM.map(m=>`<span title="${esc(misNome(m))}">Missão ${m.slice(1)}</span>`).join(", "):"todas cobertas"):"—"}</dd></div>
+      <div><dt>Deliberação</dt><dd>${apr.length?`${regN} de ${apr.length}`:"—"}</dd><dd class="bsub">${apr.length?`decisões registradas · ${qtd(desv,"desvio","desvios")}`:"cumprir ou explicar"}</dd></div>
     </dl></section>`; }
-function curvaSVG(R,rc){ const F=R.fila; if(!F.length) return `<div class="empty-art"><b>A curva aparece quando houver projetos aprovados na pontuação.</b><span>Cada projeto vira uma barra: a largura é o recurso novo que pede, a altura é o valor que entrega por real. A linha do teto separa o que entra do que fica fora.</span></div>`;
-  const W=1000,H=300,pl=56,pr=16,pt=28,pb=40, tot=F.reduce((a,l)=>a+(+l.c.novos),0), span=Math.max(tot,R.teto)*1.02, rz=F.map(l=>l.razao).sort((a,b)=>a-b), med=rz[Math.floor(rz.length/2)], ytop=Math.min(rz[rz.length-1],Math.max(med*3,rz[Math.max(0,rz.length-2)])), ymax=ytop*1.12;
+
+/* ---------- funil com saídas ---------- */
+function funilHTML(R){ const m=LOC.fmed==="r"?"r":"n", L=R.L, ap=L.filter(l=>l.ok), comp=L.filter(l=>l.completo), apr=R.fila, cabe=apr.filter(l=>l.cabe), fin=carteiraFinal(R);
+  const ST=[
+   {t:"Canvas recebidos",ls:L,out:[]},
+   {t:"Passam nos filtros",ls:ap,out:[["nao","fora pelos filtros",L.filter(l=>colDe(l,R)==="nao")],["sem","seguem sem recurso novo",L.filter(l=>l.sit==="Segue sem recurso novo")],["ana","com filtros a responder",L.filter(l=>l.sit==="A responder")]]},
+   {t:"Com as três leituras",ls:comp,out:[["ana","com leituras incompletas",ap.filter(l=>!l.completo)]]},
+   {t:"Aprovados na pontuação",ls:apr,out:[["rep","reprovados na porta de pontuação",comp.filter(l=>l.v&&!l.v.passa)]]},
+   {t:"Cabem no teto",ls:cabe,out:[["p3","na lista de reserva",apr.filter(l=>!l.cabe)]]},
+   {t:"Carteira deliberada",ls:fin,out:[["p3","deixados fora por decisão",cabe.filter(l=>decisaoDe(l).dec!=="incluir")]],ent:apr.filter(l=>!l.cabe&&decisaoDe(l).dec==="incluir")}];
+  const vOf=ls=>m==="n"?ls.length:somaN(ls)/1e6, fmt=v=>m==="n"?String(v):`R$ ${nf1.format(v)} mi`, alt=ls=>m==="n"?`R$ ${mi(somaN(ls))} mi`:qtd(ls.length,"projeto","projetos");
+  const mx=Math.max(1e-9,...ST.map(s=>vOf(s.ls))), KC=Object.fromEntries(KB.map(x=>[x.k,x.cor])), cnt=ls=>m==="n"?String(ls.length):`R$ ${mi(somaN(ls))} mi`;
+  const rows=ST.map((s,i)=>{ const v=vOf(s.ls), pv=i?vOf(ST[i-1].ls):v, kw=v/mx*100, gw=Math.max(0,(pv-v)/mx*100), conv=i===0?"ponto de partida":pv>0?`${Math.round(v/pv*100)}% da etapa anterior`:"sem base na etapa anterior";
+    const chips=[...s.out.filter(o=>o[2].length).map(([k,t,ls])=>`<button type="button" class="fsai" data-fsai="${k}"><i style="background:${KC[k]}"></i>${cnt(ls)} ${esc(t)}</button>`),...(s.ent&&s.ent.length?[`<button type="button" class="fsai" data-fsai="p2"><i class="dvsw"></i>+${cnt(s.ent)} incluídos por decisão</button>`]:[])].join("");
+    return `<li class="fn2-r"><div class="fn2-s"><span class="fn2-i">${i+1}</span><span class="fn2-t"><b>${s.t}</b><span>${conv}</span></span></div>
+      <div class="fn2-bar" ${tipA(s.t,[[fmt(v),m==="n"?"projetos":"recursos novos"],[alt(s.ls),m==="n"?"recursos novos":"projetos"],...(i?[[conv,"conversão"]]:[])])}>${v>0?`<span class="fn2-k" style="width:${kw}%"></span>`:""}${gw>0.05?`<span class="fn2-g${v>0?"":" so"}" style="width:${gw}%"></span>`:""}</div>
+      <div class="fn2-v"><b>${fmt(v)}</b><span>${alt(s.ls)}</span></div>
+      ${chips?`<div class="fn2-o"><span class="tiny muted">${i===ST.length-1?"Ajustes da deliberação":"Saíram nesta etapa"}</span>${chips}</div>`:""}</li>`; }).join("");
+  return `<section class="card pad fn2" aria-labelledby="fn-t"><div class="fn2-h"><div><h2 class="sech" id="fn-t">Funil da seleção</h2><p class="small muted">Quantos seguem em cada etapa e onde os demais saíram. A faixa clara é o que ficou para trás em relação à etapa anterior. Clique numa saída para ver os projetos no quadro.</p></div>
+    <div class="seg sm" role="group" aria-label="Medida do funil"><button type="button" data-fm="n" aria-pressed="${m==="n"}">Projetos</button><button type="button" data-fm="r" aria-pressed="${m==="r"}">Recursos novos</button></div></div>
+    <ol class="fn2-l">${rows}</ol></section>`; }
+
+/* ---------- quadro da esteira (estilo Trello) ---------- */
+function kcard(l,k,rc){ const c=l.c, m=misOf(c), pass=!!(l.v&&l.v.passa), D=pass?decisaoDe(l):null, r=rc[c.code], reg=!!(D&&D.reg&&D.reg.ts), arr=pass&&S.podeEscrever, b=[];
+  if(k!=="sem") b.push(`<span class="kb-b">R$ ${mi(c.novos)} mi</span>`);
+  if(k==="p1"||k==="p2"||k==="p3"){ b.push(`<span class="kb-b">${D.desvio?(D.dec==="incluir"?"incluído por decisão":"deixado fora por decisão"):k==="p3"?`reserva nº ${l.reserva}`:`${l.pos}º na fila`}</span>`);
+    if(r) b.push(`<span class="kb-b rb-${r.cls}" title="Entra na carteira em ${Math.round(r.f*100)}% das simulações do teste de robustez">robustez ${Math.round(r.f*100)}%</span>`); }
+  else if(k==="rep") b.push(`<span class="kb-b">não passou: ${esc(l.v.mot.join(", "))}</span>`);
+  else if(k==="ana") b.push(l.sit==="A responder"?`<span class="kb-b">filtros: ${(c.eleg||[]).filter(Boolean).length} de 6</span>`:`<span class="kb-b"><span class="dots">${[0,1,2].map(i=>`<i class="${i<(l.cons?l.cons.n:0)?"on":""}"></i>`).join("")}</span>${l.cons?l.cons.n:0} de 3 leituras</span>`);
+  else if(k==="nao") b.push(`<span class="kb-b bad">${esc(l.sit)}</span>`);
+  else if(k==="sem") b.push(`<span class="kb-b">orçamento já comprometido</span>`);
+  const st=D?(D.desvio?`<span class="kb-st dv">Desvio registrado</span>`:reg?`<span class="kb-st ok">Decisão registrada</span>`:`<span class="kb-st">A deliberar</span>`):"";
+  return `<div class="kc2${D&&D.desvio?" dv":""}" role="button" tabindex="0" data-drw="${esc(c.code)}" data-kb="${k}"${arr?' draggable="true"':""} aria-label="${esc(c.nome)}, ${esc(c.code)}${l.v?`, valor ${nf1.format(l.v.aj)}`:""}. Abre o detalhe${arr?" e a decisão":""}.">
+    <div class="kc2-h">${mt(m)}<span class="kc2-c">${esc(c.code)}</span>${l.v?`<span class="kc2-v" title="Valor ajustado, de 0 a 100">${nf1.format(l.v.aj)}</span>`:""}</div>
+    <p class="kc2-n">${esc(c.nome)}</p><div class="kc2-b">${b.join("")}</div>${st?`<div class="kc2-f">${st}</div>`:""}</div>`; }
+function kcol(x,ls,ok,R,rc,fech){ const vis=ls.filter(ok), soma=somaN(ls);
+  if(fech) return `<section class="kb-col fech" data-col="${x.k}" style="--cc:${x.cor}"><button type="button" class="kb-exp" data-kbt="${x.k}" aria-expanded="false" aria-label="Expandir a coluna ${esc(x.t)}, ${qtd(ls.length,"projeto","projetos")}"><i class="kb-dot"></i><b>${vis.length<ls.length?`${vis.length} de ${ls.length}`:ls.length}</b><span>${esc(x.t)}</span></button></section>`;
+  const meta=["p1","p2","p3"].includes(x.k)?`<p class="kb-sum">R$ ${mi(soma)} mi${x.k!=="p3"&&R.teto>0?` · ${nf1.format(soma/R.teto*100)}% do teto`:""}</p>`:x.k==="ana"&&ls.length?`<p class="kb-sum">aguardam filtros ou leituras</p>`:"";
+  return `<section class="kb-col" data-col="${x.k}" style="--cc:${x.cor}" aria-label="${esc(x.t)}, ${qtd(ls.length,"projeto","projetos")}">
+    <header class="kb-colh"><i class="kb-dot"></i><h3>${esc(x.t)}</h3><span class="kb-n">${vis.length<ls.length?`${vis.length} de ${ls.length}`:ls.length}</span><button type="button" class="kb-tg" data-kbt="${x.k}" aria-expanded="true" aria-label="Recolher a coluna ${esc(x.t)}" title="Recolher a coluna">${CHEV}</button></header>${meta}
+    <div class="kb-cards">${vis.map(l=>kcard(l,x.k,rc)).join("")||`<p class="kb-empty">${ls.length?"Nenhum projeto com esse filtro.":esc(x.vazio)}</p>`}</div></section>`; }
+function quadroHTML(R,rc){ const q=(LOC.q.quadro||"").trim().toLowerCase(), fm=MK.includes(LOC.kbm)?LOC.kbm:"", colz=kbFechadas();
+  const ok=l=>(!q||(l.c.code+" "+l.c.nome).toLowerCase().includes(q))&&(!fm||misOf(l.c)===fm);
+  const g={}; KB.forEach(x=>g[x.k]=[]); R.L.forEach(l=>g[colDe(l,R)].push(l));
+  ["p1","p2","p3"].forEach(k=>g[k].sort((a,b)=>a.pos-b.pos)); g.rep.sort((a,b)=>b.v.aj-a.v.aj);
+  g.ana.sort((a,b)=>(a.sit==="A responder")-(b.sit==="A responder")||(b.cons?b.cons.n:0)-(a.cons?a.cons.n:0)||String(a.c.code).localeCompare(b.c.code));
+  g.nao.sort((a,b)=>a.sit.localeCompare(b.sit)||String(a.c.code).localeCompare(b.c.code)); g.sem.sort((a,b)=>String(a.c.code).localeCompare(b.c.code));
+  const GR=[["an",["ana"]],["cart",["p1","p2"]],["res",["p3"]],["disp",["rep","nao","sem"]]];
+  const gsum=(gk,ks)=>{ const ls=ks.flatMap(k=>g[k]); return gk==="cart"||gk==="res"?`${qtd(ls.length,"projeto","projetos")} · R$ ${mi(somaN(ls))} mi`:qtd(ls.length,"projeto","projetos"); };
+  const board=GR.map(([gk,ks])=>`<div class="kb-grp ${gk}">${gk==="res"?`<span class="kb-teto">teto · R$ ${mi(R.teto)} mi</span>`:""}<div class="kb-grph"><span>${KBG[gk]}</span><b>${gsum(gk,ks)}</b></div><div class="kb-cols">${ks.map(k=>kcol(KB.find(x=>x.k===k),g[k],ok,R,rc,colz.includes(k))).join("")}</div></div>`).join("");
+  const nf=R.L.filter(ok).length;
+  return `<section class="kb" aria-labelledby="kb-t"><div><h2 class="sech" id="kb-t">Quadro da esteira</h2><p class="small muted kb-p">Cada card é um Canvas, na etapa em que está; o número no alto é o valor ajustado, de 0 a 100. ${S.podeEscrever?"Arraste um card entre a carteira e a lista de reserva para abrir o registro da decisão: nada é gravado antes da confirmação.":"Você tem acesso só de leitura."}</p></div>
+   <div class="kb-bar"><input type="search" data-q="quadro" id="kbq" placeholder="Buscar por código ou nome" value="${esc(LOC.q.quadro||"")}" aria-label="Buscar projeto no quadro">
+     <div class="kb-mf" role="group" aria-label="Filtrar por missão"><button type="button" data-kbm="" aria-pressed="${!fm}">Todas as missões</button>${MK.map(m=>`<button type="button" data-kbm="${m}" aria-pressed="${fm===m}" title="${esc(misNome(m))}"><i class="sw" style="background:var(--${m==="T"?"mt":m.toLowerCase()})"></i>${m==="T"?"Transversal":"Missão "+m.slice(1)}</button>`).join("")}</div>
+     ${q||fm?`<span class="small muted" role="status">${qtd(nf,"projeto encontrado","projetos encontrados")}</span>`:""}</div>
+   <div class="kb-scroll" tabindex="0" role="region" aria-label="Quadro da esteira, com rolagem horizontal"><div class="kb-board">${board}</div></div></section>`; }
+/* colunas recolhidas: por padrão, as duas que não disputam recurso novo */
+const kbFechadas=()=>Array.isArray(LOC.kbcol)?LOC.kbcol:["nao","sem"];
+const alvoOk=(de,para)=>(["p1","p2"].includes(de)&&para==="p3")||(de==="p3"&&["p1","p2"].includes(para));
+function ligarQuadro(M,R){ const B=M.querySelector(".kb-board"); if(!B) return;
+  const limpa=()=>{ DRAG=null; B.classList.remove("is-dragging"); B.querySelectorAll(".kb-col").forEach(c=>c.classList.remove("can-drop","no-drop","over")); B.querySelectorAll(".kc2.is-drag").forEach(c=>c.classList.remove("is-drag")); };
+  B.querySelectorAll('.kc2[draggable="true"]').forEach(cd=>{
+    cd.addEventListener("dragstart",e=>{ DRAG={code:cd.dataset.drw,de:cd.dataset.kb}; e.dataTransfer.effectAllowed="move"; try{ e.dataTransfer.setData("text/plain",DRAG.code); }catch(_){}
+      cd.classList.add("is-drag"); B.classList.add("is-dragging"); B.querySelectorAll(".kb-col").forEach(c=>{ const okk=alvoOk(DRAG.de,c.dataset.col); c.classList.toggle("can-drop",okk); c.classList.toggle("no-drop",!okk&&c.dataset.col!==DRAG.de); }); if(VT) VT.hidden=true; });
+    cd.addEventListener("dragend",limpa); });
+  B.querySelectorAll(".kb-col").forEach(col=>{ const k=col.dataset.col;
+    col.addEventListener("dragover",e=>{ if(DRAG&&alvoOk(DRAG.de,k)){ e.preventDefault(); e.dataTransfer.dropEffect="move"; col.classList.add("over"); } });
+    col.addEventListener("dragleave",e=>{ if(!col.contains(e.relatedTarget)) col.classList.remove("over"); });
+    col.addEventListener("drop",e=>{ if(!DRAG||!alvoOk(DRAG.de,k)) return; e.preventDefault(); const code=DRAG.code, l=R.L.find(x=>x.c.code===code); limpa(); if(!l) return;
+      const D=decisaoDe(l), nova=k==="p3"?"fora":"incluir", destino=(KB.find(x=>x.k===k)||{}).t||"";
+      DRWPRE={code,dec:nova===D.rec?"seguir":nova,msg:`Você moveu o projeto para ${destino}. ${nova===D.rec?"É a recomendação técnica.":"Isso se afasta da recomendação técnica e exige justificativa e responsável."} Confira e registre a decisão.`};
+      DRW=code; renderDrawer(); }); }); }
+
+/* ---------- composição da carteira ---------- */
+const DIMS={m:{t:"Missão",k:c=>misOf(c),ord:MK,lab:misNome},e:{t:"Eixo da ABDI 5.0",k:c=>c.eixo,ord:Object.keys(EIXN).sort((a,b)=>EIXN[a].n-EIXN[b].n),lab:eixoNome},d:{t:"Diretoria",k:c=>c.dir,ord:Object.keys(DIRS),lab:d=>DIRS[d]||d}};
+const misCor=m=>`var(--${MIS[m]&&m!=="T"?m.toLowerCase():"mt"})`;
+function composicaoHTML(R){ const dk=DIMS[LOC.cdim]?LOC.cdim:"m", D=DIMS[dk], fin=carteiraFinal(R), apr=R.fila, tot=somaN(fin);
+  const G=D.ord.map(key=>({key,lab:D.lab(key),fin:fin.filter(l=>D.k(l.c)===key),apr:apr.filter(l=>D.k(l.c)===key)}));
+  const resto=apr.filter(l=>!D.ord.includes(D.k(l.c))); if(resto.length) G.push({key:"?",lab:"Sem informação",fin:resto.filter(l=>fin.includes(l)),apr:resto});
+  VZD.tm={G:G.filter(g=>g.fin.length).map(g=>({key:g.key,lab:g.lab,v:somaN(g.fin)/1e6,items:g.fin.map(l=>({l,v:+l.c.novos/1e6}))})),tot:tot/1e6};
+  const mx=Math.max(1e-9,...G.map(g=>somaN(g.apr)));
+  const bars=G.map(g=>{ const pa=somaN(g.apr), pf=somaN(g.fin);
+    return `<div class="cb-r"><div class="cb-l">${dk==="m"&&g.key!=="?"?mt(g.key):""}<span>${esc(g.lab)}</span></div>
+      <div class="cb-t" ${tipA(g.lab,[[`R$ ${mi(pf)} mi`,"na carteira"],[`R$ ${mi(pa)} mi`,"pedidos pelos aprovados na pontuação"],[`${g.fin.length} de ${g.apr.length}`,"projetos"]])}>${pa?`<i class="cb-p" style="width:${pa/mx*100}%"></i><i class="cb-f" style="width:${pf/mx*100}%${dk==="m"&&g.key!=="?"?`;background:${misCor(g.key)}`:""}"></i>`:""}</div>
+      <div class="cb-v">${pa?`<b>R$ ${mi(pf)} mi</b><span>de R$ ${mi(pa)} mi pedidos · ${g.fin.length} de ${qtd(g.apr.length,"projeto","projetos")}</span>`:`<span>nenhum projeto aprovado na pontuação</span>`}</div></div>`; }).join("");
+  return `<div class="cmp">
+    <div class="cmp-bar"><span class="lbl">Agrupar por</span><div class="seg sm" role="group" aria-label="Agrupar a composição por">${Object.entries(DIMS).map(([k,d])=>`<button type="button" data-cd="${k}" aria-pressed="${dk===k}">${d.t}</button>`).join("")}</div></div>
+    <section class="card pad cv"><div class="cv-h"><div><h2 class="sech">Composição da carteira</h2><p class="small muted cv-p">A área de cada retângulo é o recurso novo do projeto na carteira deliberada${tot?`, que soma R$ ${mi(tot)} mi`:""}. A cor é a missão do projeto; o agrupamento segue a escolha acima. Clique num projeto para abrir o detalhe.</p></div></div>
+      ${fin.length?`<div class="vz tm" data-vz="tm"></div>`:`<div class="empty-art"><b>A composição aparece quando houver projetos na carteira.</b><span>Cada projeto vira um retângulo com área proporcional ao recurso novo, agrupado por missão, eixo da ABDI 5.0 ou diretoria.</span></div>`}</section>
+    <section class="card pad cv"><div class="cv-h"><div><h2 class="sech">Pedido e carteira, por ${D.t==="Missão"?"missão":D.t==="Diretoria"?"diretoria":"eixo da ABDI 5.0"}</h2><p class="small muted cv-p">A faixa clara é o que pediram os projetos aprovados na pontuação; a escura, o que está na carteira. Mesma escala em todas as linhas. O equilíbrio entre missões é fixado antes da pontuação, por metas de composição, e não por pesos na nota.</p></div></div>
+      <div class="cbs">${bars}</div></section>
+    ${perfilHTML(R)}</div>`; }
+function perfilHTML(R){ const L=R.L.filter(l=>l.v).sort((a,b)=>(b.v.passa-a.v.passa)||((a.pos||999)-(b.pos||999))||(b.v.aj-a.v.aj));
+  if(!L.length) return `<section class="card pad cv"><h2 class="sech">Perfil das notas</h2><div class="empty-art"><b>O perfil aparece quando houver projetos com as três leituras enviadas.</b><span>Uma linha por projeto e uma coluna por critério, com a mediana das leituras. Ajuda a Diretoria Executiva a ver por que cada projeto pontua como pontua.</span></div></section>`;
+  const G=[["Núcleo comum",["K1","K2","K3"]],["Missão",["N1","N2","N3","N4","N5"]],["ABDI 5.0",["S1","S2","X1","X2","X3","X4"]]], ks=G.flatMap(g=>g[1]), gs=k=>G.some(g=>g[1][0]===k)?" gs":"";
+  const cel=(l,k)=>{ const n=k==="N1"?N1(l.c):l.cons.notas[k], inc=(l.cons.conciliar||[]).includes(k), lv=n==null?0:n<0?-1:Math.max(1,Math.min(5,Math.round(n)));
+    return `<td class="hm-c ${lv<0?"neg":"l"+lv}${gs(k)}" ${tipA(`${l.c.code} · ${k==="N1"?"Aderência à missão (calculada do Canvas)":CR[k].n}`,[[fmtN(n),k==="N1"?"nota":"nota (mediana das três leituras)"],[nf1.format(l.v.w[k]*100)+"%","peso no valor deste projeto"],[nf1.format(l.v.parc[k]),"pontos no valor"],...(inc?[[`${l.cons.amp[k]} pontos`,"de distância entre as leituras: conciliar"]]:[])])}>${n==null?"—":String(n).replace("-","−")}${inc?'<i class="hm-i"></i>':""}</td>`; };
+  const sit=l=>(KB.find(x=>x.k===colDe(l,R))||{}).t||"";
+  const rows=L.map(l=>`<tr><th scope="row"><button type="button" class="hm-pb" data-drw="${esc(l.c.code)}">${mt(misOf(l.c))}<span><b>${esc(l.c.code)}</b> ${esc(l.c.nome)}<span class="tiny muted">${esc(sit(l))}${l.pos?` · ${l.pos}º na fila`:""}</span></span></button></th><td class="n hm-v"><b>${nf1.format(l.v.aj)}</b></td>${ks.map(k=>cel(l,k)).join("")}<td class="n hm-x">× ${nf2.format(l.v.fator)}</td></tr>`).join("");
+  return `<section class="card pad cv"><div class="cv-h"><div><h2 class="sech">Perfil das notas</h2><p class="small muted cv-p">Mediana das três leituras em cada critério, para os projetos com pontuação consolidada, na ordem da fila. Quanto mais escura a célula, maior a nota. Passe o cursor numa célula para ver o peso e os pontos que ela soma ao valor.</p></div>
+      <div class="hm-lg" aria-hidden="true"><span>nota</span>${[1,2,3,4,5].map(n=>`<span class="hm-c l${n}">${n}</span>`).join("")}<span class="hm-c neg">−1</span><span>dano</span><span class="hm-lgi"><i class="hm-i"></i>leituras a conciliar (2 pontos ou mais de distância)</span></div></div>
+    <div class="hm-w" tabindex="0" role="region" aria-label="Perfil das notas, tabela com rolagem horizontal"><table class="hm"><thead><tr><th rowspan="2" scope="col" class="hm-h0">Projeto</th><th rowspan="2" scope="col" class="n">Valor</th>${G.map(g=>`<th colspan="${g[1].length}" scope="colgroup" class="hm-g gs">${g[0]}</th>`).join("")}<th rowspan="2" scope="col" class="n">Exequi&shy;bilidade</th></tr>
+      <tr>${ks.map(k=>`<th scope="col" class="hm-k${gs(k)}" title="${esc(k==="N1"?"Aderência à missão":CR[k].n)}">${CRC[k]}</th>`).join("")}</tr></thead><tbody>${rows}</tbody></table></div></section>`; }
+function squarify(items,x,y,w,h){ const out=[]; let rest=items.filter(i=>i.v>0).sort((a,b)=>b.v-a.v); const tot=rest.reduce((a,i)=>a+i.v,0); if(!tot||w<=0||h<=0) return out;
+  const sc=w*h/tot; rest=rest.map(i=>({...i,a:i.v*sc})); let row=[], X=x, Y=y, W=w, H=h;
+  const worst=(r,len)=>{ const s=r.reduce((a,i)=>a+i.a,0), mx=Math.max(...r.map(i=>i.a)), mn=Math.min(...r.map(i=>i.a)); return Math.max(len*len*mx/(s*s),(s*s)/(len*len*mn)); };
+  const lay=r=>{ const s=r.reduce((a,i)=>a+i.a,0); if(W>=H){ const cw=s/H; let yy=Y; r.forEach(i=>{ const hh=i.a/cw; out.push({...i,x:X,y:yy,w:cw,h:hh}); yy+=hh; }); X+=cw; W-=cw; }
+    else { const rh=s/W; let xx=X; r.forEach(i=>{ const ww=i.a/rh; out.push({...i,x:xx,y:Y,w:ww,h:rh}); xx+=ww; }); Y+=rh; H-=rh; } };
+  while(rest.length){ const len=Math.min(W,H), cand=[...row,rest[0]]; if(!row.length||worst(cand,len)<=worst(row,len)){ row=cand; rest.shift(); } else { lay(row); row=[]; } }
+  if(row.length) lay(row); return out; }
+const corte=(t,px,fs)=>{ const n=Math.floor(px/(fs*0.56)); return t.length<=n?t:n>3?t.slice(0,n-1).trimEnd()+"…":""; };
+function treemapSVG(d,W){ if(!d||!d.G.length) return ""; const H=W<640?320:400, gap=3, hh=24, out=[];
+  squarify(d.G.map(g=>({...g})),0,0,W,H).forEach(g=>{ const gx=g.x+gap/2, gy=g.y+gap/2, gw=Math.max(0,g.w-gap), gh=Math.max(0,g.h-gap), head=gh>hh+30&&gw>60;
+    const share=d.tot?Math.round(g.v/d.tot*100):0, dir=`R$ ${fmtM(g.v)} mi · ${share}%`;
+    out.push(`<rect class="tg" x="${gx}" y="${gy}" width="${gw}" height="${gh}" rx="6"/>`);
+    if(head){ const dw=dir.length*6.6+12, lab=corte(g.lab,gw-dw-16,12); out.push(`<text class="tgl" x="${gx+8}" y="${gy+16}">${esc(lab)}<title>${esc(g.lab)}</title></text><text class="tgr" x="${gx+gw-8}" y="${gy+16}" text-anchor="end">${esc(dir)}</text>`); }
+    squarify(g.items,gx+3,gy+(head?hh:3),gw-6,gh-(head?hh+3:6)).forEach(t=>{ const l=t.l, c=l.c, tw=Math.max(0,t.w-2), th=Math.max(0,t.h-2), m=misOf(c);
+      out.push(`<rect class="tt" x="${t.x+1}" y="${t.y+1}" width="${tw}" height="${th}" rx="4" fill="${misCor(m)}" data-drw="${esc(c.code)}" tabindex="0" role="button" aria-label="${esc(c.nome)}: R$ ${mi(c.novos)} milhões" ${tipA(`${c.code} · ${c.nome}`,[[`R$ ${mi(c.novos)} mi`,"recurso novo"],[`${d.tot?nf1.format(t.v/d.tot*100):0}%`,"da carteira"],[nf1.format(l.v.aj),"valor ajustado"],[misNome(m),"missão"]])}/>`);
+      if(tw>=40&&th>=22) out.push(`<text class="tl1" x="${t.x+8}" y="${t.y+17}">${esc(c.code)}</text>`);
+      if(tw>=70&&th>=40) out.push(`<text class="tl2" x="${t.x+8}" y="${t.y+33}">R$ ${esc(mi(c.novos))} mi</text>`); }); });
+  return `<svg class="tmap" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="group" aria-label="Mapa de área da carteira">${out.join("")}</svg>`; }
+
+/* ---------- curva, valor e custo, cenários ---------- */
+function barTop(x,y,w,h,r){ r=Math.max(0,Math.min(r,w/2,h)); return `M${x},${y+h}V${y+r}Q${x},${y} ${x+r},${y}H${x+w-r}Q${x+w},${y} ${x+w},${y+r}V${y+h}Z`; }
+function curvaSVG(R,rc,W){ const F=R.fila; if(!F.length) return `<div class="empty-art"><b>A curva aparece quando houver projetos aprovados na pontuação.</b><span>Cada projeto vira uma barra: a largura é o recurso novo que pede, a altura é o valor que entrega por real. A linha do teto separa o que entra do que fica fora.</span></div>`;
+  const sm=W<640, H=sm?260:300, pl=sm?40:52, pr=14, pt=30, pb=46, tot=somaN(F), xt=nice(Math.max(tot,R.teto)/1e6,sm?3:5), span=xt.top;
+  const rz=F.map(l=>l.razao).sort((a,b)=>a-b), med=rz[Math.floor(rz.length/2)], ytop=Math.min(rz[rz.length-1],Math.max(med*3,rz[Math.max(0,rz.length-2)])), yt=nice(ytop,4), ymax=yt.top;
   const sx=v=>pl+v/span*(W-pl-pr), sy=v=>H-pb-v/ymax*(H-pt-pb); let acc=0;
-  const bars=F.map(l=>{ const x0=sx(acc); acc+=+l.c.novos; const x1=sx(acc), r=rc[l.c.code], cls=r?r.cls:"fronteira", fora=!l.cabe;
-    const cort=l.razao>ytop, hv=Math.min(l.razao,ytop);
-    return `<rect class="cb ${cls} ${fora?"out":""}" data-drw="${esc(l.c.code)}" tabindex="0" role="button" aria-label="${esc(l.c.nome)}: R$ ${mi(l.c.novos)} milhões, ${nf1.format(l.razao)} pontos por milhão, ${r?RCL[r.cls].toLowerCase():""}" x="${x0+0.5}" y="${sy(hv)}" width="${Math.max(1.5,x1-x0-1)}" height="${H-pb-sy(hv)}" rx="2"><title>${esc(l.c.code)} ${esc(l.c.nome)}: R$ ${mi(l.c.novos)} mi, ${nf1.format(l.razao)} por R$ mi</title></rect>${cort?`<text class="cbl" x="${x0+2}" y="${sy(hv)-6}">${esc(l.c.code)} ${nf1.format(l.razao)}, fora da escala</text>`:x1-x0>34?`<text class="cbl" x="${(x0+x1)/2}" y="${sy(hv)-6}" text-anchor="middle">${esc(l.c.code)}</text>`:""}`; }).join("");
-  const ticks=[0,.25,.5,.75,1].map(f=>{ const v=span*f; return `<line class="gx" x1="${sx(v)}" x2="${sx(v)}" y1="${pt}" y2="${H-pb}"/><text class="ax" x="${sx(v)}" y="${H-pb+18}" text-anchor="middle">${mi(v)}</text>`; }).join("");
-  const yt=[0,.5,1].map(f=>{ const v=ytop*f; return `<text class="ax" x="${pl-8}" y="${sy(v)+4}" text-anchor="end">${nf1.format(v)}</text>`; }).join("");
-  const tx=sx(R.teto);
-  return `<svg class="curva" viewBox="0 0 ${W} ${H}" role="group" aria-label="Curva da carteira: valor por real em ordem decrescente, largura proporcional ao pedido">
-    ${ticks}<line class="base" x1="${pl}" x2="${W-pr}" y1="${H-pb}" y2="${H-pb}"/>${yt}
-    <rect class="zona-fora" x="${tx}" y="${pt}" width="${Math.max(0,W-pr-tx)}" height="${H-pt-pb}"/>
-    ${bars}
-    <line class="teto" x1="${tx}" x2="${tx}" y1="${pt-14}" y2="${H-pb}"/><text class="tetol2" x="${tx>W-160?tx-6:tx+6}" y="${pt-4}" text-anchor="${tx>W-160?"end":"start"}">teto R$ ${mi(R.teto)} mi</text>
-    <text class="ax" x="${(W+pl)/2}" y="${H-4}" text-anchor="middle">recursos novos acumulados (R$ milhões)</text>
-    <text class="ax" x="14" y="${(H)/2}" transform="rotate(-90 14 ${H/2})" text-anchor="middle">valor por R$ milhão</text></svg>`; }
+  const grid=yt.ticks.map(v=>`<line class="gy" x1="${pl}" x2="${W-pr}" y1="${sy(v)}" y2="${sy(v)}"/><text class="ax" x="${pl-8}" y="${sy(v)+4}" text-anchor="end">${fmtM(v)}</text>`).join("");
+  const xl=xt.ticks.map(v=>`<text class="ax" x="${sx(v)}" y="${H-pb+18}" text-anchor="middle">${fmtM(v)}</text>`).join("");
+  const bars=F.map(l=>{ const x0=sx(acc/1e6); acc+=+l.c.novos; const x1=sx(acc/1e6), r=rc[l.c.code], cls=r?r.cls:"fronteira", fora=!l.cabe, cort=l.razao>ymax, hv=Math.min(l.razao,ymax), gp=x1-x0>6?2:x1-x0>3?1:0, w=Math.max(1.5,x1-x0-gp), y=sy(hv);
+    const tip=tipA(`${l.c.code} · ${l.c.nome}`,[[nf1.format(l.razao),"pontos por R$ milhão"],[`R$ ${mi(l.c.novos)} mi`,"recurso novo"],[nf1.format(l.v.aj),"valor ajustado"],[`${l.pos}º`,l.cabe?"na fila, dentro do teto":"na fila, fora do teto"],...(r?[[`${Math.round(r.f*100)}%`,"das simulações dentro da carteira"]]:[])]);
+    return `<path class="cb ${cls}${fora?" out":""}" d="${barTop(x0,y,w,H-pb-y,4)}" data-drw="${esc(l.c.code)}" tabindex="0" role="button" aria-label="${esc(l.c.nome)}: R$ ${mi(l.c.novos)} milhões, ${nf1.format(l.razao)} pontos por milhão" ${tip}/>${cort?`<text class="cbl" x="${x0+2}" y="${y-6}">${esc(l.c.code)} · ${nf1.format(l.razao)}, acima da escala</text>`:w>30?`<text class="cbl" x="${x0+w/2}" y="${y-6}" text-anchor="middle">${esc(l.c.code)}</text>`:""}`; }).join("");
+  const tx=sx(R.teto/1e6), lab=tx>W-170;
+  return `<svg class="curva" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="group" aria-label="Curva da carteira: valor por real, em ordem decrescente, com largura proporcional ao pedido">${grid}<rect class="zona-fora" x="${tx}" y="${pt}" width="${Math.max(0,W-pr-tx)}" height="${H-pt-pb}"/>${bars}<line class="base" x1="${pl}" x2="${W-pr}" y1="${H-pb}" y2="${H-pb}"/>${xl}
+    <line class="teto" x1="${tx}" x2="${tx}" y1="${pt-16}" y2="${H-pb}"/><text class="tetol2" x="${lab?tx-6:tx+6}" y="${pt-6}" text-anchor="${lab?"end":"start"}">teto R$ ${mi(R.teto)} mi</text>
+    <text class="ax" x="${(W+pl)/2}" y="${H-6}" text-anchor="middle">recursos novos acumulados (R$ milhões)</text><text class="ax" x="12" y="${(H-pb+pt)/2}" transform="rotate(-90 12 ${(H-pb+pt)/2})" text-anchor="middle">pontos por R$ milhão</text></svg>`; }
+function dispSVG(R,W){ const F=R.fila; if(F.length<2) return `<div class="empty-art"><b>O gráfico aparece quando houver ao menos dois projetos aprovados na pontuação.</b><span>Cada ponto é um projeto: o recurso novo que pede no eixo horizontal e o valor ajustado no vertical. A reta marca o corte da fila.</span></div>`;
+  const sm=W<640, H=sm?300:360, pl=sm?40:52, pr=sm?16:28, pt=18, pb=46;
+  const P=F.map(l=>{ const D=decisaoDe(l); return {l,x:+l.c.novos/1e6,y:l.v.aj,inc:D.dec==="incluir",dv:D.desvio}; });
+  const xt=nice(Math.max(...P.map(p=>p.x)),sm?4:6), ymn=Math.min(...P.map(p=>p.y)), ymx=Math.max(...P.map(p=>p.y)), y0=Math.max(0,Math.floor((ymn-5)/10)*10), y1=Math.min(100,Math.ceil((ymx+5)/10)*10), ys=(y1-y0)>40?20:10, yt=[];
+  for(let v=y0;v<=y1+1e-9;v+=ys) yt.push(v);
+  const sx=v=>pl+v/xt.top*(W-pl-pr), sy=v=>H-pb-(v-y0)/(y1-y0||1)*(H-pt-pb);
+  const grid=yt.map(v=>`<line class="gy" x1="${pl}" x2="${W-pr}" y1="${sy(v)}" y2="${sy(v)}"/><text class="ax" x="${pl-8}" y="${sy(v)+4}" text-anchor="end">${v}</text>`).join("")+xt.ticks.map(v=>`<text class="ax" x="${sx(v)}" y="${H-pb+18}" text-anchor="middle">${fmtM(v)}</text>`).join("");
+  const ult=F.filter(l=>l.cabe).pop(), pri=F.find(l=>!l.cabe); let ray="";
+  if(ult){ const r=ult.razao, xa=Math.max(0,y0/r), xb=Math.min(xt.top,y1/r); if(xb>xa){ const lx=sx(xb), ly=sy(r*xb), fim=lx>W-pr-150; ray=`<line class="ray" x1="${sx(xa)}" y1="${sy(r*xa)}" x2="${lx}" y2="${ly}"/><text class="rayl" x="${fim?lx-6:lx+6}" y="${ly+(fim?14:4)}" text-anchor="${fim?"end":"start"}">corte da fila: ${nf1.format(r)} pontos por R$ milhão</text>`; } }
+  const mxp=P.reduce((a,p)=>p.x>a.x?p:a,P[0]), rot=new Set([ult&&ult.c.code,pri&&pri.c.code,mxp.l.c.code,...P.filter(p=>p.dv).map(p=>p.l.c.code)].filter(Boolean));
+  const ord=[...P].sort((a,b)=>(a.inc-b.inc)||(a.dv-b.dv));
+  const pts=ord.map(p=>{ const cx=sx(p.x), cy=sy(p.y), cls=p.dv?"dv":p.inc?"in":"out", dir=cx>W-pr-90;
+    return `<circle class="pt ${cls}" cx="${cx}" cy="${cy}" r="5.5"/>${rot.has(p.l.c.code)?`<text class="pl" x="${dir?cx-9:cx+9}" y="${cy+4}" text-anchor="${dir?"end":"start"}">${esc(p.l.c.code)}</text>`:""}
+      <circle class="hit" cx="${cx}" cy="${cy}" r="12" data-drw="${esc(p.l.c.code)}" tabindex="0" role="button" aria-label="${esc(p.l.c.nome)}: R$ ${mi(p.l.c.novos)} milhões, valor ${nf1.format(p.y)}" ${tipA(`${p.l.c.code} · ${p.l.c.nome}`,[[nf1.format(p.y),"valor ajustado"],[`R$ ${mi(p.l.c.novos)} mi`,"recurso novo"],[nf1.format(p.l.razao),"pontos por R$ milhão"],[p.dv?(p.inc?"incluído por decisão":"deixado fora por decisão"):p.inc?"na carteira":"fora do teto","situação"]])}/>`; }).join("");
+  return `<svg class="disp" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="group" aria-label="Valor e custo dos projetos aprovados">${grid}<line class="base" x1="${pl}" x2="${W-pr}" y1="${H-pb}" y2="${H-pb}"/>${ray}${pts}
+    <text class="ax" x="${(W+pl)/2}" y="${H-6}" text-anchor="middle">recurso novo pedido (R$ milhões)</text><text class="ax" x="12" y="${(H-pb+pt)/2}" transform="rotate(-90 12 ${(H-pb+pt)/2})" text-anchor="middle">valor ajustado (0 a 100)</text></svg>`; }
+function cenDados(R){ const ps=[]; for(let p=40;p<=100;p+=5) ps.push(p); if(!ps.includes(LOC.teto)) ps.push(LOC.teto); ps.sort((a,b)=>a-b); return ps.map(p=>({p,...simTeto(R,somaP()*p/100)})); }
+function cenSVG(d,W){ const H=150, pl=34, pr=16, pt=16, pb=30, pts=d.pts.filter(x=>x.v!=null); if(!pts.length) return `<p class="small muted">Sem carteira neste intervalo de teto.</p>`;
+  const vs=pts.map(x=>x.v); let a=0, b=nice(Math.max(...vs,1),3).top; if(d.k==="media"){ a=Math.max(0,Math.floor((Math.min(...vs)-4)/5)*5); b=Math.min(100,Math.ceil((Math.max(...vs)+4)/5)*5); }
+  const yt=d.k==="media"?[a,(a+b)/2,b]:nice(b,3).ticks, sx=p=>pl+(p-40)/60*(W-pl-pr), sy=v=>H-pb-(v-a)/((b-a)||1)*(H-pt-pb);
+  const line=pts.map((x,i)=>`${i?"L":"M"}${sx(x.p)},${sy(x.v)}`).join(""), cur=pts.find(x=>x.p===LOC.teto), cw=(W-pl-pr)/12;
+  return `<svg class="cen" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(d.t)} conforme o teto, de 40% a 100% dos pedidos">${yt.map(v=>`<line class="gy" x1="${pl}" x2="${W-pr}" y1="${sy(v)}" y2="${sy(v)}"/><text class="ax" x="${pl-6}" y="${sy(v)+4}" text-anchor="end">${d.k==="media"?Math.round(v):fmtM(v)}</text>`).join("")}
+    ${[40,60,80,100].map(p=>`<text class="ax" x="${sx(p)}" y="${H-pb+18}" text-anchor="middle">${p}%</text>`).join("")}
+    ${cur?`<line class="cur" x1="${sx(cur.p)}" x2="${sx(cur.p)}" y1="${pt-6}" y2="${H-pb}"/>`:""}<path class="ln" d="${line}"/>${cur?`<circle class="dot" cx="${sx(cur.p)}" cy="${sy(cur.v)}" r="5"/>`:""}
+    ${pts.map(x=>`<rect class="hit" x="${sx(x.p)-cw/2}" y="${pt}" width="${cw}" height="${H-pt-pb}" ${tipA(`Teto de ${x.p}% dos pedidos`,[[d.fmt(x.v),d.t.toLowerCase()]])}/>`).join("")}</svg>`; }
+
+/* ---------- montagem dos gráficos na largura real ---------- */
+function ligarDrw(root){ root.querySelectorAll("[data-drw]").forEach(b=>{ b.onclick=()=>{ DRW=b.dataset.drw; renderDrawer(); };
+  if(b.tagName!=="BUTTON") b.onkeydown=e=>{ if(e.target!==b) return; if(e.key==="Enter"||e.key===" "){ e.preventDefault(); DRW=b.dataset.drw; renderDrawer(); } }; }); }
+function montarGraficos(){ if(VT) VT.hidden=true; document.querySelectorAll("#main [data-vz]").forEach(h=>{ const W=Math.max(280,Math.floor(h.clientWidth)), k=h.dataset.vz;
+  h.innerHTML=k==="curva"?curvaSVG(VZD.R,VZD.rc,W):k==="disp"?dispSVG(VZD.R,W):k==="tm"?treemapSVG(VZD.tm,W):k.startsWith("cen")&&VZD.cen?cenSVG(VZD.cen[k.slice(3)],W):""; ligarDrw(h); }); }
+let RZT=null, RZW=window.innerWidth; window.addEventListener("resize",()=>{ clearTimeout(RZT); RZT=setTimeout(()=>{ if(ROTA[0]==="painel"&&Math.abs(window.innerWidth-RZW)>8){ RZW=window.innerWidth; montarGraficos(); } },150); });
+/* dica flutuante única: o valor vem primeiro, o rótulo depois; textos entram por textContent */
+let VT=null;
+function vtip(){ if(!VT){ VT=document.createElement("div"); VT.className="vtip"; VT.setAttribute("role","tooltip"); VT.hidden=true; document.body.appendChild(VT); } return VT; }
+function tipMostra(el,x,y){ let d; try{ d=JSON.parse(el.getAttribute("data-tip")); }catch(e){ return; } const t=vtip(); t.textContent="";
+  const h=document.createElement("b"); h.textContent=d.t; t.appendChild(h);
+  (d.r||[]).forEach(([v,k])=>{ const row=document.createElement("div"), s=document.createElement("strong"), sp=document.createElement("span"); s.textContent=v; sp.textContent=k; row.append(s,sp); t.appendChild(row); });
+  t.hidden=false; const bw=t.offsetWidth, bh=t.offsetHeight, vw=window.innerWidth, vh=window.innerHeight; let L=x+14, T=y+14; if(L+bw>vw-8) L=Math.max(8,x-bw-14); if(T+bh>vh-8) T=Math.max(8,y-bh-14); t.style.left=L+"px"; t.style.top=T+"px"; }
+document.addEventListener("pointermove",e=>{ if(e.pointerType==="touch") return; const el=e.target&&e.target.closest?e.target.closest("[data-tip]"):null; if(el) tipMostra(el,e.clientX,e.clientY); else if(VT&&!VT.hidden) VT.hidden=true; });
+document.addEventListener("focusin",e=>{ const el=e.target&&e.target.closest?e.target.closest("[data-tip]"):null; if(el){ const r=el.getBoundingClientRect(); tipMostra(el,r.left+r.width/2,r.top+r.height/2); } else if(VT) VT.hidden=true; });
+document.addEventListener("scroll",()=>{ if(VT) VT.hidden=true; },true);
+
 const ELDV={};
 function vPainel(M,banner){
-  const R=esteira(), cv=enviados(), TABS=[["visao","Visão geral"],["curva","Curva e cenários"],["robustez","Robustez"],["delib","Deliberação"]], tab=[...TABS.map(t=>t[0]),"conc"].includes(LOC.ptab)?LOC.ptab:"visao";
-  const RB=robustez(R), rc={}; RB.res.forEach(x=>rc[x.l.c.code]=x);
+  const R=esteira(), cv=enviados(), TABS=[["visao","Visão geral"],["comp","Composição"],["curva","Curva e cenários"],["robustez","Robustez"],["delib","Deliberação"]], tab=[...TABS.map(t=>t[0]),"conc"].includes(LOC.ptab)?LOC.ptab:"visao";
+  const RB=robustez(R), rc={}; RB.res.forEach(x=>rc[x.l.c.code]=x); VZD={R,rc};
   const tetoCtl=`<div class="tetoctl"><label class="tetol" for="teto">Teto orçamentário</label><input type="range" id="teto" min="20" max="100" step="1" value="${LOC.teto}" aria-describedby="tetoTxt"><b id="tetoTxt">R$ ${mi(somaP()*LOC.teto/100)} mi, ${LOC.teto}% dos pedidos</b>
     <div class="presets" role="group" aria-label="Atalhos de teto">${[60,75,90,100].map(p=>`<button type="button" data-tp="${p}" aria-pressed="${LOC.teto===p}">${p}%</button>`).join("")}</div></div>`;
   let corpo="";
-  if(tab==="visao"){ const et=[["Canvas recebidos",cv.length],["Passam nos filtros",cv.filter(apta).length],["Com três leituras",R.L.filter(l=>l.completo).length],["Aprovados na pontuação",R.fila.length],["Cabem no teto",R.fila.filter(l=>l.cabe).length]];
-    const mx=Math.max(1,et[0][1]), cores=["#0d24a8","#183eff","#006fb3","#237a3a","#175f2b"], g={}; COLS.forEach(x=>g[x.k]=[]); R.L.forEach(l=>g[colDe(l,R)].push(l)); ["p1","p2","p3"].forEach(k=>g[k].sort((a,b)=>a.pos-b.pos)); g.rep.sort((a,b)=>b.v.aj-a.v.aj);
-    corpo=`<div class="card pad"><div class="fun" aria-label="Funil da seleção">${et.map(([t,v],i)=>`<div class="fl"><div class="fbar" style="width:${Math.max(30,v/mx*100)}%;background:${cores[i]}"><b>${v}</b><span>${t}</span></div></div>`).join("")}</div></div>
-     <div class="board" tabindex="0" aria-label="Quadro de projetos por situação">${COLS.map(x=>{ const ls=g[x.k], soma=ls.reduce((a,l)=>a+(+l.c.novos||0),0);
-       return `<div class="col" style="--cc:${x.cor}"><div class="colh"><div class="t">${x.t}<span>${ls.length}</span></div>${["p1","p2","p3"].includes(x.k)&&ls.length?`<span class="tiny muted">R$ ${mi(soma)} mi</span>`:""}</div>
-        <div class="cards">${ls.map(l=>`<button class="kc" data-drw="${esc(l.c.code)}"><span class="kh">${mt(misOf(l.c))} ${esc(l.c.code)}${l.v?`<span class="kv" title="valor ajustado">${nf1.format(l.v.aj)}</span>`:""}</span><span class="kn">${esc(l.c.nome)}</span><span class="ks">${esc(subDe(l,x.k))}</span></button>`).join("")||`<p class="tiny muted" style="padding:4px 2px">Nenhum projeto.</p>`}</div></div>`; }).join("")}</div>`; }
-  else if(tab==="curva"){ const por={},ped={}; MK.forEach(m=>{por[m]=0;ped[m]=0;}); R.fila.forEach(l=>{ const m=misOf(l.c); ped[m]+=+l.c.novos; if(l.cabe) por[m]+=+l.c.novos; }); const mm=Math.max(1,...MK.map(m=>ped[m]));
-    const cen=[50,60,75,90,100].map(p=>({p,...simTeto(R,somaP()*p/100)}));
+  if(tab==="visao") corpo=`${funilHTML(R)}${quadroHTML(R,rc)}`;
+  else if(tab==="comp") corpo=composicaoHTML(R);
+  else if(tab==="curva"){ const cen=cenDados(R);
+    VZD.cen={n:{t:"Projetos na carteira",k:"n",fmt:v=>String(v),pts:cen.map(c=>({p:c.p,v:c.n}))},media:{t:"Nota média da carteira",k:"media",fmt:v=>nf1.format(v),pts:cen.map(c=>({p:c.p,v:c.media}))},sem:{t:"Missões sem recurso",k:"sem",fmt:v=>String(v),pts:cen.map(c=>({p:c.p,v:c.n?c.semM:null}))}};
+    const atual=cen.find(c=>c.p===LOC.teto)||{}, card=(k,val,sub)=>`<div class="cen-c"><h3>${VZD.cen[k].t}</h3><p><b>${val}</b>${sub}</p><div class="vz" data-vz="cen${k}"></div></div>`;
     corpo=`${tetoCtl}
-     <section class="card pad cv"><div class="cv-h"><h2 class="sech">Curva da carteira</h2><div class="legend"><span class="lg dentro">sempre dentro</span><span class="lg fronteira">na fronteira</span><span class="lg fora">sempre fora</span></div></div>
-       <p class="small muted cv-p">Os projetos aprovados na pontuação, em ordem de valor por real pedido. A largura de cada barra é o recurso novo; a altura, o valor ajustado por R$ milhão. O que fica à direita da linha do teto não entra.</p>
-       ${curvaSVG(R,rc)}</section>
-     <div class="grid2">
-      <section class="card pad"><h2 class="sech">Efeito do teto</h2>${R.fila.length?`<div class="tw"><table><thead><tr><th>Teto</th><th class="n">R$ mi</th><th class="n">Projetos</th><th class="n">Nota média</th><th class="n">Missões sem recurso</th></tr></thead><tbody>${cen.map(c=>`<tr class="${c.p===LOC.teto?"sel":""}"><td>${c.p}% dos pedidos</td><td class="n">${mi(somaP()*c.p/100)}</td><td class="n">${c.n}</td><td class="n">${c.media==null?"—":nf1.format(c.media)}</td><td class="n">${c.semM}</td></tr>`).join("")}</tbody></table></div>`:`<p class="small muted">Aparece com a primeira carteira montada.</p>`}</section>
-      <section class="card pad"><h2 class="sech">Recursos que cabem, por missão</h2><div class="mbars">${MK.map(m=>`<div class="mbar"><span>${mt(m)}<span>${esc(MIS[m].n)}</span></span><div class="mtrack"><i style="width:${ped[m]/mm*100}%;background:var(--line)"></i><i style="width:${por[m]/mm*100}%;background:var(--${m==="T"?"mt":m.toLowerCase()})"></i></div><span>${mi(por[m])} de ${mi(ped[m])}</span></div>`).join("")}</div><p class="tiny muted">R$ milhões que cabem no teto, de quanto pediram os aprovados. O equilíbrio entre missões é fixado antes da pontuação, por metas de composição, e não por pesos na nota.</p></section>
-     </div>`; }
-  else if(tab==="robustez"){ const grupos=["dentro","fronteira","fora"];
-    corpo=RB.N?`<p class="small lead2">${RB.N} simulações. Em cada uma variam os pesos dos quatro blocos (até 20%), as notas incertas (um ponto, onde houve divergência entre leituras ou confiança baixa) e o teto (até 15%). A barra mostra em quantas o projeto entrou na carteira.</p>
-      ${grupos.map(gk=>{ const ls=RB.res.filter(x=>x.cls===gk); if(!ls.length) return ""; const soma=ls.reduce((a,x)=>a+(+x.l.c.novos||0),0);
-        return `<section class="rob ${gk}"><h2 class="grph"><i></i>${RCL[gk]}<span>${ls.length} projetos, R$ ${mi(soma)} mi</span></h2>${gk==="fronteira"?`<p class="small">É aqui que a deliberação deve se concentrar.</p>`:""}
-          <div class="rlist">${ls.map(x=>`<button class="rrow" data-drw="${esc(x.l.c.code)}">${mt(misOf(x.l.c))}<span class="rn">${esc(x.l.c.nome)}<span class="tiny muted">${esc(x.l.c.code)}, R$ ${mi(x.l.c.novos)} mi</span></span><span class="rtrack"><i class="z1"></i><i class="z2"></i><i class="z3"></i><b style="left:clamp(7px,${x.f*100}%,calc(100% - 7px))"></b></span><span class="rf">${Math.round(x.f*100)}%</span></button>`).join("")}</div></section>`; }).join("")}
+     <section class="card pad cv"><div class="cv-h"><div><h2 class="sech">Curva da carteira</h2><p class="small muted cv-p">Os projetos aprovados na pontuação, em ordem de valor por real pedido. A largura de cada barra é o recurso novo; a altura, o valor ajustado por R$ milhão. O que fica à direita da linha do teto não entra.</p></div><div class="legend"><span class="lg dentro">sempre dentro</span><span class="lg fronteira">na fronteira</span><span class="lg fora">sempre fora</span><span class="lg out">fora do teto (esmaecido)</span></div></div>
+       <div class="vz" data-vz="curva"></div></section>
+     <section class="card pad cv"><div class="cv-h"><div><h2 class="sech">Valor e custo</h2><p class="small muted cv-p">Cada ponto é um projeto aprovado na pontuação. Acima da reta do corte ficam os que entregam mais valor por real do que o último projeto que coube no teto. Projeto caro e de valor alto fica à direita e no alto; barato e de valor baixo, à esquerda e embaixo.</p></div>
+       <div class="legend"><span class="lg pin">na carteira</span><span class="lg pout">fora do teto</span>${R.fila.some(l=>decisaoDe(l).desvio)?`<span class="lg pdv">decisão contrária à recomendação</span>`:""}<span class="lg ray">corte da fila</span></div></div>
+       <div class="vz" data-vz="disp"></div></section>
+     <section class="card pad cv"><div class="cv-h"><div><h2 class="sech">Cenários do teto</h2><p class="small muted cv-p">Como a carteira recomendada muda com o teto, de 40% a 100% dos pedidos, sem considerar desvios. A linha vertical marca o teto escolhido acima.</p></div></div>
+       ${R.fila.length?`<div class="cen-g">${card("n",atual.n??"—",` ${atual.n===1?"projeto":"projetos"} com teto de ${LOC.teto}%`)}${card("media",atual.media==null?"—":nf1.format(atual.media),` com teto de ${LOC.teto}%`)}${card("sem",atual.n?atual.semM:"—",` com teto de ${LOC.teto}%`)}</div>
+       <details class="cen-t"><summary>Ver em tabela</summary><div class="tw"><table><thead><tr><th>Teto</th><th class="n">R$ mi</th><th class="n">Projetos</th><th class="n">Nota média</th><th class="n">Missões sem recurso</th></tr></thead><tbody>${cen.filter(c=>c.p%10===0||c.p===LOC.teto||c.p===75).map(c=>`<tr class="${c.p===LOC.teto?"sel":""}"><td>${c.p}% dos pedidos</td><td class="n">${mi(somaP()*c.p/100)}</td><td class="n">${c.n}</td><td class="n">${c.media==null?"—":nf1.format(c.media)}</td><td class="n">${c.n?c.semM:"—"}</td></tr>`).join("")}</tbody></table></div></details>`:`<p class="small muted">Aparece com a primeira carteira montada.</p>`}</section>`; }
+  else if(tab==="robustez"){ const grupos=["dentro","fronteira","fora"], tot=RB.res.length, cnt=gk=>RB.res.filter(x=>x.cls===gk).length;
+    corpo=RB.N?`<p class="small lead2">${RB.N} simulações. Em cada uma variam os pesos dos quatro blocos (até 20%), as notas incertas (um ponto, onde houve divergência entre leituras ou confiança baixa) e o teto (até 15%). A barra de cada projeto mostra em quantas ele entrou na carteira.</p>
+      <section class="card pad rsum-c" aria-label="Resumo do teste de robustez"><div class="rsum" role="img" aria-label="${grupos.map(gk=>`${RCL[gk]}: ${cnt(gk)}`).join("; ")}">${grupos.map(gk=>{ const n=cnt(gk); return n?`<span class="${gk}" style="flex:${n}">${n/tot>=.08?`${n}`:""}</span>`:""; }).join("")}</div>
+        <div class="rsum-lg">${grupos.map(gk=>`<span class="${gk}">${RCL[gk]} <b>${cnt(gk)}</b></span>`).join("")}</div></section>
+      ${grupos.map(gk=>{ const ls=RB.res.filter(x=>x.cls===gk); if(!ls.length) return "";
+        return `<section class="rob ${gk}"><h2 class="grph"><i></i>${RCL[gk]}<span>${qtd(ls.length,"projeto","projetos")}, R$ ${mi(ls.reduce((a,x)=>a+(+x.l.c.novos||0),0))} mi</span></h2>${gk==="fronteira"?`<p class="small">É aqui que a deliberação deve se concentrar.</p>`:""}
+          <div class="rlist"><div class="rhead" aria-hidden="true"><span></span><span>Projeto</span><span class="rax"><i style="left:0">0%</i><i style="left:50%">50%</i><i style="left:100%">100%</i></span><span>Dentro</span></div>${ls.map(x=>{ const inc=x.l.v.passa&&decisaoDe(x.l).dec==="incluir"; return `<button class="rrow" data-drw="${esc(x.l.c.code)}">${mt(misOf(x.l.c))}<span class="rn">${esc(x.l.c.nome)}<span class="tiny muted">${esc(x.l.c.code)}, R$ ${mi(x.l.c.novos)} mi · ${x.l.v.passa?(inc?"na carteira":"fora da carteira"):"reprovado na pontuação"}</span></span><span class="rtrack"><i class="z1"></i><i class="z2"></i><i class="z3"></i><b style="left:clamp(7px,${x.f*100}%,calc(100% - 7px))"></b></span><span class="rf">${Math.round(x.f*100)}%</span></button>`; }).join("")}</div></section>`; }).join("")}
       <p class="tiny muted">Faixas: até 10% das simulações, sempre fora; 90% ou mais, sempre dentro; entre uma e outra, na fronteira.</p>`
       :`<div class="empty-art"><b>O teste de robustez aparece quando houver projetos com as três leituras enviadas.</b><span>Ele separa os projetos que entram em quase todos os cenários, os que nunca entram e os da fronteira, onde a decisão da Diretoria Executiva mais pesa.</span></div>`; }
   else if(tab==="delib"){ const L=R.L.filter(l=>l.v&&l.v.passa).sort((a,b)=>a.pos-b.pos), cls=l=>(rc[l.c.code]||{}).cls||"fronteira";
     const A=L.filter(l=>l.cabe&&cls(l)==="dentro"), C=L.filter(l=>!l.cabe&&cls(l)==="fora"), B=L.filter(l=>!A.includes(l)&&!C.includes(l));
-    const desv=L.filter(l=>decisaoDe(l).desvio), pend=x=>x.filter(l=>!(S.dec[l.c.code]&&S.dec[l.c.code].ts)).length;
-    const linha=l=>{ const D=decisaoDe(l), r=rc[l.c.code], reg=D.reg&&D.reg.ts, ed=ELDV[l.c.code], cur=ed?ed.dec:(reg?(D.reg.decisao||"seguir"):null);
+    const desv=L.filter(l=>decisaoDe(l).desvio), feito=l=>!!(S.dec[l.c.code]&&S.dec[l.c.code].ts), pend=x=>x.filter(l=>!feito(l)).length, nOk=L.filter(l=>feito(l)&&!decisaoDe(l).desvio).length;
+    const linha=l=>{ const D=decisaoDe(l), r=rc[l.c.code], reg=feito(l), ed=ELDV[l.c.code], cur=ed?ed.dec:(reg?(D.reg.decisao&&D.reg.decisao!==D.rec?D.reg.decisao:"seguir"):null);
       return `<div class="drow ${reg?"done":""}"><button class="dname" data-drw="${esc(l.c.code)}">${mt(misOf(l.c))}<span><b>${esc(l.c.nome)}</b><span class="tiny muted">${esc(l.c.code)}, ${l.pos}º na fila</span></span></button>
         <span class="dnum"><b>${nf1.format(l.v.aj)}</b><span>valor</span></span><span class="dnum"><b>${mi(l.c.novos)}</b><span>R$ mi</span></span>
         <span>${r?`<span class="chip rb-${r.cls}">${Math.round(r.f*100)}%</span>`:""}</span>
@@ -1900,29 +2248,40 @@ function vPainel(M,banner){
         ${ed&&ed.dec!=="seguir"&&ed.dec!==D.rec?`<div class="dvbox"><p class="small"><b>Desvio da recomendação.</b> ${ed.dec==="incluir"?"Incluir um projeto que a fila deixa fora":"Deixar fora um projeto que a fila inclui"} exige justificativa e responsável.</p>
           <div class="dvf"><div class="fld"><label for="mo_${esc(l.c.code)}" class="req">Justificativa</label><textarea id="mo_${esc(l.c.code)}" rows="2">${esc(ed.motivo||"")}</textarea></div><div class="fld"><label for="re_${esc(l.c.code)}" class="req">Responsável</label><input type="text" id="re_${esc(l.c.code)}" value="${esc(ed.resp||"")}"></div></div>
           <div class="dvb"><button type="button" class="btn" data-dvcanc="${esc(l.c.code)}">Cancelar</button><button type="button" class="btn primary" data-dvok="${esc(l.c.code)}">Registrar desvio</button></div></div>`:""}</div>`; };
-    const grupo=(t,d,ls,k,acao)=>ls.length?`<section class="dgrp ${k}"><div class="dgh"><div><h2 class="grph"><i></i>${t}<span>${ls.length} projetos, R$ ${mi(ls.reduce((a,l)=>a+(+l.c.novos),0))} mi, ${pend(ls)} a deliberar</span></h2><p class="small muted">${d}</p></div>${acao||""}</div>
+    const lote=(n,t)=>n===1?`${t} para o projeto pendente`:`${t} para os ${n} pendentes`;
+    const grupo=(t,d,ls,k,acao)=>ls.length?`<section class="dgrp ${k}"><div class="dgh"><div><h2 class="grph"><i></i>${t}<span>${qtd(ls.length,"projeto","projetos")}, R$ ${mi(somaN(ls))} mi, ${pend(ls)} a deliberar</span></h2><p class="small muted">${d}</p></div>${acao||""}</div>
       <div class="dlist"><div class="dhead" aria-hidden="true"><span>Projeto</span><span>Valor</span><span>Pedido</span><span>Robustez</span><span>Recomendação</span><span>Decisão</span><span></span></div>${ls.map(linha).join("")}</div></section>`:"";
-    corpo=L.length?`<p class="small lead2">A recomendação técnica é consultiva. A Diretoria Executiva aprova a carteira por resolução, e toda decisão que se afaste da recomendação é registrada com justificativa e responsável. A relevância político-institucional entra aqui, no detalhe de cada projeto, e não na nota.</p>
-      ${grupo("Aprovar em bloco","Cabem no teto e entram em 90% ou mais das simulações.",A,"bloco",A.length&&pend(A)?`<button class="btn primary" id="emBloco" ${S.podeEscrever?"":"disabled"}>Seguir a recomendação para os ${pend(A)}</button>`:"")}
+    corpo=L.length?`<section class="card pad dprog" aria-label="Andamento da deliberação"><div class="dprog-h"><h2 class="sech">Andamento da deliberação</h2><span class="small"><b>${L.length-pend(L)} de ${L.length}</b> decisões registradas · ${qtd(desv.length,"desvio","desvios")}</span></div>
+        <div class="dprog-t" role="img" aria-label="${L.length-pend(L)} de ${L.length} decisões registradas">${nOk?`<i class="ok" style="flex:${nOk}"></i>`:""}${desv.length?`<i class="dv" style="flex:${desv.length}"></i>`:""}${pend(L)?`<i class="pe" style="flex:${pend(L)}"></i>`:""}</div>
+        <div class="dprog-lg"><span class="ok">seguem a recomendação</span><span class="dv">desvios</span><span class="pe">a deliberar</span></div></section>
+      <p class="small lead2">A recomendação técnica é consultiva. A Diretoria Executiva aprova a carteira por resolução, e toda decisão que se afaste da recomendação é registrada com justificativa e responsável. A relevância político-institucional entra aqui, no detalhe de cada projeto, e não na nota.</p>
+      ${grupo("Aprovar em bloco","Cabem no teto e entram em 90% ou mais das simulações.",A,"bloco",A.length&&pend(A)?`<button class="btn primary" id="emBloco" ${S.podeEscrever?"":"disabled"}>${lote(pend(A),"Seguir a recomendação")}</button>`:"")}
       ${grupo("Deliberar um a um","Na fronteira, ou em situação diferente entre a fila e a simulação.",B,"um")}
-      ${grupo("Confirmar fora","Não cabem no teto e ficam fora em 90% ou mais das simulações.",C,"fora",C.length&&pend(C)?`<button class="btn" id="foraBloco" ${S.podeEscrever?"":"disabled"}>Seguir a recomendação para os ${pend(C)}</button>`:"")}
-      <section class="card pad minuta"><div><h2 class="sech">Registro da deliberação</h2><p class="small muted">${desv.length?`${desv.length} desvio(s) registrado(s).`:"Nenhum desvio registrado."} A minuta reúne a carteira aprovada, os projetos fora, os desvios com justificativa e responsável e a relevância político-institucional registrada.</p>
+      ${grupo("Confirmar fora","Não cabem no teto e ficam fora em 90% ou mais das simulações.",C,"fora",C.length&&pend(C)?`<button class="btn" id="foraBloco" ${S.podeEscrever?"":"disabled"}>${lote(pend(C),"Seguir a recomendação")}</button>`:"")}
+      <section class="card pad minuta"><div><h2 class="sech">Registro da deliberação</h2><p class="small muted">${desv.length?`${qtd(desv.length,"desvio registrado","desvios registrados")}.`:"Nenhum desvio registrado."} A minuta reúne a carteira aprovada, os projetos fora, os desvios com justificativa e responsável e a relevância político-institucional registrada.</p>
         ${desv.length?`<ul class="clean small">${desv.map(l=>{ const g=S.dec[l.c.code]; return `<li><b>${esc(l.c.nome)}</b>: ${g.decisao==="incluir"?"incluído":"deixado fora"} contra a recomendação. ${esc(g.motivo)} <span class="muted">Responsável: ${esc(g.resp)}, ${new Date(g.ts).toLocaleDateString("pt-BR")}.</span></li>`; }).join("")}</ul>`:""}</div>
         <button class="btn primary" id="minuta">Baixar minuta do registro</button></section>`
       :`<div class="empty-art"><b>A deliberação começa quando houver projetos aprovados na pontuação.</b><span>Os projetos chegam aqui separados em três grupos: aprovar em bloco, deliberar um a um e confirmar fora. Cada decisão fica registrada, e todo desvio da recomendação exige justificativa e responsável.</span></div>`; }
   else { const ap=cv.filter(apta), porSlot=Object.keys(SLOTS).map(sl=>[sl,ap.filter(c=>S.aval[c.code+"__"+sl]&&S.aval[c.code+"__"+sl].enviada).length]);
     corpo=`<section class="card pad"><h2 class="sech">Leituras entregues</h2><div class="mbars">${porSlot.map(([sl,n])=>`<div class="mbar"><span>${esc(SLOTS[sl])}</span><div class="mtrack"><i style="width:${ap.length?n/ap.length*100:0}%;background:var(--accent)"></i></div><span>${n} de ${ap.length}</span></div>`).join("")}</div></section>
      <div class="tw"><table><thead><tr><th>Projeto</th><th>Leituras</th><th>Situação</th></tr></thead><tbody>${ap.map(c=>{ const cons=consolidar(c); const n=cons?cons.n:0;
-       return `<tr class="click" data-drw="${esc(c.code)}"><td><b>${esc(c.nome)}</b><div class="tiny muted">${esc(c.code)}</div></td><td><span class="dots">${[0,1,2].map(i=>`<i class="${i<n?"on":""}"></i>`).join("")}</span> <span class="small muted">${n} de 3</span></td><td>${n<3?`<span class="chip">aguardando</span>`:cons.conciliar.length?`<span class="chip warn">conciliar ${cons.conciliar.length} critério(s)</span>`:`<span class="chip good">consolidado</span>`}</td></tr>`; }).join("")||`<tr><td colspan="3" class="empty">Nenhum projeto passou nos filtros ainda.</td></tr>`}</tbody></table></div>
+       return `<tr class="click" data-drw="${esc(c.code)}"><td><b>${esc(c.nome)}</b><div class="tiny muted">${esc(c.code)}</div></td><td><span class="dots">${[0,1,2].map(i=>`<i class="${i<n?"on":""}"></i>`).join("")}</span> <span class="small muted">${n} de 3</span></td><td>${n<3?`<span class="chip">aguardando</span>`:cons.conciliar.length?`<span class="chip warn">conciliar ${qtd(cons.conciliar.length,"critério","critérios")}</span>`:`<span class="chip good">consolidado</span>`}</td></tr>`; }).join("")||`<tr><td colspan="3" class="empty">Nenhum projeto passou nos filtros ainda.</td></tr>`}</tbody></table></div>
      <p class="small muted">A nota de cada critério é a mediana das três leituras. Distância de 2 pontos ou mais leva o critério à conciliação.</p>`; }
   const dd=diasAte("2026-11-10");
-  M.innerHTML=`${banner}${phead([["Início","inicio"],["DIREX"]],"DIREX","Diretoria Executiva. A Unidade de Gestão Estratégica monta a carteira sob o teto e testa a robustez; a Diretoria Executiva delibera e registra as decisões.",[["Quem faz","Diretoria Executiva, com a Unidade de Gestão Estratégica"],["Quando","aprovação em 10/11; depois, Conselho Deliberativo em 25/11, pelo Contrato de Gestão"],["Etapa da MGP³","Balanceamento (4.3) e Autorização (4.5)"]],dd>=0?`<span class="tag">${dd===0?"Reunião da Diretoria Executiva hoje":dd===1?"Falta 1 dia para a Diretoria Executiva":`Faltam ${dd} dias para a Diretoria Executiva`}</span>`:"")}
+  M.innerHTML=`${banner}${phead([["Início","inicio"],["Diretoria Executiva"]],"Diretoria Executiva","A Unidade de Gestão Estratégica monta a carteira sob o teto e testa a robustez. A Diretoria Executiva delibera e registra as decisões.",[["Quem faz","Diretoria Executiva, com a Unidade de Gestão Estratégica"],["Quando","aprovação em 10/11; depois, Conselho Deliberativo em 25/11, pelo Contrato de Gestão"],["Etapa da MGP³","Balanceamento (4.3) e Autorização (4.5)"]],dd>=0?`<span class="tag">${dd===0?"Reunião da Diretoria Executiva hoje":dd===1?"Falta 1 dia para a Diretoria Executiva":`Faltam ${dd} dias para a Diretoria Executiva`}</span>`:"")}
    ${linhaTempo()}${balanca(R)}
    <div class="ptabs" role="tablist">${TABS.map(([k,t],i)=>`<button role="tab" data-ptab="${k}" aria-selected="${tab===k}"><span>${i+1}</span>${t}</button>`).join("")}<button role="tab" class="aux" data-ptab="conc" aria-selected="${tab==="conc"}">Conciliação das notas</button></div>
    ${corpo}`;
+  montarGraficos(); ligarDrw(M); ligarQuadro(M,R); ligarLista(M);
   M.querySelectorAll("[data-ptab]").forEach(b=>b.onclick=()=>{ LOC.ptab=b.dataset.ptab; render(); });
   const at=M.querySelector('.ptabs [aria-selected="true"]'); if(at){ const pt=at.parentElement; pt.scrollLeft=Math.max(0,at.offsetLeft-pt.offsetLeft-16); }
-  M.querySelectorAll("[data-drw]").forEach(b=>{ b.onclick=()=>{ DRW=b.dataset.drw; renderDrawer(); }; if(b.tagName==="rect") b.onkeydown=e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); DRW=b.dataset.drw; renderDrawer(); } }; });
+  M.querySelectorAll("[data-fm]").forEach(b=>b.onclick=()=>{ LOC.fmed=b.dataset.fm; render(); });
+  M.querySelectorAll("[data-cd]").forEach(b=>b.onclick=()=>{ LOC.cdim=b.dataset.cd; render(); });
+  M.querySelectorAll("[data-kbm]").forEach(b=>b.onclick=()=>{ LOC.kbm=b.dataset.kbm; render(); });
+  M.querySelectorAll("[data-kbt]").forEach(b=>b.onclick=()=>{ const k=b.dataset.kbt, s=new Set(kbFechadas()); s.has(k)?s.delete(k):s.add(k); LOC.kbcol=[...s]; render(); setTimeout(()=>{ const n=document.querySelector(`[data-kbt="${k}"]`); if(n) n.focus(); },0); });
+  M.querySelectorAll("[data-fsai]").forEach(b=>b.onclick=()=>{ const k=b.dataset.fsai; if(kbFechadas().includes(k)){ LOC.kbcol=kbFechadas().filter(x=>x!==k); render(); }
+    const el=document.querySelector(`.kb-col[data-col="${k}"]`); if(!el) return; const lento=!matchMedia("(prefers-reduced-motion: reduce)").matches;
+    el.scrollIntoView({behavior:lento?"smooth":"auto",block:"nearest",inline:"center"}); el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash"); const f=el.querySelector(".kc2,.kb-tg"); if(f) f.focus({preventScroll:true}); });
   if($("teto")){ $("teto").oninput=e=>{ LOC.teto=+e.target.value; $("tetoTxt").textContent=`R$ ${mi(somaP()*LOC.teto/100)} mi, ${LOC.teto}% dos pedidos`; }; $("teto").onchange=()=>render(); }
   M.querySelectorAll("[data-tp]").forEach(b=>b.onclick=()=>{ LOC.teto=+b.dataset.tp; render(); });
   const regDec=(l,dec,motivo,resp)=>gravar("decisoes/"+l.c.code,{code:l.c.code,decisao:dec,rec:decisaoDe(l).rec,motivo:motivo||"",resp:resp||"",relev:(S.dec[l.c.code]||{}).relev||"",contest:(S.dec[l.c.code]||{}).contest||"",uid:S.uid,ts:new Date().toISOString()},null);
@@ -1933,7 +2292,7 @@ function vPainel(M,banner){
   M.querySelectorAll("[data-dvok]").forEach(b=>b.onclick=async()=>{ const code=b.dataset.dvok, l=R.L.find(x=>x.c.code===code), mo=$("mo_"+code).value.trim(), re=$("re_"+code).value.trim();
     if(!jOk(mo)||!re){ ELDV[code].motivo=mo; ELDV[code].resp=re; toast("Desvio exige justificativa (ao menos 10 caracteres) e responsável."); return; }
     if(await regDec(l,ELDV[code].dec,mo,re)){ delete ELDV[code]; toast("Desvio registrado"); } });
-  const lote=async(ls)=>{ let n=0; for(const l of ls){ if(S.dec[l.c.code]&&S.dec[l.c.code].ts) continue; if(await regDec(l,"seguir")) n++; } toast(`${n} decisões registradas`); };
+  const lote=async(ls)=>{ let n=0; for(const l of ls){ if(S.dec[l.c.code]&&S.dec[l.c.code].ts) continue; if(await regDec(l,"seguir")) n++; } toast(n===1?"1 decisão registrada":`${n} decisões registradas`); };
   if($("emBloco")) $("emBloco").onclick=()=>{ const L=R.L.filter(l=>l.v&&l.v.passa&&l.cabe&&(rc[l.c.code]||{}).cls==="dentro"); lote(L); };
   if($("foraBloco")) $("foraBloco").onclick=()=>{ const L=R.L.filter(l=>l.v&&l.v.passa&&!l.cabe&&(rc[l.c.code]||{}).cls==="fora"); lote(L); };
   if($("minuta")) $("minuta").onclick=()=>salvarArquivo(`Minuta_deliberacao_carteira_2027_${hojeLocal()}.html`,minutaHTML(R,rc));
@@ -1963,8 +2322,8 @@ function renderDrawer(){ const H=$("drawer"); if(!DRW||!S.canvas[DRW]){ H.innerH
       det+=`<h3>As três leituras</h3>${cr.conciliar.length?`<div class="note warn">Conciliar: ${cr.conciliar.map(k=>CR[k].n.toLowerCase()).join("; ")}.</div>`:""}<div class="tw"><table><thead><tr><th>Critério</th>${["A1","A2","A3"].map(sl=>`<th class="n">${esc(SLOTS[sl])}</th>`).join("")}<th class="n">Mediana</th></tr></thead><tbody>${AVC.map(k=>`<tr><td>${esc(CR[k].n)}${cr.amp[k]>=2?` <span class="chip warn">${cr.amp[k]}</span>`:""}${av.some(a=>a.just&&a.just[k])?`<div class="tiny muted">${av.map((a,i)=>a.just&&a.just[k]?`<div>${esc(SLOTS[["A1","A2","A3"][i]])}: ${esc(a.just[k])}${a.conf&&a.conf[k]?" (confiança "+esc(a.conf[k]).toLowerCase()+")":""}</div>`:"").join("")}</div>`:""}</td>${av.map(a=>`<td class="n">${a.notas[k]}</td>`).join("")}<td class="n"><b>${fmtN(cr.notas[k])}</b></td></tr>`).join("")}</tbody></table></div>`; } }
   else det=`<div class="note">${l?esc(explicaSit(c).t):"Canvas em rascunho."}${l&&l.ok&&!l.v?` Leituras enviadas: ${l.cons?l.cons.n:0} de 3.`:""}</div>`;
   let delib="";
-  if(l&&l.v&&l.v.passa){ const D=decisaoDe(l), g=S.dec[c.code]||{}, esc2=g.decisao||"seguir";
-    delib=`<section class="delib"><h3>Deliberação da Diretoria Executiva</h3><p class="small">Recomendação técnica: <b>${D.rec==="incluir"?"incluir na carteira":"deixar fora da carteira"}</b> (${l.pos}º na fila${l.cabe?", dentro do teto":", fora do teto"}).</p>
+  if(l&&l.v&&l.v.passa){ const D=decisaoDe(l), g=S.dec[c.code]||{}, pre=DRWPRE&&DRWPRE.code===c.code?DRWPRE:null, esc2=pre?pre.dec:(g.decisao&&g.decisao!==D.rec?g.decisao:"seguir");
+    delib=`<section class="delib"><h3>Deliberação da Diretoria Executiva</h3>${pre&&pre.msg?`<div class="note info">${esc(pre.msg)}</div>`:""}<p class="small">Recomendação técnica: <b>${D.rec==="incluir"?"incluir na carteira":"deixar fora da carteira"}</b> (${l.pos}º na fila${l.cabe?", dentro do teto":", fora do teto"}).</p>
       <div class="radios" id="decR">${[["seguir","Seguir a recomendação"],["incluir","Incluir na carteira"],["fora","Deixar fora da carteira"]].map(([k,t])=>`<button type="button" data-dec="${k}" aria-pressed="${esc2===k}">${t}</button>`).join("")}</div>
       <div id="desvioBox" ${(esc2!=="seguir"&&esc2!==D.rec)?"":"hidden"}><div class="note warn">Esta decisão se afasta da recomendação técnica. Registre a justificativa e o responsável.</div>
         <div class="fld"><label for="dMot" class="req">Justificativa do desvio</label><textarea id="dMot" rows="3">${esc(g.motivo||"")}</textarea></div>
@@ -1977,17 +2336,17 @@ function renderDrawer(){ const H=$("drawer"); if(!DRW||!S.canvas[DRW]){ H.innerH
    ${delib}${det}<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" data-dgo="elegibilidade/${esc(c.code)}">Abrir filtros</button><button class="btn" data-dlficha="${esc(c.code)}">Baixar Canvas</button></div></aside>`;
   const volta=document.activeElement&&document.activeElement.closest&&!document.activeElement.closest(".drawer")?document.activeElement.dataset.drw:null;
   empilhar(H);
-  const fecha=()=>{ DRW=null; H.innerHTML=""; const b=volta&&document.querySelector(`[data-drw="${volta}"]`); if(b) b.focus(); }; $("dbg").onclick=fecha; $("dfecha").onclick=fecha; $("dfecha").focus();
+  const fecha=()=>{ DRW=null; DRWPRE=null; H.innerHTML=""; const b=volta&&document.querySelector(`[data-drw="${volta}"]`); if(b) b.focus(); }; $("dbg").onclick=fecha; $("dfecha").onclick=fecha; $("dfecha").focus();
   H.querySelector(".drawer").addEventListener("keydown",e=>{ if(e.key!=="Tab") return; const f=[...H.querySelectorAll(".drawer button,.drawer textarea,.drawer input,.drawer [tabindex='0']")].filter(x=>!x.disabled&&x.offsetParent); if(!f.length) return; const a=f[0], z=f[f.length-1];
     if(e.shiftKey&&document.activeElement===a){ e.preventDefault(); z.focus(); } else if(!e.shiftKey&&document.activeElement===z){ e.preventDefault(); a.focus(); } });
   H.querySelectorAll("[data-dgo]").forEach(b=>b.onclick=()=>go(b.dataset.dgo));
-  let escolha=(S.dec[c.code]||{}).decisao||"seguir";
+  let escolha=(H.querySelector('[data-dec][aria-pressed="true"]')||{dataset:{dec:"seguir"}}).dataset.dec;
   H.querySelectorAll("[data-dec]").forEach(b=>b.onclick=()=>{ escolha=b.dataset.dec; H.querySelectorAll("[data-dec]").forEach(x=>x.setAttribute("aria-pressed",String(x===b))); const D=decisaoDe(l); $("desvioBox").hidden=!(escolha!=="seguir"&&escolha!==D.rec); });
   if($("dSalvar")) $("dSalvar").onclick=async()=>{ const D=decisaoDe(l), desvio=escolha!=="seguir"&&escolha!==D.rec, mot=$("dMot").value.trim(), resp=$("dResp").value.trim();
     if(desvio&&(!jOk(mot)||!resp)){ toast("Desvio exige justificativa e responsável."); return; }
-    const ok=await gravar("decisoes/"+c.code,{code:c.code,decisao:desvio?escolha:"seguir",rec:D.rec,motivo:desvio?mot:"",resp:desvio?resp:"",relev:$("dRel").value.trim(),contest:$("dCont").value.trim(),uid:S.uid,ts:new Date().toISOString()},"Decisão registrada"); if(ok){ setTimeout(()=>{ render(); },60); } };
+    const ok=await gravar("decisoes/"+c.code,{code:c.code,decisao:desvio?escolha:"seguir",rec:D.rec,motivo:desvio?mot:"",resp:desvio?resp:"",relev:$("dRel").value.trim(),contest:$("dCont").value.trim(),uid:S.uid,ts:new Date().toISOString()},"Decisão registrada"); if(ok){ const arr=!!(DRWPRE&&DRWPRE.code===c.code); DRWPRE=null; if(arr) DRW=null; setTimeout(()=>{ render(); },60); } };
 }
-document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&DRW){ DRW=null; renderDrawer(); } });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&DRW){ DRW=null; DRWPRE=null; renderDrawer(); } });
 
 /* ================= como funciona ================= */
 function vRegras(M){
