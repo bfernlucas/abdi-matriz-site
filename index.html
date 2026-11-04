@@ -732,6 +732,144 @@ h1:focus{outline:none}
 .rb:focus-visible,.rail:focus-visible,.board:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 @media (pointer:coarse){.ib{width:44px;height:44px}.seg-c{min-width:14px}.rg{min-height:44px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+/* ---------- árvores de decisão do filtro 2 (vínculo com missão) ---------- */
+:root{
+  --tree-line:#8b97d4; --good-line:#9fd3ad; --bad-line:#f0a9a8; --on-accent-2:rgba(255,255,255,.86);
+  --tree-arrow:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M0 0h12L6 8z' fill='%238b97d4'/%3E%3C/svg%3E");
+}
+.ah{display:grid;gap:var(--s1);color:var(--accent);margin:var(--s2) 0 var(--s1)}
+.ah .l1{font:300 clamp(28px,3.4vw,40px)/1.2 var(--font)}
+.ah .l2{font:600 clamp(30px,4.4vw,56px)/1.08 var(--font);letter-spacing:-.015em}
+.av-lead{max-width:var(--measure);font:300 17px/28px var(--font);color:var(--ink-2)}
+.av-chips{display:flex;flex-wrap:wrap;gap:var(--s2);margin-top:var(--s2)}
+.av-chips .chip{min-height:28px;padding:0 12px;white-space:normal}
+.av-sec{display:grid;gap:var(--s3)}
+.av-lbl{font:500 12px/16px var(--font);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.av-oe{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s4)}
+@media (max-width:900px){.av-oe{grid-template-columns:1fr}}
+.av-oe article{border:1px solid var(--line);border-radius:var(--r-md);padding:var(--s4) var(--s5);display:grid;gap:var(--s1);align-content:start}
+.av-oe .k{font:500 12px/16px var(--font);color:var(--accent)}
+.av-oe h3{font:500 15px/24px var(--font)}
+.av-oe p{font-size:13px;line-height:20px;color:var(--ink-3)}
+.av-hint{display:none;font-size:13px;line-height:20px;color:var(--ink-3)}
+@media (max-width:1120px){.av-hint{display:block}}
+.av-tree{overflow-x:auto;padding:var(--s2) 0 var(--s3)}
+.av-tree:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+.av-canvas{--g:24px;min-width:1040px;display:flex;flex-direction:column;align-items:center}
+
+/* nós */
+.av-start{display:inline-flex;align-items:center;justify-content:center;text-align:center;min-height:var(--h-lg);padding:0 28px;border-radius:var(--pill);background:var(--accent);color:var(--accent-ink);font:500 15px/20px var(--font)}
+.av-q{width:100%;max-width:760px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:var(--s4) var(--s5);display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--s4);align-items:start}
+.av-q h3{font:500 17px/26px var(--font)}
+.av-q .d{font-size:13px;line-height:20px;color:var(--ink-3);margin-top:var(--s1)}
+.av-q .d b{color:var(--ink-2);font-weight:600}
+.av-q .tag{margin-bottom:var(--s1)}
+.tag.el{background:var(--ink);color:#fff}
+.av-code{min-width:40px;height:40px;padding:0 8px;border-radius:var(--pill);background:var(--accent-soft);color:var(--accent);border:1px solid var(--accent-line);display:grid;place-items:center;font:600 12px/1 var(--font);text-align:center;letter-spacing:-.01em}
+.av-code.el{background:var(--ink);border-color:var(--ink);color:#fff}
+.av-code.mu{background:var(--sunk);border-color:var(--line);color:var(--ink-3);font-size:16px}
+.av-code.let{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-size:13px}
+.av-opt{width:100%;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:var(--s3) var(--s4);display:grid;grid-template-columns:auto minmax(0,1fr);gap:var(--s3);align-items:center}
+.av-ov .av-opt{flex:1}
+.av-opt b{display:block;font:500 14px/20px var(--font);color:var(--ink)}
+.av-opt span.s{display:block;font-size:12px;line-height:16px;color:var(--ink-3);margin-top:2px}
+
+/* conectores */
+.av-ln{width:2px;height:20px;background:var(--tree-line);flex:none}
+.av-ar{position:relative;width:12px;height:var(--h,32px);flex:none;background:var(--tree-arrow) center bottom/12px 8px no-repeat,linear-gradient(var(--tree-line),var(--tree-line)) center top/2px calc(100% - 7px) no-repeat}
+.av-ar>.av-lab{position:absolute;left:50%;top:45%;transform:translate(-50%,-50%)}
+.av-lab{display:inline-flex;align-items:center;min-height:22px;padding:0 10px;border-radius:var(--pill);background:var(--surface);border:1px solid var(--line-2);font:500 12px/16px var(--font);color:var(--ink-2);white-space:nowrap;z-index:1}
+.av-lab.sim{color:var(--good);border-color:var(--good-line)}
+.av-lab.nao{color:var(--bad);border-color:var(--bad-line)}
+.av-br{display:grid;gap:0 var(--g);width:100%;align-items:stretch}
+.av-bc{position:relative;padding-top:40px;display:flex;flex-direction:column;align-items:center;min-width:0}
+.av-bc::before{content:"";position:absolute;top:0;left:calc(var(--g)/-2);right:calc(var(--g)/-2);height:2px;background:var(--tree-line)}
+.av-bc.f::before{left:50%}
+.av-bc.l::before{right:50%}
+.av-bc.o::before{display:none}
+.av-bc::after{content:"";position:absolute;top:0;left:calc(50% - 6px);width:12px;height:40px;background:var(--tree-arrow) center bottom/12px 8px no-repeat,linear-gradient(var(--tree-line),var(--tree-line)) center top/2px calc(100% - 7px) no-repeat}
+.av-bc>.av-lab{position:absolute;top:19px;left:50%;transform:translate(-50%,-50%)}
+.av-fill{flex:1}
+.av-mg{display:grid;gap:0 var(--g);width:100%;height:24px}
+.av-mg>i{position:relative}
+.av-mg>i::before{content:"";position:absolute;left:calc(50% - 1px);top:0;width:2px;height:100%;background:var(--tree-line)}
+.av-mg>i::after{content:"";position:absolute;bottom:0;height:2px;background:var(--tree-line)}
+.av-mg>i.s::after{left:50%;right:calc(var(--g)/-2)}
+.av-mg>i.m::after{left:calc(var(--g)/-2);right:calc(var(--g)/-2)}
+.av-mg>i.e::after{left:calc(var(--g)/-2);right:50%}
+.av-mg>i.x::before,.av-mg>i.x::after{display:none}
+.av-blk{width:100%;max-width:960px;display:flex;flex-direction:column;align-items:center}
+.av-bc .av-blk{max-width:none}
+.av-bc .av-q{max-width:none}
+
+/* cadeias e elos */
+.av-ch{width:100%;background:var(--sunk);border-radius:var(--r-md);padding:var(--s4);display:grid;gap:var(--s3);align-content:start}
+.av-ch h3{font:500 17px/24px var(--font);color:var(--accent)}
+.av-ch .src{font-size:12px;line-height:16px;color:var(--ink-3)}
+.av-elos{display:grid;grid-template-columns:repeat(var(--n,5),minmax(0,1fr));gap:var(--s2)}
+.av-elo{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm);padding:var(--s3);display:grid;gap:2px;align-content:start}
+.av-elo .k{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font:600 12px/16px var(--font);color:var(--accent)}
+.av-elo b{font:500 14px/20px var(--font);color:var(--ink)}
+.av-elo .d{font-size:12px;line-height:16px;color:var(--ink-3)}
+.av-elo.pr{background:var(--yellow-soft);border-color:var(--yellow-line)}
+.av-star{background:var(--yellow);color:var(--accent);font:600 12px/16px var(--font);padding:0 6px;border-radius:var(--r-xs)}
+.av-none{display:flex;flex-wrap:wrap;gap:var(--s2);align-items:center;font-size:13px;line-height:20px;color:var(--bad)}
+
+/* saídas */
+.av-out{width:100%;max-width:380px;border-radius:var(--r-md);padding:var(--s3) var(--s4);display:grid;gap:2px;text-align:center;align-self:center}
+.av-out b{font:600 15px/22px var(--font)}
+.av-out span{font-size:12px;line-height:16px}
+.av-out.pri{background:var(--good);color:#fff}
+.av-out.ade{background:var(--good-soft);color:var(--good)}
+.av-out.par{background:var(--warn-soft);color:var(--warn)}
+.av-out.des{background:var(--ink);color:#fff}
+.av-out.nad{background:var(--bad-soft);color:var(--bad)}
+.av-out.red{background:var(--sunk);color:var(--ink-2)}
+.av-out.red b{color:var(--ink)}
+
+/* visão geral: grade de cinco colunas */
+.av-ov{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0 var(--g);width:100%}
+.av-cell{display:flex;justify-content:center}
+.av-pc{grid-column:1/4;display:flex}
+.av-pc .av-q{max-width:none}
+.av-ov>.av-out{align-self:start;max-width:none}
+.av-elb{position:relative;height:64px}
+.av-elb::before{content:"";position:absolute;top:0;left:calc(-1*var(--g) - 40px);width:calc(50% + var(--g) + 41px);height:28px;border-left:2px solid var(--tree-line);border-bottom:2px solid var(--tree-line);border-bottom-left-radius:10px;box-sizing:border-box}
+.av-elb::after{content:"";position:absolute;left:calc(50% - 6px);top:26px;width:12px;height:calc(100% - 26px);background:var(--tree-arrow) center bottom/12px 8px no-repeat,linear-gradient(var(--tree-line),var(--tree-line)) center top/2px calc(100% - 7px) no-repeat}
+.av-elb>.av-lab{position:absolute;left:50%;top:44px;transform:translate(-50%,-50%)}
+.av-cat{background:var(--accent);color:var(--accent-ink);border-radius:var(--r-md);padding:var(--s4) var(--s5) var(--s5);display:grid;gap:var(--s2);align-content:start}
+.av-cat h3{color:var(--accent-ink);font:600 18px/24px var(--font)}
+.av-cat p{font-size:13px;line-height:20px;color:var(--on-accent-2)}
+.av-cat .tag{justify-self:start;text-decoration:none;margin-top:var(--s1)}
+.av-cat .tag:hover{text-decoration:underline}
+.av-cat .tag:focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
+.av-legend{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s4) var(--s6)}
+.av-legend>div{display:grid;grid-template-columns:184px minmax(0,1fr);gap:var(--s3);align-items:center}
+.av-legend .av-out{padding:10px var(--s3)}
+.av-legend .av-out b{font-size:14px;line-height:20px}
+.av-legend p{font-size:13px;line-height:20px;color:var(--ink-3)}
+@media (max-width:1000px){.av-legend{grid-template-columns:1fr}}
+@media (max-width:480px){.av-legend>div{grid-template-columns:1fr}.av-legend .av-out{max-width:none}}
+
+/* rodapé das figuras */
+.av-fn{display:flex;flex-wrap:wrap;gap:var(--s3) var(--s6);align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding-top:var(--s4)}
+.av-fn ol{display:flex;flex-wrap:wrap;gap:var(--s2) var(--s4);list-style:none;margin:0;padding:0;align-items:center}
+.av-fn li{display:flex;align-items:center;gap:var(--s4)}
+.av-fn li+li::before{content:"";width:32px;height:1px;background:var(--line-2)}
+.av-fn a{color:var(--ink-2);text-decoration:none;font:400 15px/24px var(--font)}
+.av-fn a b{color:var(--accent);font:600 18px/24px var(--font);margin-right:4px}
+.av-fn a:hover{color:var(--accent)}
+.av-fn a[aria-current="page"]{color:var(--ink);font-weight:500}
+.av-fn p{font-size:12px;line-height:16px;color:var(--ink-3);max-width:62ch}
+
+/* entrada pela lista de filtros e índice */
+.av-strip{display:flex;flex-wrap:wrap;gap:var(--s3) var(--s5);align-items:center;justify-content:space-between;border:1px solid var(--line);border-radius:var(--r-md);padding:var(--s3) var(--s4)}
+.av-strip p{font-size:14px;line-height:22px;max-width:80ch;min-width:0}
+.av-strip p b{color:var(--ink);font-weight:600}
+.av-idx .row[aria-disabled="true"]{cursor:default;opacity:.72}
+.av-idx .row[aria-disabled="true"]:hover{background:transparent}.av-idx .row[aria-disabled="true"]:hover .nm{color:var(--ink)}
+
 </style>
 
 <header class="hd"><a class="skip" href="javascript:void 0" id="skip">Ir para o conteúdo</a><div class="hdi">
@@ -1009,7 +1147,7 @@ function render(){
   if(!LOC.usuario){ $("nav").innerHTML=""; vEntrada(M,banner); salvarLocal(); return; }
   const [r,a]=ROTA;
   if(r==="canvas") a?vWizard(M,banner,a):vCanvasLista(M,banner);
-  else if(r==="elegibilidade") a&&S.canvas[a]?vElWork(M,banner,S.canvas[a]):vElLista(M,banner);
+  else if(r==="elegibilidade") a==="arvore"?vArvore(M,banner,ROTA[2],ROTA[3]):a&&S.canvas[a]?vElWork(M,banner,S.canvas[a]):vElLista(M,banner);
   else if(r==="notas") a&&S.canvas[a]?vNtWork(M,banner,S.canvas[a]):vNtLista(M,banner);
   else if(r==="painel") vPainel(M,banner);
   else if(r==="como-funciona") vRegras(M);
@@ -1381,6 +1519,7 @@ function vElLista(M,banner){
   const g={}; DESTINO.forEach(d=>g[d]=[]); fil.forEach(c=>g[situacao(c)].push(c));
   const tot=Math.max(1,cv.length), cont=d=>cv.filter(c=>situacao(c)===d).length;
   M.innerHTML=`${banner}${headM("Filtros de entrada","Seis perguntas de sim ou não aplicadas na revisão do Canvas, antes de qualquer nota. Os filtros não se compensam: um único não tira o projeto da disputa.","Unidade de Gestão Estratégica (Escritório de Projetos)","na análise dos Canvas, antes de qualquer nota")}
+   <section class="av-strip" aria-label="Árvores de decisão do filtro 2"><p><b>Filtro 2 · Vínculo com missão e eixo.</b> As árvores de decisão por missão mostram se o projeto se insere na missão, em qual categoria e com que grau de aderência. A Missão 3 já está disponível.</p><a class="btn sm" href="#elegibilidade/arvore">Ver árvores de decisão</a></section>
    <section class="triage" aria-label="Destino dos Canvas">
     <div class="tbar">${DESTINO.filter(cont).map(d=>`<i style="flex:${cont(d)};background:${DCOR[d]}" title="${esc(d)}: ${cont(d)}"></i>`).join("")}</div>
     <div class="tleg">${DESTINO.filter(cont).map(d=>`<span><i style="background:${DCOR[d]}"></i>${esc(d)} <b>${cont(d)}</b></span>`).join("")}</div>
@@ -1402,7 +1541,7 @@ function vElWork(M,banner,c){
   if(qi<6){ const q=ELQ[qi], dk=c.code+"_"+qi, dr=ELD[dk], v=dr?dr.v:E[qi], j=dr?dr.j:(J[qi]||"");
     const est=dr?`<span class="chip warn">não registrada</span>`:E[qi]?(!jOk(J[qi])?`<span class="chip warn">sem justificativa</span>`:c.elegPre&&!CF[qi]?`<span class="chip acc">pré-preenchida, confirme</span>`:`<span class="chip good">registrada</span>`):"";
     card=`<div class="qcard"><div class="qtop"><span class="k">Filtro ${qi+1} de 6: ${esc(q.t)}</span>${ib("E"+qi)}</div>${ibox("E"+qi,q.i)}
-      <h2>${esc(q.q)}</h2><p class="hint">${esc(q.h)}</p>
+      <h2>${esc(q.q)}</h2><p class="hint">${esc(q.h)}</p>${qi===1?avLink(c):""}
       <div class="opts">${["sim","não","verificar",...(qi===5?["n/a"]:[])].map(o=>`<button data-v="${o}" aria-pressed="${v===o}" ${ro?"disabled":""}>${o==="n/a"?"não se aplica":o}</button>`).join("")}</div>
       ${v==="não"?`<div class="note bad">Com este não, o projeto sai da disputa: <b>${esc(q.no)}</b></div>`:""}
       ${v?`<div class="fld"><label for="ej" class="req">Justificativa</label><textarea id="ej" placeholder="O que no Canvas ou no histórico sustenta esta resposta" ${ro?"readonly":""}>${esc(j)}</textarea><span class="jm" id="ejm" ${dr&&!jOk(j)?"":"hidden"}>Escreva ao menos ${JMIN} caracteres.</span></div>`:""}
@@ -1423,6 +1562,124 @@ function vElWork(M,banner,c){
     if(await gravar("canvas/"+c.code,{...c,eleg,elegJust:ej,elegConf:cf,elegTs:new Date().toISOString()},"Resposta registrada")) LOC.eq[c.code]=dr.v==="não"?6:qi+1; else ELD[dk]=dr; render(); };
   if($("prox")) $("prox").onclick=()=>{ delete LOC.eq[prox]; go("elegibilidade/"+prox); };
 }
+
+
+/* ================= 2b. árvores de decisão do filtro 2 (vínculo com missão) ================= */
+/* Uma árvore por missão: visão geral + uma figura por categoria. Para incluir outra missão, acrescente ARV.Mx no mesmo formato. */
+const FONTE_NIB="Elaboração própria com base na Nova Indústria Brasil (Conselho Nacional de Desenvolvimento Industrial e Ministério do Desenvolvimento, Indústria, Comércio e Serviços, 2024)";
+const OUT={pri:"Aderente prioritário",ade:"Aderente",par:"Parcial",des:"Descartado",nad:"Não aderente",red:"Redirecionar"};
+const ARV={
+ M3:{nome:"Infraestrutura, saneamento, moradia e mobilidade sustentáveis",
+  lead:"Verifica se um projeto do Canvas se insere na missão, seguindo o encadeamento missão → objetivo estratégico → objetivo específico (categoria) → pergunta ou critério. Os filtros vêm antes de qualquer nota e não admitem compensação.",
+  chips:["Missão 3 da Nova Indústria Brasil","3 objetivos estratégicos","Categorias A, B, C e D","Cadeias prioritárias: propulsão, baterias, metroferroviário"],
+  oes:[{k:"Objetivo estratégico 3.1",t:"Moradia sustentável",d:"2026: 2,0 milhões de moradias do Programa Minha Casa, Minha Vida, 500 mil com energia fotovoltaica. 2033: 6,9 milhões de moradias, 1,4 milhão com energia fotovoltaica."},
+   {k:"Objetivo estratégico 3.2",t:"Mobilidade eletrificada nacional",d:"Veículos eletrificados com baterias nacionais: 3% das vendas em 2026 e 33% em 2033. Cadeias prioritárias: propulsão, baterias, metroferroviário."},
+   {k:"Objetivo estratégico 3.3",t:"Adensamento das cadeias",d:"Adensar as cadeias produtivas nacionais de infraestrutura, com integração produtiva nacional e regional. Sem meta quantitativa."}],
+  p0:{k:"P0",t:"Em qual setor o projeto atua?",d:"Identifica a categoria (objetivo específico) da Missão 3."},
+  setores:[{k:"A",t:"Água e saneamento"},{k:"B",t:"Mobilidade e logística"},{k:"C",t:"Energia"},
+   {k:"D",t:"Telecomunicações e dados",out:{c:"red",t:"Avaliar na Missão 4",d:"Transformação digital"}},
+   {k:"–",t:"Nenhum desses setores",mu:1,out:{c:"nad",t:"Não se insere na Missão 3",d:"Testar outras missões"}}],
+  pc:{k:"P-comum",el:1,tag:"Eliminatória",t:"O projeto desenvolve, produz ou fortalece fornecedores, tecnologia ou conteúdo nacional em algum elo da cadeia?",d:"Projeto que apenas implanta, adquire ou consome infraestrutura não incentiva a indústria.",nao:{c:"des",d:"Apenas implantação, sem incentivo à indústria"}},
+  saidas:[["pri","Atua em um elo e atende a um qualificador, ou está em cadeia prioritária ★."],["ade","Atua em ao menos um elo da cadeia mapeada."],["par","Setor correto, mas fora dos elos mapeados (por exemplo, outros modais)."],
+   ["des","Falha na P-comum: apenas implantação, aquisição ou consumo."],["nad","Falha na P0 ou não atua em nenhum elo."],["red","Telecomunicações e dados → Missão 4; outras fontes de energia → Missão 5."]],
+  cats:{
+   A:{nome:"Água e saneamento",resumo:"5 elos da cadeia de saneamento e qualificadores A2 e A3.",
+    lead:"Objetivos específicos I, III e IV da Nova Indústria Brasil: adensar a cadeia nacional de infraestrutura de água e saneamento, com foco em redes de água, esgoto e drenagem e na otimização dos recursos hídricos.",
+    chips:["Objetivo estratégico 3.1 · Moradia sustentável","Objetivo estratégico 3.3 · Adensamento das cadeias","5 elos","2 qualificadores"],
+    q1:{k:"A1",t:"Em qual elo da cadeia de saneamento o projeto atua?"},
+    cols:[{fr:1,ch:{t:"Cadeia de água e saneamento",src:"Ermakoff et al., 2022",n:5,none:"Não aderente à categoria A",elos:[
+     ["Matérias-primas e insumos básicos","Sal-gema, bauxita, rocha fosfática; eteno, ferro-gusa e cimento."],
+     ["Insumos intermediários","Cloro-soda e dicloroetano; resinas plásticas (policloreto de vinila e polietileno de alta densidade) e aditivos."],
+     ["Tubulações e conexões","Tubos de policloreto de vinila, polietileno de alta densidade, ferro fundido, concreto e aço; conexões, válvulas, registros."],
+     ["Equipamentos e bens de capital","Hidrômetros e macromedidores; bombas e motores; equipamentos de estações de tratamento de água e de esgoto; automação."],
+     ["Produtos químicos para tratamento","Coagulantes, floculantes, desinfetantes, fluoretantes, carvão ativado."]]}}],
+    chk:{k:"A2·A3",tag:"Qualificador",t:"O projeto atende a pelo menos um qualificador?",dl:[["A2","digitalização, sistema construtivo inteligente, material sustentável, drenagem pluvial ou otimização de recursos hídricos."],["A3","aplicação no Programa Minha Casa, Minha Vida ou em outro programa de investimento → vínculo com o objetivo estratégico 3.1."]],
+     sim:{c:"pri",d:"Objetivo estratégico 3.3 e, se A3 = sim, também o 3.1"},nao:{c:"ade",d:"Objetivo estratégico 3.3"}}},
+   B:{nome:"Mobilidade e logística",resumo:"Ônibus elétricos (9 elos) e ferrovia (4 elos), com cadeias prioritárias ★.",
+    lead:"Objetivos específicos I e IV da Nova Indústria Brasil: desenvolver tecnologias, bens, serviços e empresas nacionais de mobilidade e logística de transporte, suas peças e componentes, com foco em economia circular, eficiência energética e digitalização.",
+    chips:["Objetivo estratégico 3.2 · Mobilidade eletrificada","Ônibus elétricos: 9 elos","Ferrovia: 4 elos","★ Cadeias prioritárias"],
+    q1:{k:"B1",t:"Qual subcadeia de mobilidade e logística?"},
+    cols:[{fr:2.2,ch:{code:"B-ON",t:"Ônibus elétricos",src:"Barassa, Comissão Econômica para a América Latina e o Caribe, 2024",n:3,none:"Não aderente",elos:[
+      ["Minerais críticos e metais de base","Lítio, níquel, cobalto, grafite, terras raras; cobre e alumínio."],
+      ["Insumos intermediários","Cátodo, ânodo, eletrólito, separadores; SMC; semicondutores de potência."],
+      ["Baterias","Células de íon-lítio; módulos e pacotes; sistema de gerenciamento da bateria e gestão térmica.",1],
+      ["Powertrain","Motores de tração e ímãs; eletrônica de potência; chicotes de alta tensão.",1],
+      ["Componentes complementares","Direção, suspensão, freios regenerativos; eixos; climatização elétrica."],
+      ["Integração do veículo","Chassis para tração elétrica; carrocerias; nacionalização dos kits de montagem completamente desmontados."],
+      ["Infraestrutura de recarga","Estações rápidas e semirrápidas; conectores; eletroterminais."],
+      ["Tecnologia, normas e competências","Pesquisa e desenvolvimento sem produção nacional; normas da Associação Brasileira de Normas Técnicas e do Instituto Nacional de Metrologia, Qualidade e Tecnologia; capacitação."],
+      ["Economia circular","Monitoramento do estado de saúde das baterias; segunda vida; logística reversa e reciclagem."]]}},
+     {fr:1.3,ch:{code:"B-FE",t:"Ferrovia",src:"Instituto de Economia da Universidade Estadual de Campinas, 2026",n:1,none:"Não aderente",elos:[
+      ["Material rodante","Trens, metrô, veículo leve sobre trilhos, vagões de carga e locomotivas.",1],
+      ["Infraestrutura ferroviária","Vias, pontes, túneis, estações e eletrificação.",1],
+      ["Sistemas de controle","Sinalização, gestão de tráfego, comunicação e controle.",1],
+      ["Serviços de suporte","Manutenção, modernização de frotas, peças de reposição.",1]]}},
+     {fr:1,alt:{t:"Outros modais",d:"Caminhões, automóveis, hidrovia"},out:{c:"par",d:"Fora das subcadeias mapeadas"}}],
+    chk:{k:"★",t:"O elo em que o projeto atua é de cadeia prioritária?",d:"Baterias e powertrain (sistemas de propulsão) em ônibus elétricos; todos os elos da ferrovia (metroferroviário).",
+     sim:{c:"pri",d:"Vínculo com o objetivo estratégico 3.2"},
+     nao:{k:"B3",tag:"Qualificador",t:"O projeto foca em economia circular, eficiência energética ou digitalização?",sim:{c:"pri",d:"Vínculo com o objetivo estratégico 3.2"},nao:{c:"ade",d:"Objetivo estratégico 3.2 ou 3.3"}}}},
+   C:{nome:"Energia solar fotovoltaica",resumo:"5 elos da cadeia solar e qualificador do Programa Minha Casa, Minha Vida.",
+    lead:"Objetivos específicos I e III da Nova Indústria Brasil: adensar a cadeia nacional de energia, com prioridade à energia renovável em moradias do Programa Minha Casa, Minha Vida. Outras fontes serão tratadas na Missão 5.",
+    chips:["Objetivo estratégico 3.1 · Moradia sustentável","Objetivo estratégico 3.3 · Adensamento das cadeias","5 elos","1 qualificador"],
+    q1:{k:"C1",t:"Em qual elo da cadeia de energia o projeto atua?"},
+    cols:[{fr:3.2,ch:{t:"Cadeia solar fotovoltaica",src:"Duarte e Araújo, Banco Nacional de Desenvolvimento Econômico e Social, 2025",n:5,none:"Não aderente à categoria C",elos:[
+      ["Extração e purificação do silício","Beneficiamento para silício de grau solar."],
+      ["Lingotes e wafers","Silício fundido em lingotes e fatiado em lâminas."],
+      ["Células fotovoltaicas","Dopagem dos wafers."],
+      ["Módulos fotovoltaicos","Corte a laser, soldagem, encapsulamento, molduras e caixas de junção."],
+      ["Equipamentos do sistema","Rastreadores solares (trackers) e inversores elétricos."]]}},
+     {fr:1,alt:{t:"Outra fonte de energia",d:"Eólica, hidrogênio, baterias estacionárias, transmissão"},out:{c:"red",t:"Avaliar na Missão 5",d:"Bioeconomia e transição energética"}}],
+    chk:{k:"C2",tag:"Qualificador",t:"O projeto tem aplicação em moradias do Programa Minha Casa, Minha Vida?",d:"Contribui para as metas de 500 mil (2026) e 1,4 milhão (2033) de moradias com painéis fotovoltaicos.",
+     sim:{c:"pri",d:"Vínculo com o objetivo estratégico 3.1"},nao:{c:"ade",d:"Objetivo estratégico 3.3"}}}}}};
+
+const avOut=o=>`<div class="av-out ${o.c}"><b>${esc(o.t||OUT[o.c])}</b>${o.d?`<span>${esc(o.d)}</span>`:""}</div>`;
+const avQ=q=>`<div class="av-q"><span class="av-code ${q.el?"el":""}">${esc(q.k)}</span><div>${q.tag?`<span class="tag ${q.el?"el":""}">${esc(q.tag)}</span>`:""}<h3>${esc(q.t)}</h3>${q.d?`<p class="d">${esc(q.d)}</p>`:""}${(q.dl||[]).map(([k,v])=>`<p class="d"><b>${esc(k)}</b>: ${esc(v)}</p>`).join("")}</div></div>`;
+const avAr=(lab,h,cls="")=>`<div class="av-ar" ${h?`style="--h:${h}px"`:""}>${lab?`<span class="av-lab ${cls}">${esc(lab)}</span>`:""}</div>`;
+const avCols=cols=>cols.map(c=>`minmax(0,${c.fr}fr)`).join(" ");
+function avBr(cells,tpl){ const n=cells.length;
+  return `<div class="av-ln"></div><div class="av-br" style="grid-template-columns:${tpl||`repeat(${n},minmax(0,1fr))`}">${cells.map((c,i)=>`<div class="av-bc ${n===1?"o":i===0?"f":i===n-1?"l":""}">${c}</div>`).join("")}</div>`; }
+function avChk(c){ return `<div class="av-blk">${avQ(c)}${avBr([`<span class="av-lab sim">Sim</span>${avOut(c.sim)}`,`<span class="av-lab nao">Não</span>${c.nao.k?avChk(c.nao):avOut(c.nao)}`])}</div>`; }
+const avCh=ch=>`<div class="av-ch av-fill"><div><h3>${ch.code?esc(ch.code)+" · ":""}${esc(ch.t)}</h3><p class="src">Fonte: ${esc(ch.src)}</p></div>
+  <div class="av-elos" style="--n:${ch.n}">${ch.elos.map(([t,d,p],i)=>`<div class="av-elo ${p?"pr":""}"><span class="k">Elo ${i+1}${p?`<span class="av-star">★ prioritária</span>`:""}</span><b>${esc(t)}</b><span class="d">${esc(d)}</span></div>`).join("")}</div>
+  <p class="av-none"><span class="chip bad">Nenhum elo</span><span>→ ${esc(ch.none)}</span></p></div>`;
+const avOpt=(k,t,d,cls)=>`<div class="av-opt"><span class="av-code ${cls}">${esc(k)}</span><div><b>${esc(t)}</b>${d?`<span class="s">${esc(d)}</span>`:""}</div></div>`;
+const avHref=(m,k)=>"#elegibilidade/arvore"+(m?"/"+m+(k?"/"+k:""):"");
+function avHead(cr,l1,l2,lead,chips){ return `<header class="ph">${crumb(cr)}<h1 class="ah"><span class="l1">${esc(l1)}</span><span class="l2">${esc(l2)}</span></h1>${lead?`<p class="av-lead">${esc(lead)}</p>`:""}${chips?`<div class="av-chips">${chips.map(c=>`<span class="chip acc">${esc(c)}</span>`).join("")}</div>`:""}</header>`; }
+function avFig(m,cur){ const A=ARV[m], it=[["","Visão geral"],...Object.keys(A.cats).map(k=>[k,"Categoria "+k])], i=Math.max(0,it.findIndex(x=>x[0]===(cur||"")));
+  return `<nav class="av-fn" aria-label="Figuras da Missão ${m.slice(1)}"><ol>${it.map(([k,t],j)=>`<li><a href="${avHref(m,k)}" ${j===i?'aria-current="page"':""}><b>${j+1}</b>${esc(t)}</a></li>`).join("")}</ol><p>Figura ${i+1} de ${it.length} · ${esc(FONTE_NIB)}</p></nav>`; }
+const avTree=(lab,html)=>`<p class="av-hint">Arraste a figura para os lados para ver a árvore inteira.</p><div class="av-tree" tabindex="0" role="region" aria-label="${esc(lab)}"><div class="av-canvas">${html}</div></div>`;
+function vArvore(M,banner,m,k){
+  if(!m||!ARV[m]) return vArvIdx(M,banner);
+  if(k&&ARV[m].cats[k]) return vArvCat(M,banner,m,k);
+  return vArvVisao(M,banner,m); }
+function vArvIdx(M,banner){
+  M.innerHTML=`${banner}${avHead([["Início","inicio"],["Filtros de entrada","elegibilidade"],["2. Vínculo com missão e eixo"]],"Filtro 2 · Vínculo com missão e eixo","Árvores de decisão por missão","Para cada missão da Nova Indústria Brasil, a árvore mostra se o projeto se insere na missão, em qual categoria e com que grau de aderência. Ela orienta a resposta ao filtro 2 e não dispensa a justificativa registrada na triagem.")}
+   <div class="rows av-idx">${["M1","M2","M3","M4","M5","M6"].map(m=>ARV[m]?`<button class="row" data-open="elegibilidade/arvore/${m}">${mt(m)}<span><span class="nm">Missão ${m.slice(1)} · ${esc(ARV[m].nome)}</span><br><span class="sb">Visão geral e ${Object.keys(ARV[m].cats).length} categorias</span></span><span class="rt"><span class="chip good">${Object.keys(ARV[m].cats).length+1} figuras</span></span></button>`
+     :`<div class="row" aria-disabled="true">${mt(m)}<span><span class="nm">Missão ${m.slice(1)} · ${esc(MIS[m].c)}</span><br><span class="sb">Árvore ainda não publicada</span></span><span class="rt"></span></div>`).join("")}</div>`;
+  ligarLista(M); }
+function vArvVisao(M,banner,m){ const A=ARV[m], ks=Object.keys(A.cats), S5=A.setores;
+  const r1=S5.map((s,i)=>`<div class="av-bc ${i===0?"f":i===S5.length-1?"l":""}">${avOpt(s.k,s.t,"",s.mu?"mu":"let")}</div>`).join("");
+  const r2=S5.map(()=>`<div class="av-cell">${avAr("",32)}</div>`).join("");
+  const r3=`<div class="av-pc">${avQ(A.pc)}</div>${S5.filter(s=>s.out).map(s=>avOut(s.out)).join("")}`;
+  const r4=ks.map(()=>`<div class="av-cell">${avAr("Sim",64,"sim")}</div>`).join("")+`<div class="av-elb"><span class="av-lab nao">Não</span></div><div></div>`;
+  const r5=ks.map((k,i)=>`<div class="av-cat"><h3>Categoria ${k}<br>${esc(A.cats[k].nome)}</h3><p>${esc(A.cats[k].resumo)}</p><a class="tag" href="${avHref(m,k)}">Ver Figura ${i+2}</a></div>`).join("")+avOut(A.pc.nao)+`<div></div>`;
+  M.innerHTML=`${banner}${avHead([["Início","inicio"],["Filtros de entrada","elegibilidade"],["2. Vínculo com missão e eixo","elegibilidade/arvore"],["Missão "+m.slice(1)]],"Árvore de decisão · Missão "+m.slice(1),A.nome,A.lead,A.chips)}
+   <section class="av-sec" aria-labelledby="av-oe-t"><h2 class="av-lbl" id="av-oe-t">Objetivos estratégicos da missão</h2><div class="av-oe">${A.oes.map(o=>`<article><span class="k">${esc(o.k)}</span><h3>${esc(o.t)}</h3><p>${esc(o.d)}</p></article>`).join("")}</div></section>
+   <section class="av-sec" aria-labelledby="av-fx-t"><h2 class="av-lbl" id="av-fx-t">Fluxo de decisão</h2>
+    ${avTree("Fluxo de decisão da Missão "+m.slice(1),`<span class="av-start">Projeto do Canvas</span>${avAr()}${avQ(A.p0)}<div class="av-ln"></div><div class="av-ov">${r1}${r2}${r3}${r4}${r5}</div>`)}</section>
+   <section class="av-sec" aria-labelledby="av-sd-t"><h2 class="av-lbl" id="av-sd-t">Saídas possíveis</h2><div class="av-legend">${A.saidas.map(([c,t])=>`<div>${avOut({c})}<p>${esc(t)}</p></div>`).join("")}</div></section>
+   ${avFig(m,"")}`; }
+function vArvCat(M,banner,m,k){ const A=ARV[m], C=A.cats[k], n=C.cols.filter(c=>c.ch).length, ix=C.cols.map((c,i)=>c.ch?i:null).filter(i=>i!=null);
+  let f=`<span class="av-start">Projeto aprovado em P0 e na P-comum</span>${avAr()}${avQ(C.q1)}`;
+  if(C.cols.length===1) f+=avAr("",32)+avCh(C.cols[0].ch)+avAr("Atua em um elo",56)+avChk(C.chk);
+  else { f+=avBr(C.cols.map(c=>c.ch?avCh(c.ch)+(n===1?avAr("Atua em um elo",56)+avChk(C.chk):""):avOpt("+",c.alt.t,c.alt.d,"mu")+avAr("",40)+avOut(c.out)),avCols(C.cols));
+    if(n>1){ const a=ix[0], b=ix[ix.length-1]; f+=`<div class="av-mg" style="grid-template-columns:${avCols(C.cols)}">${C.cols.map((c,i)=>`<i class="${i===a?"s":i===b?"e":i>a&&i<b?"m":"x"}"></i>`).join("")}</div>`+avAr("Atua em um elo",56)+avChk(C.chk); } }
+  M.innerHTML=`${banner}${avHead([["Início","inicio"],["Filtros de entrada","elegibilidade"],["2. Vínculo com missão e eixo","elegibilidade/arvore"],["Missão "+m.slice(1),"elegibilidade/arvore/"+m],["Categoria "+k]],"Missão "+m.slice(1)+" · Categoria "+k,C.nome,C.lead,C.chips)}
+   ${avTree("Fluxo de decisão da categoria "+k,f)}
+   ${avFig(m,k)}`; }
+function avLink(c){ const m=misOf(c);
+  return ARV[m]?`<p class="small"><a href="${avHref(m)}">Abrir a árvore de decisão da Missão ${m.slice(1)}</a> para apoiar a resposta.</p>`
+    :`<p class="small muted">A árvore de decisão da missão deste projeto ainda não foi publicada. <a href="${avHref()}">Ver as árvores disponíveis</a>.</p>`; }
 
 /* ================= 3. pontuação ================= */
 const ITENS=[...AVC.map(k=>({t:"c",k,b:CR[k].b})),...[0,1,2,3].map(i=>({t:"x",i,b:"E"})),{t:"r",b:"R"}];
@@ -1735,7 +1992,7 @@ function vRegras(M){
    </section><section id="s-missoes"><h2 class="sech">Missões da Nova Indústria Brasil</h2><div class="tw"><table><thead><tr><th>Missão</th><th>Meta aspiracional</th><th>Cadeias de referência</th></tr></thead><tbody>${MK.map(m=>`<tr><td>${mt(m)} ${MIS[m].c}</td><td>${esc(MIS[m].meta)}</td><td>${esc(ANM[m].N2)}</td></tr>`).join("")}</tbody></table></div>
    </section><section id="s-eixos"><h2 class="sech">Eixos da ABDI 5.0</h2><ul class="clean"><li><b>Difusão de Tecnologias:</b> adoção de tecnologia nas empresas.</li><li><b>Inteligência e Conhecimento:</b> evidência para a política.</li><li><b>Governança e Articulação:</b> rede, parcerias e controle.</li><li><b>Trabalhador do Futuro:</b> qualificação conectada à demanda.</li></ul>
    </section><section id="s-pesos"><h2 class="sech">Pesos por bloco</h2><div class="tw"><table><thead><tr><th>Bloco</th><th class="n">Peso</th><th>Critérios</th><th>Muda com</th></tr></thead><tbody><tr><td>Núcleo comum</td><td class="n">40%</td><td>Contrato de Gestão, evidência, rede e escala</td><td>nada</td></tr><tr><td>Missão</td><td class="n">35%</td><td>Aderência (do Canvas), cadeia, soberania, adensamento, instrumento</td><td>missão principal</td></tr><tr><td>Indústria 5.0</td><td class="n">10%</td><td>Emprego, emissões</td><td>missão principal</td></tr><tr><td>Eixo</td><td class="n">15%</td><td>Difusão, inteligência, governança, qualificação</td><td>eixo</td></tr></tbody></table></div>
-   </section><section id="s-porta1"><h2 class="sech">Filtros de entrada</h2><ol class="clean">${ELQ.map(q=>`<li><b>${esc(q.t)}.</b> ${esc(q.q)} Se não: ${esc(q.no)}</li>`).join("")}</ol>
+   </section><section id="s-porta1"><h2 class="sech">Filtros de entrada</h2><ol class="clean">${ELQ.map(q=>`<li><b>${esc(q.t)}.</b> ${esc(q.q)} Se não: ${esc(q.no)}</li>`).join("")}</ol><p class="small"><a href="#elegibilidade/arvore">Árvores de decisão do filtro 2, por missão</a></p>
    </section><section id="s-porta2"><h2 class="sech">Porta de pontuação</h2><ul class="clean"><li>Nota mínima ${REGRA.notaMin} em cada critério do núcleo comum.</li><li>Média ponderada do bloco de missão de pelo menos ${REGRA.minBloco}.</li><li>Aderência calculada de pelo menos ${REGRA.travaMin}.</li><li>A exequibilidade reduz o valor em até 25%.</li></ul>
    </section><section id="s-prior"><h2 class="sech">Priorização</h2><p>Fila por valor ajustado por real pedido, até o orçamento disponível. Prioridade 1 ocupa a primeira metade do orçamento, Prioridade 2 a segunda, e quem não cabe forma a lista de reserva (Prioridade 3).</p></section></div></div>`;
   if($("verFluxo")) $("verFluxo").onclick=abrirFluxo;
