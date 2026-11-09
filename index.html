@@ -1,4 +1,4 @@
-<title>Esteira de Seleção ABDI 2027</title>
+<title>Esteira de Seleção ABDI 2027 · v2.0</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Lato:wght@400;700&display=swap">
@@ -1035,6 +1035,49 @@ h1:focus{outline:none}
 .tag.sim{background:var(--yellow);color:var(--ink)}
 
 @media (max-width:600px){.kb-bar input[type=search]{width:100%}}
+/* v2.0 · percurso das árvores, parâmetros do ciclo, cinco portas */
+.pz-opts{display:grid;gap:8px;margin-top:12px}
+.pz-opts button{all:unset;box-sizing:border-box;cursor:pointer;display:grid;gap:2px;padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);line-height:1.35}
+.pz-opts button:hover{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 6%,var(--surface))}
+.pz-opts button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.pz-opts button[disabled]{cursor:default;opacity:.6}
+.pz-opts button b{font-weight:600}
+.pz-opts button span{font-size:13px;color:var(--ink-3)}
+.pz-opts.elos button{grid-template-columns:72px minmax(0,1fr);column-gap:10px;align-items:baseline}
+.pz-opts.elos button span{font-size:14px;color:var(--ink)}
+.pz-opts.alts{margin-top:8px}
+.pz-opts.alts button{border-style:dashed}
+.pz-star{color:#b8860b;font-weight:700}
+.pz-out{display:inline-block;padding:4px 12px;border-radius:999px;font-weight:700;font-size:15px;line-height:22px;background:var(--line-2);color:var(--ink)}
+.pz-out.pri{background:var(--good);color:#fff}
+.pz-out.ade{background:#c9efd3;color:#0f5a28}
+.pz-out.par{background:var(--yellow);color:#3e2d00}
+.pz-out.des{background:#1a1a1a;color:#fff}
+.pz-out.nad{background:var(--bad);color:#fff}
+.pz-out.red{background:var(--ink-3);color:#fff}
+.pz-fim h2{margin-bottom:6px}
+.pz-meta{margin-top:12px}
+.pz-trilha{margin-top:16px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+.pz-trilha h3{margin:0 0 8px;font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3)}
+.pz-trilha ol{margin:0 0 10px;padding:0;list-style:none;display:grid;gap:6px}
+.pz-trilha li{display:grid;grid-template-columns:88px minmax(0,1fr);gap:8px;font-size:14px;line-height:1.35}
+.pz-trilha li .k{font-weight:600;color:var(--accent)}
+.pz-lista,.pz-regra{margin-top:12px;font-size:14px;line-height:1.45}
+.pz-lista summary,.pz-regra summary{cursor:pointer;font-weight:600;color:var(--accent)}
+.pz-lista ol,.pz-no ol{margin:4px 0 8px 20px;padding:0}
+.pz-regra{padding:10px 14px;border:1px dashed var(--line);border-radius:10px}
+.pz-ja{margin-top:8px}
+.pz-no{padding:12px 14px;border:1px solid var(--line);border-radius:10px;margin-bottom:10px;background:var(--surface)}
+.pz-no h3{margin:0 0 6px;font-size:15px;line-height:1.35}
+.pz-no h3 .k{display:inline-block;min-width:40px;color:var(--accent)}
+.pz-no details{margin-top:6px;font-size:14px}
+.doors.five .door{grid-template-rows:auto auto auto auto 1fr}
+.door .dm{font-size:12px;line-height:18px;color:rgba(255,255,255,.72);margin:0}
+.pg2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;margin-top:16px;align-items:start}
+@media (max-width:980px){.pg2{grid-template-columns:1fr}}
+.pg2 .card h3{font-size:14px;margin:16px 0 6px}
+.pg2 .card h3:first-of-type{margin-top:4px}
+.pg2 textarea,.pg2 input[type=text]{width:100%;box-sizing:border-box}
 </style>
 
 <header class="hd"><a class="skip" href="javascript:void 0" id="skip">Ir para o conteúdo</a><div class="hdi">
@@ -1074,13 +1117,13 @@ const EIXN={"Difusão de Tecnologias":{n:1,f:"tecnologia e Metaindústria",d:"ad
 const eixoNome=e=>{ const x=EIXN[e]; return x?`Eixo ${x.n} · ${x.t||e}`:(e||"—"); };
 const blNome=(b,c)=>b==="N"?misNome(misOf(c)):b==="S"?"ABDI 5.0 · Indústria 5.0":b==="X"?"ABDI 5.0 · "+eixoNome(c.eixo):b==="A"?"ABDI 5.0 · Indústria 5.0 e "+eixoNome(c.eixo):BL[b].n;
 const DIRS={DISTT:"Industrialização Sustentável e Transformação Tecnológica",DIEI:"Inteligência e Economia da Indústria",PRES:"Presidência"};
-const SLOTS={A1:"Unidade de Gestão Estratégica",A2:"Unidade de monitoramento e avaliação",A3:"Segunda leitura, outra diretoria"};
+const SLOTS={A1:"Primeira leitura, Unidade de Gestão Estratégica",A2:"Segunda leitura, técnico de outra diretoria",A3:"Terceira leitura, desempate"};
 const REFS=["P03","P22","P71","P47","N09","P04"];
 const FONTES=["Canvas","Relatório de acompanhamento","Relatório semestral ou anual","Sistema de gestão estratégica","Outra fonte"];
 const CONF=["Alta","Média","Baixa"];
 const ELQ=[
  {t:"Mandato",q:"A Agência pode executar isto pela lei e pelo Contrato de Gestão?",h:"A Agência executa e articula. Não financia (papel do banco de desenvolvimento, da Finep e da Embrapii), não regula e não forma em escala.",no:"Outro órgão: a proposta vai a quem tem o mandato.",i:"Confere se a atividade cabe no que a lei de criação da Agência e o Contrato de Gestão autorizam. Evita gastar recurso em papel que é de outro órgão.",sec:["razoes","produtos"]},
- {t:"Vínculo com missão e eixo",q:"O Canvas mostra uma missão e um eixo, com entrega associada a eles?",h:"Vínculo declarado sem entrega não conta. Procure a entrega no texto do Canvas.",no:"Reformular: reapresentar com vínculo e entrega claros.",i:"Confere se o projeto está ancorado numa missão da Nova Indústria Brasil e num eixo da ABDI 5.0, com entrega concreta. Sem isso, não há como escolher o conjunto de critérios que vai pontuá-lo.",sec:["missao","objetivo","entregas"]},
+ {t:"Vínculo com missão e eixo",q:"O Canvas mostra uma missão e um eixo, com entrega associada a eles? A missão é verificada pela árvore de decisão.",h:"Percorra a árvore da missão declarada: o resultado preenche a resposta sugerida, a justificativa e a aderência da pontuação. Vínculo declarado sem entrega não conta.",no:"Reformular: reapresentar com vínculo e entrega claros.",i:"Confere se o projeto está ancorado numa missão da Nova Indústria Brasil e num eixo da ABDI 5.0, com entrega concreta. Sem isso, não há como escolher o conjunto de critérios que vai pontuá-lo.",sec:["missao","objetivo","entregas"]},
  {t:"Adicionalidade",q:"Sem a Agência, isto deixaria de acontecer ou aconteceria pior?",h:"Se outro órgão ou o mercado já faria o mesmo do mesmo jeito, a resposta é não.",no:"Reformular: mostrar o que só a Agência acrescenta.",i:"Pergunta o que muda por causa da Agência. Se o resultado aconteceria de qualquer forma, o recurso público não acrescenta nada.",sec:["adicional","razoes"]},
  {t:"Avaliabilidade",q:"Há meta e método de medição num indicador do Contrato de Gestão?",h:"Precisa de indicador, linha de base, meta e forma de medir. Meta sem método conta como não.",no:"Reformular: definir meta e método antes de pedir recurso.",i:"Confere se será possível saber, depois, se o projeto funcionou. Sem meta e método, a Agência não consegue prestar contas do recurso.",sec:["ind"]},
  {t:"Não duplicação",q:"O projeto entrega algo que nenhuma outra frente da Agência já entrega?",h:"Compare com os outros Canvas da mesma missão, listados abaixo. Sobreposição parcial pede verificar.",no:"Incorporar: passa a operar dentro do projeto que já faz o mesmo.",i:"Evita que duas frentes paguem pela mesma entrega. Quando há sobreposição, o caminho é juntar os projetos.",sec:["semelhantes","objetivo","produtos","outros"]},
@@ -1095,7 +1138,7 @@ const CR={
  K1:{b:"K",n:"Contribuição ao Contrato de Gestão",q:"O projeto tem meta num indicador do Contrato de Gestão, com método de medição?",w:"Seção de indicadores do Canvas.",sec:["ind"],i:"Mede quanto o projeto ajuda a Agência a cumprir as metas assinadas com o Ministério. Mexer nos indicadores de resultado vale mais do que só contar beneficiários.",a:{1:"Sem meta, ou meta sem método",3:"Meta no indicador de beneficiários, com evidência no sistema",5:"Tudo do nível 3 e ainda meta num indicador de resultado (maturidade digital, sustentabilidade ou produtividade) medido antes e depois"}},
  K2:{b:"K",n:"Evidência de resultado",q:"Há resultado medido que mostre que o projeto funciona?",w:"Números do problema e histórico do indicador.",sec:["numeros","hist"],i:"Mede o que já se sabe sobre se o projeto funciona. Resultado medido vale mais do que promessa.",a:{1:"Nenhuma evidência",3:"Resultado parcial ou evidência indireta",5:"Tudo do nível 3 e ainda resultado medido acima da meta (ou, se novo, piloto com grupo de comparação)"}},
  K3:{b:"K",n:"Rede e escala",q:"O projeto mobiliza a rede da Agência e pode ser repetido em outros lugares?",w:"Estratégia de escalabilidade e beneficiários.",sec:["escala","benef"],i:"Mede se o projeto usa a rede da ABDI 5.0 (laboratórios, institutos, federações) e se pode ser repetido sem recomeçar do zero.",a:{1:"Ação isolada, num só lugar",3:"Um elo da rede, replicável com adaptação",5:"Tudo do nível 3 e ainda mobiliza duas ou mais camadas da ABDI 5.0, com recurso de terceiros"}},
- N2:{b:"N",n:"Cadeia e elo crítico",q:"O projeto atua numa cadeia de referência da missão, no elo que trava a cadeia?",w:"Objetivo e descrição do projeto.",sec:["objetivo","descricao"],i:"Mede se o projeto atua onde a missão precisa: nas cadeias de referência e, de preferência, no elo que hoje trava a cadeia."},
+ N2:{b:"N",n:"Elo crítico da cadeia",q:"O elo em que o projeto atua é o que hoje trava a cadeia, com evidência do gargalo?",w:"Objetivo e descrição do projeto; resultado da árvore de decisão.",sec:["objetivo","descricao"],i:"A árvore de decisão já respondeu se o projeto está na cadeia certa (aderência). Este critério mede se o elo escolhido é o gargalo da cadeia, com evidência: dependência de importação, capacidade instalada insuficiente, ausência de fornecedor nacional."},
  N3:{b:"N",n:"Soberania e dependência externa",q:"O projeto reduz a dependência do país em tecnologia, insumo ou energia?",w:"Problema e objetivo.",sec:["problema","objetivo"],i:"Mede a contribuição para reduzir dependência externa, objetivo comum às seis missões."},
  N4:{b:"N",n:"Adensamento produtivo",q:"O projeto gera fornecedores, investimento ou capacidade de produção no país?",w:"Descrição e entregas previstas.",sec:["descricao","entregas"],i:"Mede se o projeto deixa capacidade produtiva no país, e não só atendimentos isolados."},
  N5:{b:"N",n:"Instrumento de indução",q:"O projeto usa um instrumento que muda o comportamento do mercado?",w:"Produtos e instrumentos; alinhamento com a Nova Indústria Brasil.",sec:["produtos","nib"],i:"Mede se o projeto usa uma alavanca que muda o mercado em escala, como compra pública, norma, certificação ou encomenda tecnológica."},
@@ -1119,12 +1162,12 @@ const W={blocos:{K:40,N:35,S:10,X:15},K:{K1:37.5,K2:37.5,K3:25},
  S:{M1:{S1:60,S2:40},M2:{S1:50,S2:50},M3:{S1:50,S2:50},M4:{S1:60,S2:40},M5:{S1:30,S2:70},M6:{S1:50,S2:50},T:{S1:50,S2:50}},
  X:{D:{X1:50,X2:10,X3:25,X4:15},I:{X1:10,X2:50,X3:25,X4:15},G:{X1:15,X2:10,X3:60,X4:15},F:{X1:15,X2:10,X3:20,X4:55}}};
 const AVC=["K1","K2","K3","N2","N3","N4","N5","S1","S2","X1","X2","X3","X4"];
-const REGRA={notaMin:2,minBloco:2,travaMin:3,piso:0.75};
+const REGRA={notaMin:2,minBloco:2,travaMin:3,piso:0.75,leituras:2,divergencia:2};
 const JMIN=10; const somaP=()=>enviados().reduce((a,c)=>a+(+c.novos||0),0);
 const TEMAS=["Adoção e difusão tecnológica","Agro 4.0","Ampliação do acesso à saúde","ASG","Avaliação de impacto de novas tecnologias","Competências e habilidades digitais","Compras públicas","Conectividade 5G","Construções inteligentes","Espaços de dados","Disseminação de conhecimento","Economia circular","Educação","Encomendas tecnológicas","Hub de inovação","Indústria 4.0","Inovação","Jornadas de capacitação","Maturidade digital","Mobilidade","Novas tecnologias","Privacidade e segurança da informação","Qualificação profissional","Saúde","Segurança cibernética","Soluções digitais","Soluções de internet das coisas","Sustentabilidade","Transformação digital"];
 
 /* ================= estado e banco ================= */
-const S={canvas:{},aval:{},dec:{},equipe:{},dbOn:false,ready:false,podeEscrever:true,uid:null,msg:""};
+const S={canvas:{},aval:{},dec:{},equipe:{},cfg:null,dbOn:false,ready:false,podeEscrever:true,uid:null,msg:""};
 /* simulação da Diretoria Executiva: com SIM ligado, canvas, avaliações e decisões vêm de um exercício fictício em memória; os dados do banco continuam em REAL */
 const REAL={canvas:S.canvas,aval:S.aval,dec:S.dec}; let SIM=null;
 ["canvas","aval","dec"].forEach(k=>Object.defineProperty(S,k,{get:()=>SIM?SIM[k]:REAL[k],set:v=>{ REAL[k]=v; },enumerable:true,configurable:true}));
@@ -1142,6 +1185,7 @@ function assinar(){
   DB.collection("avaliacoes").onSnapshot(s=>{ const o={}; s.docs.forEach(d=>o[d.id]=d.data()); S.aval=o; pedirRender(); }, e=>{});
   DB.collection("equipe").onSnapshot(s=>{ const o={}; s.docs.forEach(d=>o[d.id]={id:d.id,...d.data()}); S.equipe=o; if(S.nuvem) definirUsuario(); else reconhecer(); pedirRender(); }, e=>{});
   DB.collection("decisoes").onSnapshot(s=>{ const o={}; s.docs.forEach(d=>o[d.id]=d.data()); S.dec=o; pedirRender(); }, e=>{});
+  DB.collection("config").onSnapshot(s=>{ const o={}; s.docs.forEach(d=>o[d.id]=d.data()); S.cfg=o.parametros||null; pedirRender(); }, e=>{});
 }
 async function iniciar(){
   if(NUVEM&&window.supabase) return iniciarNuvem();
@@ -1298,9 +1342,9 @@ document.addEventListener("click",async e=>{
   const f=e.target.closest("[data-dlficha]"); if(f){ const c=S.canvas[f.dataset.dlficha]; salvarArquivo(`Canvas_${c.code}.html`,fichaHTML(c)); } });
 
 /* ================= roteamento e casca ================= */
-const MODS=[["canvas","Canvas","Cadastro do Canvas"],["elegibilidade","Filtros","Filtros de entrada"],["notas","Pontuação","Pontuação de valor e exequibilidade"],["painel","DIREX","Diretoria Executiva"]];
+const MODS=[["parametros","Parâmetros","Parâmetros do ciclo"],["canvas","Canvas","Cadastro do Canvas"],["elegibilidade","Filtros","Filtros de entrada"],["notas","Pontuação","Pontuação de valor e exequibilidade"],["painel","DIREX","Diretoria Executiva"]];
 function pendencias(){ const o={}; try{ const cv=enviados(); o.elegibilidade=cv.filter(c=>situacao(c)==="A responder").length;
-  const p=LOC.perfil||{}; if(p.slot){ const ap=cv.filter(apta).filter(c=>!(p.slot==="A3"&&c.dir===p.dir)); o.notas=ap.filter(c=>!(S.aval[c.code+"__"+p.slot]&&S.aval[c.code+"__"+p.slot].enviada)).length; } }catch(e){} return o; }
+  const p=LOC.perfil||{}; if(p.slot){ const ap=cv.filter(apta).filter(c=>elegivelParaSlot(c,p)); o.notas=ap.filter(c=>!(S.aval[c.code+"__"+p.slot]&&S.aval[c.code+"__"+p.slot].enviada)).length; } }catch(e){} return o; }
 const ROLAGEM={};
 function rota(){ if(ROTA&&ROTA.length===1) ROLAGEM[ROTA[0]]=window.scrollY;
   ROTA=(location.hash.slice(1)||"inicio").split("/").map(decodeURIComponent); DRW=null; render();
@@ -1332,7 +1376,8 @@ function render(){
   if(!LOC.usuario){ $("nav").innerHTML=""; vEntrada(M,banner); salvarLocal(); return; }
   const [r,a]=ROTA;
   if(r==="canvas") a?vWizard(M,banner,a):vCanvasLista(M,banner);
-  else if(r==="elegibilidade") a==="arvore"?vArvore(M,banner,ROTA[2],ROTA[3]):a&&S.canvas[a]?vElWork(M,banner,S.canvas[a]):vElLista(M,banner);
+  else if(r==="elegibilidade") a==="arvore"?vArvore(M,banner,ROTA[2],ROTA[3]):a&&S.canvas[a]&&ROTA[2]==="arvore"?vArvPercurso(M,banner,S.canvas[a]):a&&S.canvas[a]?vElWork(M,banner,S.canvas[a]):vElLista(M,banner);
+  else if(r==="parametros") vParametros(M,banner);
   else if(r==="notas") a&&S.canvas[a]?vNtWork(M,banner,S.canvas[a]):vNtLista(M,banner);
   else if(r==="painel") vPainel(M,banner);
   else if(r==="como-funciona") vRegras(M);
@@ -1448,26 +1493,26 @@ const MGP_NOME="Metodologia de Gerenciamento de Portfólio, Programas e Projetos
 const MGP8=[
  {t:"Abertura do ciclo anual e análise inicial",sec:"4.1",
   mgp:[["Unidade de Gestão Estratégica","elabora o checklist de abertura do ciclo, com cronograma, prazos e responsáveis, e revisa o modelo de Canvas"],["Unidade Administrativa","prepara o módulo de orçamento (Budget Manager) com os valores de referência do ano anterior"]],
-  p3:"O checklist passa a trazer o calendário da seleção, o teto de referência e os campos novos do Canvas.",esteira:null},
+  p3:"O check-list publica os parâmetros da matriz antes do preenchimento dos Canvas: critérios, descrição dos níveis e pesos de partida, filtros e saídas, árvores de decisão por missão, teto de referência, metas de composição, projetos de referência e datas. Mudanças em relação ao ciclo anterior ficam registradas com fundamento, data e responsável.",esteira:["parametros","Abrir os parâmetros do ciclo"]},
  {t:"Identificação",sec:"4.2",
   mgp:[["Responsável pelo projeto","preenche o Canvas no Document Manager, seguindo o Codebook, e lança o orçamento no Budget Manager"],["Unidade Administrativa","faz a gestão do orçamento proposto no sistema financeiro"]],
-  p3:"O Canvas ganha evidência de adicionalidade, projetos com entregas semelhantes, missão principal e no máximo uma secundária, e separa recurso comprometido de recurso novo.",esteira:["canvas","Abrir o cadastro do Canvas"]},
+  p3:"O Canvas ganha evidência de adicionalidade, projetos com entregas semelhantes, missão principal e no máximo uma secundária, e separa recurso comprometido de recurso novo. A pergunta sobre a missão da Nova Indústria Brasil passa a ser respondida pela árvore de decisão da missão.",esteira:["canvas","Abrir o cadastro do Canvas"]},
  {t:"Balanceamento do portfólio",sec:"4.3",largo:true,
   mgp:[["Unidade de Gestão Estratégica","analisa os Canvas e elabora a avaliação qualitativa e orçamentária comparativa, como subsídio"],["Diretoria Executiva","em reunião colegiada, analisa os Canvas e os resultados da Ferramenta Avaliativa para Balanceamento de Portfólio e delibera a composição do portfólio, podendo pedir novos projetos, ajustes ou cancelamentos"]],
   p3:"A matriz é a Ferramenta Avaliativa citada na metodologia. Ela organiza o subsídio da Unidade de Gestão Estratégica em três passos e registra a deliberação:",
-  passos:[["Filtros de entrada","Unidade de Gestão Estratégica","seis condições de sim ou não, antes de qualquer nota, sem compensação","elegibilidade","Não passa: Reformular, Incorporar ou Outro órgão"],
-   ["Pontuação","Unidade de Gestão Estratégica, com segunda leitura por técnico de outra diretoria; o responsável pelo projeto fornece as evidências e pode contestar","valor e exequibilidade de 1 a 5, com justificativa, fonte e confiança da evidência","notas","Risco crítico sem mitigação: não pode ser priorizado"],
-   ["Carteira sob o teto","Unidade de Gestão Estratégica","valor por real pedido até o teto, compromissos, equilíbrio entre programas e teste de robustez","painel",null],
+  passos:[["Filtros de entrada","Unidade de Gestão Estratégica","seis condições de sim ou não, antes de qualquer nota, sem compensação; a árvore de decisão da missão responde ao vínculo com missão e eixo","elegibilidade","Não passa: Outro órgão, Reformular, Incorporar ou Concluir. Árvore indica outra missão: reclassificar o Canvas"],
+   ["Pontuação","Unidade de Gestão Estratégica, com segunda leitura por técnico de outra diretoria; o responsável pelo projeto fornece as evidências e pode contestar","quatro blocos de valor de 1 a 5, com justificativa, fonte e confiança; aderência dada pela árvore; duas leituras e uma terceira em caso de divergência; exequibilidade como redutor","notas","Impedimento de exequibilidade, risco crítico sem mitigação ou nota abaixo do mínimo: fora da fila"],
+   ["Carteira sob o teto","Unidade de Gestão Estratégica","valor ajustado por real pedido até o teto; compromissos; metas de composição por programa e por missão; cobertura dos indicadores; lista de reserva; teste de robustez","painel",null],
    ["Deliberação","Diretoria Executiva","recomendação técnica consultiva; relevância político-institucional tratada aqui; decisão registrada","painel","Desvio da recomendação: justificativa e responsável (cumprir ou explicar)"]],esteira:null},
  {t:"Criação dos programas e portfólio",sec:"4.4",
   mgp:[["Unidade de Gestão Estratégica","após a aprovação da Diretoria Executiva, agrupa os projetos em programas (Canvas de Programa) e cria o Portfólio Anual no Strategic Adviser"]],
-  p3:"O equilíbrio entre os programas já é testado na carteira, antes da deliberação.",esteira:null},
+  p3:"Notas, justificativas, leituras, saída da árvore e decisão ficam gravadas junto do Canvas aprovado, no Portfólio Anual.",esteira:null},
  {t:"Autorização",sec:"4.5",
   mgp:[["Diretoria Executiva","autoriza, única e exclusivamente, por Resolução de aprovação do portfólio; projeto novo ao longo do ano exige nova Resolução"],["Unidade de Gestão Estratégica","divulga o portfólio anual no Portal da Transparência"]],
-  p3:"A minuta de registro gerada na DIREX acompanha a Resolução, com as decisões e os desvios.",fora:"Fora da metodologia, pelo Contrato de Gestão: o Plano de Ação e o orçamento seguem ao Conselho Deliberativo e ao ministério supervisor.",esteira:["painel","Abrir a DIREX"]},
+  p3:"A minuta de registro gerada na DIREX acompanha a Resolução, com as decisões e os desvios. Projeto extraordinário passa pelos mesmos filtros e pontuação, em rito abreviado, antes da resolução; critérios e pesos são publicados com o portfólio.",fora:"Fora da metodologia, pelo Contrato de Gestão: o Plano de Ação e o orçamento seguem ao Conselho Deliberativo e ao ministério supervisor.",esteira:["painel","Abrir a DIREX"]},
  {t:"Detalhamento do projeto",sec:"4.6",
   mgp:[["Responsável pelo projeto","detalha o cronograma no Project Manager, os custos e os riscos; a gestão de riscos é obrigatória"]],
-  p3:"Os riscos críticos apontados na pontuação entram no mapa de riscos do projeto.",esteira:null},
+  p3:"Os riscos apontados na nota de exequibilidade abrem o mapa de riscos do projeto.",esteira:null},
  {t:"Execução e monitoramento",sec:"4.7",
   mgp:[["Responsável pelo projeto","atualiza no Strategic Adviser, até o 5º dia útil de cada mês, desempenho, evidências, riscos e beneficiários"],["Unidade de Gestão Estratégica","valida mudanças de escopo e cronograma, divulga os painéis, elabora os relatórios semestral e anual e mede mensalmente a aderência à metodologia"],["Unidade Administrativa","valida as mudanças de custo"]],
   p3:"A Unidade de Gestão Estratégica revê a exequibilidade a cada semestre; execução física abaixo de 80% da meta gera alerta antes do ciclo seguinte.",esteira:null},
@@ -1484,7 +1529,7 @@ function fluxoHTML(){
      <div class="fx-a">${e.esteira?`<button class="btn sm" data-fxgo="${e.esteira[0]}">${esc(e.esteira[1])}</button>`:e.passos?"":`<span class="fx-off">Fora da esteira piloto</span>`}</div></section>`;
   return `<div class="fx-leg"><span><i class="lg-mgp"></i>Na metodologia vigente: o que a MGP³ já determina e quem faz</span><span><i class="lg-p3"></i>Proposta do Produto 3: o que a matriz acrescenta</span></div>
    <div class="fx">${MGP8.map(col).join("")}</div>
-   <div class="fx-loop"><span aria-hidden="true">↺</span><p><b>Ciclo seguinte:</b> os projetos em andamento voltam à Identificação com os dados de execução, e a validação das notas revisa critérios, descrição dos níveis e pesos.</p></div>`; }
+   <div class="fx-loop"><span aria-hidden="true">↺</span><p><b>Ciclo seguinte:</b> os projetos em andamento voltam à Identificação com os dados de execução, e a validação das notas revisa critérios, descrição dos níveis, pesos e árvores no check-list de abertura.</p></div>`; }
 function abrirFluxo(){
   let d=$("fxDlg"); if(!d){ d=document.createElement("dialog"); d.id="fxDlg"; d.className="fx-dlg"; d.setAttribute("aria-labelledby","fxT"); document.body.appendChild(d); }
   const desenhar=()=>{ d.innerHTML=`<div class="fx-top"><div><h2 id="fxT">Governança da seleção na MGP³</h2><p>As oito etapas da ${esc(MGP_NOME)}, quem faz cada uma, e onde a matriz do Produto 3 entra.</p></div>
@@ -1554,7 +1599,7 @@ function ligarLista(M){
   M.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>go(b.dataset.open)); }
 const crumb=(itens)=>`<nav class="crumb" aria-label="Você está em">${itens.map(([t,h],i)=>h?`<a href="#${h}">${t}</a>`:`<span>${t}</span>`).join('<span class="sep">›</span>')}</nav>`;
 const phead=(crumbs,t,lead,meta,aside)=>`<header class="ph">${crumb(crumbs)}<div class="ph-row"><h1>${t}</h1>${aside?`<div class="ph-aside">${aside}</div>`:""}</div>${lead?`<p class="ph-lead">${lead}</p>`:""}${meta?`<dl class="ph-meta">${meta.map(([k,v])=>`<div><dt>${k}</dt><dd>${v}</dd></div>`).join("")}</dl>`:""}</header>`;
-const ETAPA_MOD={"Cadastro do Canvas":"Identificação (4.2)","Filtros de entrada":"Balanceamento (4.3): análise dos Canvas","Pontuação de valor e exequibilidade":"Balanceamento (4.3): Ferramenta Avaliativa"};
+const ETAPA_MOD={"Parâmetros do ciclo":"Abertura do ciclo anual (4.1): check-list de abertura","Cadastro do Canvas":"Identificação (4.2)","Filtros de entrada":"Identificação (4.2) e revisão dos Canvas (4.3)","Pontuação de valor e exequibilidade":"Balanceamento (4.3): subsídios da Unidade de Gestão Estratégica e Ferramenta Avaliativa"};
 const headM=(t,d,quem,quando,acao,etapa=ETAPA_MOD[t])=>phead([["Início","inicio"],[t]],t,d,[["Quem faz",quem],["Quando",quando],...(etapa?[["Etapa da MGP³",etapa]]:[])],acao);
 const head=(t,d,acao)=>phead([["Início","inicio"],[t]],t,d,null,acao);
 
@@ -1589,7 +1634,7 @@ const PASSOS=[
   f:[{k:"objEst",l:"Objetivo estratégico associado (Planejamento Estratégico 2024-2029)",req:1},
      {k:"indicadores",l:"Indicadores do projeto",type:"table",add:"Adicionar indicador",req:1,cols:[{k:"nome",l:"Nome do indicador"},{k:"cg",l:"Indicador estratégico do Contrato de Gestão associado"},{k:"contrib",l:"Contribuição para o indicador estratégico",type:"area",rows:2},{k:"desc",l:"Descrição: o que é medido",type:"area",rows:2},{k:"unid",l:"Unidade"},{k:"base",l:"Base de referência da meta"},{k:"meta",l:"Meta 2027"},{k:"calc",l:"Forma de cálculo",type:"area",rows:2},{k:"fonte",l:"Fonte do dado"},{k:"coleta",l:"Forma de coleta"},{k:"per",l:"Periodicidade",type:"sel",opts:["","Mensal","Trimestral","Semestral","Anual"]},{k:"prem",l:"Premissas",type:"area",rows:2},{k:"h24",l:"Resultado 2024"},{k:"h25",l:"Resultado 2025"},{k:"h26",l:"Resultado 2026"}]}]},
  {t:"Missão e alinhamento",d:"Critérios objetivos de apoio à decisão da Diretoria Executiva.",g:["A missão principal e o eixo definem o conjunto de critérios e os pesos usados na pontuação.","O vínculo vale para uma missão principal e, no máximo, uma secundária. Vínculo com muitas prioridades deixa de selecionar projetos.","Grau de aderência: 0 sem relação, 1 indireta, 2 parcial (cadeia ou instrumento da missão), 3 direta (meta da missão). Abaixo de 3 na aderência calculada, o projeto não passa na porta de pontuação."],
-  f:[{k:"missao",l:"Missão principal da Nova Indústria Brasil",type:"sel",opts:MK,lab:misNome,req:1},{k:"missao2",l:"Missão secundária (opcional, no máximo uma)",type:"sel",opts:["M1","M2","M3","M4","M5","M6"],lab:misNome},{k:"eixo",l:"Eixo da ABDI 5.0",type:"sel",opts:Object.keys(EIX),lab:eixoNome,req:1},{k:"grades",l:"Grau de aderência a cada missão",type:"grades"},
+  f:[{k:"missao",l:"Missão principal da Nova Indústria Brasil",type:"sel",opts:MK,lab:misNome,req:1},{k:"missao2",l:"Missão secundária (opcional, no máximo uma)",type:"sel",opts:["M1","M2","M3","M4","M5","M6"],lab:misNome},{k:"eixo",l:"Eixo da ABDI 5.0",type:"sel",opts:Object.keys(EIX),lab:eixoNome,req:1},{k:"grades",l:"Grau de aderência declarado a cada missão (provisório: a árvore de decisão do filtro 2 prevalece)",type:"grades"},
      {k:"nib",l:"Instrumento da Nova Indústria Brasil a que o projeto contribui",h:"Programa ou projeto de governo, marco regulatório etc. Escreva “não se aplica” se for o caso."},{k:"politica",l:"Outra política pública de desenvolvimento industrial relacionada"},{k:"temas",l:"Temas relacionados",type:"temas"}]},
  {t:"Revisar e enviar",d:"Confira o que falta antes de enviar para a elegibilidade."}];
 const BASE=["nome","dir","unidade","missao","eixo","novos","grades"];
@@ -1704,7 +1749,7 @@ function vElLista(M,banner){
   const g={}; DESTINO.forEach(d=>g[d]=[]); fil.forEach(c=>g[situacao(c)].push(c));
   const tot=Math.max(1,cv.length), cont=d=>cv.filter(c=>situacao(c)===d).length;
   M.innerHTML=`${banner}${headM("Filtros de entrada","Seis perguntas de sim ou não aplicadas na revisão do Canvas, antes de qualquer nota. Os filtros não se compensam: um único não tira o projeto da disputa.","Unidade de Gestão Estratégica (Escritório de Projetos)","na análise dos Canvas, antes de qualquer nota")}
-   <section class="av-strip" aria-label="Árvores de decisão do filtro 2"><p><b>Filtro 2 · Vínculo com missão e eixo.</b> As árvores de decisão por missão mostram se o projeto se insere na missão, em qual categoria e com que grau de aderência. A Missão 3 já está disponível.</p><a class="btn sm" href="#elegibilidade/arvore">Ver árvores de decisão</a></section>
+   <section class="av-strip" aria-label="Árvores de decisão do filtro 2"><p><b>Filtro 2 · Vínculo com missão e eixo.</b> A árvore de decisão da missão responde a este filtro: em cada Canvas, o percurso pergunta a pergunta registra categoria, elo, saída e objetivo específico, preenche a resposta sugerida e define a aderência da pontuação (aderente prioritário 5, aderente 3, parcial 1). Missões 2 a 6 disponíveis; a Missão 1 ainda não tem árvore.</p><a class="btn sm" href="#elegibilidade/arvore">Ver árvores de decisão</a></section>
    <section class="triage" aria-label="Destino dos Canvas">
     <div class="tbar">${DESTINO.filter(cont).map(d=>`<i style="flex:${cont(d)};background:${DCOR[d]}" title="${esc(d)}: ${cont(d)}"></i>`).join("")}</div>
     <div class="tleg">${DESTINO.filter(cont).map(d=>`<span><i style="background:${DCOR[d]}"></i>${esc(d)} <b>${cont(d)}</b></span>`).join("")}</div>
@@ -1834,13 +1879,14 @@ function avFig(m,cur){ const A=ARV[m], it=[["","Visão geral"],...Object.keys(A.
   return `<nav class="av-fn" aria-label="Figuras da Missão ${m.slice(1)}"><ol>${it.map(([k,t],j)=>`<li><a href="${avHref(m,k)}" ${j===i?'aria-current="page"':""}><b>${j+1}</b>${esc(t)}</a></li>`).join("")}</ol><p>Figura ${i+1} de ${it.length} · ${esc(FONTE_NIB)}</p></nav>`; }
 const avTree=(lab,html)=>`<p class="av-hint">Arraste a figura para os lados para ver a árvore inteira.</p><div class="av-tree" tabindex="0" role="region" aria-label="${esc(lab)}"><div class="av-canvas">${html}</div></div>`;
 function vArvore(M,banner,m,k){
-  if(!m||!ARV[m]) return vArvIdx(M,banner);
+  if(!m) return vArvIdx(M,banner);
+  if(!ARV[m]) return ARVD[m]&&ARVD[m].nos?vArvdResumo(M,banner,m):vArvIdx(M,banner);
   if(k&&ARV[m].cats[k]) return vArvCat(M,banner,m,k);
   return vArvVisao(M,banner,m); }
 function vArvIdx(M,banner){
   M.innerHTML=`${banner}${avHead([["Início","inicio"],["Filtros de entrada","elegibilidade"],["2. Vínculo com missão e eixo"]],"Filtro 2 · Vínculo com missão e eixo","Árvores de decisão por missão","Para cada missão da Nova Indústria Brasil, a árvore mostra se o projeto se insere na missão, em qual categoria e com que grau de aderência. Ela orienta a resposta ao filtro 2 e não dispensa a justificativa registrada na triagem.")}
    <div class="rows av-idx">${["M1","M2","M3","M4","M5","M6"].map(m=>ARV[m]?`<button class="row" data-open="elegibilidade/arvore/${m}">${mt(m)}<span><span class="nm">${esc(misNome(m))}</span><br><span class="sb">Visão geral e ${Object.keys(ARV[m].cats).length} categorias</span></span><span class="rt"><span class="chip good">${Object.keys(ARV[m].cats).length+1} figuras</span></span></button>`
-     :`<div class="row" aria-disabled="true">${mt(m)}<span><span class="nm">${esc(misNome(m))}</span><br><span class="sb">Árvore ainda não publicada</span></span><span class="rt"></span></div>`).join("")}</div>`;
+     :ARVD[m]&&ARVD[m].nos?`<button class="row" data-open="elegibilidade/arvore/${m}">${mt(m)}<span><span class="nm">${esc(misNome(m))}</span><br><span class="sb">Percurso interativo no filtro 2 · ${Object.keys(ARVD[m].catOE||{}).length} categorias · ${ARVD[m].estado==="completa"?"completa no quadro de trabalho":"rascunho avançado"}</span></span><span class="rt"><span class="chip ${ARVD[m].estado==="completa"?"good":"warn"}">percurso</span></span></button>`:`<div class="row" aria-disabled="true">${mt(m)}<span><span class="nm">${esc(misNome(m))}</span><br><span class="sb">Árvore a construir; o filtro 2 é respondido manualmente</span></span><span class="rt"></span></div>`).join("")}</div>`;
   ligarLista(M); }
 function vArvVisao(M,banner,m){ const A=ARV[m], ks=Object.keys(A.cats), S5=A.setores;
   const r1=S5.map((s,i)=>`<div class="av-bc ${i===0?"f":i===S5.length-1?"l":""}">${avOpt(s.k,s.t,"",s.mu?"mu":"let")}</div>`).join("");
@@ -1876,23 +1922,23 @@ function draftDe(code){ const k=dkey(code); if(!LOC.draft[k]){ const a=S.aval[k]
 const okC=(d,k)=>d.notas[k]!=null&&jOk(d.just[k])&&!!d.fonte[k]&&!!d.conf[k];
 const okX=(d,i)=>d.exq[i]!==""&&d.exq[i]!=null&&jOk(d.justX[i])&&!!d.fonteX[i]&&!!d.confX[i];
 const okI=(d,it)=>it.t==="c"?okC(d,it.k):it.t==="x"?okX(d,it.i):false;
-const PAPEL={A1:"Lê o Canvas pela estratégia e pelo Contrato de Gestão. É a pontuação principal, a cargo da Unidade de Gestão Estratégica.",A2:"Olha com mais atenção a evidência de resultado e os relatórios de acompanhamento.",A3:"Técnico de outra diretoria, sem vínculo com o projeto. Nunca recebe projeto da própria diretoria."};
+const PAPEL={A1:"Lê o Canvas pela estratégia e pelo Contrato de Gestão. É a pontuação principal, a cargo da Unidade de Gestão Estratégica.",A2:"Técnico de outra diretoria, sem vínculo com o projeto. Leitura obrigatória; nunca recebe projeto da própria diretoria.",A3:"Só quando as duas primeiras leituras divergem em dois pontos ou mais em algum critério. Decide e registra a conciliação. Nunca recebe projeto da própria diretoria."};
 function escolherPerfil(M,banner){
-  M.innerHTML=`${banner}${headM("Pontuação de valor e exequibilidade","Três leituras independentes por projeto. A unidade proponente fornece as evidências e pode contestar a nota, mas não pontua.","Unidade de Gestão Estratégica, com segunda leitura por técnico de outra diretoria","depois dos filtros, antes da montagem da carteira")}
+  M.innerHTML=`${banner}${headM("Pontuação de valor e exequibilidade","Duas leituras independentes por projeto, e uma terceira quando elas divergem em dois pontos ou mais em algum critério. A unidade proponente fornece as evidências e pode contestar a nota, mas não pontua.","Unidade de Gestão Estratégica, com segunda leitura por técnico de outra diretoria","depois dos filtros, antes da montagem da carteira")}
    <div class="pick"><h2>Em qual papel você pontua?</h2><div class="who">${Object.entries(SLOTS).map(([k,t])=>`<button data-slot="${k}"><b>${t}</b><span>${PAPEL[k]}</span></button>`).join("")}</div>
    <div id="dirPick" hidden class="fld" style="max-width:420px"><label for="pDir">Sua diretoria</label><select id="pDir"><option value="">Escolha</option>${opt(Object.keys(DIRS),"",k=>DIRS[k])}</select></div>
    <p class="small muted">O papel fica guardado neste navegador e pode ser trocado depois.</p></div>`;
-  M.querySelectorAll("[data-slot]").forEach(b=>b.onclick=()=>{ if(b.dataset.slot==="A3"){ $("dirPick").hidden=false; $("pDir").focus(); return; } LOC.perfil={slot:b.dataset.slot,dir:""}; LOC.draft={}; render(); });
-  $("pDir").onchange=e=>{ if(!e.target.value) return; LOC.perfil={slot:"A3",dir:e.target.value}; LOC.draft={}; render(); }; }
+  M.querySelectorAll("[data-slot]").forEach(b=>b.onclick=()=>{ if(b.dataset.slot!=="A1"){ LOC._slot=b.dataset.slot; $("dirPick").hidden=false; $("pDir").focus(); return; } LOC.perfil={slot:b.dataset.slot,dir:""}; LOC.draft={}; render(); });
+  $("pDir").onchange=e=>{ if(!e.target.value) return; LOC.perfil={slot:LOC._slot||"A2",dir:e.target.value}; LOC.draft={}; render(); }; }
 function vNtLista(M,banner){
-  const p=LOC.perfil; if(!p.slot||(p.slot==="A3"&&!p.dir)) return escolherPerfil(M,banner);
-  const minha=enviados().filter(apta).filter(c=>!(p.slot==="A3"&&c.dir===p.dir)), meu=code=>S.aval[code+"__"+p.slot];
+  const p=LOC.perfil; if(!p.slot||(p.slot!=="A1"&&!p.dir)) return escolherPerfil(M,banner);
+  const minha=enviados().filter(apta).filter(c=>elegivelParaSlot(c,p)), meu=code=>S.aval[code+"__"+p.slot];
   const st=c=>{ const m=meu(c.code), dr=LOC.draft[dkey(c.code)]; return m&&m.enviada?"Enviada":m||(dr&&(Object.keys(dr.notas).length||dr.exq.some(x=>x!=="")))?"Em andamento":"A pontuar"; };
   const feitas=minha.filter(c=>st(c)==="Enviada").length, q=(LOC.q.notas||"").trim().toLowerCase(), fil=minha.filter(c=>!q||(c.code+" "+c.nome).toLowerCase().includes(q));
   const semRec=enviados().filter(c=>situacao(c)==="Segue sem recurso novo").filter(c=>!q||(c.code+" "+c.nome).toLowerCase().includes(q));
-  const refs=fil.filter(c=>REFS.includes(c.code)), resto=fil.filter(c=>!REFS.includes(c.code)), refFeitas=minha.filter(c=>REFS.includes(c.code)&&st(c)==="Enviada").length, nRef=minha.filter(c=>REFS.includes(c.code)).length;
+  const refs=fil.filter(c=>refsAtuais().includes(c.code)), resto=fil.filter(c=>!refsAtuais().includes(c.code)), refFeitas=minha.filter(c=>refsAtuais().includes(c.code)&&st(c)==="Enviada").length, nRef=minha.filter(c=>refsAtuais().includes(c.code)).length;
   const row=c=>{ const s=st(c), d=LOC.draft[dkey(c.code)], n=d?ITENS.filter(it=>okI(d,it)).length:0, outras=["A1","A2","A3"].filter(sl=>S.aval[c.code+"__"+sl]&&S.aval[c.code+"__"+sl].enviada).length;
-    return `<button class="row" data-open="notas/${esc(c.code)}">${mt(misOf(c))}<span><span class="nm">${esc(c.nome)}</span><br><span class="sb">${esc(c.code)} · ${esc(misNome(misOf(c)))} · ${esc(eixoNome(c.eixo))}</span></span><span class="rt">${s==="Em andamento"?`<span class="tiny muted">${n} de 17</span>`:""}<span class="dots" title="${outras} de 3 leituras enviadas">${[0,1,2].map(i=>`<i class="${i<outras?"on":""}"></i>`).join("")}</span><span class="stc"><span class="chip ${s==="Enviada"?"good":s==="Em andamento"?"acc":"warn"}">${s}</span></span></span></button>`; };
+    return `<button class="row" data-open="notas/${esc(c.code)}">${mt(misOf(c))}<span><span class="nm">${esc(c.nome)}</span><br><span class="sb">${esc(c.code)} · ${esc(misNome(misOf(c)))} · ${esc(eixoNome(c.eixo))}</span></span><span class="rt">${s==="Em andamento"?`<span class="tiny muted">${n} de 17</span>`:""}<span class="dots" title="${outras} de ${leiturasPrevistas(c)} leituras enviadas">${Array.from({length:leiturasPrevistas(c)},(_,i)=>i).map(i=>`<i class="${i<outras?"on":""}"></i>`).join("")}</span><span class="stc"><span class="chip ${s==="Enviada"?"good":s==="Em andamento"?"acc":"warn"}">${s}</span></span></span></button>`; };
   M.innerHTML=`${banner}${headM("Pontuação de valor e exequibilidade",`Você pontua como <b>${esc(SLOTS[p.slot])}</b>${p.slot==="A3"?", pela "+esc(DIRS[p.dir]):""}. As notas dos outros ficam ocultas até você enviar a sua.`,"Unidade de Gestão Estratégica, com segunda leitura por técnico de outra diretoria","depois dos filtros, antes da montagem da carteira",`<button class="btn" id="troca">Trocar papel</button>`)}
    <div class="meter"><div><b>${feitas}</b> de ${minha.length} projetos pontuados</div><div class="prog"><i style="width:${minha.length?feitas/minha.length*100:0}%"></i></div></div>
    <div class="listbar"><input type="search" data-q="notas" placeholder="Buscar por código ou nome" value="${esc(LOC.q.notas||"")}" aria-label="Buscar projeto"></div>
@@ -1902,8 +1948,8 @@ function vNtLista(M,banner){
   $("troca").onclick=()=>{ LOC.perfil={slot:"",dir:""}; render(); }; if($("limpaQ")) $("limpaQ").onclick=()=>{ LOC.q.notas=""; render(); }; ligarLista(M); }
 const BCOR={K:"#183eff",N:"#00a3e6",S:"#2e9e4f",X:"#2e9e4f"};
 function vNtWork(M,banner,c){
-  const p=LOC.perfil; if(!p.slot||(p.slot==="A3"&&!p.dir)) return escolherPerfil(M,banner);
-  if(!apta(c)){ M.innerHTML=`${banner}${crumb([["Início","inicio"],["Pontuação","notas"],[esc(c.code)]])}<div class="note warn">Este projeto não passou nos filtros de entrada e não recebe nota.</div>`; return; }
+  const p=LOC.perfil; if(!p.slot||(p.slot!=="A1"&&!p.dir)) return escolherPerfil(M,banner);
+  if(!apta(c)||!elegivelParaSlot(c,p)){ M.innerHTML=`${banner}${crumb([["Início","inicio"],["Pontuação","notas"],[esc(c.code)]])}<div class="note warn">${!apta(c)?"Este projeto não passou nos filtros de entrada e não recebe nota.":c.dir===p.dir?"Este projeto é da sua diretoria: a leitura cabe a técnico de outra diretoria.":"Este projeto não precisa de terceira leitura: as duas primeiras não divergiram em dois pontos ou mais."}</div>`; return; }
   const m=misOf(c), a=S.aval[dkey(c.code)], trav=!!(a&&a.enviada), ro=!S.podeEscrever||trav, d=draftDe(c.code), w=pesos(c);
   let ci=LOC.ci[c.code]; if(ci==null){ ci=ITENS.findIndex(it=>it.t==="r"||!okI(d,it)); if(trav) ci=ITENS.length-1; } ci=Math.max(0,Math.min(ITENS.length-1,ci)); const it=ITENS[ci];
   const feitos=ITENS.filter(x=>okI(d,x)).length;
@@ -1938,9 +1984,9 @@ function vNtWork(M,banner,c){
     compara=`<section class="card pad comp"><h2 class="sech">Notas das outras leituras</h2>${trav?(outros.length?`<div class="tw"><table><thead><tr><th>Critério</th><th class="n">Você</th>${outros.map(o=>`<th class="n">${esc(SLOTS[o.slot])}</th>`).join("")}</tr></thead><tbody>${AVC.map(k=>`<tr><td>${esc(CR[k].n)}</td><td class="n">${a.notas[k]}</td>${outros.map(o=>`<td class="n">${o.notas[k]}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`:`<p class="small muted">As outras leituras ainda não foram enviadas.</p>`):`<p class="small muted">As notas das outras leituras ficam ocultas até você enviar a sua.</p>`}</section>`;
     card=`<div class="qcard"><span class="k">Revisar e enviar</span><h2>${trav?"Leitura enviada":falta?`Faltam ${falta} item(ns)`:"Pronta para enviar"}</h2>
       <div class="tw"><table><thead><tr><th>Critério</th><th class="n">Nota</th><th>Justificativa e evidência</th></tr></thead><tbody>${ITENS.filter(x=>x.t!=="r").map((x,i)=>`<tr class="click" data-ci="${i}"><td>${esc(x.t==="c"?CR[x.k].n:"Exequibilidade: "+EXQ[x.i].t.toLowerCase())}</td><td class="n">${fmtN(x.t==="c"?d.notas[x.k]:d.exq[x.i])}</td><td class="small">${x.t==="c"?stt(d.notas[x.k],d.just[x.k],d.fonte[x.k],d.conf[x.k]):stt(d.exq[x.i],d.justX[x.i],d.fonteX[x.i],d.confX[x.i])}</td></tr>`).join("")}</tbody></table></div>
-      ${!falta?(()=>{ const v=valorar(c,d.notas,d.exq.map(Number),d.risco); return `<div class="note ${v.passa?"good":"bad"}">Com as suas notas, o projeto teria <b>valor ajustado ${nf1.format(v.aj)}</b> e ${v.passa?"passaria":"não passaria"} na porta de pontuação. O resultado final usa a mediana das três leituras.</div>`; })():""}
+      ${!falta?(()=>{ const v=valorar(c,d.notas,d.exq.map(Number),d.risco); return `<div class="note ${v.passa?"good":"bad"}">Com as suas notas, o projeto teria <b>valor ajustado ${nf1.format(v.aj)}</b> e ${v.passa?"passaria":"não passaria"} na porta de pontuação. O resultado final usa a mediana das leituras enviadas.</div>`; })():""}
       <div class="qfoot"><button class="btn" data-ci="${ci-1}">Anterior</button><span class="sp"></span>${trav?`<button class="btn" id="reabrir" ${S.podeEscrever?"":"disabled"}>Reabrir minha leitura</button>`:`<button class="btn" id="rasc" ${ro?"disabled":""}>Salvar rascunho</button><button class="btn primary" id="env" ${ro||falta?"disabled":""}>Enviar leitura</button>`}</div></div>`; }
-  M.innerHTML=`${banner}${phead([["Início","inicio"],["Pontuação","notas"],[esc(c.code)]],esc(c.nome),"",[["Nova Indústria Brasil",esc(misNome(m))],["ABDI 5.0",esc(eixoNome(c.eixo))],["Você pontua como",esc(SLOTS[p.slot])]],`${REFS.includes(c.code)?`<span class="tag">Referência para calibração</span>`:""}<span class="ph-count">${feitos} de 17 itens completos</span>`)}
+  M.innerHTML=`${banner}${phead([["Início","inicio"],["Pontuação","notas"],[esc(c.code)]],esc(c.nome),"",[["Nova Indústria Brasil",esc(misNome(m))],["ABDI 5.0",esc(eixoNome(c.eixo))],["Você pontua como",esc(SLOTS[p.slot])]],`${refsAtuais().includes(c.code)?`<span class="tag">Referência para calibração</span>`:""}<span class="ph-count">${feitos} de 17 itens completos</span>`)}
    <section class="mbarra" aria-label="Critérios da matriz, na proporção dos pesos deste projeto">
      <div class="mrow"><div class="segs">${segs}</div><div class="segs exq">${exqbar}</div><button class="btn sm ${it.t==="r"?"primary":""}" data-ci="${ITENS.length-1}">Revisar</button></div>
      <div class="mrow lab"><div class="blabs">${blocos}</div><div class="exqlab">Exequibilidade</div><span class="revlab"></span></div>
@@ -2074,7 +2120,7 @@ function funilHTML(R){ const m=LOC.fmed==="r"?"r":"n", L=R.L, ap=L.filter(l=>l.o
   const ST=[
    {t:"Canvas recebidos",ls:L,out:[]},
    {t:"Passam nos filtros",ls:ap,out:[["nao","fora pelos filtros",L.filter(l=>colDe(l,R)==="nao")],["sem","seguem sem recurso novo",L.filter(l=>l.sit==="Segue sem recurso novo"),"segue sem recurso novo"],["ana","com filtros a responder",L.filter(l=>l.sit==="A responder")]]},
-   {t:"Com as três leituras",ls:comp,out:[["ana","com leituras incompletas",ap.filter(l=>!l.completo)]]},
+   {t:"Com leituras consolidadas",ls:comp,out:[["ana","com leituras incompletas",ap.filter(l=>!l.completo)]]},
    {t:"Aprovados na pontuação",ls:apr,out:[["rep","reprovados na porta de pontuação",comp.filter(l=>l.v&&!l.v.passa),"reprovado na porta de pontuação"]]},
    {t:"Cabem no teto",ls:cabe,out:[["p3","na lista de reserva",apr.filter(l=>!l.cabe)]]},
    {t:"Carteira deliberada",ls:fin,out:[["p3","deixados fora por decisão",cabe.filter(l=>decisaoDe(l).dec!=="incluir"),"deixado fora por decisão"]],ent:apr.filter(l=>!l.cabe&&decisaoDe(l).dec==="incluir")}];
@@ -2096,7 +2142,7 @@ function kcard(l,k,rc){ const c=l.c, m=misOf(c), pass=!!(l.v&&l.v.passa), D=pass
   if(k==="p1"||k==="p2"||k==="p3"){ b.push(`<span class="kb-b">${D.desvio?(D.dec==="incluir"?"incluído por decisão":"deixado fora por decisão"):k==="p3"?`reserva nº ${l.reserva}`:`${l.pos}º na fila`}</span>`);
     if(r) b.push(`<span class="kb-b rb-${r.cls}" title="Entra na carteira em ${Math.round(r.f*100)}% das simulações do teste de robustez">robustez ${Math.round(r.f*100)}%</span>`); }
   else if(k==="rep") b.push(`<span class="kb-b">não passou: ${esc(l.v.mot.join(", "))}</span>`);
-  else if(k==="ana") b.push(l.sit==="A responder"?`<span class="kb-b">filtros: ${(c.eleg||[]).filter(Boolean).length} de 6</span>`:`<span class="kb-b"><span class="dots">${[0,1,2].map(i=>`<i class="${i<(l.cons?l.cons.n:0)?"on":""}"></i>`).join("")}</span>${l.cons?l.cons.n:0} de 3 leituras</span>`);
+  else if(k==="ana") b.push(l.sit==="A responder"?`<span class="kb-b">filtros: ${(c.eleg||[]).filter(Boolean).length} de 6</span>`:`<span class="kb-b"><span class="dots">${[0,1,2].map(i=>`<i class="${i<(l.cons?l.cons.n:0)?"on":""}"></i>`).join("")}</span>${l.cons?l.cons.n:0} de ${leiturasPrevistas(l.c)} leituras</span>`);
   else if(k==="nao") b.push(`<span class="kb-b bad">${esc(l.sit)}</span>`);
   else if(k==="sem") b.push(`<span class="kb-b">orçamento já comprometido</span>`);
   const st=D?(D.desvio?`<span class="kb-st dv">Desvio registrado</span>`:reg?`<span class="kb-st ok">Decisão registrada</span>`:`<span class="kb-st">A deliberar</span>`):"";
@@ -2168,13 +2214,13 @@ function composicaoHTML(R){ const dk=DIMS[LOC.cdim]?LOC.cdim:"m", D=DIMS[dk], fi
       <div class="cbs">${bars}</div></section>
     ${perfilHTML(R)}</div>`; }
 function perfilHTML(R){ const L=R.L.filter(l=>l.v).sort((a,b)=>(b.v.passa-a.v.passa)||((a.pos||999)-(b.pos||999))||(b.v.aj-a.v.aj));
-  if(!L.length) return `<section class="card pad cv"><h2 class="sech">Perfil das notas</h2><div class="empty-art"><b>O perfil aparece quando houver projetos com as três leituras enviadas.</b><span>Uma linha por projeto e uma coluna por critério, com a mediana das leituras. Ajuda a Diretoria Executiva a ver por que cada projeto pontua como pontua.</span></div></section>`;
+  if(!L.length) return `<section class="card pad cv"><h2 class="sech">Perfil das notas</h2><div class="empty-art"><b>O perfil aparece quando houver projetos com as leituras consolidadas.</b><span>Uma linha por projeto e uma coluna por critério, com a mediana das leituras. Ajuda a Diretoria Executiva a ver por que cada projeto pontua como pontua.</span></div></section>`;
   const G=[["Núcleo comum",["K1","K2","K3"]],["Missão",["N1","N2","N3","N4","N5"]],["ABDI 5.0",["S1","S2","X1","X2","X3","X4"]]], ks=G.flatMap(g=>g[1]), gs=k=>G.some(g=>g[1][0]===k)?" gs":"";
   const cel=(l,k)=>{ const n=k==="N1"?N1(l.c):l.cons.notas[k], inc=(l.cons.conciliar||[]).includes(k), lv=n==null?0:n<0?-1:Math.max(1,Math.min(5,Math.round(n)));
-    return `<td class="hm-c ${lv<0?"neg":"l"+lv}${gs(k)}" ${tipA(`${l.c.code} · ${k==="N1"?"Aderência à missão (calculada do Canvas)":CR[k].n}`,[[fmtN(n),k==="N1"?"nota":"nota (mediana das três leituras)"],[nf1.format(l.v.w[k]*100)+"%","peso no valor deste projeto"],[nf1.format(l.v.parc[k]),"pontos no valor"],...(inc?[[`${l.cons.amp[k]} pontos`,"de distância entre as leituras: conciliar"]]:[])])}>${n==null?"—":String(n).replace("-","−")}${inc?'<i class="hm-i"></i>':""}</td>`; };
+    return `<td class="hm-c ${lv<0?"neg":"l"+lv}${gs(k)}" ${tipA(`${l.c.code} · ${k==="N1"?"Aderência à missão (calculada do Canvas)":CR[k].n}`,[[fmtN(n),k==="N1"?"nota":"nota (mediana das leituras)"],[nf1.format(l.v.w[k]*100)+"%","peso no valor deste projeto"],[nf1.format(l.v.parc[k]),"pontos no valor"],...(inc?[[`${l.cons.amp[k]} pontos`,"de distância entre as leituras: conciliar"]]:[])])}>${n==null?"—":String(n).replace("-","−")}${inc?'<i class="hm-i"></i>':""}</td>`; };
   const sit=l=>(KB.find(x=>x.k===colDe(l,R))||{}).t||"";
   const rows=L.map(l=>`<tr><th scope="row"><button type="button" class="hm-pb" data-drw="${esc(l.c.code)}">${mt(misOf(l.c))}<span><b>${esc(l.c.code)}</b> ${esc(l.c.nome)}<span class="tiny muted">${esc(sit(l))}${l.pos?` · ${l.pos}º na fila`:""}</span></span></button></th><td class="n hm-v"><b>${nf1.format(l.v.aj)}</b></td>${ks.map(k=>cel(l,k)).join("")}<td class="n hm-x">× ${nf2.format(l.v.fator)}</td></tr>`).join("");
-  return `<section class="card pad cv"><div class="cv-h"><div><h2 class="sech">Perfil das notas</h2><p class="small muted cv-p">Mediana das três leituras em cada critério, para os projetos com pontuação consolidada, na ordem da fila. Quanto mais escura a célula, maior a nota. Passe o cursor numa célula para ver o peso e os pontos que ela soma ao valor.</p></div>
+  return `<section class="card pad cv"><div class="cv-h"><div><h2 class="sech">Perfil das notas</h2><p class="small muted cv-p">Mediana das leituras em cada critério, para os projetos com pontuação consolidada, na ordem da fila. Quanto mais escura a célula, maior a nota. Passe o cursor numa célula para ver o peso e os pontos que ela soma ao valor.</p></div>
       <div class="hm-lg" aria-hidden="true"><span>nota</span>${[1,2,3,4,5].map(n=>`<span class="hm-c l${n}">${n}</span>`).join("")}<span class="hm-c neg">−1</span><span>dano</span><span class="hm-lgi"><i class="hm-i"></i>leituras a conciliar (2 pontos ou mais de distância)</span></div></div>
     <div class="hm-w" tabindex="0" role="region" aria-label="Perfil das notas, tabela com rolagem horizontal"><table class="hm"><thead><tr><th rowspan="2" scope="col" class="hm-h0">Projeto</th><th rowspan="2" scope="col" class="n">Valor</th>${G.map(g=>`<th colspan="${g[1].length}" scope="colgroup" class="hm-g gs">${g[0]}</th>`).join("")}<th rowspan="2" scope="col" class="n">Exequi&shy;bilidade</th></tr>
       <tr>${ks.map(k=>`<th scope="col" class="hm-k${gs(k)}" title="${esc(k==="N1"?"Aderência à missão":CR[k].n)}">${CRC[k]}</th>`).join("")}</tr></thead><tbody>${rows}</tbody></table></div></section>`; }
@@ -2284,7 +2330,7 @@ function vPainel(M,banner){
         return `<section class="rob ${gk}"><h2 class="grph"><i></i>${RCL[gk]}<span>${qtd(ls.length,"projeto","projetos")}, R$ ${mi(ls.reduce((a,x)=>a+(+x.l.c.novos||0),0))} mi</span></h2>${gk==="fronteira"?`<p class="small">É aqui que a deliberação deve se concentrar.</p>`:""}
           <div class="rlist"><div class="rhead" aria-hidden="true"><span></span><span>Projeto</span><span class="rax"><i style="left:0">0%</i><i style="left:50%">50%</i><i style="left:100%">100%</i></span><span>Dentro</span></div>${ls.map(x=>{ const inc=x.l.v.passa&&decisaoDe(x.l).dec==="incluir"; return `<button class="rrow" data-drw="${esc(x.l.c.code)}">${mt(misOf(x.l.c))}<span class="rn">${esc(x.l.c.nome)}<span class="tiny muted">${esc(x.l.c.code)}, R$ ${mi(x.l.c.novos)} mi · ${x.l.v.passa?(inc?"na carteira":"fora da carteira"):"reprovado na pontuação"}</span></span><span class="rtrack"><i class="z1"></i><i class="z2"></i><i class="z3"></i><b style="left:clamp(7px,${x.f*100}%,calc(100% - 7px))"></b></span><span class="rf">${Math.round(x.f*100)}%</span></button>`; }).join("")}</div></section>`; }).join("")}
       <p class="tiny muted">Faixas: até 10% das simulações, sempre fora; 90% ou mais, sempre dentro; entre uma e outra, na fronteira.</p>`
-      :`<div class="empty-art"><b>O teste de robustez aparece quando houver projetos com as três leituras enviadas.</b><span>Ele separa os projetos que entram em quase todos os cenários, os que nunca entram e os da fronteira, onde a decisão da Diretoria Executiva mais pesa.</span></div>`; }
+      :`<div class="empty-art"><b>O teste de robustez aparece quando houver projetos com as leituras consolidadas.</b><span>Ele separa os projetos que entram em quase todos os cenários, os que nunca entram e os da fronteira, onde a decisão da Diretoria Executiva mais pesa.</span></div>`; }
   else if(tab==="delib"){ const L=R.L.filter(l=>l.v&&l.v.passa).sort((a,b)=>a.pos-b.pos), cls=l=>(rc[l.c.code]||{}).cls||"fronteira";
     const A=L.filter(l=>l.cabe&&cls(l)==="dentro"), C=L.filter(l=>!l.cabe&&cls(l)==="fora"), B=L.filter(l=>!A.includes(l)&&!C.includes(l));
     const desv=L.filter(l=>decisaoDe(l).desvio), feito=l=>!!(S.dec[l.c.code]&&S.dec[l.c.code].ts), pend=x=>x.filter(l=>!feito(l)).length, nOk=L.filter(l=>feito(l)&&!decisaoDe(l).desvio).length;
@@ -2316,7 +2362,7 @@ function vPainel(M,banner){
     corpo=`<section class="card pad"><h2 class="sech">Leituras entregues</h2><div class="mbars">${porSlot.map(([sl,n])=>`<div class="mbar"><span>${esc(SLOTS[sl])}</span><div class="mtrack"><i style="width:${ap.length?n/ap.length*100:0}%;background:var(--accent)"></i></div><span>${n} de ${ap.length}</span></div>`).join("")}</div></section>
      <div class="tw"><table><thead><tr><th>Projeto</th><th>Leituras</th><th>Situação</th></tr></thead><tbody>${ap.map(c=>{ const cons=consolidar(c); const n=cons?cons.n:0;
        return `<tr class="click" data-drw="${esc(c.code)}"><td><b>${esc(c.nome)}</b><div class="tiny muted">${esc(c.code)}</div></td><td><span class="dots">${[0,1,2].map(i=>`<i class="${i<n?"on":""}"></i>`).join("")}</span> <span class="small muted">${n} de 3</span></td><td>${n<3?`<span class="chip">aguardando</span>`:cons.conciliar.length?`<span class="chip warn">conciliar ${qtd(cons.conciliar.length,"critério","critérios")}</span>`:`<span class="chip good">consolidado</span>`}</td></tr>`; }).join("")||`<tr><td colspan="3" class="empty">Nenhum projeto passou nos filtros ainda.</td></tr>`}</tbody></table></div>
-     <p class="small muted">A nota de cada critério é a mediana das três leituras. Distância de 2 pontos ou mais leva o critério à conciliação.</p>`; }
+     <p class="small muted">A nota de cada critério é a mediana das leituras enviadas. Distância de 2 pontos ou mais leva o critério à conciliação.</p>`; }
   const dd=diasAte("2026-11-10");
   const simA=SIM?`<span class="tag sim">Simulação</span>`:`<button type="button" class="btn sm" id="simOn" title="Preenche esta página com um exercício fictício, só neste navegador. Nada é gravado no banco.">Aplicar simulação</button>`;
   M.innerHTML=`${banner}${phead([["Início","inicio"],["Diretoria Executiva"]],"Diretoria Executiva","A Unidade de Gestão Estratégica monta a carteira sob o teto e testa a robustez. A Diretoria Executiva delibera e registra as decisões.",[["Quem faz","Diretoria Executiva, com a Unidade de Gestão Estratégica"],["Quando","aprovação em 10/11; depois, Conselho Deliberativo em 25/11, pelo Contrato de Gestão"],["Etapa da MGP³","Balanceamento (4.3) e Autorização (4.5)"]],simA+(dd>=0?`<span class="tag">${dd===0?"Reunião da Diretoria Executiva hoje":dd===1?"Falta 1 dia para a Diretoria Executiva":`Faltam ${dd} dias para a Diretoria Executiva`}</span>`:""))}
@@ -2373,9 +2419,9 @@ function renderDrawer(){ const H=$("drawer"); if(!DRW||!S.canvas[DRW]){ H.innerH
     det=`<h3>Porta de pontuação</h3><div class="checks">${v.checks.map(x=>`<div class="check ${x.ok?"ok":"no"}"><span class="ic">${x.ok?"✓":"✕"}</span><div><b>${esc(x.t)}</b><div class="small muted">${esc(x.d)}</div></div></div>`).join("")}</div>
      <h3>Composição do valor</h3><div class="tw"><table><thead><tr><th>Critério</th><th class="n">Nota</th><th class="n">Peso</th><th class="n">Pontos</th></tr></thead><tbody>${rows}<tr class="sub"><td colspan="3">Valor (0 a 100)</td><td class="n">${nf1.format(v.valor)}</td></tr><tr><td colspan="3">Fator de exequibilidade (média ${nf2.format(v.medExq)})</td><td class="n">× ${nf2.format(v.fator)}</td></tr><tr class="sub"><td colspan="3">Valor ajustado</td><td class="n">${nf1.format(v.aj)}</td></tr></tbody></table></div>`;
     const cr=consolidar(c);
-    if(cr&&cr.n===3){ const av=["A1","A2","A3"].map(sl=>S.aval[c.code+"__"+sl]);
-      det+=`<h3>As três leituras</h3>${cr.conciliar.length?`<div class="note warn">Conciliar: ${cr.conciliar.map(k=>CR[k].n.toLowerCase()).join("; ")}.</div>`:""}<div class="tw"><table><thead><tr><th>Critério</th>${["A1","A2","A3"].map(sl=>`<th class="n">${esc(SLOTS[sl])}</th>`).join("")}<th class="n">Mediana</th></tr></thead><tbody>${AVC.map(k=>`<tr><td>${esc(CR[k].n)}${cr.amp[k]>=2?` <span class="chip warn">${cr.amp[k]}</span>`:""}${av.some(a=>a.just&&a.just[k])?`<div class="tiny muted">${av.map((a,i)=>a.just&&a.just[k]?`<div>${esc(SLOTS[["A1","A2","A3"][i]])}: ${esc(a.just[k])}${a.conf&&a.conf[k]?" (confiança "+esc(a.conf[k]).toLowerCase()+")":""}</div>`:"").join("")}</div>`:""}</td>${av.map(a=>`<td class="n">${a.notas[k]}</td>`).join("")}<td class="n"><b>${fmtN(cr.notas[k])}</b></td></tr>`).join("")}</tbody></table></div>`; } }
-  else det=`<div class="note">${l?esc(explicaSit(c).t):"Canvas em rascunho."}${l&&l.ok&&!l.v?` Leituras enviadas: ${l.cons?l.cons.n:0} de 3.`:""}</div>`;
+    if(cr&&consolidado(cr)){ const av=["A1","A2","A3"].map(sl=>S.aval[c.code+"__"+sl]).filter(a=>a&&a.enviada);
+      det+=`<h3>As leituras</h3>${cr.conciliar.length?`<div class="note warn">Conciliar: ${cr.conciliar.map(k=>CR[k].n.toLowerCase()).join("; ")}.</div>`:""}<div class="tw"><table><thead><tr><th>Critério</th>${av.map(a=>`<th class="n">${esc(SLOTS[a.slot])}</th>`).join("")}<th class="n">Mediana</th></tr></thead><tbody>${AVC.map(k=>`<tr><td>${esc(CR[k].n)}${cr.amp[k]>=2?` <span class="chip warn">${cr.amp[k]}</span>`:""}${av.some(a=>a.just&&a.just[k])?`<div class="tiny muted">${av.map((a,i)=>a.just&&a.just[k]?`<div>${esc(SLOTS[a.slot])}: ${esc(a.just[k])}${a.conf&&a.conf[k]?" (confiança "+esc(a.conf[k]).toLowerCase()+")":""}</div>`:"").join("")}</div>`:""}</td>${av.map(a=>`<td class="n">${a.notas[k]}</td>`).join("")}<td class="n"><b>${fmtN(cr.notas[k])}</b></td></tr>`).join("")}</tbody></table></div>`; } }
+  else det=`<div class="note">${l?esc(explicaSit(c).t):"Canvas em rascunho."}${l&&l.ok&&!l.v?` Leituras enviadas: ${l.cons?l.cons.n:0} de ${leiturasPrevistas(c)}.`:""}</div>`;
   let delib="";
   if(l&&l.v&&l.v.passa){ const D=decisaoDe(l), g=S.dec[c.code]||{}, pre=DRWPRE&&DRWPRE.code===c.code?DRWPRE:null, esc2=pre?pre.dec:(g.decisao&&g.decisao!==D.rec?g.decisao:"seguir");
     delib=`<section class="delib"><h3>Deliberação da Diretoria Executiva</h3>${pre&&pre.msg?`<div class="note info">${esc(pre.msg)}</div>`:""}<p class="small">Recomendação técnica: <b>${D.rec==="incluir"?"incluir na carteira":"deixar fora da carteira"}</b> (${l.pos}º na fila${l.cabe?", dentro do teto":", fora do teto"}).</p>
@@ -2406,27 +2452,413 @@ document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&DRW){ DRW=null; DR
 /* ================= como funciona ================= */
 function vRegras(M){
   M.innerHTML=`${head("Como funciona a seleção","Responsáveis, missões, eixos, critérios e as duas portas, num só lugar.")}<div class="doc2"><nav class="toc" aria-label="Seções">${[["fluxo","Fluxograma"],["quem","Papéis e responsabilidades"],["missoes","Missões"],["eixos","ABDI 5.0"],["pesos","Pesos por bloco"],["porta1","Filtros de entrada"],["porta2","Porta de pontuação"],["prior","Priorização"]].map(([k,t])=>`<a href="javascript:void 0" data-toc="${k}">${t}</a>`).join("")}</nav><div class="prose">
-   <section id="s-fluxo"><h2 class="sech">Fluxograma da governança</h2><p>A seleção segue as oito etapas da ${esc(MGP_NOME)}. A matriz do Produto 3 não cria etapas novas: ela é a Ferramenta Avaliativa que a metodologia prevê no Balanceamento, e acrescenta regras às demais etapas. Esta esteira cobre a Identificação, o Balanceamento e a Autorização.</p>
+   <section id="s-fluxo"><h2 class="sech">Fluxograma da governança</h2><p>A seleção segue as oito etapas da ${esc(MGP_NOME)}. A matriz do Produto 3 não cria etapas novas: ela é a Ferramenta Avaliativa que a metodologia prevê no Balanceamento, e acrescenta regras às demais etapas. Esta esteira cobre a abertura do ciclo (parâmetros), a Identificação, o Balanceamento e a Autorização.</p>
     <ol class="fx-mini">${MGP8.map((e,i)=>`<li class="${e.esteira||e.passos?"":"fora"}"><span>${i+1}</span>${esc(e.t)}</li>`).join("")}</ol>
     <p><button class="btn primary" id="verFluxo">Exibir fluxograma</button></p></section>
    <section id="s-quem"><h2 class="sech">Papéis e responsabilidades</h2><p>Os papéis são os da seção 3.6 da metodologia. A última coluna diz o que muda com a matriz; o que não está nela segue como hoje.</p><div class="tw"><table><thead><tr><th>Papel</th><th>Na metodologia vigente</th><th>Na seleção proposta</th></tr></thead><tbody>
 <tr><td>Diretoria Executiva</td><td>Orienta o balanceamento; em reunião colegiada, analisa os Canvas e os resultados da Ferramenta Avaliativa e delibera a composição do portfólio; autoriza, única e exclusivamente, por Resolução (3.6.1, 4.3 e 4.5).</td><td>Recebe a recomendação técnica, que é consultiva. Trata a relevância político-institucional na deliberação e registra cada desvio com justificativa e responsável.</td></tr>
-<tr><td>Escritório de Projetos (Unidade de Gestão Estratégica)</td><td>Assessora a alta administração no portfólio; abre o ciclo; analisa os Canvas e faz a avaliação qualitativa e orçamentária comparativa; cria programas e o Portfólio Anual; divulga o portfólio; monitora, valida mudanças de escopo e cronograma e arquiva no encerramento (3.6.4, 4.1, 4.3, 4.4, 4.5, 4.7 e 4.8).</td><td>Aplica os filtros de entrada, faz a pontuação principal, monta a carteira sob o teto e o teste de robustez, e entrega a recomendação à Diretoria Executiva. Revê a exequibilidade a cada semestre.</td></tr>
+<tr><td>Escritório de Projetos (Unidade de Gestão Estratégica)</td><td>Assessora a alta administração no portfólio; abre o ciclo; analisa os Canvas e faz a avaliação qualitativa e orçamentária comparativa; cria programas e o Portfólio Anual; divulga o portfólio; monitora, valida mudanças de escopo e cronograma e arquiva no encerramento (3.6.4, 4.1, 4.3, 4.4, 4.5, 4.7 e 4.8).</td><td>Publica os parâmetros no check-list de abertura; aplica os filtros de entrada, com a árvore de decisão da missão; faz a primeira leitura da pontuação; monta a carteira sob o teto, a lista de reserva e o teste de robustez; entrega a recomendação à Diretoria Executiva e grava notas e decisão junto do Canvas. Revê a exequibilidade a cada semestre.</td></tr>
 <tr><td>Responsável pelo projeto</td><td>Preenche o Canvas e o orçamento sob orientação da Unidade de Gestão Estratégica; detalha cronograma, custos e riscos; atualiza a execução até o 5º dia útil de cada mês; encerra o projeto (3.6.2, 4.2, 4.6, 4.7 e 4.8).</td><td>Preenche os campos novos do Canvas e fornece as evidências da pontuação. Pode contestar a nota, mas não pontua o próprio projeto.</td></tr>
 <tr><td>Equipe do projeto</td><td>Executa e acompanha as atividades; apoia na identificação de riscos e no registro de lições aprendidas (3.6.3).</td><td>Sem mudança.</td></tr>
 <tr><td>Unidade Administrativa</td><td>Prepara o módulo de orçamento na abertura do ciclo, faz a gestão do orçamento proposto e valida as mudanças de custo (4.1, 4.2 e 4.7).</td><td>Sem mudança. O recurso novo e o comprometido saem dos valores que ela consolida.</td></tr>
-<tr><td>Técnico de outra diretoria</td><td>Não existe na metodologia.</td><td>Papel novo: faz a segunda leitura da pontuação, sem vínculo com o projeto. Nunca pontua projeto da própria diretoria.</td></tr>
+<tr><td>Técnico de outra diretoria</td><td>Não existe na metodologia.</td><td>Papel novo: faz a segunda leitura da pontuação, sem vínculo com o projeto, e a terceira quando as duas primeiras divergem. Nunca pontua projeto da própria diretoria.</td></tr>
 <tr><td>Conselho Deliberativo e ministério supervisor</td><td>Não aparecem na metodologia de portfólio.</td><td>Entram pelo Contrato de Gestão, depois da Resolução: recebem o Plano de Ação e o orçamento (no ciclo 2027, Conselho em 25/11 e ministério até 30/11).</td></tr>
 </tbody></table></div>
    </section><section id="s-missoes"><h2 class="sech">Missões da Nova Indústria Brasil</h2><div class="tw"><table><thead><tr><th>Missão</th><th>Meta aspiracional</th><th>Cadeias de referência</th></tr></thead><tbody>${MK.map(m=>`<tr><td>${mt(m)} ${esc(MIS[m].n)}</td><td>${esc(MIS[m].meta)}</td><td>${esc(ANM[m].N2)}</td></tr>`).join("")}</tbody></table></div>
    </section><section id="s-eixos"><h2 class="sech">ABDI 5.0: base conceitual e eixos</h2><p>A base conceitual é a Indústria 5.0: centrada no trabalhador, sustentável e resiliente. Sobre ela, quatro eixos organizam a carteira.</p><ul class="clean">${Object.entries(EIXN).sort((a,b)=>a[1].n-b[1].n).map(([e,x])=>`<li><b>${esc(eixoNome(e))}</b> (${esc(x.f)}): ${esc(x.d)}.</li>`).join("")}</ul>
-   </section><section id="s-pesos"><h2 class="sech">Pesos por bloco</h2><div class="tw"><table><thead><tr><th>Bloco</th><th class="n">Peso</th><th>Critérios</th><th>Muda com</th></tr></thead><tbody><tr><td>Núcleo comum</td><td class="n">40%</td><td>Contrato de Gestão, evidência, rede e escala</td><td>nada</td></tr><tr><td>Missão da Nova Indústria Brasil</td><td class="n">35%</td><td>Aderência (do Canvas), cadeia, soberania, adensamento, instrumento</td><td>missão principal</td></tr><tr><td>ABDI 5.0</td><td class="n">25%</td><td>Indústria 5.0 (10%): emprego, emissões. Eixo da ABDI 5.0 (15%): difusão, inteligência, governança, qualificação</td><td>missão principal (Indústria 5.0) e eixo</td></tr></tbody></table></div>
+   </section><section id="s-pesos"><h2 class="sech">Pesos por bloco</h2><div class="tw"><table><thead><tr><th>Bloco</th><th class="n">Peso</th><th>Critérios</th><th>Muda com</th></tr></thead><tbody><tr><td>Núcleo comum</td><td class="n">40%</td><td>Contrato de Gestão, evidência, rede e escala</td><td>nada</td></tr><tr><td>Missão da Nova Indústria Brasil</td><td class="n">35%</td><td>Aderência (pela árvore de decisão), elo crítico, soberania, adensamento, instrumento</td><td>missão principal</td></tr><tr><td>ABDI 5.0</td><td class="n">25%</td><td>Indústria 5.0 (10%): emprego, emissões. Eixo da ABDI 5.0 (15%): difusão, inteligência, governança, qualificação</td><td>missão principal (Indústria 5.0) e eixo</td></tr></tbody></table></div>
    </section><section id="s-porta1"><h2 class="sech">Filtros de entrada</h2><ol class="clean">${ELQ.map(q=>`<li><b>${esc(q.t)}.</b> ${esc(q.q)} Se não: ${esc(q.no)}</li>`).join("")}</ol><p class="small"><a href="#elegibilidade/arvore">Árvores de decisão do filtro 2, por missão</a></p>
-   </section><section id="s-porta2"><h2 class="sech">Porta de pontuação</h2><ul class="clean"><li>Nota mínima ${REGRA.notaMin} em cada critério do núcleo comum.</li><li>Média ponderada do bloco de missão de pelo menos ${REGRA.minBloco}.</li><li>Aderência calculada de pelo menos ${REGRA.travaMin}.</li><li>A exequibilidade reduz o valor em até 25%.</li></ul>
+   </section><section id="s-porta2"><h2 class="sech">Porta de pontuação</h2><ul class="clean"><li>Nota mínima ${REGRA.notaMin} em cada critério do núcleo comum.</li><li>Média ponderada do bloco de missão de pelo menos ${REGRA.minBloco}.</li><li>Aderência à missão de pelo menos ${REGRA.travaMin}, dada pela árvore de decisão: aderente prioritário 5, aderente 3, parcial 1.</li><li>Sem impedimento de exequibilidade (nota 0 em algum critério) e sem risco crítico sem mitigação.</li><li>A exequibilidade reduz o valor em até 25%.</li><li>Duas leituras independentes; terceira quando divergem em ${REGRA.divergencia} pontos ou mais em algum critério.</li></ul>
    </section><section id="s-prior"><h2 class="sech">Priorização</h2><p>Fila por valor ajustado por real pedido, até o orçamento disponível. Prioridade 1 ocupa a primeira metade do orçamento, Prioridade 2 a segunda, e quem não cabe forma a lista de reserva (Prioridade 3).</p></section></div></div>`;
   if($("verFluxo")) $("verFluxo").onclick=abrirFluxo;
   M.querySelectorAll("[data-toc]").forEach(a=>a.onclick=()=>document.getElementById("s-"+a.dataset.toc)?.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"})); }
 
+/* ================= v2.0 · árvores de decisão por missão, em formato percorrível ================= */
+/* Cada missão é um grafo de nós. Tipos de nó:
+   - q: pergunta com opções; cada opção leva a outro nó ("to"), à categoria escolhida ("@cat"), à regra de cadeia prioritária ("@star") ou a uma saída ("out").
+   - elo: lista de elos da cadeia da categoria; o elo escolhido pode ter pr:1 (cadeia prioritária ★). "none" é a saída para quem não atua em nenhum elo;
+     "alts" são respostas alternativas (quase sempre redirecionamentos); "to" é o próximo nó, ou "star" decide pelo ★ do elo.
+   Saídas (out): c = pri (aderente prioritário), ade (aderente), par (parcial), des (descartado), nad (não aderente), red (redirecionar para outra missão);
+   oe = objetivo específico vinculado ("@cat" usa o mapa catOE da missão); red = missão de destino; prop = 1 marca saída proposta pela equipe onde o quadro do Miro não tinha destino.
+   Fonte: árvores desenhadas pela equipe no quadro de trabalho (Miro), a partir do Plano de Ação 2024–2026 da Nova Indústria Brasil, edição atualizada (Brasil, 2025), e das fontes setoriais indicadas. Transcrição em 8 de novembro de 2026. */
+const PCOM="O projeto desenvolve, produz ou fortalece fornecedores, tecnologia ou conteúdo nacional em algum elo da cadeia?";
+const NAO_IND="Descartado: não incentiva a indústria";
+const SAI_PROP="Saída proposta pela equipe (seção 4.3.8 do Produto 3): setor correto, fora dos elos mapeados.";
+const ARVD={
+ M1:{nome:"Cadeias agroindustriais sustentáveis e digitais para a segurança alimentar, nutricional e energética",estado:"ausente",
+  meta:"70% da agricultura familiar mecanizada, com máquinas nacionais.",
+  pend:["Árvore ainda não desenhada. Três árvores já redirecionam projetos para esta missão: adoção digital pela agroindústria (Missão 4), drones e máquinas agrícolas (Missões 4 e 6) e bioinsumos agrícolas e alimentos (Missão 5).",
+   "Enquanto não há árvore, o filtro 2 é respondido manualmente e a aderência usa o grau declarado no Canvas, com a marca de provisório.",
+   "A pontuação usa descrições provisórias para a missão: máquinas agrícolas e agricultura de precisão, fertilizantes e bioinsumos, têxtil."]},
+ M2:{nome:"Complexo econômico-industrial da saúde resiliente para reduzir as vulnerabilidades do Sistema Único de Saúde e ampliar o acesso à saúde",estado:"completa",
+  fonte:"Gadelha et al. (2025) para os elos; objetivos II e IV da missão para a pesquisa e desenvolvimento; Portaria GM/MS nº 2.261/2023 para a prioridade.",
+  catOE:{A:"2.1 a 2.3",B:"2.3",C:"2.4",D:"2.4",E:"2.4"},
+  oes:[["2.1","Medicamentos e princípios ativos biológicos: produzir no país 50% das necessidades em 2026 e 70% em 2033 (linha de base 42%)."],["2.2","Vacinas, hemoderivados e terapias avançadas: 50% em 2026 e 70% em 2033."],["2.3","Dispositivos médicos: 50% em 2026 e 70% em 2033."],["2.4","Capacidades transversais (pesquisa e desenvolvimento, serviços, informação e conectividade), sem meta quantitativa."]],
+  regra:"O ★ só registra o vínculo com a meta de 50% e 70%; a prioridade depende de o projeto responder a um desafio da Matriz de Desafios Produtivos e Tecnológicos em Saúde. Os programas do complexo (parcerias para o desenvolvimento produtivo e assemelhados) não entram na árvore: são avaliados na pontuação, como articulação institucional com o Ministério da Saúde.",
+  pend:["As categorias C e D não têm saída para \"nenhum elo\" no quadro; aqui usam a saída proposta \"parcial\".","O objetivo 2.4 não tem vínculo registrado em nenhuma saída do quadro; aqui as categorias C, D e E vinculam-se a ele."],
+  nos:{
+   p0:{tipo:"q",k:"P0",t:"O projeto atua no complexo econômico-industrial da saúde? Em qual subsistema?",opts:[
+    {t:"Base química e biotecnológica",cat:"A",to:"pc"},{t:"Mecânica, eletrônica e materiais",cat:"B",to:"pc"},{t:"Serviços de saúde",cat:"C",to:"pc"},{t:"Informação e conectividade",cat:"D",to:"pc"},{t:"Pesquisa e desenvolvimento em saúde",cat:"E",to:"pc"},
+    {t:"Nenhum desses",out:{c:"nad",t:"Não se insere na Missão 2"}}]},
+   pc:{tipo:"q",k:"P-comum",el:1,t:"O projeto desenvolve, produz ou fortalece fornecedores, tecnologia ou conteúdo nacional em algum elo do complexo econômico-industrial da saúde?",opts:[{t:"Sim",to:"@cat"},{t:"Não: apenas aquisição, implantação ou consumo",out:{c:"des",t:NAO_IND}}]},
+   eA:{tipo:"elo",k:"A1",t:"Em qual elo o projeto atua?",src:"Gadelha et al., 2025",elos:[
+    {t:"Química fina: síntese de insumos farmacêuticos ativos e medicamentos",pr:1},{t:"Insumos naturais e biodiversidade (extratos, plantas medicinais, fitoterápicos)"},{t:"Biotecnologia: insumos farmacêuticos biológicos e biossimilares",pr:1},{t:"Vacinas, soros e hemoderivados",pr:1},{t:"Terapias avançadas",pr:1},{t:"Reagentes para diagnóstico in vitro",pr:1}],
+    alts:[{t:"Biodiversidade sem aplicação em saúde",out:{c:"red",red:"M5",t:"Avaliar na Missão 5"}}],none:{out:{c:"nad",t:"Não aderente"}},to:"q1"},
+   eB:{tipo:"elo",k:"B1",t:"Em qual elo o projeto atua?",src:"Gadelha et al., 2025",elos:[
+    {t:"Equipamentos mecânicos",pr:1},{t:"Equipamentos eletroeletrônicos, inclusive diagnóstico por imagem",pr:1},{t:"Próteses, órteses e implantes",pr:1},{t:"Consumíveis e materiais de uso médico",pr:1},{t:"Dispositivos de diagnóstico",pr:1}],
+    none:{out:{c:"nad",t:"Não aderente"}},to:"q1"},
+   eC:{tipo:"elo",k:"C1",t:"Em qual elo o projeto atua?",src:"Gadelha et al., 2025",elos:[
+    {t:"Atenção primária"},{t:"Hospitais: geração e validação de inovações clínicas, de processos e organizacionais"},{t:"Ambulatórios"},{t:"Serviços de diagnóstico: inteligência artificial para apoio à decisão e laudos"},{t:"Logística, varejo e distribuição"}],
+    none:{out:{c:"par",t:"Parcial",d:SAI_PROP,prop:1}},to:"c2"},
+   c2:{tipo:"q",k:"C2",el:1,t:"O serviço é espaço de desenvolvimento, validação ou incorporação de tecnologia nacional?",opts:[{t:"Sim",to:"q1"},{t:"Não",out:{c:"des",t:"Descartado: apenas amplia ou mantém a oferta assistencial"}}]},
+   eD:{tipo:"elo",k:"D1",t:"Em qual elo o projeto atua?",src:"Gadelha et al., 2025",elos:[
+    {t:"Plataformas e infraestrutura de dados"},{t:"Prontuário e registros de saúde"},{t:"Telessaúde e monitoramento remoto"},{t:"Inteligência para gestão (projeção da demanda de medicamentos)"},{t:"Inteligência artificial aplicada à pesquisa e desenvolvimento (se o resultado for molécula ou candidato, classificar na categoria E)"}],
+    alts:[{t:"Tecnologia da informação sem aplicação específica em saúde",out:{c:"red",red:"M4",t:"Avaliar na Missão 4"}}],none:{out:{c:"par",t:"Parcial",d:SAI_PROP,prop:1}},to:"d2"},
+   d2:{tipo:"q",k:"D2",t:"Os dados e a tecnologia permanecem sob domínio nacional?",opts:[{t:"Sim",to:"q1"},{t:"Não",out:{c:"par",t:"Parcial: solução digital sem domínio nacional dos dados"}}]},
+   eE:{tipo:"elo",k:"E1",t:"Em qual elo o projeto atua?",src:"objetivos II e IV da missão",elos:[
+    {t:"Descoberta de novas moléculas e alvos terapêuticos"},{t:"Triagem in silico (previsão de eficácia e efeitos adversos)"},{t:"Pesquisa pré-clínica"},{t:"Pesquisa clínica"}],
+    none:{out:{c:"nad",t:"Não aderente"}},to:"q1"},
+   q1:{tipo:"q",k:"Q1",t:"O projeto oferece solução para um desafio da Matriz de Desafios Produtivos e Tecnológicos em Saúde (Portaria GM/MS nº 2.261/2023)?",
+    lista:{t:"Quadro auxiliar: Matriz de Desafios Produtivos e Tecnológicos em Saúde",grupos:[["Bloco I: preparação do sistema de saúde para emergências sanitárias",["Emergências e doenças imunopreveníveis","Soros imunoprotetores","Hemoderivados, bioprodutos e hemoterapia","Vulnerabilidade tecnológica e econômica para acesso","Desenvolvimento sustentável e química verde","Tecnologias para sistemas de saúde"]],["Bloco II: doenças e agravos críticos para o Sistema Único de Saúde",["Doenças e populações negligenciadas","Cânceres de maior incidência e pediátricos","Doenças cardiovasculares","Diabetes","Doenças associadas ao envelhecimento","Doenças raras","Outras doenças crônicas não transmissíveis"]]]},
+    opts:[{t:"Sim",out:{c:"pri",oe:"@cat"}},{t:"Não",out:{c:"ade",oe:"@cat"}}]}}},
+ M3:{nome:"Infraestrutura, saneamento, moradia e mobilidade sustentáveis para a integração produtiva e o bem-estar nas cidades",estado:"completa",
+  fonte:"Barassa (2024, Comissão Econômica para a América Latina e o Caribe) para os ônibus elétricos; Instituto de Economia da Universidade Estadual de Campinas (2026) para a ferrovia; quadros de água e saneamento e de energia solar fotovoltaica sem fonte indicada.",
+  catOE:{A:"3.3",B:"3.2",C:"3.3"},
+  oes:[["3.1","Moradia sustentável: 2,0 milhões de moradias do Programa Minha Casa, Minha Vida em 2026 (500 mil com energia fotovoltaica) e 6,9 milhões em 2033 (1,4 milhão com fotovoltaica)."],["3.2","Mobilidade eletrificada com conteúdo nacional: 3% das vendas com baterias nacionais em 2026 e 33% em 2033."],["3.3","Adensamento das cadeias de infraestrutura, sem meta quantitativa."]],
+  regra:"Basta atuar em elo de cadeia prioritária ★ (baterias, conjunto de propulsão, ferrovia) para ser aderente prioritário, porque a meta da missão cobre uma parte estreita dela. Nas demais categorias, a prioridade vem de qualificadores: digitalização, sistema construtivo inteligente, material sustentável, drenagem ou otimização hídrica, e aplicação no Programa Minha Casa, Minha Vida.",
+  pend:["As categorias B e C não têm saída para \"nenhum elo\" no quadro; aqui usam a saída proposta \"parcial\".","A árvore aceita toda a cadeia fotovoltaica, enquanto a Nova Indústria Brasil lista equipamentos de energia verde como cadeia prioritária da Missão 5; a regra adotada na Missão 5 (aplicação habitacional aqui, o resto lá) exige ajuste simétrico nesta árvore.","A moradia dá nome à missão, mas não tem categoria própria."],
+  nos:{
+   p0:{tipo:"q",k:"P0",t:"Em qual setor o projeto atua?",opts:[
+    {t:"Água e saneamento",cat:"A",to:"pc"},{t:"Mobilidade e logística",cat:"B",to:"pc"},{t:"Energia",cat:"C",to:"pc"},
+    {t:"Telecomunicações e dados",out:{c:"red",red:"M4",t:"Avaliar na Missão 4"}},{t:"Nenhum desses",out:{c:"nad",t:"Não se insere na Missão 3"}}]},
+   pc:{tipo:"q",k:"P-comum",el:1,t:PCOM,opts:[{t:"Sim",to:"@cat"},{t:"Não: apenas implantação, aquisição ou consumo",out:{c:"des",t:NAO_IND}}]},
+   eA:{tipo:"elo",k:"A1",t:"Em qual elo da cadeia de água e saneamento o projeto atua?",src:"Ermakoff et al., 2022",elos:[
+    {t:"Matérias-primas e insumos básicos"},{t:"Insumos intermediários (cloro-soda, dicloroetano, policloreto de vinila, polietileno de alta densidade)"},{t:"Tubulações e conexões"},{t:"Equipamentos e bens de capital (hidrômetros, bombas, estações de tratamento, automação)"},{t:"Produtos químicos para tratamento"}],
+    none:{out:{c:"nad",t:"Não aderente"}},to:"a2"},
+   a2:{tipo:"q",k:"A2",t:"O projeto incorpora digitalização, sistema construtivo inteligente, material sustentável, drenagem pluvial ou otimização de recursos hídricos?",opts:[{t:"Sim",to:"a3"},{t:"Não",out:{c:"ade",oe:"3.3"}}]},
+   a3:{tipo:"q",k:"A3",t:"Tem aplicação no Programa Minha Casa, Minha Vida ou em outro programa de investimento?",opts:[{t:"Sim",out:{c:"pri",oe:"3.1 e 3.3"}},{t:"Não",out:{c:"pri",oe:"3.3"}}]},
+   eB:{tipo:"q",k:"B1",t:"Qual subcadeia de mobilidade e logística?",opts:[{t:"Ônibus elétricos",to:"eBON"},{t:"Ferrovia",to:"eBFE"},{t:"Outros modais: caminhões, automóveis, hidrovia",out:{c:"par",t:"Parcial: fora das subcadeias mapeadas"}}]},
+   eBON:{tipo:"elo",k:"B-ON",t:"Em qual elo da cadeia dos ônibus elétricos o projeto atua?",src:"Barassa, Comissão Econômica para a América Latina e o Caribe, 2024",elos:[
+    {t:"Minerais críticos e metais de base"},{t:"Insumos intermediários (cátodo, ânodo, eletrólito, separadores, semicondutores de potência)"},{t:"Baterias: células, módulos, gerenciamento e gestão térmica",pr:1},{t:"Conjunto de propulsão: motores de tração, eletrônica de potência, chicotes de alta tensão",pr:1},{t:"Componentes complementares"},{t:"Integração do veículo"},{t:"Infraestrutura de recarga"},{t:"Tecnologia, normas e competências"},{t:"Economia circular das baterias"}],
+    none:{out:{c:"par",t:"Parcial",d:SAI_PROP,prop:1}},star:{pr:{out:{c:"pri",oe:"3.2"}},npr:"b2"}},
+   eBFE:{tipo:"elo",k:"B-FE",t:"Em qual elo da cadeia ferroviária o projeto atua?",src:"Instituto de Economia da Universidade Estadual de Campinas, 2026",elos:[
+    {t:"Material rodante",pr:1},{t:"Infraestrutura ferroviária",pr:1},{t:"Sistemas de controle",pr:1},{t:"Serviços de suporte",pr:1}],
+    none:{out:{c:"par",t:"Parcial",d:SAI_PROP,prop:1}},star:{pr:{out:{c:"pri",oe:"3.2"}},npr:"b2"}},
+   b2:{tipo:"q",k:"B2",t:"O projeto foca em economia circular, eficiência energética ou digitalização?",opts:[{t:"Sim",out:{c:"pri",oe:"3.2"}},{t:"Não",out:{c:"ade",oe:"3.2 ou 3.3"}}]},
+   eC:{tipo:"elo",k:"C1",t:"Em qual elo da cadeia solar fotovoltaica o projeto atua?",src:"Duarte e Araújo, Banco Nacional de Desenvolvimento Econômico e Social, 2025",elos:[
+    {t:"Extração e purificação do silício"},{t:"Lingotes e lâminas"},{t:"Células fotovoltaicas"},{t:"Módulos fotovoltaicos"},{t:"Equipamentos do sistema: rastreadores e inversores"}],
+    alts:[{t:"Outra fonte de energia: eólica, hidrogênio, baterias estacionárias, transmissão",out:{c:"red",red:"M5",t:"Avaliar na Missão 5"}}],none:{out:{c:"par",t:"Parcial",d:SAI_PROP,prop:1}},to:"c2"},
+   c2:{tipo:"q",k:"C2",t:"O projeto tem aplicação em moradias do Programa Minha Casa, Minha Vida?",opts:[{t:"Sim",out:{c:"pri",oe:"3.1"}},{t:"Não",out:{c:"ade",oe:"3.3"}}]}}},
+ M4:{nome:"Transformação digital da indústria para ampliar a produtividade",estado:"completa",
+  fonte:"Plano de Ação 2024–2026 da Nova Indústria Brasil, edição atualizada, seção 3.4; cadeias prioritárias (p. 8 e 69) e prioridades de financiamento à inovação da missão (p. 71). Os elos das categorias A, C e E são decomposição própria da equipe.",
+  catOE:{A:"4.1",B:"4.2",C:"4.2",D:"4.2",E:"4.3"},
+  oes:[["4.1","Indústria digitalizada: 25% das empresas industriais em 2026 e 50% em 2033 (linha de base 23,5%)."],["4.2","Produção nacional nos segmentos de novas tecnologias, sem meta."],["4.3","Conectividade para a indústria."],["4.4","Atualização tecnológica das regiões industriais maduras (registrar na pontuação, não na árvore)."]],
+  regra:"Nas categorias de oferta (B, C e D), o elo ★ de cadeia prioritária dá prioridade direta; o elo sem ★ passa pela pergunta sobre as prioridades de financiamento da missão. Nas categorias de demanda (A e E), a prioridade vem do conteúdo nacional da solução. A pergunta comum admite projetos de adoção, porque a meta da missão é de adoção.",
+  pend:["Conferir com a Agência os nomes dos elos de A, C e E (decomposição própria).","Decidir se a cadeia do audiovisual permanece.","Fronteira com a Missão 5 na eficiência energética com ferramentas digitais: regra sugerida, finalidade digital aqui, finalidade energética lá.","O quadro não define saída para \"nenhum elo\"; aqui usa-se a saída proposta \"parcial\"."],
+  nos:{
+   p0:{tipo:"q",k:"P0",t:"O projeto atua na transformação digital da indústria? Em qual frente?",opts:[
+    {t:"Adoção digital pela indústria",cat:"A",to:"pc"},{t:"Semicondutores e microeletrônica",cat:"B",to:"pc"},{t:"Robótica e automação industrial",cat:"C",to:"pc"},{t:"Produtos e serviços digitais avançados",cat:"D",to:"pc"},{t:"Conectividade e infraestrutura digital",cat:"E",to:"pc"},
+    {t:"Nenhuma dessas",out:{c:"nad",t:"Não se insere na Missão 4"}}]},
+   pc:{tipo:"q",k:"P-comum",el:1,t:"O projeto desenvolve, produz ou fortalece tecnologia, fornecedores ou conteúdo nacional, ou leva tecnologia digital a empresas industriais?",opts:[{t:"Sim",to:"@cat"},{t:"Não: uso interno, serviço ao cidadão ou consumo final",out:{c:"des",t:NAO_IND}}]},
+   eA:{tipo:"elo",k:"A1",t:"Em qual elo da adoção digital o projeto atua?",src:"Brasil Mais Produtivo e prioridades de financiamento da missão",elos:[
+    {t:"Diagnóstico e gestão digital"},{t:"Otimização de processos e eficiência energética"},{t:"Tecnologias 4.0"},{t:"Fábrica inteligente"},{t:"Formação de mão de obra"}],
+    alts:[{t:"Adoção digital pela agroindústria",out:{c:"red",red:"M1",t:"Avaliar na Missão 1"}},{t:"Adoção digital pela saúde",out:{c:"red",red:"M2",t:"Avaliar na Missão 2"}},{t:"Adoção digital pela construção e infraestrutura",out:{c:"red",red:"M3",t:"Avaliar na Missão 3"}}],
+    none:{out:{c:"par",t:"Parcial",d:SAI_PROP,prop:1}},to:"a2"},
+   a2:{tipo:"q",k:"A2",t:"A solução é desenvolvida ou produzida no Brasil, ou gera demanda para fornecedores nacionais?",opts:[{t:"Sim",out:{c:"pri",oe:"4.1 e 4.2"}},{t:"Não",out:{c:"ade",oe:"4.1"}}]},
+   eB:{tipo:"elo",k:"B1",t:"Em qual elo da cadeia de semicondutores o projeto atua?",src:"prioridades de financiamento e programa de apoio aos semicondutores",elos:[
+    {t:"Projeto de circuitos (design)",pr:1},{t:"Fabricação (front-end)",pr:1},{t:"Encapsulamento e teste (back-end)",pr:1},{t:"Minerais estratégicos e materiais avançados"},{t:"Ferramentas de projeto, insumos e bens de capital"},{t:"Módulos, optoeletrônicos e etiquetas de radiofrequência"}],
+    alts:[{t:"Minerais sem aplicação em semicondutores",out:{c:"red",red:"M5",t:"Avaliar na Missão 5"}},{t:"Demanda exclusiva de defesa",out:{c:"red",red:"M6",t:"Avaliar na Missão 6"}}],
+    none:{out:{c:"par",t:"Parcial",d:SAI_PROP,prop:1}},star:{pr:{out:{c:"pri",oe:"4.2"}},npr:"q"}},
+   eC:{tipo:"elo",k:"C1",t:"Em qual elo da cadeia de robótica e automação o projeto atua?",src:"cadeia prioritária de robôs industriais; decomposição própria",elos:[
+    {t:"Componentes e subsistemas"},{t:"Robôs industriais e colaborativos",pr:1},{t:"Robôs móveis autônomos",pr:1},{t:"Software de controle, visão computacional e inteligência artificial embarcada"},{t:"Integração de sistemas"},{t:"Engenharia, manutenção e formação"}],
+    alts:[{t:"Drones e máquinas agrícolas",out:{c:"red",red:"M1",t:"Avaliar na Missão 1"}},{t:"Sistemas autônomos para defesa",out:{c:"red",red:"M6",t:"Avaliar na Missão 6"}}],
+    none:{out:{c:"par",t:"Parcial",d:SAI_PROP,prop:1}},star:{pr:{out:{c:"pri",oe:"4.2"}},npr:"q"}},
+   eD:{tipo:"elo",k:"D1",t:"Em qual elo dos produtos e serviços digitais avançados o projeto atua?",src:"cadeias prioritárias (p. 8 e 69) e prioridades de financiamento (p. 71)",elos:[
+    {t:"Plataformas digitais e nuvem",pr:1},{t:"Audiovisual",pr:1},{t:"Inteligência artificial generativa e software industrial"},{t:"Segurança cibernética"},{t:"Comunicações avançadas (sexta geração, redes abertas)"},{t:"Tecnologias quânticas, realidade virtual e aumentada, cadeias de blocos"}],
+    alts:[{t:"Saúde digital",out:{c:"red",red:"M2",t:"Avaliar na Missão 2"}},{t:"Defesa cibernética, satélites e radares",out:{c:"red",red:"M6",t:"Avaliar na Missão 6"}}],
+    none:{out:{c:"par",t:"Parcial",d:SAI_PROP,prop:1}},to:"d2"},
+   d2:{tipo:"q",k:"D2",t:"Os dados e a tecnologia permanecem sob domínio nacional?",opts:[{t:"Sim",to:"@star"},{t:"Não",out:{c:"par",t:"Parcial: solução sem domínio nacional dos dados e da tecnologia"}}],star:{pr:{out:{c:"pri",oe:"4.2"}},npr:"q"}},
+   eE:{tipo:"elo",k:"E1",t:"Em qual elo da conectividade e infraestrutura digital o projeto atua?",src:"ações de conectividade da missão; decomposição própria",elos:[
+    {t:"Redes privativas e industriais"},{t:"Cobertura de quarta e quinta geração em áreas produtivas"},{t:"Infovias"},{t:"Compartilhamento de infraestrutura"},{t:"Infraestrutura de dados e computação de borda"}],
+    none:{out:{c:"par",t:"Parcial",d:SAI_PROP,prop:1}},to:"e2"},
+   e2:{tipo:"q",k:"E2",t:"A conectividade atende plantas, parques ou cadeias produtivas?",opts:[{t:"Sim",to:"e3"},{t:"Não",out:{c:"par",t:"Parcial: conectividade sem destinação produtiva"}}]},
+   e3:{tipo:"q",k:"E3",t:"Os equipamentos ou soluções são nacionais?",opts:[{t:"Sim",out:{c:"pri",oe:"4.3"}},{t:"Não",out:{c:"ade",oe:"4.3"}}]},
+   q:{tipo:"q",k:"Q",t:"O elo consta das prioridades de financiamento à inovação da Nova Indústria Brasil para a Missão 4?",
+    lista:{t:"Quadro auxiliar: prioridades de financiamento à inovação da Missão 4",grupos:[["Linhas não reembolsáveis (Mais Inovação Brasil, R$ 440 milhões, 2024 a 2026)",["Semicondutores: projeto, fabricação, encapsulamento e teste","Minerais estratégicos e materiais avançados para semicondutores","Inteligência artificial generativa","Robótica avançada para a indústria","Tecnologias quânticas","Segurança cibernética","Realidade virtual e aumentada","Comunicações avançadas (sexta geração e redes abertas) e cadeias de blocos","Etapa de fábrica inteligente do Brasil Mais Produtivo"]],["Crédito à inovação e ações específicas para semicondutores",["Cadeias de semicondutores (projeto, fabricação, encapsulamento e teste)","Inteligência artificial generativa e robótica avançada aplicada à indústria","Programa de apoio aos semicondutores: chips, ferramentas de projeto, matéria-prima, insumos e bens de capital para semicondutores e optoeletrônicos","Retomada do centro nacional de circuitos integrados: circuitos integrados, módulos e etiquetas de radiofrequência","Fundo para o desenvolvimento tecnológico das telecomunicações: pesquisa e desenvolvimento em telecomunicações"]]]},
+    opts:[{t:"Sim",out:{c:"pri",oe:"@cat"}},{t:"Não",out:{c:"ade",oe:"@cat"}}]}}},
+ M5:{nome:"Bioeconomia, descarbonização e transição e segurança energéticas para garantir os recursos para as futuras gerações",estado:"completa",
+  fonte:"Plano de Ação 2024–2026 da Nova Indústria Brasil, edição atualizada, seção 3.5; cadeias prioritárias (p. 8 e 81) e prioridades de financiamento (p. 83). Árvore conferida contra o documento em 6 de novembro de 2026.",
+  catOE:{A:"5.1",B:"5.1",C:"5.3",D:"5.2",E:"5.4"},
+  oes:[["5.1","Indústria verde: reduzir a intensidade de emissões e ampliar a participação de biocombustíveis e elétricos na matriz de transportes (27% em 2026 e 50% em 2033; base 21,4%)."],["5.2","Uso tecnológico e sustentável da biodiversidade: +10% em 2026 e +30% em 2033."],["5.3","Cadeias industriais da transição energética, sem meta."],["5.4","Economia circular e segurança energética, sem meta."]],
+  regra:"Nas categorias A, B e C, o elo ★ dá prioridade direta; os elos sem ★ e toda a categoria D passam pela pergunta sobre as prioridades de financiamento. Na categoria E, sem cadeia prioritária nem prioridade de financiamento na Nova Indústria Brasil, a prioridade vem do conteúdo tecnológico nacional. A pergunta comum admite projetos que reduzem emissões, energia ou resíduos de empresas industriais.",
+  pend:["Fronteira com a Missão 3 no fotovoltaico: aplicação habitacional lá, o resto aqui; exige ajuste simétrico na árvore da Missão 3.","Meta 1 ambígua: \"ampliar em 27%\" pode ser acréscimo relativo ou patamar.","Categoria E ancorada por analogia ao objetivo II, não por lista da Nova Indústria Brasil.","Floresta em pé e fitocosméticos saem \"aderente\" pela pergunta de financiamento, embora a missão dedique um instrumento à floresta em pé.","O elo de petróleo e gás fica sempre \"aderente\"; decidir se permanece.","O quadro não define saída para \"nenhum elo\"; aqui usa-se a saída proposta \"parcial\"."],
+  nos:{
+   p0:{tipo:"q",k:"P0",t:"O projeto atua na bioeconomia, na descarbonização ou na transição energética? Em qual frente?",opts:[
+    {t:"Descarbonização da indústria de base e eficiência energética",cat:"A",to:"pc"},{t:"Novas fontes de energia e combustíveis sustentáveis",cat:"B",to:"pc"},{t:"Equipamentos e cadeias da transição energética",cat:"C",to:"pc"},{t:"Bioeconomia e sociobiodiversidade",cat:"D",to:"pc"},{t:"Economia circular e resíduos",cat:"E",to:"pc"},
+    {t:"Nenhuma dessas",out:{c:"nad",t:"Não se insere na Missão 5"}}]},
+   pc:{tipo:"q",k:"P-comum",el:1,t:"O projeto desenvolve, produz ou fortalece tecnologia, fornecedores ou conteúdo nacional, ou reduz emissões, consumo de energia ou resíduos de empresas industriais?",opts:[{t:"Sim",to:"@cat"},{t:"Não: compra de equipamento, compensação de carbono ou consumo final",out:{c:"des",t:NAO_IND}}]},
+   eA:{tipo:"elo",k:"A1",t:"Em qual elo da descarbonização da indústria de base o projeto atua?",src:"Plano de Ação da Nova Indústria Brasil, p. 81 a 94",elos:[
+    {t:"Cimento de baixo carbono",pr:1},{t:"Aço verde (redução direta, hidrogênio, sucata, biorredutores)",pr:1},{t:"Química sustentável",pr:1},{t:"Eficiência energética industrial"},{t:"Eletrificação e substituição de fósseis"},{t:"Captura, uso e armazenamento de carbono"}],
+    alts:[{t:"Edificações, transporte e mobilidade",out:{c:"red",red:"M3",t:"Avaliar na Missão 3"}}],none:{out:{c:"par",t:"Parcial",d:SAI_PROP,prop:1}},star:{pr:{out:{c:"pri",oe:"5.1"}},npr:"q"}},
+   eB:{tipo:"elo",k:"B1",t:"Em qual elo das novas fontes de energia e combustíveis sustentáveis o projeto atua?",src:"Plano de Ação da Nova Indústria Brasil, p. 81 a 94",elos:[
+    {t:"Diesel verde e combustíveis sintéticos",pr:1},{t:"Combustível sustentável de aviação",pr:1},{t:"Hidrogênio de baixo carbono",pr:1},{t:"Biocombustíveis atuais e Combustível do Futuro"},{t:"Biorrefinarias e biotecnologia de biomassa"},{t:"Petróleo e gás de baixo custo e baixa pegada"}],
+    alts:[{t:"Motores e veículos a biocombustível",out:{c:"red",red:"M3",t:"Avaliar na Missão 3"}}],none:{out:{c:"par",t:"Parcial",d:SAI_PROP,prop:1}},star:{pr:{out:{c:"pri",oe:"5.1"}},npr:"q"}},
+   eC:{tipo:"elo",k:"C1",t:"Em qual elo dos equipamentos e cadeias da transição energética o projeto atua?",src:"Plano de Ação da Nova Indústria Brasil, p. 81 a 94",elos:[
+    {t:"Células e módulos fotovoltaicos",pr:1},{t:"Aerogeradores e componentes",pr:1},{t:"Eletrolisadores e células a combustível"},{t:"Armazenamento: baterias estacionárias, hidrogênio subterrâneo"},{t:"Transmissão em ultra alta tensão"},{t:"Minerais estratégicos e refino de materiais"}],
+    alts:[{t:"Fotovoltaico para o Programa Minha Casa, Minha Vida; baterias para veículos",out:{c:"red",red:"M3",t:"Avaliar na Missão 3"}}],none:{out:{c:"par",t:"Parcial",d:SAI_PROP,prop:1}},star:{pr:{out:{c:"pri",oe:"5.3"}},npr:"q"}},
+   eD:{tipo:"elo",k:"D1",t:"Em qual elo da bioeconomia e sociobiodiversidade o projeto atua?",src:"Plano de Ação da Nova Indústria Brasil, p. 81 a 94",elos:[
+    {t:"Bioinsumos e bioprodutos da sociobioeconomia"},{t:"Fitocosméticos, ingredientes naturais, nutracêuticos"},{t:"Químicos e biopolímeros de base renovável"},{t:"Cadeias da floresta em pé"},{t:"Estruturação de bionegócios e polos de bioeconomia"}],
+    alts:[{t:"Medicamentos e fitoterápicos",out:{c:"red",red:"M2",t:"Avaliar na Missão 2"}},{t:"Bioinsumos agrícolas e alimentos",out:{c:"red",red:"M1",t:"Avaliar na Missão 1"}}],none:{out:{c:"par",t:"Parcial",d:SAI_PROP,prop:1}},to:"d2"},
+   d2:{tipo:"q",k:"D2",t:"O projeto agrega valor industrial no país à biodiversidade?",opts:[{t:"Sim",to:"q"},{t:"Não",out:{c:"par",t:"Parcial: biodiversidade sem agregação de valor industrial no país"}}]},
+   eE:{tipo:"elo",k:"E1",t:"Em qual elo da economia circular o projeto atua?",src:"objetivo II da missão, por analogia",elos:[
+    {t:"Logística reversa e reciclagem"},{t:"Reaproveitamento de resíduos industriais e simbiose industrial"},{t:"Ecodesign e remanufatura"},{t:"Reciclagem de equipamentos de energia"},{t:"Rastreabilidade e certificação"}],
+    alts:[{t:"Veículos e baterias de tração",out:{c:"red",red:"M3",t:"Avaliar na Missão 3"}}],none:{out:{c:"par",t:"Parcial",d:SAI_PROP,prop:1}},to:"e2"},
+   e2:{tipo:"q",k:"E2",t:"O projeto desenvolve tecnologia ou processo nacional de reciclagem ou reaproveitamento?",opts:[{t:"Sim",out:{c:"pri",oe:"5.4"}},{t:"Não",out:{c:"ade",oe:"5.4"}}]},
+   q:{tipo:"q",k:"Q",t:"O elo consta das prioridades de financiamento à inovação da Nova Indústria Brasil para a Missão 5?",
+    lista:{t:"Quadro auxiliar: prioridades de financiamento à inovação da Missão 5",grupos:[["Linhas não reembolsáveis (Mais Inovação Brasil, bioeconomia e transição energética, R$ 700 milhões, 2024 a 2026)",["Redução da pegada de carbono (captura e armazenamento), substituição de fósseis por renováveis e biocombustíveis do futuro","Componentes e equipamentos para renováveis: células fotovoltaicas, aerogeradores, eletrolisadores e células a combustível","Minerais estratégicos; armazenamento de energia (baterias, hidrogênio subterrâneo) e estocagem de carbono","Transmissão em ultra alta tensão e resiliência do sistema interligado","Químicos, bioprodutos e bioinsumos de fontes renováveis; biorrefinarias integradas"]],["Crédito à inovação",["Bioprodutos e bioinsumos da sociobioeconomia florestal","Biotecnologia para geração e processamento de biomassa","Captura de carbono","Diesel verde, combustíveis sintéticos e combustível sustentável de aviação","Hidrogênio de baixo carbono (equipamentos, produção, armazenamento, transporte e uso)","Armazenamento de energia, aerogeradores, células fotovoltaicas e refino de materiais"]]]},
+    opts:[{t:"Sim",out:{c:"pri",oe:"@cat"}},{t:"Não",out:{c:"ade",oe:"@cat"}}]}}},
+ M6:{nome:"Tecnologias de interesse para a soberania e a defesa nacionais",estado:"rascunho",
+  fonte:"Cadeias de veículos lançadores e satélites a partir de Matos (2016) e Instituto de Economia da Universidade Estadual de Campinas (2026); radares a partir de Vianello (2016) e da mesma fonte.",
+  catOE:{A:"6.1 ou 6.2",B:"6.1 ou 6.2",C:"6.1 ou 6.2"},
+  oes:[["6.1","Domínio de tecnologias críticas (materiais, propulsão, controle e comunicações): 55% em 2026 e 75% em 2033; ponto de partida 42,7%."],["6.2","Adensamento das cadeias de defesa e aeroespacial (micro e nanoeletrônica, sensoriamento remoto, áreas cibernética, nuclear e espacial), sem meta."],["6.3","Tecnologias duais e exportação, sem meta."]],
+  regra:"Atuar em elo ★, ou em área citada nos objetivos oficiais (materiais, propulsão, controle, comunicações, micro e nanoeletrônica, sensoriamento remoto), torna o projeto aderente prioritário; uso dual ou potencial de exportação acrescenta o vínculo com o objetivo 6.3.",
+  pend:["Árvore em rascunho avançado no quadro.","\"Outra tecnologia de defesa\" não tem destino no quadro; aqui usa-se a saída proposta \"parcial\".","Não há pergunta de financiamento nem painel de fontes, ao contrário das Missões 4 e 5.","A legenda do quadro diz que a prioridade vem das perguntas 2 ou 3; no fluxo, só a pergunta 2 qualifica."],
+  nos:{
+   p0:{tipo:"q",k:"P0",t:"Em qual setor o projeto atua?",opts:[
+    {t:"Veículos lançadores",cat:"A",to:"pc"},{t:"Satélites",cat:"B",to:"pc"},{t:"Radares",cat:"C",to:"pc"},
+    {t:"Drones",out:{c:"red",red:"M1",t:"Avaliar na Missão 1"}},{t:"Propulsão para mobilidade",out:{c:"red",red:"M3",t:"Avaliar na Missão 3"}},{t:"Semicondutores de uso geral",out:{c:"red",red:"M4",t:"Avaliar na Missão 4"}},
+    {t:"Outra tecnologia de defesa",out:{c:"par",t:"Parcial",d:"Saída proposta pela equipe: o quadro não define destino para outras tecnologias de defesa.",prop:1}},
+    {t:"Nenhum desses",out:{c:"nad",t:"Não se insere na Missão 6"}}]},
+   pc:{tipo:"q",k:"P-comum",el:1,t:"O projeto gera domínio tecnológico nacional (pesquisa e desenvolvimento, produção, integração ou fornecedor nacional) em algum elo da cadeia?",opts:[{t:"Sim",to:"@cat"},{t:"Não: apenas implantação, aquisição ou consumo",out:{c:"des",t:NAO_IND}}]},
+   eA:{tipo:"elo",k:"A1",t:"Em qual elo da cadeia de veículos lançadores o projeto atua?",src:"Matos, 2016; Instituto de Economia da Universidade Estadual de Campinas, 2026",elos:[
+    {t:"Pesquisa, desenvolvimento e engenharia de projeto"},{t:"Insumos, químicos e materiais avançados (propelentes, materiais resistentes e estruturas)",pr:1},{t:"Manufatura de subsistemas e componentes críticos (sistemas de propulsão, estruturas mecânicas e coifas)",pr:1},{t:"Softwares embarcados, aviônica e guiamento",pr:1},{t:"Montagem, integração e testes"},{t:"Infraestrutura de solo"}],
+    none:{out:{c:"nad",t:"Não aderente"}},to:"g2"},
+   eB:{tipo:"elo",k:"B1",t:"Em qual elo da cadeia de satélites o projeto atua?",src:"Matos, 2016; Instituto de Economia da Universidade Estadual de Campinas, 2026",elos:[
+    {t:"Pesquisa e desenvolvimento e arquitetura de missão espacial"},{t:"Fabricação da plataforma",pr:1},{t:"Fabricação da carga útil (sensoriamento remoto, transponders, antenas direcionáveis, coletores ambientais)",pr:1},{t:"Processadores embarcados e eletrônica de bordo",pr:1},{t:"Montagem, integração e testes"},{t:"Segmento de solo"}],
+    none:{out:{c:"nad",t:"Não aderente"}},to:"g2"},
+   eC:{tipo:"elo",k:"C1",t:"Em qual elo da cadeia de radares o projeto atua?",src:"Vianello, 2016; Instituto de Economia da Universidade Estadual de Campinas, 2026",elos:[
+    {t:"Pesquisa, engenharia e projeto de radiofrequência"},{t:"Insumos, componentes microeletrônicos e eletrônica de potência",pr:1},{t:"Manufatura eletrônica e fabricação de conjuntos radáricos"},{t:"Software de processamento de sinais e comando e controle",pr:1},{t:"Integração de sistemas"},{t:"Suporte logístico, manutenção e modernização"}],
+    none:{out:{c:"nad",t:"Não aderente"}},to:"g2"},
+   g2:{tipo:"q",k:"2",t:"O projeto atua em um elo ★, ou envolve materiais, propulsão, controle, comunicações, micro e nanoeletrônica ou sensoriamento remoto?",opts:[{t:"Sim",to:"g3"},{t:"Não",out:{c:"ade",oe:"@cat"}}]},
+   g3:{tipo:"q",k:"3",t:"O projeto tem uso dual (civil e militar) ou potencial de exportação?",opts:[{t:"Sim",out:{c:"pri",oe:"6.1 ou 6.2, e 6.3"}},{t:"Não",out:{c:"pri",oe:"6.1 ou 6.2"}}]}}}};
+/* ================= v2.0 · governança ancorada na MGP³: percurso das árvores, aderência pela árvore, leituras, parâmetros do ciclo ================= */
+/* Este bloco redefine funções da versão anterior (a última declaração vale) e acrescenta as vistas novas. Texto de referência: Produto 2 e 3, seção 4.3 (v05, 8 de novembro de 2026). */
+
+/* ---------- utilitários ---------- */
+const dtx=v=>{ if(!v) return ""; const d=new Date(v); return isNaN(d)?String(v):d.toLocaleString("pt-BR",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"}); };
+
+/* ---------- motor do percurso ---------- */
+const ARV_N1={pri:5,ade:3,par:1};
+const SUG_FILTRO={pri:"sim",ade:"sim",par:"verificar",des:"não",nad:"não",red:"não"};
+const arvTem=m=>!!(ARVD[m]&&ARVD[m].nos);
+const pzNovo=m=>({m,atual:"p0",cat:null,catNome:null,elo:null,eloK:null,eloPr:false,trilha:[],out:null});
+function pzDestino(A,st,d){
+  if(d==null) return null;
+  if(typeof d==="string"){
+    if(d==="@cat") return {no:"e"+st.cat};
+    if(d==="@star"){ const n=A.nos[st.atual]||{}, s=n.star||(A.nos["e"+st.cat]||{}).star||{}; return pzDestino(A,st,st.eloPr?s.pr:s.npr); }
+    return {no:d}; }
+  if(d.out) return {out:{...d.out,oe:d.out.oe==="@cat"?(A.catOE||{})[st.cat]:d.out.oe}};
+  if(d.to) return pzDestino(A,st,d.to);
+  return null; }
+function pzPasso(m,st,esc_){
+  const A=ARVD[m], n=A.nos[st.atual], s={...st,trilha:[...st.trilha]}; let dest=null, resp="";
+  if(n.tipo==="q"){ const o=n.opts[esc_.i]; resp=o.t; if(o.cat){ s.cat=o.cat; s.catNome=o.t; } dest=pzDestino(A,s,o.to!=null?o.to:{out:o.out}); }
+  else if(esc_.elo!=null){ const e=n.elos[esc_.elo]; resp=`Elo ${esc_.elo+1}: ${e.t}${e.pr?" ★":""}`; s.elo=e.t; s.eloK=n.k; s.eloPr=!!e.pr; dest=n.star?pzDestino(A,s,s.eloPr?n.star.pr:n.star.npr):pzDestino(A,s,n.to); }
+  else if(esc_.alt!=null){ const a=n.alts[esc_.alt]; resp=a.t; dest=pzDestino(A,s,a.to!=null?a.to:{out:a.out}); }
+  else { resp="Nenhum dos elos listados"; dest=pzDestino(A,s,n.none.to!=null?n.none.to:{out:n.none.out}); }
+  s.trilha.push({k:n.k,t:n.t,r:resp});
+  if(!dest){ s.out={c:"par",t:"Sem destino definido na árvore",d:"Avise a equipe: o nó "+n.k+" não tem saída para esta resposta."}; s.atual=null; }
+  else if(dest.out){ s.out=dest.out; s.atual=null; } else s.atual=dest.no;
+  return s; }
+function pzVoltar(m,st){ // refaz o percurso até o passo anterior
+  let s=pzNovo(m); const alvo=st.trilha.length-1; if(alvo<=0) return s;
+  // reaplica as respostas pelo texto gravado na trilha
+  for(let i=0;i<alvo;i++){ const n=ARVD[m].nos[s.atual]; if(!n) break; const r=st.trilha[i].r; let e=null;
+    if(n.tipo==="q"){ const j=n.opts.findIndex(o=>o.t===r); e={i:Math.max(0,j)}; }
+    else { const j=n.elos.findIndex((x,ix)=>r.startsWith(`Elo ${ix+1}:`)); if(j>=0) e={elo:j}; else { const a=(n.alts||[]).findIndex(x=>x.t===r); e=a>=0?{alt:a}:{none:1}; } }
+    s=pzPasso(m,s,e); if(s.out) break; }
+  return s; }
+const outChip=o=>`<span class="pz-out ${o.c}">${esc(o.t||OUT[o.c]||o.c)}</span>`;
+function pzJust(st){ const A=ARVD[st.m]; return `Árvore de decisão da Missão ${st.m.slice(1)}: ${st.trilha.map(p=>`${p.k} ${p.r}`).join(" → ")} → ${st.out.t||OUT[st.out.c]}${st.out.oe?`. Objetivo específico ${st.out.oe}`:""}${st.out.prop?" (saída proposta pela equipe)":""}.`; }
+function arvResumo(a){ if(!a) return ""; return `${OUT[a.saida]||a.saida}${a.cat?` · categoria ${a.cat}`:""}${a.elo?` · ${a.elo}${a.eloPr?" ★":""}`:""}${a.oe?` · objetivo específico ${a.oe}`:""}`; }
+
+/* ---------- vista do percurso: #elegibilidade/<código>/arvore ---------- */
+function vArvPercurso(M,banner,c){
+  const m=misOf(c), ro=!S.podeEscrever, cr=[["Início","inicio"],["Filtros de entrada","elegibilidade"],[esc(c.code),"elegibilidade/"+c.code],["Árvore de decisão"]];
+  const volta=`<a class="btn" href="#elegibilidade/${esc(c.code)}">Voltar ao filtro 2</a>`;
+  if(!arvTem(m)){ const A=ARVD[m];
+    M.innerHTML=`${banner}${phead(cr,esc(c.nome),"",[["Missão declarada",esc(misNome(m))]],chipSit(situacao(c)))}
+     <div class="qcard"><span class="k">Árvore de decisão</span><h2>${A&&A.estado==="ausente"?"A Missão 1 ainda não tem árvore":"Não há árvore para esta classificação"}</h2>
+      <div class="note warn">${A&&A.pend?esc(A.pend.join(" ")):"Projetos transversais (duas ou mais missões) e Canvas sem missão principal não têm árvore. Responda ao filtro 2 pela leitura do Canvas e registre a justificativa."}</div>
+      <p class="small">Enquanto não há árvore, a aderência à missão usa o grau declarado no Canvas, marcado como provisório.</p><div class="qfoot">${volta}</div></div>`; return; }
+  const A=ARVD[m]; LOC.pz=LOC.pz||{}; let st=LOC.pz[c.code];
+  if(!st||st.m!==m){ st=pzNovo(m); LOC.pz[c.code]=st; }
+  const trilha=`<section class="pz-trilha" aria-label="Percurso até aqui"><h3>Percurso</h3>${st.trilha.length?`<ol>${st.trilha.map(p=>`<li><span class="k">${esc(p.k)}</span><span>${esc(p.r)}</span></li>`).join("")}</ol>`:`<p class="small muted">Nenhuma resposta ainda.</p>`}${st.trilha.length?`<button class="btn sm" id="pzBack">Voltar um passo</button>`:""} <button class="btn sm" id="pzReset" ${st.trilha.length?"":"disabled"}>Recomeçar</button></section>`;
+  const cab=phead(cr,esc(c.nome),"",[["Missão declarada",esc(misNome(m))],["Estado da árvore",esc(A.estado==="completa"?"completa no quadro de trabalho":A.estado)]],`${c.arv?`<span class="chip good">resultado registrado</span>`:""}${chipSit(situacao(c))}`);
+  let card;
+  if(st.out){ const o=st.out, sug=SUG_FILTRO[o.c]||"verificar";
+    card=`<div class="qcard pz-fim"><span class="k">Resultado do percurso</span><h2>${outChip(o)}</h2>
+      ${o.d?`<p class="hint">${esc(o.d)}</p>`:""}
+      <dl class="ph-meta pz-meta">${st.cat?`<div><dt>Categoria</dt><dd>${esc(st.cat)} · ${esc(st.catNome||"")}</dd></div>`:""}${st.elo?`<div><dt>Elo</dt><dd>${esc(st.elo)}${st.eloPr?" ★ cadeia prioritária":""}</dd></div>`:""}${o.oe?`<div><dt>Objetivo específico</dt><dd>${esc(o.oe)}</dd></div>`:""}<div><dt>Aderência na pontuação</dt><dd>${ARV_N1[o.c]!=null?ARV_N1[o.c]+" de 5":"não pontua"}</dd></div><div><dt>Resposta sugerida ao filtro 2</dt><dd>${esc(sug)}</dd></div></dl>
+      ${o.c==="red"?`<div class="note warn">A árvore indica que o projeto pertence à <b>Missão ${esc(String(o.red).slice(1))}</b>. O caminho previsto na governança é reclassificar o Canvas e refazer o percurso na missão indicada, em vez de rejeitar a proposta (Quadro 5 do Produto 3).</div>
+        <div class="qfoot"><span class="sp"></span>${arvTem(o.red)?`<button class="btn primary" id="pzRed" ${ro?"disabled":""}>Reclassificar para a Missão ${esc(String(o.red).slice(1))} e refazer</button>`:`<button class="btn primary" id="pzRed" ${ro?"disabled":""}>Reclassificar para a Missão ${esc(String(o.red).slice(1))}</button>`}<button class="btn" id="pzReg" ${ro?"disabled":""}>Registrar como está (filtro 2: não)</button></div>`
+      :`<div class="note ${o.c==="pri"||o.c==="ade"?"good":o.c==="par"?"warn":"bad"}">${esc(o.c==="par"?"O projeto fica apto com pendência: a aderência 1 reprova a trava da pontuação até que o Canvas seja complementado e o percurso refeito.":o.c==="pri"||o.c==="ade"?"Ao registrar, a resposta ao filtro 2 e a justificativa são preenchidas com o percurso; você pode editá-las depois.":"Ao registrar, o filtro 2 recebe não e o projeto volta para reformulação.")}</div>
+        <div class="qfoot"><span class="sp"></span><button class="btn primary" id="pzReg" ${ro?"disabled":""}>Registrar o resultado e aplicar ao filtro 2</button></div>`}</div>`; }
+  else { const n=A.nos[st.atual];
+    if(n.tipo==="q") card=`<div class="qcard"><div class="qtop"><span class="k">${esc(n.k)}${n.el?` · <span class="tag el">eliminatória</span>`:""}</span></div><h2>${esc(n.t)}</h2>${n.d?`<p class="hint">${esc(n.d)}</p>`:""}
+       ${n.lista?`<details class="pz-lista"><summary>${esc(n.lista.t)}</summary>${n.lista.grupos.map(([g,it])=>`<p><b>${esc(g)}</b></p><ol>${it.map(x=>`<li>${esc(x)}</li>`).join("")}</ol>`).join("")}</details>`:""}
+       <div class="pz-opts">${n.opts.map((o,i)=>`<button data-pz-i="${i}" ${ro?"disabled":""}><b>${esc(o.t)}</b>${o.cat?`<span>Categoria ${esc(o.cat)}</span>`:o.out?`<span>${esc(o.out.t||OUT[o.out.c])}</span>`:""}</button>`).join("")}</div></div>`;
+    else card=`<div class="qcard"><div class="qtop"><span class="k">${esc(n.k)}${st.cat?` · Categoria ${esc(st.cat)}: ${esc(st.catNome||"")}`:""}</span></div><h2>${esc(n.t)}</h2><p class="hint">Fonte dos elos: ${esc(n.src||"equipe")}. ★ marca elo de cadeia prioritária da Nova Indústria Brasil.</p>
+       <div class="pz-opts elos">${n.elos.map((e,i)=>`<button data-pz-elo="${i}" ${ro?"disabled":""}><b>Elo ${i+1}${e.pr?` <span class="pz-star">★</span>`:""}</b><span>${esc(e.t)}</span></button>`).join("")}</div>
+       <div class="pz-opts alts">${(n.alts||[]).map((a,i)=>`<button data-pz-alt="${i}" ${ro?"disabled":""}><b>${esc(a.t)}</b><span>${esc(a.out?(a.out.t||OUT[a.out.c]):"")}</span></button>`).join("")}<button data-pz-none="1" ${ro?"disabled":""}><b>Nenhum dos elos listados</b><span>${esc(n.none&&n.none.out?(n.none.out.t||OUT[n.none.out.c]):"")}</span></button></div></div>`; }
+  const regras=`<details class="pz-regra"><summary>Regra de prioridade e pendências desta árvore</summary><p>${esc(A.regra||"")}</p>${A.oes?`<p><b>Objetivos específicos:</b></p><ul class="clean">${A.oes.map(([k,t])=>`<li><b>${esc(k)}</b> ${esc(t)}</li>`).join("")}</ul>`:""}${A.pend&&A.pend.length?`<p><b>Pendências a decidir com a Agência:</b></p><ul class="clean">${A.pend.map(p=>`<li>${esc(p)}</li>`).join("")}</ul>`:""}<p class="small muted">Fonte: ${esc(A.fonte||"")}</p></details>`;
+  M.innerHTML=`${banner}${cab}${c.arv&&!st.trilha.length&&!st.out?`<div class="note good pz-ja"><b>Resultado já registrado:</b> ${esc(arvResumo(c.arv))}${c.arv.ts?` <span class="muted">(${esc(c.arv.atualizadoPor||"")} ${esc(dtx(c.arv.ts))})</span>`:""}. Percorra de novo para substituir, ou ${volta.replace('class="btn"','class="lnk"')}.</div>`:""}
+   <div class="work pz"><div class="dec">${card}${trilha}${regras}</div>${reader(c,["missao","objetivo","descricao","produtos","nib"])}</div>`;
+  M.querySelectorAll("[data-pz-i]").forEach(b=>b.onclick=()=>{ LOC.pz[c.code]=pzPasso(m,st,{i:+b.dataset.pzI}); render(); });
+  M.querySelectorAll("[data-pz-elo]").forEach(b=>b.onclick=()=>{ LOC.pz[c.code]=pzPasso(m,st,{elo:+b.dataset.pzElo}); render(); });
+  M.querySelectorAll("[data-pz-alt]").forEach(b=>b.onclick=()=>{ LOC.pz[c.code]=pzPasso(m,st,{alt:+b.dataset.pzAlt}); render(); });
+  M.querySelectorAll("[data-pz-none]").forEach(b=>b.onclick=()=>{ LOC.pz[c.code]=pzPasso(m,st,{none:1}); render(); });
+  if($("pzBack")) $("pzBack").onclick=()=>{ LOC.pz[c.code]=pzVoltar(m,st); render(); };
+  if($("pzReset")) $("pzReset").onclick=()=>{ LOC.pz[c.code]=pzNovo(m); render(); };
+  const gravarArv=async(extra)=>{ const o=st.out, arv={m,saida:o.c,saidaT:o.t||OUT[o.c],cat:st.cat||"",catNome:st.catNome||"",elo:st.elo||"",eloK:st.eloK||"",eloPr:!!st.eloPr,oe:o.oe||"",red:o.red||"",prop:!!o.prop,trilha:st.trilha,ts:new Date().toISOString()};
+    const E=[...(c.eleg||["","","","","",""])], J=[...(c.elegJust||[])], CF=[...(c.elegConf||[])]; while(E.length<6) E.push(""); while(J.length<6) J.push(""); while(CF.length<6) CF.push(false);
+    const sug=SUG_FILTRO[o.c]||"verificar"; E[1]=sug; J[1]=pzJust(st); CF[1]=true;
+    const ok=await gravar("canvas/"+c.code,{...c,...extra,arv,eleg:E,elegJust:J,elegConf:CF,elegTs:new Date().toISOString()},"Resultado da árvore registrado no filtro 2");
+    if(ok){ delete LOC.pz[c.code]; LOC.eq[c.code]=sug==="não"?6:2; go("elegibilidade/"+c.code); } };
+  if($("pzReg")) $("pzReg").onclick=()=>gravarArv({});
+  if($("pzRed")) $("pzRed").onclick=async()=>{ const o=st.out, nova=o.red; if(!nova) return;
+    const hist=[...(c.arvRedir||[]),{de:m,para:nova,trilha:st.trilha,ts:new Date().toISOString()}];
+    const E=[...(c.eleg||["","","","","",""])], J=[...(c.elegJust||[])], CF=[...(c.elegConf||[])]; while(E.length<6) E.push(""); while(J.length<6) J.push(""); while(CF.length<6) CF.push(false); E[1]=""; J[1]=""; CF[1]=false;
+    const ok=await gravar("canvas/"+c.code,{...c,missao:nova,arv:null,arvRedir:hist,eleg:E,elegJust:J,elegConf:CF,elegTs:new Date().toISOString()},"Canvas reclassificado para a Missão "+nova.slice(1));
+    if(ok){ delete LOC.pz[c.code]; render(); } }; }
+
+/* resumo gerado da árvore (missões sem figura desenhada) */
+function vArvdResumo(M,banner,m){ const A=ARVD[m];
+  const cr=[["Início","inicio"],["Filtros de entrada","elegibilidade"],["2. Vínculo com missão e eixo","elegibilidade/arvore"],["Missão "+m.slice(1)]];
+  if(!A||!A.nos){ M.innerHTML=`${banner}${avHead(cr,"Árvore de decisão · Missão "+m.slice(1),MIS[m].n,A&&A.pend?A.pend.join(" "):"Árvore ainda não publicada.",["Sem árvore"])}`; return; }
+  const no=(id)=>A.nos[id]; const dest=d=>{ if(d==null) return ""; if(typeof d==="string") return d==="@cat"?"segue para os elos da categoria":d==="@star"?"regra do ★":"segue para "+(no(d)?no(d).k:d); if(d.out) return (d.out.t||OUT[d.out.c])+(d.out.oe?` (objetivo ${d.out.oe==="@cat"?"da categoria":d.out.oe})`:"")+(d.out.prop?" [saída proposta]":""); if(d.to) return dest(d.to); return ""; };
+  const cats=Object.keys(A.catOE||{});
+  const bloco=id=>{ const n=no(id); if(!n) return ""; if(n.tipo==="q") return `<article class="pz-no"><h3><span class="k">${esc(n.k)}</span> ${esc(n.t)}</h3><ul class="clean">${n.opts.map(o=>`<li><b>${esc(o.t)}</b> → ${esc(dest(o.to!=null?o.to:{out:o.out}))}</li>`).join("")}</ul>${n.lista?`<details><summary>${esc(n.lista.t)}</summary>${n.lista.grupos.map(([g,it])=>`<p><b>${esc(g)}</b></p><ol>${it.map(x=>`<li>${esc(x)}</li>`).join("")}</ol>`).join("")}</details>`:""}</article>`;
+    return `<article class="pz-no"><h3><span class="k">${esc(n.k)}</span> ${esc(n.t)}</h3><p class="small muted">Fonte: ${esc(n.src||"")}</p><ol class="pz-elos">${n.elos.map(e=>`<li>${esc(e.t)}${e.pr?` <span class="pz-star">★</span>`:""}</li>`).join("")}</ol><ul class="clean">${n.star?`<li>Elo ★ → ${esc(dest(n.star.pr))}; elo sem ★ → ${esc(dest(n.star.npr))}</li>`:`<li>Atua em um elo → ${esc(dest(n.to))}</li>`}${(n.alts||[]).map(a=>`<li><b>${esc(a.t)}</b> → ${esc(dest(a.to!=null?a.to:{out:a.out}))}</li>`).join("")}<li>Nenhum elo → ${esc(dest(n.none.to!=null?n.none.to:{out:n.none.out}))}</li></ul></article>`; };
+  const ids=Object.keys(A.nos), porCat=k=>ids.filter(id=>id==="e"+k||id.toLowerCase().startsWith(k.toLowerCase())&&id.length<=4&&id!=="p0"&&id!=="pc"&&!id.startsWith("e"));
+  const comuns=ids.filter(id=>!/^e[A-F]/.test(id)&&!/^[a-f][0-9]$/.test(id)&&id!=="p0"&&id!=="pc");
+  M.innerHTML=`${banner}${avHead(cr,"Árvore de decisão · Missão "+m.slice(1),MIS[m].n,A.regra,[A.estado==="completa"?"Completa no quadro de trabalho":"Em "+A.estado,`${cats.length} categorias`,"Percurso interativo disponível no filtro 2"])}
+   <section class="av-sec"><h2 class="av-lbl">Objetivos específicos</h2><div class="av-oe">${(A.oes||[]).map(([k,t])=>`<article><span class="k">Objetivo ${esc(k)}</span><p>${esc(t)}</p></article>`).join("")}</div></section>
+   <section class="av-sec"><h2 class="av-lbl">Entrada</h2>${bloco("p0")}${bloco("pc")}</section>
+   ${cats.map(k=>`<section class="av-sec"><h2 class="av-lbl">Categoria ${esc(k)}</h2>${[`e${k}`,...ids.filter(id=>id.startsWith(`e${k}`)&&id!==`e${k}`),...ids.filter(id=>/^[a-f][0-9]$/.test(id)&&id[0]===k.toLowerCase())].map(bloco).join("")}</section>`).join("")}
+   ${comuns.length?`<section class="av-sec"><h2 class="av-lbl">Perguntas comuns às categorias</h2>${comuns.map(bloco).join("")}</section>`:""}
+   <section class="av-sec"><h2 class="av-lbl">Pendências a decidir com a Agência</h2><ul class="clean">${(A.pend||[]).map(p=>`<li>${esc(p)}</li>`).join("")}</ul><p class="small muted">Fonte: ${esc(A.fonte||"")}</p></section>`; }
+
+/* ---------- aderência, situação, leituras, valoração ---------- */
+function N1(c){ const a=c.arv; if(a&&a.m===misOf(c)&&ARV_N1[a.saida]!=null) return ARV_N1[a.saida];
+  const g=(c.grades||[0,0,0,0,0,0]).map(Number), mx=Math.max(...g), n2=g.filter(x=>x>=2).length; return Math.min(5,1+mx+(n2>=2?1:0)); }
+const n1Origem=c=>(c.arv&&c.arv.m===misOf(c)&&ARV_N1[c.arv.saida]!=null)?"árvore de decisão":"grau declarado no Canvas (provisório)";
+function situacao(c){ const E=c.eleg||[];
+  if([0,1,2,3,4,5].some(i=>!E[i])) return "A responder";
+  if(E[0]==="não") return "Outro órgão"; if(E[4]==="não") return "Incorporar"; if(E[1]==="não"||E[2]==="não"||E[3]==="não") return "Reformular"; if(E[5]==="não") return "Concluir ou Reformular";
+  if(!(+c.novos>0)) return "Segue sem recurso novo";
+  if(c.arv&&c.arv.m===misOf(c)&&c.arv.saida==="par") return "Apta com pendências";
+  return E.includes("verificar")?"Apta com pendências":"Apta"; }
+function consolidar(c,dados){ const av=avaliacoesDe(c.code,dados); if(!av.length) return null;
+  const notas={}, amp={}; for(const k of AVC){ const v=av.map(a=>+a.notas[k]).filter(x=>!isNaN(x)); notas[k]=mediana(v); amp[k]=v.length?Math.max(...v)-Math.min(...v):0; }
+  const exq=[0,1,2,3].map(i=>mediana(av.map(a=>+a.exq[i]))), ampX=[0,1,2,3].map(i=>{ const v=av.map(a=>+a.exq[i]).filter(x=>!isNaN(x)); return v.length?Math.max(...v)-Math.min(...v):0; });
+  const incerta=AVC.filter(k=>amp[k]>=1||av.some(a=>a.conf&&a.conf[k]==="Baixa"));
+  const conciliar=AVC.filter(k=>amp[k]>=REGRA.divergencia), conciliarX=ampX.map((a,i)=>a>=REGRA.divergencia?i:null).filter(i=>i!=null);
+  return {n:av.length,av,notas,amp,exq,conciliar,conciliarX,risco:av.length>=2?av.filter(a=>a.risco).length>=2:!!av[0].risco,incerta}; }
+const consolidado=cons=>!!(cons&&(cons.n>=3||(cons.n===REGRA.leituras&&!cons.conciliar.length&&!cons.conciliarX.length)));
+const precisaTerceira=c=>{ const cons=consolidar(c); return !!(cons&&cons.n===REGRA.leituras&&(cons.conciliar.length||cons.conciliarX.length)); };
+const leiturasPrevistas=c=>precisaTerceira(c)||(consolidar(c)||{n:0}).n>=3?3:REGRA.leituras;
+function elegivelParaSlot(c,p){ if(!p||!p.slot) return false; if(p.slot==="A1") return true; if(c.dir===p.dir) return false; if(p.slot==="A2") return true; return precisaTerceira(c)||!!(S.aval[c.code+"__A3"]&&S.aval[c.code+"__A3"].enviada); }
+function valorar(c,notas,exq,risco,bm){
+  const w=pesos(c,bm), nota=k=>k==="N1"?N1(c):notas[k]; const parc={}; let v=0; const porB={K:0,N:0,S:0,X:0};
+  for(const k in w){ parc[k]=w[k]*nota(k)*20; v+=parc[k]; porB[blocoDe(k)]+=parc[k]; }
+  const nuc=["K1","K2","K3"].map(k=>({k,v:nota(k)})); let nw=0,ns=0; for(const k of ["N1","N2","N3","N4","N5"]){ nw+=w[k]; ns+=w[k]*nota(k);} const mB=ns/nw;
+  const imped=exq.map((x,i)=>x===0?EXQ[i].t:null).filter(Boolean);
+  const checks=[
+    {ok:nuc.every(x=>x.v>=REGRA.notaMin),t:"Nota mínima no núcleo comum",d:`Cada critério do núcleo precisa de pelo menos ${REGRA.notaMin}. Notas: ${nuc.map(x=>CR[x.k].n.toLowerCase()+" "+fmtN(x.v)).join("; ")}.`,mot:"nota mínima no núcleo"},
+    {ok:mB>=REGRA.minBloco,t:"Média do bloco de missão",d:`A média ponderada do bloco de missão precisa ser pelo menos ${REGRA.minBloco}. Média: ${nf2.format(mB)}.`,mot:"bloco de missão"},
+    {ok:N1(c)>=REGRA.travaMin,t:"Aderência à missão",d:`A aderência precisa ser pelo menos ${REGRA.travaMin}. Aderência: ${N1(c)} (${n1Origem(c)}).`,mot:"aderência à missão"},
+    {ok:!imped.length,t:"Sem impedimento de exequibilidade",d:imped.length?`Impedimento em: ${imped.join(", ").toLowerCase()}. O projeto fica fora da fila até ser resolvido.`:"Nenhum critério de exequibilidade com nota 0.",mot:"impedimento de exequibilidade"},
+    {ok:!risco,t:"Sem risco crítico sem mitigação",d:risco?"Duas ou mais leituras apontaram risco crítico sem plano de mitigação. Isso impede a priorização.":"Nenhuma maioria de leituras apontou risco crítico sem mitigação.",mot:"risco crítico sem mitigação"}];
+  const med=exq.reduce((a,b)=>a+b,0)/4, f=Math.max(0.5,REGRA.piso+(1-REGRA.piso)*(med-1)/4);
+  return {w,parc,porB,valor:v,fator:f,aj:v*f,medExq:med,checks,passa:checks.every(x=>x.ok),mot:checks.filter(x=>!x.ok).map(x=>x.mot)}; }
+function esteira(){
+  const L=enviados().map(c=>{ const sit=situacao(c), ok=apta(c), cons=ok?consolidar(c):null, completo=consolidado(cons), usa=cons&&(completo||LOC.parc==="todos"), v=usa?valorar(c,cons.notas,cons.exq,cons.risco):null;
+    return {c,sit,ok,cons,completo,terceira:ok&&precisaTerceira(c),v,naFila:!!(v&&v.passa),razao:v&&v.passa?v.aj/(+c.novos/1e6):null}; });
+  const fila=L.filter(l=>l.naFila).sort((a,b)=>b.razao-a.razao), teto=somaP()*LOC.teto/100; let acc=0, parou=false, res=0;
+  fila.forEach((l,i)=>{ l.pos=i+1; if(!parou&&acc+(+l.c.novos)<=teto+1e-6){ acc+=+l.c.novos; l.cabe=true; l.acc=acc; } else { parou=true; l.cabe=false; l.reserva=++res; } });
+  return {L,fila,teto,usado:acc}; }
+const refsAtuais=()=>(S.cfg&&Array.isArray(S.cfg.refs)&&S.cfg.refs.length)?S.cfg.refs:REFS;
+
+/* ---------- filtro 2: ligação com a árvore ---------- */
+function avLink(c){ const m=misOf(c), a=c.arv&&c.arv.m===m?c.arv:null, rota=`#elegibilidade/${esc(c.code)}/arvore`;
+  if(!arvTem(m)) return `<div class="note">${esc(ARVD[m]&&ARVD[m].estado==="ausente"?"A Missão 1 ainda não tem árvore de decisão: responda pela leitura do Canvas e registre a justificativa. A aderência usará o grau declarado no Canvas, como provisório.":"Projeto transversal ou sem missão principal: não há árvore. Responda pela leitura do Canvas e registre a justificativa.")} <a href="${avHref()}">Ver as árvores disponíveis</a>.</div>`;
+  if(a) return `<div class="note good"><b>Árvore da Missão ${m.slice(1)}:</b> ${esc(arvResumo(a))}. Aderência na pontuação: ${ARV_N1[a.saida]!=null?ARV_N1[a.saida]+" de 5":"não pontua"}. <a href="${rota}">Refazer o percurso</a>${ARV[m]?` · <a href="${avHref(m)}">ver a figura da árvore</a>`:` · <a href="${avHref(m)}">ver a árvore</a>`}.</div>`;
+  return `<div class="note warn"><b>Este filtro é respondido pela árvore de decisão da Missão ${m.slice(1)}.</b> Percorra as perguntas com o Canvas ao lado; o resultado preenche a resposta sugerida, a justificativa e a aderência da pontuação. <a class="btn sm primary" href="${rota}">Percorrer a árvore</a>${ARV[m]?` <a class="btn sm" href="${avHref(m)}">Ver a figura</a>`:""}</div>`; }
+
+/* ---------- início ---------- */
+function vInicio(M,banner){
+  const cv=enviados(), ras=todos().filter(c=>c.status==="rascunho").length, aResp=cv.filter(c=>situacao(c)==="A responder").length, ap=cv.filter(apta);
+  const R=esteira(), p=LOC.perfil, minhas=p.slot?ap.filter(c=>elegivelParaSlot(c,p)):ap, pend=p.slot?minhas.filter(c=>!(S.aval[c.code+"__"+p.slot]&&S.aval[c.code+"__"+p.slot].enviada)).length:null;
+  const door=(n,h,t,d,quem,st,mgp)=>`<button class="door" data-go="${h}"><span class="dn">${n}</span><h2>${t}</h2><p>${d}</p><p class="dq">${quem}</p><p class="dm">${mgp}</p><div class="st">${st}</div></button>`;
+  const vazio=S.nuvem&&!Object.keys(S.canvas).length?`<div class="banner">A base está vazia. <a href="#importar">Importar a base</a></div>`:"";
+  const pub=S.cfg&&S.cfg.publicadoEm?`<span>Parâmetros publicados em ${esc(dtx(S.cfg.publicadoEm))}</span>`:`<span>Parâmetros ainda não publicados</span>`;
+  const comArv=cv.filter(c=>c.arv&&c.arv.m===misOf(c)).length;
+  M.innerHTML=`${banner}${vazio}<section class="hero"><h1 class="hx"><span class="l1">Seleção da carteira 2027</span><span class="l2">O que você quer fazer?</span></h1><p>Cinco etapas, cada uma encaixada num processo da Metodologia de Gerenciamento de Portfólio, Programas e Projetos da Agência (MGP³). O Canvas cadastrado na segunda alimenta todas as outras.</p></section>
+   <div class="doors five">
+    ${door(1,"parametros","Publicar os parâmetros do ciclo","Critérios, pesos, filtros, árvores, teto de referência, metas de composição e datas, antes do preenchimento dos Canvas.","Unidade de Gestão Estratégica",pub,"MGP³ 4.1 · check-list de abertura do ciclo")}
+    ${door(2,"canvas","Cadastrar um Canvas","Preencha a proposta seguindo as seções do guia de preenchimento.","Unidade proponente",`<span>${cv.length} enviados</span>${ras?`<span>${ras} em rascunho</span>`:""}`,"MGP³ 4.2 · identificação")}
+    ${door(3,"elegibilidade","Aplicar os filtros de entrada","Seis perguntas de sim ou não, sem compensação; a árvore de decisão da missão responde ao filtro 2.","Unidade de Gestão Estratégica",`<span>${aResp} a triar</span><span>${comArv} com árvore</span><span>${ap.length} passam</span>`,"MGP³ 4.3 · revisão dos Canvas")}
+    ${door(4,"notas","Pontuar valor e exequibilidade","Critério por critério, com justificativa, fonte e confiança; duas leituras, e uma terceira se divergirem.","Unidade de Gestão Estratégica, com segunda leitura de outra diretoria",p.slot?`<span>${pend} pendentes para você</span>`:`<span>Escolha seu papel ao entrar</span>`,"MGP³ 4.3 · Ferramenta Avaliativa")}
+    ${door(5,"painel","Decidir a carteira na DIREX","Carteira sob o teto, lista de reserva, robustez e decisões registradas (cumprir ou explicar).","Diretoria Executiva, com a Unidade de Gestão Estratégica",`<span>${R.fila.filter(l=>l.cabe).length} cabem no teto</span>`,"MGP³ 4.3 e 4.5 · balanceamento e autorização")}
+   </div>
+   <div class="trail" aria-label="Situação da seleção"><span><b>${cv.length}</b> Canvas</span><span><b>${ap.length}</b> passam nos filtros</span><span><b>${R.L.filter(l=>l.completo).length}</b> com leituras consolidadas</span><span><b>${R.L.filter(l=>l.terceira).length}</b> aguardam terceira leitura</span><span><b>${R.fila.length}</b> aprovados na pontuação</span><span><b>${R.fila.filter(l=>l.cabe).length}</b> no teto</span></div>
+   <p class="small"><a href="#como-funciona">Como funciona a seleção</a></p>`;
+  M.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>go(b.dataset.go)); }
+
+/* ---------- parâmetros do ciclo (check-list de abertura, MGP³ 4.1) ---------- */
+const CFG0={ciclo:"2027",tetoRef:"",tetoFonte:"",metas:"",refs:[],datas:"",leituras:"Duas leituras independentes por projeto (Unidade de Gestão Estratégica e técnico de outra diretoria); terceira leitura quando divergirem em dois pontos ou mais em algum critério.",obs:"",historico:[]};
+function cfgAtual(){ const c=S.cfg||{}; return {...CFG0,...c,refs:Array.isArray(c.refs)?c.refs:CFG0.refs,historico:Array.isArray(c.historico)?c.historico:[]}; }
+function vParametros(M,banner){
+  const cfg=cfgAtual(), ro=!S.podeEscrever; LOC.cfgD=LOC.cfgD||null; const d=LOC.cfgD||{...cfg,refs:cfg.refs.join(", ")}; LOC.cfgD=d;
+  const pub=cfg.publicadoEm?`<div class="note good"><b>Parâmetros publicados</b> em ${esc(dtx(cfg.publicadoEm))}${cfg.publicadoPor?` por ${esc(cfg.publicadoPor)}`:""}. Mudanças depois disso ficam no histórico abaixo, com fundamento, data e responsável.</div>`:`<div class="note warn"><b>Parâmetros ainda não publicados.</b> Pela governança proposta, eles constam do check-list de abertura do ciclo e são anunciados antes de as unidades preencherem os Canvas (seção 4.3.1 do Produto 3).</div>`;
+  const campo=(k,l,h,ta,ph)=>`<div class="fld"><label for="cf_${k}">${esc(l)}</label>${ta?`<textarea id="cf_${k}" rows="3" data-cf="${k}" placeholder="${esc(ph||"")}" ${ro?"readonly":""}>${esc(d[k]||"")}</textarea>`:`<input id="cf_${k}" type="text" data-cf="${k}" value="${esc(d[k]||"")}" placeholder="${esc(ph||"")}" ${ro?"readonly":""}>`}${h?`<span class="hint">${esc(h)}</span>`:""}</div>`;
+  const arvs=["M1","M2","M3","M4","M5","M6"].map(m=>`<tr><td>${mt(m)} ${esc(MIS[m].n)}</td><td>${esc(ARVD[m]?(ARVD[m].estado==="completa"?"completa":ARVD[m].estado==="rascunho"?"rascunho avançado":"a construir"):"—")}</td><td>${ARVD[m]&&ARVD[m].nos?`<a href="${avHref(m)}">ver</a>`:"—"}</td></tr>`).join("");
+  M.innerHTML=`${banner}${headM("Parâmetros do ciclo","O que a matriz pede para constar do check-list de abertura do ciclo anual: critérios, descrição dos níveis e pesos de partida; filtros e saídas; árvores de decisão por missão; teto de referência; metas de composição; projetos de referência para calibração; datas. Mudanças em relação ao ciclo anterior ficam registradas com fundamento, data e responsável.","Unidade de Gestão Estratégica","na abertura do ciclo, antes do preenchimento dos Canvas")}
+   ${pub}
+   <div class="pg2">
+   <section class="card pad"><h2 class="sech">Definidos pela Agência a cada ciclo</h2>
+    ${campo("ciclo","Ciclo","Ano do portfólio a que os parâmetros se referem.",false,"2027")}
+    ${campo("tetoRef","Teto orçamentário de referência","Valor em reais de recurso novo disponível para o ano seguinte, ainda que provisório. A Diretoria Executiva ajusta o teto nos cenários; a fila é montada com este valor de partida.",false,"Por exemplo: 62.073.588,90")}
+    ${campo("tetoFonte","Fonte do teto","De onde saiu o valor: Orçamento-Programa, repasse do Contrato de Gestão, recursos de terceiros.",false,"")}
+    ${campo("metas","Metas de composição ou reservas","Por programa do Plano de Ação e por missão da Nova Indústria Brasil, se houver. O equilíbrio da carteira vem daqui, não de pesos na nota.",true,"Por exemplo: ao menos um projeto por missão; mínimo de 15% do recurso novo em Promoção da Sustentabilidade.")}
+    ${campo("refs","Projetos de referência para calibração","Códigos separados por vírgula. A equipe pontua estes projetos em conjunto antes do restante, para alinhar as escalas. Sem lista, a esteira usa "+REFS.join(", ")+".",false,REFS.join(", "))}
+    ${campo("datas","Datas do ciclo","Uma por linha: etapa e data.",true,"Abertura do ciclo | 11/09\nFicha Canvas completa | 30/09\nFiltros e pontuação | 01 a 16/10\nReunião colegiada de balanceamento | 05 a 16/10\nResolução da Diretoria Executiva | 10/11\nConselho Deliberativo | 25/11")}
+    ${campo("obs","Observações","",true,"")}
+    <div class="fld"><label for="cf_motivo">O que mudou e por quê</label><textarea id="cf_motivo" rows="2" placeholder="Obrigatório ao publicar uma alteração: fundamento da mudança" ${ro?"readonly":""}>${esc(d.motivo||"")}</textarea></div>
+    <div class="qfoot"><span class="sp"></span><button class="btn" id="cfDesc" ${ro?"disabled":""}>Descartar edições</button><button class="btn primary" id="cfPub" ${ro?"disabled":""}>${cfg.publicadoEm?"Publicar alteração":"Publicar parâmetros"}</button></div>
+   </section>
+   <section class="card pad"><h2 class="sech">Fixos nesta versão da matriz</h2>
+    <h3>Blocos e pesos de partida</h3><div class="tw"><table><thead><tr><th>Bloco</th><th class="n">Peso</th><th>Critérios</th></tr></thead><tbody>
+     <tr><td>Núcleo comum</td><td class="n">${W.blocos.K}%</td><td>${["K1","K2","K3"].map(k=>esc(CR[k].n)).join("; ")}</td></tr>
+     <tr><td>Missão</td><td class="n">${W.blocos.N}%</td><td>Aderência à missão (dada pela árvore de decisão); ${["N2","N3","N4","N5"].map(k=>esc(CR[k].n.toLowerCase())).join("; ")}</td></tr>
+     <tr><td>ABDI 5.0: Indústria 5.0</td><td class="n">${W.blocos.S}%</td><td>${["S1","S2"].map(k=>esc(CR[k].n)).join("; ")} (aceitam nota negativa)</td></tr>
+     <tr><td>ABDI 5.0: eixo</td><td class="n">${W.blocos.X}%</td><td>${["X1","X2","X3","X4"].map(k=>esc(CR[k].n)).join("; ")}</td></tr>
+     <tr><td>Exequibilidade</td><td class="n">redutor</td><td>${EXQ.map(q=>esc(q.t)).join("; ")}. Reduz o valor em até ${Math.round((1-REGRA.piso)*100)}%; nota 0 é impedimento.</td></tr></tbody></table></div>
+    <h3>Filtros de entrada</h3><ol class="clean">${ELQ.map(q=>`<li><b>${esc(q.t)}.</b> Se não: ${esc(q.no)}</li>`).join("")}</ol>
+    <h3>Regras de corte</h3><ul class="clean"><li>Nota mínima ${REGRA.notaMin} em cada critério do núcleo comum.</li><li>Média do bloco de missão de pelo menos ${REGRA.minBloco}.</li><li>Aderência à missão de pelo menos ${REGRA.travaMin} (aderente prioritário 5, aderente 3, parcial 1).</li><li>Sem impedimento de exequibilidade e sem risco crítico sem mitigação.</li></ul>
+    <h3>Leituras</h3><p>${esc(cfg.leituras)}</p>
+    <h3>Árvores de decisão por missão</h3><div class="tw"><table><thead><tr><th>Missão</th><th>Estado</th><th></th></tr></thead><tbody>${arvs}</tbody></table></div>
+    <h3>Histórico de publicações</h3>${cfg.historico.length?`<div class="tw"><table><thead><tr><th>Quando</th><th>Quem</th><th>O que mudou</th></tr></thead><tbody>${[...cfg.historico].reverse().map(h=>`<tr><td>${esc(dtx(h.quando))}</td><td>${esc(h.quem||"")}</td><td>${esc(h.oque||"")}</td></tr>`).join("")}</tbody></table></div>`:`<p class="small muted">Nenhuma publicação registrada.</p>`}
+   </section></div>`;
+  M.querySelectorAll("[data-cf]").forEach(el=>el.oninput=()=>{ d[el.dataset.cf]=el.value; salvarLocal(); });
+  if($("cf_motivo")) $("cf_motivo").oninput=e=>{ d.motivo=e.target.value; salvarLocal(); };
+  if($("cfDesc")) $("cfDesc").onclick=()=>{ LOC.cfgD=null; render(); };
+  if($("cfPub")) $("cfPub").onclick=async()=>{ const motivo=(d.motivo||"").trim(); if(cfg.publicadoEm&&motivo.length<JMIN){ toast("Descreva o que mudou e por quê (ao menos "+JMIN+" caracteres)."); $("cf_motivo").focus(); return; }
+    const quem=LOC.usuario?LOC.usuario.nome:"", quando=new Date().toISOString(), refs=String(d.refs||"").split(/[,;\s]+/).map(x=>x.trim().toUpperCase()).filter(Boolean);
+    const novo={...cfg,ciclo:d.ciclo,tetoRef:d.tetoRef,tetoFonte:d.tetoFonte,metas:d.metas,refs,datas:d.datas,obs:d.obs,publicadoEm:quando,publicadoPor:quem,historico:[...cfg.historico,{quando,quem,oque:motivo||"Primeira publicação dos parâmetros do ciclo"}]};
+    if(await gravar("config/parametros",novo,"Parâmetros publicados")){ LOC.cfgD=null; render(); } }; }
 ROTA=(location.hash.slice(1)||"inicio").split("/").map(decodeURIComponent);
 iniciar(); render();
 </script>
