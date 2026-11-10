@@ -174,7 +174,7 @@ function resumoEtapa(c,n){
     case 1: return S.ciclo.publicadoEm?"Regras publicadas em "+dataBR(S.ciclo.publicadoEm)+".":"Regras ainda não publicadas.";
     case 2: return (f.enviada?"Ficha enviada"+(f.enviadaEm?" em "+dataBR(f.enviadaEm):"")+".":"Ficha ainda não enviada.")+(f.etiqueta==="concedida"?" Etiqueta de relevância política concedida.":f.etiqueta==="negada"?" Pedido de etiqueta negado.":f.pedidoPolitico?" Pedido de etiqueta aguarda a Diretoria Executiva.":"");
     case 3: return !p.fechada?"":p.mandato==="não"?"Fora do papel legal da Agência.":p.repete==="sim"?"Repete a entrega de outro projeto.":p.medicao==="não"?"Sem indicador nem plano de medição.":"Ficha aceita.";
-    case 4: return a.saida?ARV_TXT[a.saida]+(aderencia3(a.saida)?": nota de aderência "+aderencia3(a.saida):"")+".":"";
+    case 4: return a.saida?ARV_TXT[a.saida]+(aderencia3(a.saida)?": nota de aderência "+aderencia3(a.saida):"")+"."+(a.oe?" Vínculo: objetivo "+a.oe+".":"")+(a.estrela?" Elo com estrela.":""):"";
     case 5: return nt.n?nt.n+" de 2 leituras."+(nt.completo?" Valor "+nf(valorDe(c))+".":nt.n===2?" Falta conciliar.":""):"";
     case 6: return fr?FAROL_TXT[fr]+".":"";
     case 7: return l.saida?"Sugestão: "+l.rotulo.toLowerCase()+". "+l.motivo:(l.estado||"");

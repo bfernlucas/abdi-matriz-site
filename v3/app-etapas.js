@@ -128,6 +128,8 @@ TELAS[4]=c=>{
   return `<section class="bloco">${cabProjeto(c,4)}
     ${sv&&sv.saida?`<p class="nota ok espaco-p">Resultado já registrado: ${esc(ARV_TXT[sv.saida]||sv.saida)}${sv.manual?", sem árvore":""}. Registrar de novo substitui o anterior.</p>`:""}
     <p class="espaco-p"><b>Árvore da missão:</b> ${esc(MISSOES[a.m]||a.m)}${a.m!==c.missao?` <span class="meta">(a ficha indicava ${esc(MISSOES[c.missao]||c.missao)})</span>`:""}</p>
+    ${tem&&ARVD[a.m].validar?`<p class="nota at espaco-p"><b>Árvore em validação.</b> ${esc(ARVD[a.m].validar)}</p>`:""}
+    ${tem&&ARVD[a.m].regra?`<p class="meta espaco-p"><b>Regra de prioridade desta missão.</b> ${esc(ARVD[a.m].regra)}</p>`:""}
     <div class="espaco-p">${corpo}</div>${trilha}
     ${comArvore.length?`<h3 class="espaco">Percorrer a árvore de outra missão</h3><p class="meta">Para projeto transversal ou quando a missão da ficha não tem árvore.</p><div class="opcoes espaco-p">${comArvore.map(m=>`<button type="button" class="op" data-acao="arvMissao" data-m="${m}" aria-pressed="${a.m===m}">${esc(MISSOES[m])}</button>`).join("")}</div>`:""}</section>`; };
 ACOES.arvPasso=d=>{ const a=R.a, esc_=d.i!=null?{i:+d.i}:d.elo!=null?{elo:+d.elo}:d.alt!=null?{alt:+d.alt}:{none:1}; a.pilha.push(a.st); a.st=arvPasso(a.st,esc_); render(); };
