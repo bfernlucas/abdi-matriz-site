@@ -8,7 +8,7 @@
      code       código do Canvas
      novos      recurso novo pedido, em reais (0 = sem pedido novo)
      novo       true se o projeto é novo; false se está em execução
-     completa   false se a ficha voltou para completar (etapa 3)
+     completa   false se o Canvas voltou para completar (etapa 3)
      mandato    false se está fora do papel legal da Agência (etapa 3)
      repete     true se repete a entrega de outro projeto (etapa 3)
      medicao    false se não há indicador nem plano de medição (etapa 3)
@@ -67,7 +67,7 @@ function pendencias3(p,R=REGUA3){
   if(p.dano) L.push("Dano a emprego ou ambiente.");
   return L; }
 function porta3(p,R=REGUA3){
-  if(p.completa===false) return {estado:"Volta à etapa 2 para completar a ficha."};
+  if(p.completa===false) return {estado:"Volta à etapa 2 para completar o Canvas."};
   if(p.mandato===false&&!(p.etiqueta&&R.etiqueta.venceMandato)) return {saida:"orgao",motivo:"Fora do papel legal da Agência."};
   if(p.repete===true) return {saida:"incorporar",motivo:"Repete a entrega de outro projeto."};
   if(p.arvore==="red") return {estado:"Refaz a etapa 4 na missão indicada pela árvore."};

@@ -9,7 +9,7 @@ const num=v=>{ const s=String(v==null?"":v).trim(); if(!s) return null; const n=
 const clone=o=>JSON.parse(JSON.stringify(o||{}));
 const minus=t=>t.charAt(0).toLowerCase()+t.slice(1);
 
-const S={modo:null,usuario:{nome:"Visitante",papel:UGE},base:{},est:{},ciclo:{},cenario:1,erro:"",carregando:false};
+const S={modo:null,usuario:{nome:"Visitante",papel:UGE},base:{},est:{},canvas:{},ciclo:{},cenario:1,erro:"",carregando:false};   /* canvas: os Canvas como estão guardados, com os rascunhos */
 let R={}, ROTA=[], ROTA_ANT=null, _rec=null;
 const TELAS={}, ACOES={};
 const rget=(k,d)=>{ const v=k.split(".").reduce((o,p)=>o==null?o:o[p],R); return v==null?d:v; };
@@ -116,8 +116,8 @@ const ir=h=>{ h=hx(h); if(location.hash===h||(h==="#"&&!location.hash)) rota(); 
 /* ---------- entrada: exemplo fictício ou login ---------- */
 const soLogado=()=>!!window.SO_LOGADO&&Dados.temNuvem();   /* no site público, nada aparece sem login, nem o exemplo */
 function vEntrada(M){
-  M.innerHTML=`<div class="abertura"><h1><span class="leve">Da ficha à decisão,</span><span class="forte">em nove etapas.</span></h1>
-   <p class="sub">Esta página mostra o caminho que cada projeto percorre até virar prioridade da carteira: regras do ciclo, ficha, porta de entrada, árvore da missão, notas, farol, recomendação, decisão e registro.</p></div>
+  M.innerHTML=`<div class="abertura"><h1><span class="leve">Do Canvas à decisão,</span><span class="forte">em nove etapas.</span></h1>
+   <p class="sub">Esta página mostra o caminho que cada projeto percorre até virar prioridade da carteira: regras do ciclo, Canvas, porta de entrada, árvore da missão, notas, farol, recomendação, decisão e registro.</p></div>
   <div class="entrada">
    ${soLogado()?"":`<section class="bloco"><h2>Ver com um exemplo fictício</h2><p>Dezesseis projetos inventados, já espalhados pelas nove etapas. Nada é enviado: tudo fica neste navegador.</p><div class="acoes"><button class="bt" data-acao="demo">Abrir o exemplo fictício</button></div></section>`}
    <section class="bloco"><h2>${soLogado()?"Entrar":"Entrar com os projetos reais"}</h2>${Dados.temNuvem()?`<p>Para a equipe do projeto. Use o mesmo e-mail e a mesma senha do site atual.${soLogado()?" Depois de entrar, dá para abrir também um exemplo fictício.":""}</p>
@@ -126,15 +126,15 @@ function vEntrada(M){
   </div>`; }
 async function abrirNuvem(sess){
   S.carregando=true; S.erro=""; S.usuario.nome=(sess.user&&sess.user.email)||"Equipe"; render();
-  try{ const d=await Dados.abrirNuvem(); S.base=d.base; S.est=d.est; S.ciclo=d.ciclo||{}; S.modo="nuvem"; }
+  try{ const d=await Dados.abrirNuvem(); S.base=d.base; S.est=d.est; S.canvas=d.canvas||{}; S.ciclo=d.ciclo||{}; S.modo="nuvem"; }
   catch(err){ console.error(err); S.modo=null; S.erro="Não foi possível ler os projetos. Verifique a conexão e tente de novo."; }
   S.carregando=false; rota(); }
-ACOES.demo=()=>{ const d=Dados.abrirDemo(); S.base=d.base; S.est=d.est; S.ciclo=d.ciclo; S.modo="demo"; S.usuario.nome="Visitante"; try{ sessionStorage.setItem("esteira3.modo","demo"); }catch(e){} rota(); };
-ACOES.reiniciar=()=>{ const d=Dados.reiniciarDemo(); S.base=d.base; S.est=d.est; S.ciclo=d.ciclo; R={}; aviso("Exemplo recomeçado"); rota(); };
+ACOES.demo=()=>{ const d=Dados.abrirDemo(); S.base=d.base; S.est=d.est; S.canvas=d.canvas; S.ciclo=d.ciclo; S.modo="demo"; S.usuario.nome="Visitante"; try{ sessionStorage.setItem("esteira3.modo","demo"); }catch(e){} rota(); };
+ACOES.reiniciar=()=>{ const d=Dados.reiniciarDemo(); S.base=d.base; S.est=d.est; S.canvas=d.canvas; S.ciclo=d.ciclo; R={}; aviso("Exemplo recomeçado"); rota(); };
 ACOES.fechar=async()=>{ try{ sessionStorage.removeItem("esteira3.modo"); }catch(e){}
   if(Dados.sb){ const {data}=await Dados.sb.auth.getSession(); if(data&&data.session){ ir("#/"); return abrirNuvem(data.session); } }
   S.modo=null; ir("#/"); render(); };
-ACOES.sair=async()=>{ await Dados.sair(); S.modo=null; S.base={}; S.est={}; ir("#/"); render(); };
+ACOES.sair=async()=>{ await Dados.sair(); S.modo=null; S.base={}; S.est={}; S.canvas={}; ir("#/"); render(); };
 ACOES.entrar=async()=>{ const erro=await Dados.entrar($("#lg-e").value.trim().toLowerCase(),$("#lg-s").value); if(erro){ S.erro=erro; render(); } };
 ACOES.papel=(d,el)=>{ S.usuario.papel=el.value; };
 ACOES.set=d=>{ rset(d.k,d.num?+d.v:d.v); render(); };
@@ -148,7 +148,7 @@ function vInicio(M){
     else if(e.n===7) corpo=`<p class="vazio">${nLista} com sugestão de saída.</p>`;
     else { const L=por[e.n]||[]; corpo=L.length?`<div class="chips">${L.map(chip).join("")}</div>`:`<p class="vazio">${e.n===9?"Nenhuma decisão registrada.":"Ninguém aguarda aqui."}</p>`; }
     return `<section class="col" aria-label="Etapa ${e.n}: ${esc(e.t)}"><h3><b>${e.n}</b> ${esc(e.curto)}</h3>${corpo}</section>`; };
-  M.innerHTML=`<div class="abertura"><h1><span class="leve">Da ficha à decisão,</span><span class="forte">em nove etapas.</span></h1>
+  M.innerHTML=`<div class="abertura"><h1><span class="leve">Do Canvas à decisão,</span><span class="forte">em nove etapas.</span></h1>
     <p class="sub">Cada projeto percorre o mesmo caminho. Abaixo, onde cada um está agora. Abra uma etapa no trilho para ver quem faz, o que entra, o que sai e a fila de trabalho.</p></div>
    <div class="esteira" aria-label="Projetos em cada etapa">${ETAPAS.map(col).join("")}</div>
    <h2 class="espaco">Saídas até agora</h2><p class="meta">Sugeridas pela esteira ou já decididas pela Diretoria Executiva.</p>
@@ -172,14 +172,14 @@ function resumoEtapa(c,n){
   const e=E(c.code), f=e.ficha||{}, p=e.porta||{}, a=e.arvore||{}, nt=notasDe(c), fr=farol3((e.farol||{}).exq), l=linhaDe(c.code), d=e.decisao;
   switch(n){
     case 1: return S.ciclo.publicadoEm?"Regras publicadas em "+dataBR(S.ciclo.publicadoEm)+".":"Regras ainda não publicadas.";
-    case 2: return (f.enviada?"Ficha enviada"+(f.enviadaEm?" em "+dataBR(f.enviadaEm):"")+".":"Ficha ainda não enviada.")+(f.etiqueta==="concedida"?" Etiqueta de relevância política concedida.":f.etiqueta==="negada"?" Pedido de etiqueta negado.":f.pedidoPolitico?" Pedido de etiqueta aguarda a Diretoria Executiva.":"");
-    case 3: return !p.fechada?"":p.mandato==="não"?"Fora do papel legal da Agência.":p.repete==="sim"?"Repete a entrega de outro projeto.":p.medicao==="não"?"Sem indicador nem plano de medição.":"Ficha aceita.";
+    case 2: return (f.enviada?"Canvas enviado"+(f.enviadaEm?" em "+dataBR(f.enviadaEm):"")+".":"Canvas ainda não enviado.")+(f.etiqueta==="concedida"?" Etiqueta de relevância política concedida.":f.etiqueta==="negada"?" Pedido de etiqueta negado.":f.pedidoPolitico?" Pedido de etiqueta aguarda a Diretoria Executiva.":"");
+    case 3: return !p.fechada?"":p.mandato==="não"?"Fora do papel legal da Agência.":p.repete==="sim"?"Repete a entrega de outro projeto.":p.medicao==="não"?"Sem indicador nem plano de medição.":"Canvas aceito.";
     case 4: return a.saida?ARV_TXT[a.saida]+(aderencia3(a.saida)?": nota de aderência "+aderencia3(a.saida):"")+"."+(a.oe?" Vínculo: objetivo "+a.oe+".":"")+(a.estrela?" Elo com estrela.":""):"";
     case 5: return nt.n?nt.n+" de 2 leituras."+(nt.completo?" Valor "+nf(valorDe(c))+".":nt.n===2?" Falta conciliar.":""):"";
     case 6: return fr?FAROL_TXT[fr]+".":"";
     case 7: return l.saida?"Sugestão: "+l.rotulo.toLowerCase()+". "+l.motivo:(l.estado||"");
     case 8: return d?(d.tipo==="seguir"?"Sugestão confirmada.":"Decisão diferente da sugestão: "+rotSaida(d.saida).toLowerCase()+". Motivo: "+d.motivo):"";
-    case 9: return d?(e.log||[]).length+" registros guardados junto à ficha.":""; } }
+    case 9: return d?(e.log||[]).length+" registros guardados junto ao Canvas.":""; } }
 function vProjeto(M,c){
   const at=estacao(c), s=saidaDe(c);
   const li=ETAPAS.map(e=>{ const r=resumoEtapa(c,e.n), agora=e.n===at, feito=!agora&&!!r&&(e.n<at||e.n===1||e.n===7), pulo=!r&&e.n<at;
@@ -202,7 +202,7 @@ window.addEventListener("hashchange",rota);
 async function partida(){
   let demo=false; try{ demo=sessionStorage.getItem("esteira3.modo")==="demo"; }catch(e){}
   if(Dados.temNuvem()){
-    try{ const sess=await Dados.iniciarNuvem(s=>{ if(s&&!S.modo&&!S.carregando) abrirNuvem(s); else if(!s&&S.modo==="nuvem"){ S.modo=null; S.base={}; S.est={}; render(); } });
+    try{ const sess=await Dados.iniciarNuvem(s=>{ if(s&&!S.modo&&!S.carregando) abrirNuvem(s); else if(!s&&S.modo==="nuvem"){ S.modo=null; S.base={}; S.est={}; S.canvas={}; render(); } });
       if(sess){ if(demo) ACOES.demo(); else await abrirNuvem(sess); return; } }catch(e){ console.error(e); } }
   if((demo||window.ABRE_EXEMPLO)&&!soLogado()){ ACOES.demo(); return; }   /* ABRE_EXEMPLO: cópia que só tem o exemplo já abre nele */
   rota(); }

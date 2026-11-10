@@ -1,4 +1,4 @@
-/* ===== Esteira v3.0 · etapas 1 a 6: regras, ficha, porta de entrada, árvore, notas e farol ===== */
+/* ===== Esteira v3.0 · etapas 1 a 6: regras, Canvas, porta de entrada, árvore, notas e farol ===== */
 const agora=()=>new Date().toISOString();
 const outros=(n,titulo)=>{ const L=projetos().filter(c=>estacao(c)>n); return L.length?`<section class="bloco"><h2>${esc(titulo)} <span class="tag">${L.length}</span></h2><div class="chips" style="display:flex;flex-wrap:wrap;gap:6px">${L.map(chip).join("")}</div></section>`:""; };
 
@@ -7,9 +7,9 @@ TELAS[1]=()=>{
   if(!R.ini){ R={ini:1,ciclo:{...clone(S.ciclo),teto:S.ciclo.teto?String(S.ciclo.teto):""}}; }
   const pub=S.ciclo.publicadoEm, h=(S.ciclo.historico||[]).slice().reverse();
   return `<section class="bloco"><h2>Definidos a cada ciclo</h2>
-    ${pub?`<p class="nota ok">Regras publicadas em ${dataBR(pub)} por ${esc(S.ciclo.publicadoPor||"—")}. Mudanças depois disso ficam no histórico.</p>`:`<p class="nota at">Regras ainda não publicadas. As áreas só preenchem a ficha depois da publicação.</p>`}
+    ${pub?`<p class="nota ok">Regras publicadas em ${dataBR(pub)} por ${esc(S.ciclo.publicadoPor||"—")}. Mudanças depois disso ficam no histórico.</p>`:`<p class="nota at">Regras ainda não publicadas. As áreas só preenchem o Canvas depois da publicação.</p>`}
     <div class="grade2">${texto("ciclo.ciclo","Ciclo","Ano da carteira a que as regras se referem.")}${texto("ciclo.teto","Teto de referência, em reais","Dinheiro novo disponível no ano. Quem fixa é a Diretoria Executiva.")}
-     ${texto("ciclo.tetoFonte","De onde vem o teto","Documento ou decisão que fixou o valor.")}${texto("ciclo.dataFichas","Data limite para enviar as fichas","","date")}
+     ${texto("ciclo.tetoFonte","De onde vem o teto","Documento ou decisão que fixou o valor.")}${texto("ciclo.dataFichas","Data limite para enviar os Canvas","","date")}
      ${texto("ciclo.dataDecisao","Data da decisão da Diretoria Executiva","","date")}</div>
     ${area("ciclo.obs","O que mudou em relação ao ciclo anterior","Entra no histórico junto com a publicação.")}
     <div class="acoes"><button class="bt" data-acao="publicar">${pub?"Publicar de novo":"Publicar regras"}</button><button class="bt sec" data-acao="guardarCiclo">Guardar sem publicar</button></div></section>
@@ -30,28 +30,32 @@ ACOES.publicar=async()=>{ const c=lerCiclo(); if(!c.ciclo) return aviso("Informe
   c.publicadoEm=agora(); c.publicadoPor=quem(); c.historico=[...(S.ciclo.historico||[]),{em:c.publicadoEm,por:quem(),oque:"Regras publicadas."+(c.obs?" "+c.obs:"")}]; S.ciclo=c;
   try{ await Dados.gravarCiclo(S.ciclo); aviso("Regras publicadas"); }catch(e){ aviso("Não foi gravado. Tente de novo."); } R={}; render(); };
 
-/* ---------- etapa 2: ficha do projeto ---------- */
+/* ---------- etapa 2: Canvas do projeto ---------- */
 TELAS[2]=c=>{
   if(!c){
+    if(ROTA[2]==="novo") return cvTela(null);            /* cadastro de novo Canvas */
+    if(ROTA[2]==="canvas") return cvTela(ROTA[3]);       /* retomar um rascunho ou rever um Canvas cadastrado */
     const todos=projetos().filter(x=>estacao(x)>2);
-    return fila(2,"Fichas a enviar","Todas as fichas foram enviadas.")
-     +(todos.length?`<section class="bloco"><h2>Fichas já enviadas <span class="tag">${todos.length}</span></h2><ol class="fila">${todos.map(x=>linhaFila(x,2,"Rever")).join("")}</ol></section>`:"")
-     +(S.modo==="demo"?novoFicticio():`<section class="bloco"><h2>De onde vêm as fichas</h2><p>As fichas vêm do cadastro do Canvas, feito na versão atual da esteira. Aqui entram só os campos que o percurso das nove etapas usa.</p></section>`); }
+    return cvBlocoCadastro()
+     +fila(2,"Canvas a enviar","Todos os Canvas foram enviados.")
+     +(todos.length?`<section class="bloco"><h2>Canvas já enviados <span class="tag">${todos.length}</span></h2><ol class="fila">${todos.map(x=>linhaFila(x,2,"Rever")).join("")}</ol></section>`:"")
+     +(S.modo==="demo"?novoFicticio():""); }
   const e=E(c.code), f=e.ficha||{};
   if(!R.ini){ R={ini:1,f:{novo:ehNovo(c)?"sim":"não",pedido:f.pedidoPolitico?"sim":"não",documento:f.documento||""}}; }
   const pede=rget("f.pedido","não")==="sim";
   return `<section class="bloco">${cabProjeto(c,2)}
-    ${f.enviada?`<p class="nota ok espaco-p">Ficha enviada${f.enviadaEm?" em "+dataBR(f.enviadaEm):""}.</p>`:(e.porta&&e.porta.devolvidaEm?`<p class="nota at espaco-p">A ficha voltou da porta de entrada para completar: ${esc(e.porta.nota||"")}</p>`:"")}
+    ${cvTemFormulario(c.code)?`<p class="espaco-p"><a class="bt discreto peq" href="#/etapa/2/canvas/${encodeURIComponent(c.code)}">Rever o Canvas cadastrado</a></p>`:""}
+    ${f.enviada?`<p class="nota ok espaco-p">Canvas enviado${f.enviadaEm?" em "+dataBR(f.enviadaEm):""}.</p>`:(e.porta&&e.porta.devolvidaEm?`<p class="nota at espaco-p">O Canvas voltou da porta de entrada para completar: ${esc(e.porta.nota||"")}</p>`:"")}
     <div class="pergunta espaco-p"><h3>É projeto novo ou continuação?</h3><p class="meta">Muda a saída quando o projeto fica abaixo da linha.</p>${ops("f.novo",[["sim","Projeto novo"],["não","Continuação de projeto em execução"]],rget("f.novo"))}</div>
     <div class="pergunta"><h3>Há pedido formal político para este projeto?</h3><p class="meta">Com pedido, a Diretoria Executiva decide se concede a etiqueta de relevância política.</p>${ops("f.pedido",SIMNAO,rget("f.pedido"))}
      ${pede?area("f.documento","Qual documento comprova o pedido?","Pedido formal, instrumento assinado ou política vigente.")+`
       <div class="cmp"><span class="rot">Decisão da Diretoria Executiva sobre a etiqueta</span>
        ${f.etiqueta?`<p><span class="tag ${f.etiqueta==="concedida"?"etq":"er"}">Etiqueta ${f.etiqueta}</span> <span class="meta">${esc(f.etiquetaPor||"")}</span></p>`:`<p class="meta">Ainda não decidida.</p>`}
        <div class="opcoes"><button class="bt sec peq" data-acao="etiqueta" data-code="${esc(c.code)}" data-v="concedida">Conceder a etiqueta</button><button class="bt discreto peq" data-acao="etiqueta" data-code="${esc(c.code)}" data-v="negada">Negar a etiqueta</button></div></div>`:""}</div>
-    <div class="acoes"><button class="bt" data-acao="enviarFicha" data-code="${esc(c.code)}">${f.enviada?"Guardar a ficha":"Enviar a ficha"}</button></div></section>`; };
+    <div class="acoes"><button class="bt" data-acao="enviarFicha" data-code="${esc(c.code)}">${f.enviada?"Guardar o Canvas":"Enviar o Canvas"}</button></div></section>`; };
 function novoFicticio(){
   if(!R.ini){ R={ini:1,nv:{nome:"",unidade:"",dir:"DISTT",missao:"M4",novos:"",novo:"sim"}}; }
-  return `<section class="bloco"><h2>Acrescentar um projeto fictício</h2><p class="meta">Só no exemplo. Serve para acompanhar um projeto do começo ao fim.</p>
+  return `<section class="bloco"><h2>Acrescentar um projeto fictício</h2><p class="meta">Só no exemplo. Atalho para acompanhar um projeto do começo ao fim sem preencher o Canvas inteiro.</p>
     <div class="grade2">${texto("nv.nome","Nome do projeto")}${texto("nv.unidade","Unidade que propõe")}${texto("nv.novos","Recurso novo pedido, em reais","Deixe em branco se não há pedido novo.")}
     <div class="cmp"><label for="nv-m">Missão principal</label><select id="nv-m" data-rasc="nv.missao">${Object.entries(MISSOES).map(([k,t])=>`<option value="${k}"${rget("nv.missao")===k?" selected":""}>${esc(t)}</option>`).join("")}</select></div></div>
     <div class="cmp"><span class="rot">Diretoria</span>${ops("nv.dir",Object.entries(DIRETORIAS).map(([k,t])=>[k,t]),rget("nv.dir"))}</div>
@@ -65,21 +69,21 @@ ACOES.etiqueta=async d=>{ const c=S.base[d.code], f=fichaDoRascunho(c); if(!f.do
   f.etiqueta=d.v; f.etiquetaPor=quem(); await salvar(c.code,2,"Etiqueta de relevância política "+d.v+". Documento: "+f.documento,"Etiqueta "+d.v); render(); };
 ACOES.enviarFicha=async d=>{ const c=S.base[d.code], f=fichaDoRascunho(c);
   if(f.pedidoPolitico&&!f.etiqueta) return aviso("A Diretoria Executiva ainda não decidiu a etiqueta.");
-  const ja=f.enviada; f.enviada=true; f.enviadaEm=f.enviadaEm||agora(); await salvar(c.code,2,ja?"Ficha atualizada.":"Ficha enviada à Unidade de Gestão Estratégica.",ja?"Ficha guardada":"Ficha enviada"); ir("#/etapa/2"); };
+  const ja=f.enviada; f.enviada=true; f.enviadaEm=f.enviadaEm||agora(); await salvar(c.code,2,ja?"Canvas atualizado.":"Canvas enviado à Unidade de Gestão Estratégica.",ja?"Canvas guardado":"Canvas enviado"); ir("#/etapa/2"); };
 
 /* ---------- etapa 3: porta de entrada ---------- */
 function resultadoPorta(p,tag){
   if(!p.completa) return {tipo:"falta",em:0};
-  if(p.completa==="não") return {tipo:"volta",ate:0,txt:"Volta à etapa 2 para completar a ficha."};
+  if(p.completa==="não") return {tipo:"volta",ate:0,txt:"Volta à etapa 2 para completar o Canvas."};
   if(!p.mandato) return {tipo:"falta",em:1};
   if(p.mandato==="não"&&!(tag&&REGUA3.etiqueta.venceMandato)) return {tipo:"saida",ate:1,txt:"Saída: outro órgão."};
   if(!p.repete) return {tipo:"falta",em:2};
   if(p.repete==="sim") return {tipo:"saida",ate:2,txt:"Saída: incorporar ao projeto parecido."};
   if(!p.medicao) return {tipo:"falta",em:3};
   if(p.medicao==="não"&&!tag) return {tipo:"saida",ate:3,txt:"Saída: reformular, com a lista do que falta."};
-  return {tipo:"aceita",ate:3,txt:p.medicao==="não"?"Ficha aceita, com pendência anotada: falta indicador ou plano de medição. A etiqueta impede que isso barre o projeto.":"Ficha aceita. Segue para a árvore da missão."}; }
+  return {tipo:"aceita",ate:3,txt:p.medicao==="não"?"Canvas aceito, com pendência anotada: falta indicador ou plano de medição. A etiqueta impede que isso barre o projeto.":"Canvas aceito. Segue para a árvore da missão."}; }
 TELAS[3]=c=>{
-  if(!c) return fila(3,"Fichas que aguardam a porta de entrada","Nenhuma ficha aguarda a porta de entrada.")+outros(3,"Já passaram pela porta de entrada");
+  if(!c) return fila(3,"Canvas que aguardam a porta de entrada","Nenhum Canvas aguarda a porta de entrada.")+outros(3,"Já passaram pela porta de entrada");
   const e=E(c.code), sv=e.porta||{}, tag=etiquetado(c.code);
   if(!R.ini){ R={ini:1,p:{completa:sv.completa||"",mandato:sv.mandato||"",repete:sv.repete||"",medicao:sv.medicao||"",nota:sv.nota||""}}; }
   const p=R.p, r=resultadoPorta(p,tag), ate=r.tipo==="falta"?r.em:r.ate;
@@ -91,14 +95,14 @@ TELAS[3]=c=>{
       ${q.k==="repete"&&irmaos.length?`<p class="meta">Outros projetos da mesma missão: ${esc(irmaos.slice(0,6).join("; "))}${irmaos.length>6?"; e mais "+(irmaos.length-6):""}.</p>`:""}
       ${i>ate?"":ops("p."+q.k,SIMNAO,p[q.k])}</div>`).join("")}</div>
     ${r.tipo==="falta"?"":`<p class="nota ${r.tipo==="aceita"?"ok":"at"}" role="status">${esc(r.txt)}</p>`}
-    ${area("p.nota",r.tipo==="aceita"?"Pendências anotadas":"Justificativa",r.tipo==="aceita"?"O que a área precisa resolver, sem impedir o projeto de seguir.":"Obrigatória quando a ficha volta ou sai.")}
-    <div class="acoes"><button class="bt" data-acao="porta" data-code="${esc(c.code)}"${r.tipo==="falta"?" disabled":""}>${r.tipo==="volta"?"Devolver para completar":r.tipo==="saida"?"Registrar a saída":"Aceitar a ficha"}</button></div></section>`; };
+    ${area("p.nota",r.tipo==="aceita"?"Pendências anotadas":"Justificativa",r.tipo==="aceita"?"O que a área precisa resolver, sem impedir o projeto de seguir.":"Obrigatória quando o Canvas volta ou sai.")}
+    <div class="acoes"><button class="bt" data-acao="porta" data-code="${esc(c.code)}"${r.tipo==="falta"?" disabled":""}>${r.tipo==="volta"?"Devolver para completar":r.tipo==="saida"?"Registrar a saída":"Aceitar o Canvas"}</button></div></section>`; };
 ACOES.porta=async d=>{ const c=S.base[d.code], e=E(c.code), p=R.p, r=resultadoPorta(p,etiquetado(c.code));
   if(r.tipo==="falta") return aviso("Responda às perguntas na ordem.");
   if(r.tipo!=="aceita"&&!(p.nota||"").trim()) return aviso("Escreva a justificativa.");
-  if(r.tipo==="volta"){ e.ficha.enviada=false; e.porta={devolvidaEm:agora(),nota:p.nota.trim()}; await salvar(c.code,3,"Ficha devolvida para completar. "+p.nota.trim(),"Ficha devolvida"); }
+  if(r.tipo==="volta"){ e.ficha.enviada=false; e.porta={devolvidaEm:agora(),nota:p.nota.trim()}; await salvar(c.code,3,"Canvas devolvido para completar. "+p.nota.trim(),"Canvas devolvido"); }
   else { e.porta={completa:p.completa,mandato:p.mandato,repete:p.repete,medicao:p.medicao,nota:(p.nota||"").trim(),fechada:true,por:quem(),em:agora()};
-    await salvar(c.code,3,r.txt+(p.nota?" "+p.nota.trim():""),r.tipo==="aceita"?"Ficha aceita":"Saída registrada"); }
+    await salvar(c.code,3,r.txt+(p.nota?" "+p.nota.trim():""),r.tipo==="aceita"?"Canvas aceito":"Saída registrada"); }
   ir("#/etapa/3"); };
 
 /* ---------- etapa 4: árvore da missão ---------- */
@@ -127,11 +131,11 @@ TELAS[4]=c=>{
      <div class="acoes"><button class="bt discreto peq" data-acao="arvVoltar">Voltar uma pergunta</button><button class="bt discreto peq" data-acao="arvMissao" data-m="${esc(a.m)}">Recomeçar a árvore</button></div>`:"";
   return `<section class="bloco">${cabProjeto(c,4)}
     ${sv&&sv.saida?`<p class="nota ok espaco-p">Resultado já registrado: ${esc(ARV_TXT[sv.saida]||sv.saida)}${sv.manual?", sem árvore":""}. Registrar de novo substitui o anterior.</p>`:""}
-    <p class="espaco-p"><b>Árvore da missão:</b> ${esc(MISSOES[a.m]||a.m)}${a.m!==c.missao?` <span class="meta">(a ficha indicava ${esc(MISSOES[c.missao]||c.missao)})</span>`:""}</p>
+    <p class="espaco-p"><b>Árvore da missão:</b> ${esc(MISSOES[a.m]||a.m)}${a.m!==c.missao?` <span class="meta">(o Canvas indicava ${esc(MISSOES[c.missao]||c.missao)})</span>`:""}</p>
     ${tem&&ARVD[a.m].validar?`<p class="nota at espaco-p"><b>Árvore em validação.</b> ${esc(ARVD[a.m].validar)}</p>`:""}
     ${tem&&ARVD[a.m].regra?`<p class="meta espaco-p"><b>Regra de prioridade desta missão.</b> ${esc(ARVD[a.m].regra)}</p>`:""}
     <div class="espaco-p">${corpo}</div>${trilha}
-    ${comArvore.length?`<h3 class="espaco">Percorrer a árvore de outra missão</h3><p class="meta">Para projeto transversal ou quando a missão da ficha não tem árvore.</p><div class="opcoes espaco-p">${comArvore.map(m=>`<button type="button" class="op" data-acao="arvMissao" data-m="${m}" aria-pressed="${a.m===m}">${esc(MISSOES[m])}</button>`).join("")}</div>`:""}</section>`; };
+    ${comArvore.length?`<h3 class="espaco">Percorrer a árvore de outra missão</h3><p class="meta">Para projeto transversal ou quando a missão do Canvas não tem árvore.</p><div class="opcoes espaco-p">${comArvore.map(m=>`<button type="button" class="op" data-acao="arvMissao" data-m="${m}" aria-pressed="${a.m===m}">${esc(MISSOES[m])}</button>`).join("")}</div>`:""}</section>`; };
 ACOES.arvPasso=d=>{ const a=R.a, esc_=d.i!=null?{i:+d.i}:d.elo!=null?{elo:+d.elo}:d.alt!=null?{alt:+d.alt}:{none:1}; a.pilha.push(a.st); a.st=arvPasso(a.st,esc_); render(); };
 ACOES.arvVoltar=()=>{ const a=R.a; if(a.pilha.length) a.st=a.pilha.pop(); render(); };
 ACOES.arvMissao=d=>{ R.a={m:d.m,st:arvTem(d.m)?arvNovo(d.m):null,pilha:[],saida:"",just:""}; render(); };
@@ -153,7 +157,7 @@ TELAS[5]=c=>{
   const form=R.leitor?`<section class="bloco"><h2>${esc(rot(R.leitor))}</h2><p class="meta">As leituras são feitas em separado: as notas do outro leitor só aparecem quando as duas estiverem registradas.</p>
      <div class="espaco-p">${NOTAS3.map(n=>regua("l."+n.k,n,rget("l."+n.k))).join("")}
       <div class="pergunta"><h3>O projeto causa dano a emprego ou ambiente?</h3><p class="meta">Elimina postos sem requalificação, ou aumenta emissões sem compensação. Se sim, a saída é reformular.</p>${ops("l.dano",SIMNAO,rget("l.dano"))}${rget("l.dano")==="sim"?area("l.danoJust","Qual é o dano?"):""}</div></div>
-     ${area("l.just","Justificativa das notas","Onde, na ficha, está a evidência de cada nota.")}
+     ${area("l.just","Justificativa das notas","Onde, no Canvas, está a evidência de cada nota.")}
      <div class="acoes"><button class="bt" data-acao="leitura" data-code="${esc(c.code)}">Registrar ${esc(rot(R.leitor).toLowerCase())}</button></div></section>`:"";
   let comp="";
   if(L.L1&&L.L2){
@@ -169,7 +173,7 @@ TELAS[5]=c=>{
      <section class="bloco"><h2>Contestação da área</h2><p class="meta">A área que propõe vê as notas e pode apontar erro de fato, com documento. Não é pedido de nota maior.</p>
       ${area("ct.texto","Erro de fato apontado","Qual fato está errado e qual documento mostra o correto.")}<div class="acoes"><button class="bt sec" data-acao="contestar" data-code="${esc(c.code)}">Registrar a contestação</button></div></section>`; }
   return `<section class="bloco">${cabProjeto(c,5)}
-    ${fora?`<p class="nota at espaco-p">Ficha de unidade ligada à Presidência: a segunda leitura é de um leitor de fora da linha da Presidência.</p>`:""}
+    ${fora?`<p class="nota at espaco-p">Canvas de unidade ligada à Presidência: a segunda leitura é de um leitor de fora da linha da Presidência.</p>`:""}
     <p class="espaco-p"><b>Aderência à missão:</b> ${nt.A??"—"} <span class="meta">(da árvore: ${esc(ARV_TXT[(e.arvore||{}).saida]||"ainda não percorrida")})</span></p>
     <ol class="fila espaco-p"><li style="grid-template-columns:1fr auto"><span class="nm">${esc(rot("L1"))}</span><span>${estado("L1")}</span></li><li style="grid-template-columns:1fr auto"><span class="nm">${esc(rot("L2"))}</span><span>${estado("L2")}</span></li></ol></section>${form}${comp}`; };
 ACOES.refazerLeitura=d=>{ const L=(E(ROTA[2]).leituras||{})[d.k]||{}; R.leitor=d.k; R.l={R:L.R||"",E:L.E||"",I:L.I||"",dano:L.dano?"sim":"não",danoJust:L.danoJust||"",just:L.just||""}; render(); };
@@ -195,7 +199,7 @@ TELAS[6]=c=>{
   return `<section class="bloco">${cabProjeto(c,6)}
     ${sv.exq?`<p class="nota ok espaco-p">Farol já registrado. Registrar de novo substitui o anterior.</p>`:""}
     <div class="espaco-p">${FAROL.map((it,i)=>`<div class="pergunta"><h3>${esc(it.t)}</h3><p class="meta">${esc(it.q)}</p>${ops("f.i"+i,[5,3,1,0].map(v=>[v,it.a[v]]),f["i"+i]).replace(/data-acao="set"/g,'data-acao="set" data-num="1"')}</div>`).join("")}</div>
-    <h3 class="espaco">Custo confirmado</h3><div class="grade2">${texto("f.comprometido","Dinheiro já comprometido, em reais","Contratos e convênios em vigor.")}${texto("f.novo","Dinheiro novo pedido, em reais","Confira com o valor da ficha.")}</div>
+    <h3 class="espaco">Custo confirmado</h3><div class="grade2">${texto("f.comprometido","Dinheiro já comprometido, em reais","Contratos e convênios em vigor.")}${texto("f.novo","Dinheiro novo pedido, em reais","Confira com o valor do Canvas.")}</div>
     ${area("f.obs","Observações","Qual é a pendência e o que a resolve.")}
     <p class="espaco" role="status">${cor?`${sinal(cor,true)} <b>${esc(FAROL_TXT[cor])}</b>`:`${`<span class="sinal g" aria-hidden="true"><i></i><i></i><i></i></span>`} <span class="meta">Responda aos quatro itens para o farol acender.</span>`}</p>
     <div class="acoes"><button class="bt" data-acao="farol" data-code="${esc(c.code)}"${cor?"":" disabled"}>Registrar o farol</button></div></section>`; };

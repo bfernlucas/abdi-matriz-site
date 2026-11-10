@@ -245,4 +245,24 @@ h3{font:500 18px/26px var(--f);color:var(--ink)}
   .rodape a{margin-left:0;margin-right:16px}
 }
 @media (prefers-reduced-motion:reduce){ .aviso{transition:none} }
+/* cadastro do Canvas (etapa 2): passos do formulário, linhas de tabela e conferência */
+.cv-passos{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.cv-passos button{display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:4px 14px 4px 6px;border-radius:var(--pill);border:1px solid var(--line-2);background:#fff;font:500 13px/20px var(--f);color:var(--ink-2);cursor:pointer;text-align:left}
+.cv-passos button:hover{border-color:var(--accent)}
+.cv-passos .n{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--sunk);font:600 12px/1 var(--f);color:var(--ink-2)}
+.cv-passos button.atual{border-color:var(--accent);color:var(--ink)}
+.cv-passos button.atual .n{background:var(--accent);color:#fff}
+.cv-passos button.ok .n{background:var(--ok-bg);color:var(--ok)}
+.cv-linha{border:1px solid var(--line);border-radius:var(--r-m);padding:0 16px 16px;margin-top:12px}
+.cv-linha > .bt{margin-top:12px}
+.cv-grade{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0 16px}
+.cv-guia{margin-top:8px;padding-left:20px;list-style:disc;display:grid;gap:6px;font:400 13px/20px var(--f);color:var(--ink-3)}
+.cv-lista{display:grid;gap:10px}
+.cv-lista li{display:grid;grid-template-columns:24px minmax(0,1fr) auto;gap:8px;align-items:center;font-size:14px;line-height:22px;color:var(--ink)}
+.cv-lista .ic{font-weight:600;text-align:center}
+.cv-lista li.ok .ic{color:var(--ok)}
+.cv-lista li.no .ic{color:var(--err)}
+.cv-lista li.at .ic{color:var(--warn)}
+.fila .ac{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+
 @media print{ .topo,.trilho,.rodape,.aviso,.acoes,.como{display:none} .duas{grid-template-columns:1fr} }
