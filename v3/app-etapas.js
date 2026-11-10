@@ -17,7 +17,7 @@ TELAS[1]=()=>{
     <h3 class="espaco-p">Porta de entrada: quatro perguntas, nesta ordem</h3><ol class="ativ espaco-p">${PORTA.map(p=>`<li><span class="perg">${esc(p.q)}<small>Se ${p.para}: ${esc(minus(p.efeito))}</small></span></li>`).join("")}</ol>
     <h3 class="espaco">Quatro notas, com o mesmo peso</h3><p class="meta">O valor do projeto é a média das quatro.</p>
     <div class="rolavel"><table class="lista"><thead><tr><th>Nota</th><th>Vale 1</th><th>Vale 3</th><th>Vale 5</th></tr></thead><tbody>
-     <tr><td class="pj"><b>Aderência à missão</b><small>Vem da árvore. Ninguém atribui.</small></td><td>Parcial: não atua em elo da cadeia</td><td>Aderente: atua em elo da cadeia</td><td>Aderente prioritário: elo com estrela</td></tr>
+     <tr><td class="pj"><b>Aderência à missão</b><small>Vem da árvore. Ninguém atribui.</small></td><td>Parcial: não atua em elo da cadeia</td><td>Aderente: atua em elo da cadeia</td><td>Aderente prioritário: atende à regra de prioridade da missão</td></tr>
      ${NOTAS3.map(n=>`<tr><td class="pj"><b>${esc(n.n)}</b><small>${esc(n.q)}</small></td><td>${esc(n.a[1])}</td><td>${esc(n.a[3])}</td><td>${esc(n.a[5])}</td></tr>`).join("")}</tbody></table></div>
     <h3 class="espaco">Farol: quatro itens, fora da nota</h3><p class="meta">Vermelho quando algum item é impedimento. Amarelo quando algum item tem pendência. Verde quando não há pendência.</p>
     <div class="rolavel"><table class="lista"><thead><tr><th>Item</th><th>Impedimento</th><th>Pendência séria</th><th>Pendência administrável</th><th>Sem pendência</th></tr></thead><tbody>
@@ -124,7 +124,7 @@ TELAS[4]=c=>{
      ${o.c==="red"?`<p class="espaco-p">A árvore indica outra missão. Refaça a etapa 4 nela.</p><div class="acoes"><button class="bt" data-acao="arvMissao" data-m="${esc(o.red)}">Refazer na missão ${esc(MISSOES[o.red]||o.red)}</button></div>`
       :`<div class="acoes"><button class="bt" data-acao="arvRegistrar" data-code="${esc(c.code)}">Registrar o resultado da árvore</button></div>`}`; }
   else corpo=`<p class="nota at">A missão ${esc(MISSOES[a.m]||a.m)} ainda não tem árvore carregada. Registre o resultado à mão, com justificativa, ou percorra a árvore de outra missão.</p>
-     <div class="pergunta espaco-p"><h3>Resultado, sem árvore</h3>${ops("a.saida",[["pri","Aderente prioritário: elo com estrela"],["ade","Aderente: atua em elo da cadeia"],["par","Parcial: não atua em elo"],["nad","Não se insere na missão"]],a.saida)}
+     <div class="pergunta espaco-p"><h3>Resultado, sem árvore</h3>${ops("a.saida",[["pri","Aderente prioritário: atende à regra de prioridade da missão"],["ade","Aderente: atua em elo da cadeia"],["par","Parcial: não atua em elo"],["nad","Não se insere na missão"]],a.saida)}
      ${area("a.just","Justificativa","Obrigatória: diga em que cadeia e em que elo o projeto atua.")}</div>
      <div class="acoes"><button class="bt" data-acao="arvManual" data-code="${esc(c.code)}">Registrar o resultado, sem árvore</button></div>`;
   const trilha=st&&st.trilha.length?`<h3 class="espaco">Caminho percorrido</h3><ol class="ativ espaco-p">${st.trilha.map(t=>`<li><span class="perg">${esc(t.t)}<small>${esc(t.r)}</small></span></li>`).join("")}</ol>
