@@ -17,7 +17,7 @@ function semearDemo(){
     if(p.tag){ Object.assign(e.ficha,{pedidoPolitico:true,documento:"Ofício fictício com o pedido formal.",etiqueta:"concedida",etiquetaPor:por}); log(2,"Etiqueta de relevância política concedida."); }
     if(p.ate<3) continue;
     e.ficha.enviada=true; e.ficha.enviadaEm=agora; log(2,"Canvas enviado.");
-    if(p.porta||p.ate>3){ e.porta={completa:"sim",mandato:"sim",repete:"não",medicao:"sim",...(p.porta||{}),just:{},fechada:true,por,em:agora}; log(3,p.porta?"Porta de entrada: saída registrada.":"Canvas aceito na porta de entrada."); }
+    if(p.porta||p.ate>3){ e.porta={completa:"sim",mandato:"sim",repete:"não",medicao:"sim",...(p.porta||{}),just:{},fechada:true,por,em:agora}; log(3,p.porta?"Elegibilidade: saída registrada.":"Canvas aceito na etapa de elegibilidade."); }
     if(p.porta||p.ate<5) continue;
     e.arvore={missao:p.missao,saida:p.arv,titulo:ARV_TXT[p.arv],trilha:[{k:"Exemplo",t:"Percurso fictício da árvore",r:ARV_TXT[p.arv]}],manual:false,por,em:agora}; log(4,"Árvore da missão: "+ARV_TXT[p.arv].toLowerCase()+".");
     if(p.n){ e.leituras={}; p.n.forEach((v,i)=>{ e.leituras["L"+(i+1)]={por:"Leitor "+(i+1)+" (exemplo)",R:v[0],E:v[1],I:v[2],dano:false,just:{},em:agora}; log(5,"Leitura "+(i+1)+" registrada."); }); }
@@ -53,6 +53,13 @@ const Dados={
     pj.forEach(r=>{ est[r.id]=r.dados||{}; });
     return {base,est,canvas,ciclo:(cf.find(r=>r.id==="ciclo")||{}).dados||{}}; },
   async _por(c,id,dados){ const {error}=await this.sb.from("docs").upsert({colecao:c,id,dados,atualizado_em:new Date().toISOString()}); if(error) throw error; },
+
+  /* endereço temporário de um arquivo guardado no banco (documento original do Canvas); fora do banco, devolve o próprio endereço */
+  _urls:{},
+  async urlArquivo(u){ if(this.modo!=="nuvem"||!String(u).startsWith("/_blob/")) return u; const id=String(u).slice(7), g=this._urls[id];
+    if(g&&g.ate>Date.now()) return g.url;
+    const {data,error}=await this.sb.storage.from("canvas").createSignedUrl(id+".pdf",3600); if(error) throw error;
+    this._urls[id]={url:data.signedUrl,ate:Date.now()+3000e3}; return data.signedUrl; },
 
   /* gravação, nos dois modos */
   async gravarProjeto(code,est){ if(this.modo==="demo"){ this._demo.est[code]=est; this._gravaDemo(); return; } await this._por("v3proj",code,est); },

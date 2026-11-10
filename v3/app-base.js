@@ -104,6 +104,7 @@ function render(){
   else if(a==="etiqueta") vEtiqueta(M);
   else if(a==="como") vComo(M);
   else vInicio(M);
+  if(typeof leitorMontar==="function") leitorMontar();
   if(fid){ const el=document.querySelector(`[data-fid="${CSS.escape(fid)}"]`); if(el) el.focus({preventScroll:true}); } }
 function rota(){
   /* aceita "#/etapa/3/F15" e também "#etapa-3-F15" (forma simples, usada onde o endereço só admite letras, números e hífen) */
@@ -117,7 +118,7 @@ const ir=h=>{ h=hx(h); if(location.hash===h||(h==="#"&&!location.hash)) rota(); 
 const soLogado=()=>!!window.SO_LOGADO&&Dados.temNuvem();   /* no site público, nada aparece sem login, nem o exemplo */
 function vEntrada(M){
   M.innerHTML=`<div class="abertura"><h1><span class="leve">Do Canvas à decisão,</span><span class="forte">em nove etapas.</span></h1>
-   <p class="sub">Esta página mostra o caminho que cada projeto percorre até virar prioridade da carteira: regras do ciclo, Canvas, porta de entrada, árvore da missão, notas, farol, recomendação, decisão e registro.</p></div>
+   <p class="sub">Esta página mostra o caminho que cada projeto percorre até virar prioridade da carteira: regras do ciclo, Canvas, elegibilidade, árvore da missão, notas, farol, recomendação, decisão e registro.</p></div>
   <div class="entrada">
    ${soLogado()?"":`<section class="bloco"><h2>Ver com um exemplo fictício</h2><p>Dezesseis projetos inventados, já espalhados pelas nove etapas. Nada é enviado: tudo fica neste navegador.</p><div class="acoes"><button class="bt" data-acao="demo">Abrir o exemplo fictício</button></div></section>`}
    <section class="bloco"><h2>${soLogado()?"Entrar":"Entrar com os projetos reais"}</h2>${Dados.temNuvem()?`<p>Para a equipe do projeto. Use o mesmo e-mail e a mesma senha do site atual.${soLogado()?" Depois de entrar, dá para abrir também um exemplo fictício.":""}</p>
@@ -161,11 +162,15 @@ function vEtapa(M,n,c){
   const ativ=e.ativ.map(a=>Array.isArray(a)?`<li><span><b>${esc(a[0])}</b> ${esc(minus(a[1]))}.</span></li>`
     :a.p?`<li><span class="perg">${esc(a.p)}${a.sim?`<small>Se sim: ${esc(minus(a.sim))}</small>`:""}${a.nao?`<small>Se não: ${esc(minus(a.nao))}</small>`:""}</span></li>`
     :`<li><span class="passa">${esc(a.s)}.</span></li>`).join("");
-  M.innerHTML=`<header><p class="passo">Etapa ${n} de 9</p><h1>${esc(e.t)}</h1><p class="frase">${esc(e.frase)}</p></header>
-   <div class="duas"><aside class="como" aria-label="Como funciona esta etapa">
+  /* na etapa 3, com um projeto aberto, o Canvas fica ao lado das perguntas e o "como funciona" recolhe */
+  const comLeitor=n===3&&!!c&&typeof leitorCanvas==="function";
+  const como=`<aside class="como" aria-label="Como funciona esta etapa">
      <dl><div><dt>Quem faz</dt><dd>${esc(e.faz)}</dd></div><div><dt>Entra</dt><dd>${esc(e.entra)}</dd></div><div><dt>Sai</dt><dd>${esc(e.sai)}</dd></div>${e.etiqueta?`<div><dt>Com etiqueta</dt><dd>${esc(e.etiqueta)}</dd></div>`:""}</dl>
-     <h2>Atividades, na ordem</h2><ol class="ativ">${ativ}</ol></aside>
-    <div class="trabalho">${TELAS[n](c)}</div></div>`; }
+     <h2>Atividades, na ordem</h2><ol class="ativ">${ativ}</ol></aside>`;
+  M.innerHTML=`<header><p class="passo">Etapa ${n} de 9</p><h1>${esc(e.t)}</h1><p class="frase">${esc(e.frase)}</p></header>
+   ${comLeitor?`<details class="como-dobra"><summary>Como funciona esta etapa</summary>${como}</details>
+    <div class="duas com-leitor"><div class="trabalho">${TELAS[n](c)}</div>${leitorCanvas(c)}</div>`
+    :`<div class="duas">${como}<div class="trabalho">${TELAS[n](c)}</div></div>`}`; }
 
 /* ---------- percurso de um projeto pelas nove etapas ---------- */
 function resumoEtapa(c,n){

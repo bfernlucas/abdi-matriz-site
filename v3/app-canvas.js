@@ -140,3 +140,91 @@ ACOES.cvExcluir=d=>{ R.cvExc=d.code; render(); };
 ACOES.cvExcluirNao=()=>{ delete R.cvExc; render(); };
 ACOES.cvExcluirSim=async d=>{ const c=S.canvas[d.code]; delete R.cvExc; if(!c||c.status!=="rascunho"){ render(); return aviso("Só rascunhos podem ser excluídos."); }
   try{ await Dados.excluirCanvas(d.code); delete S.canvas[d.code]; aviso("Rascunho excluído"); }catch(err){ console.error(err); aviso("Não foi excluído. Tente de novo."); } render(); };
+
+/* ===== leitor do Canvas, ao lado das perguntas de elegibilidade (etapa 3) =====
+   Mostra o documento original do Canvas (PDF guardado no banco), quando existe, e o Canvas cadastrado pelo formulário
+   em folhas, no formato de página, para ler, imprimir ou salvar em PDF.
+   O corpo do leitor é reaproveitado de uma resposta para a outra: a leitura não volta ao começo a cada clique. */
+const LEITOR={rota:null,chave:null,node:null,rolagem:0,pdfs:{},carga:null};
+const PDFJS_BASE="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/";
+const LV_VAZIO=`<span class="vazio">Não preenchido</span>`;
+const lvTexto=v=>cvVazio(v)?LV_VAZIO:esc(String(v).trim());
+const lvData=v=>/^\d{4}-\d{2}-\d{2}$/.test(String(v))?dataBR(String(v)):String(v);
+
+/* valor de um campo do formulário, só para leitura */
+function lvValor(D,f){
+  const v=D[f.k];
+  if(f.type==="table"){ const L=cvLinhas(v); if(!L.length) return LV_VAZIO;
+    return `<table><thead><tr>${f.cols.map(c=>`<th scope="col">${esc(c.l)}</th>`).join("")}</tr></thead><tbody>${L.map(r=>`<tr>${f.cols.map(c=>{ const x=r[c.k];
+      return `<td${c.type==="num"?' class="n"':""}>${cvVazio(x)?"":esc(c.type==="date"?lvData(x):c.type==="num"&&/reais/.test(c.l)?brl(num(x)||0):String(x))}</td>`; }).join("")}</tr>`).join("")}</tbody></table>`; }
+  if(f.type==="grades"){ const g=(v||[]).map((n,i)=>+n>0?cvMissao(CV_MISSOES[i])+": grau "+(+n):"").filter(Boolean); return g.length?esc(g.join("; "))+".":LV_VAZIO; }
+  if(f.type==="temas") return (v||[]).length?esc(v.join("; "))+".":LV_VAZIO;
+  if(f.type==="projetos") return (v||[]).length?esc(v.map(k=>k+(S.base[k]?" "+S.base[k].nome:"")).join("; "))+".":`<span class="vazio">Nenhum marcado</span>`;
+  if(f.type==="sel") return cvVazio(v)?LV_VAZIO:esc(f.lab?f.lab(v):v);
+  if(f.type==="num") return cvVazio(v)?LV_VAZIO:esc(brl(num(v)||0));
+  return lvTexto(v); }
+const lvCampos=(D,fs)=>`<dl>${fs.map(f=>`<div${f.type==="table"||f.type==="area"?' class="larga"':""}><dt>${esc(f.l)}</dt><dd>${lvValor(D,f)}</dd></div>`).join("")}</dl>`;
+const lvPares=L=>`<dl>${L.filter(x=>x[2]||!cvVazio(x[1])).map(x=>`<div class="larga"><dt>${esc(x[0])}</dt><dd>${lvTexto(x[1])}</dd></div>`).join("")}</dl>`;
+
+/* o Canvas em folhas: capa e uma folha por seção do formulário; sem formulário, o resumo do que há guardado */
+function cvFolhas(c){
+  const d=S.canvas[c.code], P=[], ciclo=S.ciclo&&S.ciclo.ciclo?" · ciclo "+S.ciclo.ciclo:"";
+  const capa=(D,extra)=>`<p class="rot">Canvas do projeto${esc(ciclo)}</p><h2>${esc(D.nome||c.nome)}</h2><p class="sub">${esc([DIRETORIAS[D.dir]||D.dir,D.unidade].filter(Boolean).join(" · "))}</p>${extra}`;
+  if(d&&d.cv){ const D=cvDados(c.code), tot=cvTotais(D);
+    P.push(["",capa(D,`<dl class="capa"><div><dt>Responsável</dt><dd>${lvTexto(D.resp)}</dd></div><div><dt>Situação</dt><dd>${lvTexto(D.situ)}</dd></div><div><dt>Missão principal</dt><dd>${D.missao?esc(cvMissao(D.missao)):LV_VAZIO}</dd></div><div><dt>Recursos novos pedidos</dt><dd>${esc(brl(num(D.novos)||0))}</dd></div></dl>
+      <h4>Objetivo do projeto</h4><p class="obj">${lvTexto(D.objetivo)}</p>${cvVazio(D.versao)?"":`<p class="meta">Versão: ${esc(D.versao)}</p>`}`)]);
+    CV_PASSOS.slice(1,9).forEach(p=>P.push([p.t,lvCampos(D,p.f)+(p.t==="Orçamento"?`<p class="meta">Total das despesas: ${esc(brl(tot.abdi))} da Agência e ${esc(brl(tot.terc))} de terceiros.</p>`:"")])); }
+  else if(d){ const X=d.pdfx||{};   /* Canvas importado do documento original: só os trechos extraídos */
+    P.push(["",capa(d,`<h4>Objetivo do projeto</h4><p class="obj">${lvTexto(X.objetivo)}</p><p class="meta">Texto extraído do documento original. Confira no PDF quando houver dúvida.</p>`)]);
+    P.push(["Problema, meta e evidência",lvPares([["Problema",d.problema,1],["Meta",d.meta,1],["Evidência",d.evidencia,1]])]);
+    if(X.ent26||X.ent27||X.orc27) P.push(["Entregas e orçamento",lvPares([["Entregas do ciclo anterior",X.ent26],["Entregas previstas",X.ent27],["Orçamento previsto",X.orc27]])]);
+    if(X.ind||X.pil) P.push(["Indicadores e alinhamento",lvPares([["Indicadores",X.ind],["Contribuição para os pilares da Agência",X.pil]])]); }
+  else { P.push(["",capa(c,`<dl class="capa"><div><dt>Missão principal</dt><dd>${esc(MISSOES[c.missao]||"Transversal")}</dd></div><div><dt>Recursos novos pedidos</dt><dd>${esc(brl(+c.novos||0))}</dd></div></dl>
+      <p class="meta">${S.modo==="demo"?"Projeto do exemplo fictício: só o resumo. O Canvas completo aparece aqui para os projetos cadastrados pelo formulário da etapa 2.":"Este projeto não tem o Canvas guardado."}</p>`)]);
+    P.push(["Problema, meta e evidência",lvPares([["Problema",c.problema,1],["Meta",c.meta,1],["Evidência",c.evidencia,1]])]); }
+  return P.map((p,i)=>`<article class="folha${p[0]?"":" capa"}" aria-label="Folha ${i+1} de ${P.length}"><header><span>${esc(c.nome)}</span><span>${esc(c.code)}</span></header>${p[0]?`<h3>${esc(p[0])}</h3>`:""}${p[1]}<footer>Folha ${i+1} de ${P.length}</footer></article>`).join(""); }
+
+/* documentos que o leitor oferece: os PDF originais (só no banco, com arquivos) e o Canvas em folhas */
+function leitorAbas(c){
+  const d=S.canvas[c.code]||null, ax=d&&!window.SEM_ARQUIVOS&&S.modo==="nuvem"&&Array.isArray(d.anexos)?d.anexos:[];
+  return [...ax.map((x,i)=>({k:"p"+i,t:"PDF "+(x.ciclo||i+1),pdf:x})),{k:"c",t:d&&d.cv?"Canvas cadastrado":"Resumo"}]; }
+function leitorCanvas(c){
+  const abas=leitorAbas(c), at=abas.find(a=>a.k===R.doc)||abas[0], chave=c.code+":"+at.k;
+  return `<aside class="leitor" aria-label="Canvas do projeto">
+    <div class="leitor-topo"><div class="opcoes" role="group" aria-label="Documento mostrado">${abas.map(a=>`<button type="button" class="op" data-acao="leitorAba" data-k="${a.k}" data-fid="leitor:${a.k}" aria-pressed="${a.k===at.k}">${esc(a.t)}</button>`).join("")}</div>
+      ${at.pdf?`<button type="button" class="bt sec peq" data-acao="leitorBaixar" data-code="${esc(c.code)}" data-i="${at.k.slice(1)}" data-fid="leitor:baixar">Baixar o PDF</button>`
+        :window.SEM_ARQUIVOS?"":`<button type="button" class="bt sec peq" data-acao="leitorImprimir" data-fid="leitor:imprimir">Imprimir ou salvar em PDF</button>`}</div>
+    ${at.pdf?`<div class="leitor-corpo" id="leitor" tabindex="0" aria-label="Páginas do documento original do Canvas" data-chave="${esc(chave)}" data-url="${esc(at.pdf.url)}"><p class="meta">Abrindo ${esc(at.pdf.nome||"o documento")}.</p></div>`
+      :`<div class="leitor-corpo" id="leitor" tabindex="0" aria-label="Canvas em formato de página" data-chave="${esc(chave)}">${cvFolhas(c)}</div>`}</aside>`; }
+
+/* depois de cada desenho da tela: reaproveita o corpo já aberto ou abre o documento */
+function leitorMontar(){
+  const host=document.getElementById("leitor");
+  if(!host){ LEITOR.node=null; LEITOR.chave=null; return; }
+  if(LEITOR.node&&LEITOR.node!==host&&LEITOR.chave===host.dataset.chave&&LEITOR.rota===ROTA_ANT){ host.replaceWith(LEITOR.node); LEITOR.node.scrollTop=LEITOR.rolagem; return; }
+  LEITOR.rota=ROTA_ANT; LEITOR.chave=host.dataset.chave; LEITOR.node=host; LEITOR.rolagem=0;
+  host.addEventListener("scroll",()=>{ if(LEITOR.node===host) LEITOR.rolagem=host.scrollTop; },{passive:true});
+  if(host.dataset.url) leitorPDF(host,host.dataset.url); }
+const leitorScript=src=>new Promise((ok,erro)=>{ const s=document.createElement("script"); s.src=src; s.onload=()=>ok(); s.onerror=()=>erro(new Error("Não carregou "+src)); document.head.appendChild(s); });
+function leitorPdfjs(){
+  if(window.pdfjsLib) return Promise.resolve(window.pdfjsLib);
+  if(!LEITOR.carga) LEITOR.carga=leitorScript(PDFJS_BASE+"pdf.min.js").then(()=>leitorScript(PDFJS_BASE+"pdf.worker.min.js")).then(()=>window.pdfjsLib).catch(e=>{ LEITOR.carga=null; throw e; });
+  return LEITOR.carga; }
+async function leitorPDF(host,url){
+  try{ const lib=await leitorPdfjs(); let doc=LEITOR.pdfs[url];
+    if(!doc){ doc=await lib.getDocument({url:await Dados.urlArquivo(url)}).promise; LEITOR.pdfs[url]=doc; }
+    if(LEITOR.node!==host) return;   /* trocou de documento enquanto este abria */
+    host.innerHTML=""; const larg=Math.min(host.clientWidth-32,1100)||600, dpr=Math.min(2,window.devicePixelRatio||1);
+    for(let i=1;i<=doc.numPages;i++){ const pg=await doc.getPage(i), v0=pg.getViewport({scale:1}), vp=pg.getViewport({scale:larg/v0.width*dpr});
+      const cv=document.createElement("canvas"); cv.width=vp.width; cv.height=vp.height; cv.setAttribute("role","img"); cv.setAttribute("aria-label","Página "+i+" de "+doc.numPages); host.appendChild(cv);
+      await pg.render({canvasContext:cv.getContext("2d"),viewport:vp}).promise; if(LEITOR.node!==host) return; }
+  }catch(e){ if(LEITOR.node===host) host.innerHTML=`<p class="nota at">Não foi possível abrir o PDF aqui. Use o botão Baixar o PDF ou a aba ao lado.</p>`; } }
+
+ACOES.leitorAba=d=>{ R.doc=d.k; render(); };
+ACOES.leitorBaixar=async d=>{ const c=S.canvas[d.code], a=c&&(c.anexos||[])[+d.i]; if(!a) return;
+  try{ const r=await fetch(await Dados.urlArquivo(a.url)); if(!r.ok) throw new Error(String(r.status));
+    const el=document.createElement("a"), u=URL.createObjectURL(await r.blob()); el.href=u; el.download=a.arquivo||("Canvas_"+d.code+".pdf"); document.body.appendChild(el); el.click(); el.remove(); setTimeout(()=>URL.revokeObjectURL(u),4000); aviso("PDF baixado"); }
+  catch(e){ aviso("Não foi possível baixar agora."); } };
+/* imprime só as folhas do Canvas; na janela de impressão, a pessoa escolhe a impressora ou "salvar em PDF" */
+ACOES.leitorImprimir=()=>{ const fim=()=>{ document.body.classList.remove("imprime-canvas"); window.removeEventListener("afterprint",fim); };
+  document.body.classList.add("imprime-canvas"); window.addEventListener("afterprint",fim); window.print(); };

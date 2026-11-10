@@ -1,4 +1,4 @@
-/* ===== Esteira v3.0 · etapas 1 a 6: regras, Canvas, porta de entrada, árvore, notas e farol ===== */
+/* ===== Esteira v3.0 · etapas 1 a 6: regras, Canvas, elegibilidade, árvore, notas e farol ===== */
 const agora=()=>new Date().toISOString();
 const outros=(n,titulo)=>{ const L=projetos().filter(c=>estacao(c)>n); return L.length?`<section class="bloco"><h2>${esc(titulo)} <span class="tag">${L.length}</span></h2><div class="chips" style="display:flex;flex-wrap:wrap;gap:6px">${L.map(chip).join("")}</div></section>`:""; };
 
@@ -14,7 +14,7 @@ TELAS[1]=()=>{
     ${area("ciclo.obs","O que mudou em relação ao ciclo anterior","Entra no histórico junto com a publicação.")}
     <div class="acoes"><button class="bt" data-acao="publicar">${pub?"Publicar de novo":"Publicar regras"}</button><button class="bt sec" data-acao="guardarCiclo">Guardar sem publicar</button></div></section>
    <section class="bloco"><h2>A régua deste ciclo</h2><p class="nota at">Valores de partida, para discussão. A régua ainda não foi combinada com a Agência.</p>
-    <h3 class="espaco-p">Porta de entrada: quatro perguntas, nesta ordem</h3><ol class="ativ espaco-p">${PORTA.map(p=>`<li><span class="perg">${esc(p.q)}<small>Se ${p.para}: ${esc(minus(p.efeito))}</small></span></li>`).join("")}</ol>
+    <h3 class="espaco-p">Elegibilidade: quatro perguntas, nesta ordem</h3><ol class="ativ espaco-p">${PORTA.map(p=>`<li><span class="perg">${esc(p.q)}<small>Se ${p.para}: ${esc(minus(p.efeito))}</small></span></li>`).join("")}</ol>
     <h3 class="espaco">Quatro notas, com o mesmo peso</h3><p class="meta">O valor do projeto é a média das quatro.</p>
     <div class="rolavel"><table class="lista"><thead><tr><th>Nota</th><th>Vale 1</th><th>Vale 3</th><th>Vale 5</th></tr></thead><tbody>
      <tr><td class="pj"><b>Aderência à missão</b><small>Vem da árvore. Ninguém atribui.</small></td><td>Parcial: não atua em elo da cadeia</td><td>Aderente: atua em elo da cadeia</td><td>Aderente prioritário: atende à regra de prioridade da missão</td></tr>
@@ -45,7 +45,7 @@ TELAS[2]=c=>{
   const pede=rget("f.pedido","não")==="sim";
   return `<section class="bloco">${cabProjeto(c,2)}
     ${cvTemFormulario(c.code)?`<p class="espaco-p"><a class="bt discreto peq" href="#/etapa/2/canvas/${encodeURIComponent(c.code)}">Rever o Canvas cadastrado</a></p>`:""}
-    ${f.enviada?`<p class="nota ok espaco-p">Canvas enviado${f.enviadaEm?" em "+dataBR(f.enviadaEm):""}.</p>`:(e.porta&&e.porta.devolvidaEm?`<p class="nota at espaco-p">O Canvas voltou da porta de entrada para completar: ${esc(e.porta.nota||"")}</p>`:"")}
+    ${f.enviada?`<p class="nota ok espaco-p">Canvas enviado${f.enviadaEm?" em "+dataBR(f.enviadaEm):""}.</p>`:(e.porta&&e.porta.devolvidaEm?`<p class="nota at espaco-p">O Canvas voltou da etapa de elegibilidade para completar: ${esc(e.porta.nota||"")}</p>`:"")}
     <div class="pergunta espaco-p"><h3>É projeto novo ou continuação?</h3><p class="meta">Muda a saída quando o projeto fica abaixo da linha.</p>${ops("f.novo",[["sim","Projeto novo"],["não","Continuação de projeto em execução"]],rget("f.novo"))}</div>
     <div class="pergunta"><h3>Há pedido formal político para este projeto?</h3><p class="meta">Com pedido, a Diretoria Executiva decide se concede a etiqueta de relevância política.</p>${ops("f.pedido",SIMNAO,rget("f.pedido"))}
      ${pede?area("f.documento","Qual documento comprova o pedido?","Pedido formal, instrumento assinado ou política vigente.")+`
@@ -71,7 +71,7 @@ ACOES.enviarFicha=async d=>{ const c=S.base[d.code], f=fichaDoRascunho(c);
   if(f.pedidoPolitico&&!f.etiqueta) return aviso("A Diretoria Executiva ainda não decidiu a etiqueta.");
   const ja=f.enviada; f.enviada=true; f.enviadaEm=f.enviadaEm||agora(); await salvar(c.code,2,ja?"Canvas atualizado.":"Canvas enviado à Unidade de Gestão Estratégica.",ja?"Canvas guardado":"Canvas enviado"); ir("#/etapa/2"); };
 
-/* ---------- etapa 3: porta de entrada ---------- */
+/* ---------- etapa 3: elegibilidade (os nomes internos continuam "porta", para não mudar os dados gravados) ---------- */
 function resultadoPorta(p,tag){
   if(!p.completa) return {tipo:"falta",em:0};
   if(p.completa==="não") return {tipo:"volta",ate:0,txt:"Volta à etapa 2 para completar o Canvas."};
@@ -83,13 +83,13 @@ function resultadoPorta(p,tag){
   if(p.medicao==="não"&&!tag) return {tipo:"saida",ate:3,txt:"Saída: reformular, com a lista do que falta."};
   return {tipo:"aceita",ate:3,txt:p.medicao==="não"?"Canvas aceito, com pendência anotada: falta indicador ou plano de medição. A etiqueta impede que isso barre o projeto.":"Canvas aceito. Segue para a árvore da missão."}; }
 TELAS[3]=c=>{
-  if(!c) return fila(3,"Canvas que aguardam a porta de entrada","Nenhum Canvas aguarda a porta de entrada.")+outros(3,"Já passaram pela porta de entrada");
+  if(!c) return fila(3,"Canvas que aguardam a verificação de elegibilidade","Nenhum Canvas aguarda a verificação de elegibilidade.")+outros(3,"Já passaram pela elegibilidade");
   const e=E(c.code), sv=e.porta||{}, tag=etiquetado(c.code);
   if(!R.ini){ R={ini:1,p:{completa:sv.completa||"",mandato:sv.mandato||"",repete:sv.repete||"",medicao:sv.medicao||"",nota:sv.nota||""}}; }
   const p=R.p, r=resultadoPorta(p,tag), ate=r.tipo==="falta"?r.em:r.ate;
   const irmaos=projetos().filter(x=>x.code!==c.code&&missaoDe(x)===missaoDe(c)).map(x=>x.code+" "+x.nome);
   return `<section class="bloco">${cabProjeto(c,3)}
-    ${sv.fechada?`<p class="nota ok espaco-p">Porta de entrada já registrada. Registrar de novo substitui a resposta anterior.</p>`:""}
+    ${sv.fechada?`<p class="nota ok espaco-p">Elegibilidade já registrada. Registrar de novo substitui a resposta anterior.</p>`:""}
     ${tag?`<p class="nota at espaco-p">Projeto com etiqueta: só o limite legal e a repetição barram. O resto vira pendência anotada.</p>`:""}
     <div class="espaco-p">${PORTA.map((q,i)=>`<div class="pergunta${i>ate?" travada":""}"><h3>${i+1}. ${esc(q.q)}</h3><p class="meta">${esc(q.d)} Se ${q.para}: ${esc(minus(q.efeito))}</p>
       ${q.k==="repete"&&irmaos.length?`<p class="meta">Outros projetos da mesma missão: ${esc(irmaos.slice(0,6).join("; "))}${irmaos.length>6?"; e mais "+(irmaos.length-6):""}.</p>`:""}
