@@ -8,7 +8,7 @@ TELAS[1]=()=>{
   const pub=S.ciclo.publicadoEm, h=(S.ciclo.historico||[]).slice().reverse();
   return `<section class="bloco"><h2>Definidos a cada ciclo</h2>
     ${pub?`<p class="nota ok">Regras publicadas em ${dataBR(pub)} por ${esc(S.ciclo.publicadoPor||"—")}. Mudanças depois disso ficam no histórico.</p>`:`<p class="nota at">Regras ainda não publicadas. As áreas só preenchem o Canvas depois da publicação.</p>`}
-    <div class="grade2">${texto("ciclo.ciclo","Ciclo","Ano da carteira a que as regras se referem.")}${texto("ciclo.teto","Teto de referência, em reais","Dinheiro novo disponível no ano. Quem fixa é a Diretoria Executiva.")}
+    <div class="grade2">${texto("ciclo.ciclo","Ciclo","Ano da carteira a que as regras se referem.")}${texto("ciclo.teto","Teto de referência, em reais","Dinheiro novo disponível no ano. Quem fixa é a Diretoria Executiva.","reais")}
      ${texto("ciclo.tetoFonte","De onde vem o teto","Documento ou decisão que fixou o valor.")}${texto("ciclo.dataFichas","Data limite para enviar os Canvas","","date")}
      ${texto("ciclo.dataDecisao","Data da decisão da Diretoria Executiva","","date")}</div>
     ${area("ciclo.obs","O que mudou em relação ao ciclo anterior","Entra no histórico junto com a publicação.")}
@@ -56,7 +56,7 @@ TELAS[2]=c=>{
 function novoFicticio(){
   if(!R.ini){ R={ini:1,nv:{nome:"",unidade:"",dir:"DISTT",missao:"M4",novos:"",novo:"sim"}}; }
   return `<section class="bloco"><h2>Acrescentar um projeto fictício</h2><p class="meta">Só no exemplo. Atalho para acompanhar um projeto do começo ao fim sem preencher o Canvas inteiro.</p>
-    <div class="grade2">${texto("nv.nome","Nome do projeto")}${texto("nv.unidade","Unidade que propõe")}${texto("nv.novos","Recurso novo pedido, em reais","Deixe em branco se não há pedido novo.")}
+    <div class="grade2">${texto("nv.nome","Nome do projeto")}${texto("nv.unidade","Unidade que propõe")}${texto("nv.novos","Recurso novo pedido, em reais","Deixe em branco se não há pedido novo.","reais")}
     <div class="cmp"><label for="nv-m">Missão principal</label><select id="nv-m" data-rasc="nv.missao">${Object.entries(MISSOES).map(([k,t])=>`<option value="${k}"${rget("nv.missao")===k?" selected":""}>${esc(t)}</option>`).join("")}</select></div></div>
     <div class="cmp"><span class="rot">Diretoria</span>${ops("nv.dir",Object.entries(DIRETORIAS).map(([k,t])=>[k,t]),rget("nv.dir"))}</div>
     <div class="acoes"><button class="bt sec" data-acao="novoFicticio">Acrescentar projeto</button></div></section>`; }
@@ -200,7 +200,7 @@ TELAS[6]=c=>{
   return `<section class="bloco">${cabProjeto(c,6)}
     ${sv.exq?`<p class="nota ok espaco-p">Farol já registrado. Registrar de novo substitui o anterior.</p>`:""}
     <div class="espaco-p">${FAROL.map((it,i)=>`<div class="pergunta"><h3>${esc(it.t)}</h3><p class="meta">${esc(it.q)}</p>${ops("f.i"+i,[5,3,1,0].map(v=>[v,it.a[v]]),f["i"+i]).replace(/data-acao="set"/g,'data-acao="set" data-num="1"')}</div>`).join("")}</div>
-    <h3 class="espaco">Custo confirmado</h3><div class="grade2">${texto("f.comprometido","Dinheiro já comprometido, em reais","Contratos e convênios em vigor.")}${texto("f.novo","Dinheiro novo pedido, em reais","Confira com o valor do Canvas.")}</div>
+    <h3 class="espaco">Custo confirmado</h3><div class="grade2">${texto("f.comprometido","Dinheiro já comprometido, em reais","Contratos e convênios em vigor.","reais")}${texto("f.novo","Dinheiro novo pedido, em reais","Confira com o valor do Canvas.","reais")}</div>
     ${area("f.obs","Observações","Qual é a pendência e o que a resolve.")}
     <p class="espaco" role="status">${cor?`${sinal(cor,true)} <b>${esc(FAROL_TXT[cor])}</b>`:`${`<span class="sinal g" aria-hidden="true"><i></i><i></i><i></i></span>`} <span class="meta">Responda aos quatro itens para o farol acender.</span>`}</p>
     <div class="acoes"><button class="bt" data-acao="farol" data-code="${esc(c.code)}"${cor?"":" disabled"}>Registrar o farol</button></div></section>`; };

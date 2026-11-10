@@ -6,6 +6,11 @@ const nf=(v,d=2)=>v==null||isNaN(v)?"—":new Intl.NumberFormat("pt-BR",{minimum
 const dataBR=iso=>iso?new Date(iso.length===10?iso+"T12:00:00":iso).toLocaleDateString("pt-BR"):"—";
 const dataHora=iso=>iso?new Date(iso).toLocaleString("pt-BR",{dateStyle:"short",timeStyle:"short"}):"—";
 const num=v=>{ const s=String(v==null?"":v).trim(); if(!s) return null; const n=+s.replace(/[^\d,.-]/g,"").replace(/\./g,"").replace(",","."); return isNaN(n)?null:n; };
+/* máscara de valores em reais: "R$ 24.000.000" (até 2 casas decimais, vírgula) */
+function moedaMascara(s){ s=String(s==null?"":s); const i=s.indexOf(","), ip=(i<0?s:s.slice(0,i)).replace(/\D/g,"").replace(/^0+(?=\d)/,""), dp=i<0?"":s.slice(i+1).replace(/\D/g,"").slice(0,2);
+  if(!ip&&i<0) return ""; return "R$ "+(ip||"0").replace(/\B(?=(\d{3})+(?!\d))/g,".")+(i<0?"":","+dp); }
+/* valor guardado (número, "24000000" ou já com máscara) a mostrar no campo */
+function moedaValor(v){ if(typeof v==="number") return isNaN(v)?"":moedaMascara(String(v).replace(".",",")); v=String(v==null?"":v); return moedaMascara(/^\d+(\.\d+)?$/.test(v)?v.replace(".",","):v); }
 const clone=o=>JSON.parse(JSON.stringify(o||{}));
 const minus=t=>t.charAt(0).toLowerCase()+t.slice(1);
 
@@ -68,7 +73,7 @@ function aviso(msg){ const a=$("#aviso"); a.textContent=msg; a.classList.add("on
 function ops(k,lista,atual){ return `<div class="opcoes" role="group">${lista.map(([v,t,cls])=>`<button type="button" class="op ${cls||""}" data-acao="set" data-k="${k}" data-v="${esc(v)}" data-fid="${k}:${esc(v)}" aria-pressed="${String(atual)===String(v)}">${esc(t)}</button>`).join("")}</div>`; }
 const SIMNAO=[["sim","Sim","sim"],["não","Não","nao"]];
 function area(k,rot,dica,linhas){ return `<div class="cmp"><label for="i_${k}">${esc(rot)}</label><textarea id="i_${k}" data-rasc="${k}" rows="${linhas||3}">${esc(rget(k,""))}</textarea>${dica?`<span class="dica">${esc(dica)}</span>`:""}</div>`; }
-function texto(k,rot,dica,tipo){ return `<div class="cmp"><label for="i_${k}">${esc(rot)}</label><input id="i_${k}" type="${tipo||"text"}" data-rasc="${k}" value="${esc(rget(k,""))}">${dica?`<span class="dica">${esc(dica)}</span>`:""}</div>`; }
+function texto(k,rot,dica,tipo){ const m=tipo==="reais"; return `<div class="cmp"><label for="i_${k}">${esc(rot)}</label><input id="i_${k}" type="${m?"text":tipo||"text"}"${m?` inputmode="decimal" autocomplete="off" placeholder="R$ 0" data-moeda="1"`:""} data-rasc="${k}" value="${esc(m?moedaValor(rget(k,"")):rget(k,""))}">${dica?`<span class="dica">${esc(dica)}</span>`:""}</div>`; }
 const sinal=(f,g)=>f?`<span class="sinal ${f}${g?" g":""}" role="img" aria-label="${esc(FAROL_TXT[f])}"><i></i><i></i><i></i></span>`:"";
 const chip=c=>`<a class="chip${etiquetado(c.code)?" etq":""}" href="#/projeto/${encodeURIComponent(c.code)}"><b>${esc(c.code)}</b>${esc(c.nome)}</a>`;
 /* no exemplo fictício, cada projeto diz que caso ele mostra */
@@ -203,7 +208,9 @@ function vProjeto(M,c){
 /* ---------- eventos e partida ---------- */
 document.addEventListener("click",ev=>{ const lk=window.ROTA_SIMPLES&&ev.target.closest('a[href^="#/"]'); if(lk){ ev.preventDefault(); ir(lk.getAttribute("href")); return; }
   const b=ev.target.closest("[data-acao]"); if(!b) return; const f=ACOES[b.dataset.acao]; if(f){ ev.preventDefault(); f(b.dataset,b); } });
-document.addEventListener("input",ev=>{ const t=ev.target; if(t.dataset&&t.dataset.rasc) rset(t.dataset.rasc,t.type==="checkbox"?t.checked:t.value); });
+document.addEventListener("input",ev=>{ const t=ev.target;
+  if(t.dataset&&t.dataset.moeda){ const dig=t.value.slice(0,t.selectionStart==null?t.value.length:t.selectionStart).replace(/[^\d,]/g,"").length, f=moedaMascara(t.value); if(f!==t.value){ t.value=f; let n=0,pos=f.length; if(!dig) pos=Math.min(f.length,f.indexOf("R$ ")===0?3:0); else for(let i=3;i<f.length;i++){ if(/[\d,]/.test(f[i])&&++n===dig){ pos=i+1; break; } } try{ t.setSelectionRange(pos,pos); }catch(e){} } }
+  if(t.dataset&&t.dataset.rasc) rset(t.dataset.rasc,t.type==="checkbox"?t.checked:t.value); });
 document.addEventListener("change",ev=>{ const t=ev.target; if(t.dataset&&t.dataset.muda){ const f=ACOES[t.dataset.muda]; if(f) f(t.dataset,t); } });
 document.addEventListener("submit",ev=>{ if(ev.target.id==="f-login"){ ev.preventDefault(); ACOES.entrar(); } });
 window.addEventListener("hashchange",rota);

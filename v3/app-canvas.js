@@ -59,11 +59,11 @@ function cvCampo(D,f){
   if(f.type==="projetos"){ const L=projetos().filter(x=>x.code!==(R.cv||{}).code);
     return `<div class="cmp"><span class="rot">${esc(rot)}</span>${dica}${L.length?`<div class="opcoes" role="group" style="flex-direction:column;align-items:stretch">${L.map(x=>`<button type="button" class="op" data-acao="cvMarca" data-k="semelhantes" data-v="${esc(x.code)}" data-fid="cv:proj:${esc(x.code)}" aria-pressed="${(v||[]).includes(x.code)}"><b>${esc(x.code)}</b> ${esc(x.nome)}</button>`).join("")}</div>`:`<span class="dica">Ainda não há outros projetos cadastrados.</span>`}</div>`; }
   if(f.type==="table"){ const rows=Array.isArray(v)&&v.length?v:(D[f.k]=[{}]);
-    const cel=(r,i,c)=>{ const kk=k+"."+i+"."+c.k; return c.type==="area"?area(kk,c.l,"",c.rows||2):c.type==="sel"?cvSel(kk,c.l,c.opts,r[c.k]):texto(kk,c.l,"",c.type==="date"?"date":undefined); };
+    const cel=(r,i,c)=>{ const kk=k+"."+i+"."+c.k; return c.type==="area"?area(kk,c.l,"",c.rows||2):c.type==="sel"?cvSel(kk,c.l,c.opts,r[c.k]):texto(kk,c.l,"",c.type==="date"?"date":c.type==="num"&&/reais/.test(c.l)?"reais":undefined); };
     return `<div class="cmp"><span class="rot">${esc(rot)}</span>${dica}
       ${rows.map((r,i)=>`<div class="cv-linha"><div class="cv-grade">${f.cols.map(c=>cel(r||{},i,c)).join("")}</div>${rows.length>1?`<button type="button" class="bt discreto peq" data-acao="cvRemove" data-t="${f.k}" data-i="${i}" data-fid="cv:rm:${f.k}:${i}">Remover</button>`:""}</div>`).join("")}
       <div class="acoes" style="margin-top:12px"><button type="button" class="bt sec peq" data-acao="cvAcrescenta" data-t="${f.k}" data-fid="cv:add:${f.k}">${esc(f.add)}</button></div></div>`; }
-  return texto(k,rot,f.h);   /* texto e valores em reais: o número é convertido ao guardar */
+  return texto(k,rot,f.h,f.type==="num"&&/reais/.test(f.l)?"reais":undefined);   /* texto e valores em reais: o número é convertido ao guardar */
 }
 
 /* ---------- telas ---------- */
