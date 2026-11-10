@@ -61,6 +61,10 @@ const Dados={
     const {data,error}=await this.sb.storage.from("canvas").createSignedUrl(id+".pdf",3600); if(error) throw error;
     this._urls[id]={url:data.signedUrl,ate:Date.now()+3000e3}; return data.signedUrl; },
 
+  /* guarda um arquivo PDF no banco, no mesmo balde dos documentos originais do Canvas */
+  async guardarArquivo(id,bytes){ if(this.modo!=="nuvem") throw new Error("Só há arquivos no banco.");
+    const {error}=await this.sb.storage.from("canvas").upload(id+".pdf",new Blob([bytes],{type:"application/pdf"}),{upsert:true,contentType:"application/pdf"}); if(error) throw error; },
+
   /* gravação, nos dois modos */
   async gravarProjeto(code,est){ if(this.modo==="demo"){ this._demo.est[code]=est; this._gravaDemo(); return; } await this._por("v3proj",code,est); },
   async gravarCiclo(ciclo){ if(this.modo==="demo"){ this._demo.ciclo=ciclo; this._gravaDemo(); return; } await this._por("v3cfg","ciclo",ciclo); },

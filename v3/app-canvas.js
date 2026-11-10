@@ -135,65 +135,123 @@ ACOES.cvCadastrar=async()=>{ const D=R.cv.d, falta=cvVerificar(D).filter(x=>!x.o
   if(falta) return aviso("Faltam "+falta+(falta===1?" item obrigatório.":" itens obrigatórios."));
   const ja=!!(R.cv.code&&S.canvas[R.cv.code]&&S.canvas[R.cv.code].status!=="rascunho"), cd=await cvGravar("enviado",ja?"Alterações guardadas":"Canvas cadastrado"); if(!cd) return;
   const f=E(cd).ficha=E(cd).ficha||{}; f.novo=D.situ==="Projeto novo";   /* a situação do projeto, informada no Canvas, alimenta a pergunta da etapa 2 */
-  await salvar(cd,2,ja?"Canvas revisto.":"Canvas cadastrado.",ja?"Alterações guardadas":"Canvas cadastrado"); ir("#/etapa/2/"+cd); };
+  await salvar(cd,2,ja?"Canvas revisto.":"Canvas cadastrado.",ja?"Alterações guardadas":"Canvas cadastrado"); ir("#/etapa/2/"+cd);
+  /* o arquivo PDF é gerado e guardado depois, sem segurar o cadastro: se a biblioteca ou o banco falharem, o Canvas já está cadastrado */
+  if(S.modo==="nuvem"&&!window.SEM_ARQUIVOS) cvArquivar(cd).then(ok=>{ aviso(ok?"Arquivo PDF do Canvas guardado":"O arquivo PDF não foi guardado agora. Ele pode ser baixado na etapa 3."); if(ok) render(); }); };
 ACOES.cvExcluir=d=>{ R.cvExc=d.code; render(); };
 ACOES.cvExcluirNao=()=>{ delete R.cvExc; render(); };
 ACOES.cvExcluirSim=async d=>{ const c=S.canvas[d.code]; delete R.cvExc; if(!c||c.status!=="rascunho"){ render(); return aviso("Só rascunhos podem ser excluídos."); }
   try{ await Dados.excluirCanvas(d.code); delete S.canvas[d.code]; aviso("Rascunho excluído"); }catch(err){ console.error(err); aviso("Não foi excluído. Tente de novo."); } render(); };
 
-/* ===== leitor do Canvas, ao lado das perguntas de elegibilidade (etapa 3) =====
-   Mostra o documento original do Canvas (PDF guardado no banco), quando existe, e o Canvas cadastrado pelo formulário
-   em folhas, no formato de página, para ler, imprimir ou salvar em PDF.
+/* ===== leitor do Canvas, ao lado do trabalho nas etapas 3, 4 e 5 (elegibilidade, vínculo e pontuação) =====
+   Mostra os documentos do Canvas guardados no banco (o PDF original e o PDF gerado no cadastro) e o Canvas cadastrado
+   pelo formulário em folhas, no formato de página, para ler, baixar em PDF ou imprimir.
    O corpo do leitor é reaproveitado de uma resposta para a outra: a leitura não volta ao começo a cada clique. */
 const LEITOR={rota:null,chave:null,node:null,rolagem:0,pdfs:{},carga:null};
 const PDFJS_BASE="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/";
-const LV_VAZIO=`<span class="vazio">Não preenchido</span>`;
-const lvTexto=v=>cvVazio(v)?LV_VAZIO:esc(String(v).trim());
+const PDFLIB_URL="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js";
+const LV_NADA="Não preenchido", LV_VAZIO=`<span class="vazio">${LV_NADA}</span>`;
 const lvData=v=>/^\d{4}-\d{2}-\d{2}$/.test(String(v))?dataBR(String(v)):String(v);
 
-/* valor de um campo do formulário, só para leitura */
+/* valor de um campo do formulário, só para leitura: texto, tabela ({cols,linhas}) ou null quando está vazio */
 function lvValor(D,f){
   const v=D[f.k];
-  if(f.type==="table"){ const L=cvLinhas(v); if(!L.length) return LV_VAZIO;
-    return `<table><thead><tr>${f.cols.map(c=>`<th scope="col">${esc(c.l)}</th>`).join("")}</tr></thead><tbody>${L.map(r=>`<tr>${f.cols.map(c=>{ const x=r[c.k];
-      return `<td${c.type==="num"?' class="n"':""}>${cvVazio(x)?"":esc(c.type==="date"?lvData(x):c.type==="num"&&/reais/.test(c.l)?brl(num(x)||0):String(x))}</td>`; }).join("")}</tr>`).join("")}</tbody></table>`; }
-  if(f.type==="grades"){ const g=(v||[]).map((n,i)=>+n>0?cvMissao(CV_MISSOES[i])+": grau "+(+n):"").filter(Boolean); return g.length?esc(g.join("; "))+".":LV_VAZIO; }
-  if(f.type==="temas") return (v||[]).length?esc(v.join("; "))+".":LV_VAZIO;
-  if(f.type==="projetos") return (v||[]).length?esc(v.map(k=>k+(S.base[k]?" "+S.base[k].nome:"")).join("; "))+".":`<span class="vazio">Nenhum marcado</span>`;
-  if(f.type==="sel") return cvVazio(v)?LV_VAZIO:esc(f.lab?f.lab(v):v);
-  if(f.type==="num") return cvVazio(v)?LV_VAZIO:esc(brl(num(v)||0));
-  return lvTexto(v); }
-const lvCampos=(D,fs)=>`<dl>${fs.map(f=>`<div${f.type==="table"||f.type==="area"?' class="larga"':""}><dt>${esc(f.l)}</dt><dd>${lvValor(D,f)}</dd></div>`).join("")}</dl>`;
-const lvPares=L=>`<dl>${L.filter(x=>x[2]||!cvVazio(x[1])).map(x=>`<div class="larga"><dt>${esc(x[0])}</dt><dd>${lvTexto(x[1])}</dd></div>`).join("")}</dl>`;
+  if(f.type==="table"){ const L=cvLinhas(v); if(!L.length) return null;
+    return {cols:f.cols.map(c=>({l:c.l,num:c.type==="num"})),linhas:L.map(r=>f.cols.map(c=>{ const x=r[c.k]; return cvVazio(x)?"":c.type==="date"?lvData(x):c.type==="num"&&/reais/.test(c.l)?brl(num(x)||0):String(x); }))}; }
+  if(f.type==="grades"){ const g=(v||[]).map((n,i)=>+n>0?cvMissao(CV_MISSOES[i])+": grau "+(+n):"").filter(Boolean); return g.length?g.join("; ")+".":null; }
+  if(f.type==="temas") return (v||[]).length?v.join("; ")+".":null;
+  if(f.type==="projetos") return (v||[]).length?v.map(k=>k+(S.base[k]?" "+S.base[k].nome:"")).join("; ")+".":"Nenhum marcado";
+  if(cvVazio(v)) return null;
+  if(f.type==="sel") return String(f.lab?f.lab(v):v);
+  if(f.type==="num") return brl(num(v)||0);
+  return String(v).trim(); }
 
-/* o Canvas em folhas: capa e uma folha por seção do formulário; sem formulário, o resumo do que há guardado */
-function cvFolhas(c){
-  const d=S.canvas[c.code], P=[], ciclo=S.ciclo&&S.ciclo.ciclo?" · ciclo "+S.ciclo.ciclo:"";
-  const capa=(D,extra)=>`<p class="rot">Canvas do projeto${esc(ciclo)}</p><h2>${esc(D.nome||c.nome)}</h2><p class="sub">${esc([DIRETORIAS[D.dir]||D.dir,D.unidade].filter(Boolean).join(" · "))}</p>${extra}`;
+/* o Canvas como lista de folhas: capa e uma folha por seção do formulário; sem formulário, o resumo do que há guardado.
+   A mesma lista alimenta as folhas da tela (cvFolhas) e o arquivo PDF (cvPDF). */
+function cvModelo(c){
+  const d=S.canvas[c.code], P=[], ciclo=S.ciclo&&S.ciclo.ciclo?" · ciclo "+S.ciclo.ciclo:"", tx=v=>cvVazio(v)?null:String(v).trim();
+  const capa=(D,pares,obj,nota)=>({capa:1,rot:"Canvas do projeto"+ciclo,nome:D.nome||c.nome,sub:[DIRETORIAS[D.dir]||D.dir,D.unidade].filter(Boolean).join(" · "),pares,obj,nota});
+  const pares=L=>L.filter(x=>x[2]||!cvVazio(x[1])).map(x=>({l:x[0],v:tx(x[1]),larga:1}));
+  const resumo=o=>({t:"Problema, meta e evidência",blocos:pares([["Problema",o.problema,1],["Meta",o.meta,1],["Evidência",o.evidencia,1]])});
   if(d&&d.cv){ const D=cvDados(c.code), tot=cvTotais(D);
-    P.push(["",capa(D,`<dl class="capa"><div><dt>Responsável</dt><dd>${lvTexto(D.resp)}</dd></div><div><dt>Situação</dt><dd>${lvTexto(D.situ)}</dd></div><div><dt>Missão principal</dt><dd>${D.missao?esc(cvMissao(D.missao)):LV_VAZIO}</dd></div><div><dt>Recursos novos pedidos</dt><dd>${esc(brl(num(D.novos)||0))}</dd></div></dl>
-      <h4>Objetivo do projeto</h4><p class="obj">${lvTexto(D.objetivo)}</p>${cvVazio(D.versao)?"":`<p class="meta">Versão: ${esc(D.versao)}</p>`}`)]);
-    CV_PASSOS.slice(1,9).forEach(p=>P.push([p.t,lvCampos(D,p.f)+(p.t==="Orçamento"?`<p class="meta">Total das despesas: ${esc(brl(tot.abdi))} da Agência e ${esc(brl(tot.terc))} de terceiros.</p>`:"")])); }
+    P.push(capa(D,[["Responsável",tx(D.resp)],["Situação",tx(D.situ)],["Missão principal",D.missao?cvMissao(D.missao):null],["Recursos novos pedidos",brl(num(D.novos)||0)]],{l:"Objetivo do projeto",v:tx(D.objetivo)},cvVazio(D.versao)?"":"Versão: "+D.versao));
+    CV_PASSOS.slice(1,9).forEach(p=>P.push({t:p.t,blocos:p.f.map(f=>{ const v=lvValor(D,f); return v&&v.cols?{l:f.l,tab:v,larga:1}:{l:f.l,v,larga:f.type==="area"||f.type==="table"}; }),
+      nota:p.t==="Orçamento"?`Total das despesas: ${brl(tot.abdi)} da Agência e ${brl(tot.terc)} de terceiros.`:""})); }
   else if(d){ const X=d.pdfx||{};   /* Canvas importado do documento original: só os trechos extraídos */
-    P.push(["",capa(d,`<h4>Objetivo do projeto</h4><p class="obj">${lvTexto(X.objetivo)}</p><p class="meta">Texto extraído do documento original. Confira no PDF quando houver dúvida.</p>`)]);
-    P.push(["Problema, meta e evidência",lvPares([["Problema",d.problema,1],["Meta",d.meta,1],["Evidência",d.evidencia,1]])]);
-    if(X.ent26||X.ent27||X.orc27) P.push(["Entregas e orçamento",lvPares([["Entregas do ciclo anterior",X.ent26],["Entregas previstas",X.ent27],["Orçamento previsto",X.orc27]])]);
-    if(X.ind||X.pil) P.push(["Indicadores e alinhamento",lvPares([["Indicadores",X.ind],["Contribuição para os pilares da Agência",X.pil]])]); }
-  else { P.push(["",capa(c,`<dl class="capa"><div><dt>Missão principal</dt><dd>${esc(MISSOES[c.missao]||"Transversal")}</dd></div><div><dt>Recursos novos pedidos</dt><dd>${esc(brl(+c.novos||0))}</dd></div></dl>
-      <p class="meta">${S.modo==="demo"?"Projeto do exemplo fictício: só o resumo. O Canvas completo aparece aqui para os projetos cadastrados pelo formulário da etapa 2.":"Este projeto não tem o Canvas guardado."}</p>`)]);
-    P.push(["Problema, meta e evidência",lvPares([["Problema",c.problema,1],["Meta",c.meta,1],["Evidência",c.evidencia,1]])]); }
-  return P.map((p,i)=>`<article class="folha${p[0]?"":" capa"}" aria-label="Folha ${i+1} de ${P.length}"><header><span>${esc(c.nome)}</span><span>${esc(c.code)}</span></header>${p[0]?`<h3>${esc(p[0])}</h3>`:""}${p[1]}<footer>Folha ${i+1} de ${P.length}</footer></article>`).join(""); }
+    P.push(capa(d,[],{l:"Objetivo do projeto",v:tx(X.objetivo)},"Texto extraído do documento original. Confira no PDF quando houver dúvida."));
+    P.push(resumo(d));
+    if(X.ent26||X.ent27||X.orc27) P.push({t:"Entregas e orçamento",blocos:pares([["Entregas do ciclo anterior",X.ent26],["Entregas previstas",X.ent27],["Orçamento previsto",X.orc27]])});
+    if(X.ind||X.pil) P.push({t:"Indicadores e alinhamento",blocos:pares([["Indicadores",X.ind],["Contribuição para os pilares da Agência",X.pil]])}); }
+  else { P.push(capa(c,[["Missão principal",MISSOES[c.missao]||"Transversal"],["Recursos novos pedidos",brl(+c.novos||0)]],null,
+      S.modo==="demo"?"Projeto do exemplo fictício: só o resumo. O Canvas completo aparece aqui para os projetos cadastrados pelo formulário da etapa 2.":"Este projeto não tem o Canvas guardado."));
+    P.push(resumo(c)); }
+  return P; }
+
+/* as folhas na tela */
+function cvFolhas(c){
+  const P=cvModelo(c), val=v=>v==null?LV_VAZIO:esc(v);
+  const tab=t=>`<table><thead><tr>${t.cols.map(x=>`<th scope="col">${esc(x.l)}</th>`).join("")}</tr></thead><tbody>${t.linhas.map(r=>`<tr>${r.map((x,i)=>`<td${t.cols[i].num?' class="n"':""}>${esc(x)}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+  const dl=(B,cls)=>`<dl${cls?` class="${cls}"`:""}>${B.map(b=>`<div${b.larga?' class="larga"':""}><dt>${esc(b.l)}</dt><dd>${b.tab?tab(b.tab):val(b.v)}</dd></div>`).join("")}</dl>`;
+  return P.map((p,i)=>`<article class="folha${p.capa?" capa":""}" aria-label="Folha ${i+1} de ${P.length}"><header><span>${esc(c.nome)}</span><span>${esc(c.code)}</span></header>${
+    p.capa?`<p class="rot">${esc(p.rot)}</p><h2>${esc(p.nome)}</h2><p class="sub">${esc(p.sub)}</p>${p.pares.length?dl(p.pares.map(x=>({l:x[0],v:x[1]})),"capa"):""}${p.obj?`<h4>${esc(p.obj.l)}</h4><p class="obj">${val(p.obj.v)}</p>`:""}`
+     :`<h3>${esc(p.t)}</h3>${dl(p.blocos)}`}${p.nota?`<p class="meta">${esc(p.nota)}</p>`:""}<footer>Folha ${i+1} de ${P.length}</footer></article>`).join(""); }
+
+/* as mesmas folhas em arquivo PDF, em páginas de proporção 16 por 9; devolve os bytes do arquivo */
+async function cvPDF(c){
+  const {PDFDocument,StandardFonts,rgb}=await leitorPdfLib(), P=cvModelo(c), doc=await PDFDocument.create();
+  const F=await doc.embedFont(StandardFonts.Helvetica), FB=await doc.embedFont(StandardFonts.HelveticaBold), sabe=new Set(F.getCharacterSet());
+  const W=960,H=540,MX=48,BASE=44,LARG=W-2*MX, tinta=rgb(.11,.14,.2), cinza=rgb(.35,.38,.45), risco=rgb(.86,.89,.93), azul=rgb(.09,.24,1), fundo=rgb(.955,.965,.98);
+  /* as fontes padrão do PDF só conhecem o alfabeto latino: o que não existe nelas vira um sinal simples */
+  const limpa=s=>String(s==null?"":s).replace(/\r/g,"").replace(/\t/g," ").replace(/[   ]/g," ").replace(/→/g,"->").replace(/★/g,"*").replace(/≥/g,">=").replace(/≤/g,"<=").replace(/[^\n]/gu,ch=>sabe.has(ch.codePointAt(0))?ch:"?");
+  const quebra=(txt,f,tam,larg)=>{ const out=[];
+    for(const par of limpa(txt).split("\n")){ let l="";
+      for(let w of par.split(" ")){
+        while(f.widthOfTextAtSize(w,tam)>larg&&w.length>1){ let i=w.length; while(i>1&&f.widthOfTextAtSize(w.slice(0,i),tam)>larg) i--; if(l){ out.push(l); l=""; } out.push(w.slice(0,i)); w=w.slice(i); }
+        const t=l?l+" "+w:w; if(l&&f.widthOfTextAtSize(t,tam)>larg){ out.push(l); l=w; } else l=t; }
+      out.push(l); }
+    return out; };
+  let pg=null, y=0, titulo="";
+  function nova(t,cont){ pg=doc.addPage([W,H]); const nm=limpa(c.nome).toUpperCase().slice(0,110), cd=limpa(c.code);
+    pg.drawText(nm,{x:MX,y:H-34,size:8,font:FB,color:cinza}); pg.drawText(cd,{x:W-MX-FB.widthOfTextAtSize(cd,8),y:H-34,size:8,font:FB,color:cinza});
+    pg.drawLine({start:{x:MX,y:H-42},end:{x:W-MX,y:H-42},thickness:.75,color:risco}); y=H-62;
+    if(t){ texto(t+(cont?" (continuação)":""),FB,15,tinta,LARG,MX,20); y-=6; } }
+  function cabe(alt){ if(y-alt<BASE) nova(titulo,1); }
+  function texto(s,f,tam,cor,larg,x,alt){ for(const l of quebra(s,f,tam,larg)){ cabe(alt); pg.drawText(l,{x,y:y-tam,size:tam,font:f,color:cor}); y-=alt; } }
+  function tabela(t){ const peso=t.cols.map((cl,i)=>Math.max(8,Math.min(42,Math.max(cl.l.length,...t.linhas.map(r=>String(r[i]).length))))), soma=peso.reduce((a,b)=>a+b,0), larg=peso.map(v=>LARG*v/soma);
+    const fila=(cel,f,cor)=>{ const Ls=cel.map((x,i)=>quebra(x,f,9,larg[i]-10)), alt=Math.max(...Ls.map(l=>l.length))*12+8; cabe(alt); let x=MX;
+      Ls.forEach((ls,i)=>{ pg.drawRectangle({x,y:y-alt,width:larg[i],height:alt,borderColor:risco,borderWidth:.75,color:cor});
+        ls.forEach((l,k)=>pg.drawText(l,{x:t.cols[i].num&&f===F?x+larg[i]-5-f.widthOfTextAtSize(l,9):x+5,y:y-12-k*12,size:9,font:f,color:tinta})); x+=larg[i]; }); y-=alt; };
+    fila(t.cols.map(cl=>cl.l),FB,fundo); t.linhas.forEach(r=>fila(r,F,undefined)); }
+  for(const p of P){ titulo=p.capa?"":p.t;
+    if(p.capa){ nova(""); y-=36; texto(p.rot,FB,10,azul,LARG,MX,16); y-=6; texto(p.nome,FB,26,tinta,LARG,MX,32); y-=4; if(p.sub) texto(p.sub,F,11,cinza,LARG,MX,16); y-=16;
+      if(p.pares.length){ const lw=LARG/p.pares.length, y0=y; let fim=y;
+        p.pares.forEach((x,i)=>{ y=y0; texto(x[0],FB,9,tinta,lw-14,MX+i*lw,13); texto(x[1]==null?LV_NADA:x[1],F,10.5,x[1]==null?cinza:tinta,lw-14,MX+i*lw,15); fim=Math.min(fim,y); }); y=fim-16; }
+      if(p.obj){ texto(p.obj.l,FB,10,tinta,LARG,MX,15); y-=2; texto(p.obj.v==null?LV_NADA:p.obj.v,F,13,p.obj.v==null?cinza:tinta,LARG,MX,19); y-=8; } }
+    else { nova(p.t); p.blocos.forEach(b=>{ cabe(34); texto(b.l,FB,9,tinta,LARG,MX,13); if(b.tab) tabela(b.tab); else texto(b.v==null?LV_NADA:b.v,F,10.5,b.v==null?cinza:tinta,LARG,MX,15); y-=8; }); }
+    if(p.nota){ y-=2; texto(p.nota,F,9.5,cinza,LARG,MX,14); } }
+  const pgs=doc.getPages(); pgs.forEach((q,i)=>{ const s="Folha "+(i+1)+" de "+pgs.length; q.drawText(s,{x:W-MX-F.widthOfTextAtSize(s,8),y:24,size:8,font:F,color:cinza}); });
+  doc.setTitle(limpa("Canvas "+c.code+" - "+c.nome)); doc.setCreator("Esteira de seleção");
+  return doc.save(); }
+
+/* gera o arquivo PDF do Canvas cadastrado e o guarda no banco, como documento do Canvas. Se falhar, o cadastro continua valendo. */
+async function cvArquivar(code){
+  if(S.modo!=="nuvem"||window.SEM_ARQUIVOS) return false;
+  try{ const bytes=await cvPDF(S.base[code]), id="esteira3-"+code, doc=S.canvas[code], hoje=new Date().toISOString();
+    await Dados.guardarArquivo(id,bytes);
+    doc.anexos=[{id,url:"/_blob/"+id,ciclo:String((S.ciclo&&S.ciclo.ciclo)||""),nome:"Canvas cadastrado na esteira em "+dataBR(hoje),arquivo:"Canvas_"+code+".pdf",gerado:hoje},...(doc.anexos||[]).filter(a=>a.id!==id)];
+    await Dados.gravarCanvas(code,doc); delete LEITOR.pdfs["/_blob/"+id]; delete Dados._urls[id]; return true; }
+  catch(err){ console.warn("Arquivo PDF do Canvas não guardado:",err&&err.message||err); return false; } }
 
 /* documentos que o leitor oferece: os PDF originais (só no banco, com arquivos) e o Canvas em folhas */
 function leitorAbas(c){
   const d=S.canvas[c.code]||null, ax=d&&!window.SEM_ARQUIVOS&&S.modo==="nuvem"&&Array.isArray(d.anexos)?d.anexos:[];
-  return [...ax.map((x,i)=>({k:"p"+i,t:"PDF "+(x.ciclo||i+1),pdf:x})),{k:"c",t:d&&d.cv?"Canvas cadastrado":"Resumo"}]; }
+  return [...ax.map((x,i)=>({k:"p"+i,t:x.gerado?"PDF do cadastro":"PDF "+(x.ciclo||i+1),pdf:x})),{k:"c",t:d&&d.cv?"Canvas cadastrado":"Resumo"}]; }
 function leitorCanvas(c){
   const abas=leitorAbas(c), at=abas.find(a=>a.k===R.doc)||abas[0], chave=c.code+":"+at.k;
   return `<aside class="leitor" aria-label="Canvas do projeto">
     <div class="leitor-topo"><div class="opcoes" role="group" aria-label="Documento mostrado">${abas.map(a=>`<button type="button" class="op" data-acao="leitorAba" data-k="${a.k}" data-fid="leitor:${a.k}" aria-pressed="${a.k===at.k}">${esc(a.t)}</button>`).join("")}</div>
       ${at.pdf?`<button type="button" class="bt sec peq" data-acao="leitorBaixar" data-code="${esc(c.code)}" data-i="${at.k.slice(1)}" data-fid="leitor:baixar">Baixar o PDF</button>`
-        :window.SEM_ARQUIVOS?"":`<button type="button" class="bt sec peq" data-acao="leitorImprimir" data-fid="leitor:imprimir">Imprimir ou salvar em PDF</button>`}</div>
+        :window.SEM_ARQUIVOS?"":`<span class="leitor-botoes"><button type="button" class="bt sec peq" data-acao="leitorGerar" data-code="${esc(c.code)}" data-fid="leitor:gerar">Baixar em PDF</button><button type="button" class="bt discreto peq" data-acao="leitorImprimir" data-fid="leitor:imprimir">Imprimir</button></span>`}</div>
     ${at.pdf?`<div class="leitor-corpo" id="leitor" tabindex="0" aria-label="Páginas do documento original do Canvas" data-chave="${esc(chave)}" data-url="${esc(at.pdf.url)}"><p class="meta">Abrindo ${esc(at.pdf.nome||"o documento")}.</p></div>`
       :`<div class="leitor-corpo" id="leitor" tabindex="0" aria-label="Canvas em formato de página" data-chave="${esc(chave)}">${cvFolhas(c)}</div>`}</aside>`; }
 
@@ -205,7 +263,12 @@ function leitorMontar(){
   LEITOR.rota=ROTA_ANT; LEITOR.chave=host.dataset.chave; LEITOR.node=host; LEITOR.rolagem=0;
   host.addEventListener("scroll",()=>{ if(LEITOR.node===host) LEITOR.rolagem=host.scrollTop; },{passive:true});
   if(host.dataset.url) leitorPDF(host,host.dataset.url); }
-const leitorScript=src=>new Promise((ok,erro)=>{ const s=document.createElement("script"); s.src=src; s.onload=()=>ok(); s.onerror=()=>erro(new Error("Não carregou "+src)); document.head.appendChild(s); });
+function leitorPdfLib(){
+  if(window.PDFLib) return Promise.resolve(window.PDFLib);
+  if(!LEITOR.cargaLib) LEITOR.cargaLib=leitorScript(PDFLIB_URL).then(()=>window.PDFLib).catch(e=>{ LEITOR.cargaLib=null; throw e; });
+  return LEITOR.cargaLib; }
+const leitorScript=src=>new Promise((ok,erro)=>{ const s=document.createElement("script"), t=setTimeout(()=>{ s.remove(); erro(new Error("Demorou demais: "+src)); },20000);
+  s.src=src; s.onload=()=>{ clearTimeout(t); ok(); }; s.onerror=()=>{ clearTimeout(t); erro(new Error("Não carregou: "+src)); }; document.head.appendChild(s); });
 function leitorPdfjs(){
   if(window.pdfjsLib) return Promise.resolve(window.pdfjsLib);
   if(!LEITOR.carga) LEITOR.carga=leitorScript(PDFJS_BASE+"pdf.min.js").then(()=>leitorScript(PDFJS_BASE+"pdf.worker.min.js")).then(()=>window.pdfjsLib).catch(e=>{ LEITOR.carga=null; throw e; });
@@ -221,10 +284,14 @@ async function leitorPDF(host,url){
   }catch(e){ if(LEITOR.node===host) host.innerHTML=`<p class="nota at">Não foi possível abrir o PDF aqui. Use o botão Baixar o PDF ou a aba ao lado.</p>`; } }
 
 ACOES.leitorAba=d=>{ R.doc=d.k; render(); };
+const leitorEntrega=(blob,nome)=>{ const el=document.createElement("a"), u=URL.createObjectURL(blob); el.href=u; el.download=nome; document.body.appendChild(el); el.click(); el.remove(); setTimeout(()=>URL.revokeObjectURL(u),4000); aviso("PDF baixado"); };
 ACOES.leitorBaixar=async d=>{ const c=S.canvas[d.code], a=c&&(c.anexos||[])[+d.i]; if(!a) return;
-  try{ const r=await fetch(await Dados.urlArquivo(a.url)); if(!r.ok) throw new Error(String(r.status));
-    const el=document.createElement("a"), u=URL.createObjectURL(await r.blob()); el.href=u; el.download=a.arquivo||("Canvas_"+d.code+".pdf"); document.body.appendChild(el); el.click(); el.remove(); setTimeout(()=>URL.revokeObjectURL(u),4000); aviso("PDF baixado"); }
+  try{ const r=await fetch(await Dados.urlArquivo(a.url)); if(!r.ok) throw new Error(String(r.status)); leitorEntrega(await r.blob(),a.arquivo||("Canvas_"+d.code+".pdf")); }
   catch(e){ aviso("Não foi possível baixar agora."); } };
+/* gera na hora o arquivo PDF das folhas e o entrega; não grava nada */
+ACOES.leitorGerar=async d=>{ const c=S.base[d.code]; if(!c) return;
+  try{ leitorEntrega(new Blob([await cvPDF(c)],{type:"application/pdf"}),"Canvas_"+d.code+".pdf"); }
+  catch(e){ console.error(e); aviso("Não foi possível gerar o PDF agora. Use Imprimir."); } };
 /* imprime só as folhas do Canvas; na janela de impressão, a pessoa escolhe a impressora ou "salvar em PDF" */
 ACOES.leitorImprimir=()=>{ const fim=()=>{ document.body.classList.remove("imprime-canvas"); window.removeEventListener("afterprint",fim); };
   document.body.classList.add("imprime-canvas"); window.addEventListener("afterprint",fim); window.print(); };

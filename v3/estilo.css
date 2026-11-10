@@ -265,7 +265,7 @@ h3{font:500 18px/26px var(--f);color:var(--ink)}
 .cv-lista li.at .ic{color:var(--warn)}
 .fila .ac{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
 
-/* leitor do Canvas, ao lado das perguntas de elegibilidade (etapa 3) */
+/* leitor do Canvas, ao lado do trabalho nas etapas 3, 4 e 5 */
 .como-dobra{margin-top:24px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:12px 0}
 .como-dobra summary{cursor:pointer;font:500 14px/24px var(--f);color:var(--ink)}
 .como-dobra .como{margin-top:16px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 48px}
@@ -273,6 +273,7 @@ h3{font:500 18px/26px var(--f);color:var(--ink)}
 .duas.com-leitor{grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:32px;margin-top:24px}
 .leitor{position:sticky;top:16px;max-height:calc(100vh - 32px);display:flex;flex-direction:column;min-width:0;border:1px solid var(--line);border-radius:var(--r-xl);overflow:hidden;background:var(--paper)}
 .leitor-topo{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--line)}
+.leitor-botoes{display:flex;gap:8px;flex-wrap:wrap}
 .leitor-corpo{flex:1 1 auto;min-height:320px;overflow:auto;padding:16px;background:var(--sunk);display:grid;gap:16px;align-content:start}
 .leitor-corpo canvas{display:block;width:100%;height:auto;background:#fff;box-shadow:0 0 0 1px var(--line)}
 .folha{background:#fff;box-shadow:0 0 0 1px var(--line);padding:28px 32px 20px;aspect-ratio:16/9;display:flex;flex-direction:column;gap:12px;min-width:0;font-size:13px;line-height:20px;color:var(--ink-2)}
