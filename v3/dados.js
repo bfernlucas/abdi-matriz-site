@@ -6,21 +6,22 @@
      pelo formulário da etapa 2, no mesmo formato da versão 2.0, para que as duas páginas leiam o mesmo documento. */
 /* o que o percurso das nove etapas usa de cada Canvas */
 const baseDoCanvas=(code,d)=>({code,nome:d.nome||code,dir:d.dir||"",unidade:d.unidade||"",missao:MISSOES[d.missao]?d.missao:"T",novos:+d.novos||0,problema:d.problema||"",meta:d.meta||"",evidencia:d.evidencia||""});
-const CHAVE_DEMO="esteira3.exemplo.v1";
+const CHAVE_DEMO="esteira3.exemplo.v2";   /* v2: 33 projetos, com um caso em cada etapa (o exemplo guardado da v1 é deixado de lado) */
 
 function semearDemo(){
   const agora=new Date().toISOString(), por="Exemplo fictício", base={}, est={};
   for(const p of DEMO.projetos){
     base[p.code]={code:p.code,nome:p.nome,dir:p.dir,unidade:p.unidade,missao:p.missao,novos:p.novos,
-      problema:"Texto fictício: o problema que o projeto quer resolver.",meta:"Texto fictício: a meta, com indicador e prazo.",evidencia:"Texto fictício: o que já foi medido."};
+      problema:p.pb||"Texto fictício: o problema que o projeto quer resolver.",meta:p.mt||"Texto fictício: a meta, com indicador e prazo.",evidencia:p.ev||"Texto fictício: o que já foi medido.",licao:p.l||""};
     const e={ficha:{novo:!!p.novo},log:[]}, log=(etapa,oque)=>e.log.push({em:agora,por,etapa,oque}); est[p.code]=e;
     if(p.tag){ Object.assign(e.ficha,{pedidoPolitico:true,documento:"Ofício fictício com o pedido formal.",etiqueta:"concedida",etiquetaPor:por}); log(2,"Etiqueta de relevância política concedida."); }
+    if(p.volta){ e.porta={devolvidaEm:agora,nota:p.volta}; log(2,"Canvas enviado."); log(3,"Canvas devolvido para completar. "+p.volta); }
     if(p.ate<3) continue;
     e.ficha.enviada=true; e.ficha.enviadaEm=agora; log(2,"Canvas enviado.");
     if(p.porta||p.ate>3){ e.porta={completa:"sim",mandato:"sim",repete:"não",medicao:"sim",...(p.porta||{}),just:{},fechada:true,por,em:agora}; log(3,p.porta?"Elegibilidade: saída registrada.":"Canvas aceito na etapa de elegibilidade."); }
     if(p.porta||p.ate<5) continue;
     e.arvore={missao:p.missao,saida:p.arv,titulo:ARV_TXT[p.arv],trilha:[{k:"Exemplo",t:"Percurso fictício da árvore",r:ARV_TXT[p.arv]}],manual:false,por,em:agora}; log(4,"Árvore da missão: "+ARV_TXT[p.arv].toLowerCase()+".");
-    if(p.n){ e.leituras={}; p.n.forEach((v,i)=>{ e.leituras["L"+(i+1)]={por:"Leitor "+(i+1)+" (exemplo)",R:v[0],E:v[1],I:v[2],dano:false,just:{},em:agora}; log(5,"Leitura "+(i+1)+" registrada."); }); }
+    if(p.n){ e.leituras={}; p.n.forEach((v,i)=>{ e.leituras["L"+(i+1)]={por:"Leitor "+(i+1)+" (exemplo)",R:v[0],E:v[1],I:v[2],dano:!!v[3],danoJust:v[3]?"Elimina postos de trabalho sem plano de requalificação.":"",just:"",em:agora}; log(5,"Leitura "+(i+1)+" registrada."); }); }
     if(p.exq){ e.farol={exq:p.exq,comprometido:p.novo?0:Math.round(p.novos*0.4)||1200000,obs:"",por,em:agora}; log(6,"Farol registrado."); }
     if(p.dec){ e.decisao={...p.dec,por:"Diretoria Executiva (exemplo)",em:agora}; log(8,p.dec.tipo==="seguir"?"Decisão: sugestão confirmada.":"Decisão diferente da sugestão, com motivo."); }
   }

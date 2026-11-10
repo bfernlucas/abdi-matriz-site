@@ -315,3 +315,6 @@ h3{font:500 18px/26px var(--f);color:var(--ink)}
   body.imprime-canvas .folha{box-shadow:none;aspect-ratio:auto;min-height:0;break-after:page;page:canvas}
 }
 @page canvas{size:A4 landscape;margin:12mm}
+
+/* exemplo fictício: o caso que cada projeto mostra */
+.fila small.licao{color:var(--accent-2);margin-top:2px}
