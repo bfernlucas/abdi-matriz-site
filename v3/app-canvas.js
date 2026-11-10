@@ -130,14 +130,19 @@ ACOES.cvPasso=d=>{ R.cv.passo=+d.i; render(); window.scrollTo(0,0); };
 ACOES.cvMarca=d=>{ const D=R.cv.d, L=D[d.k]=D[d.k]||[], i=L.indexOf(d.v); if(i>=0) L.splice(i,1); else L.push(d.v); render(); };
 ACOES.cvAcrescenta=d=>{ const D=R.cv.d; (D[d.t]=D[d.t]||[]).push({}); render(); };
 ACOES.cvRemove=d=>{ const D=R.cv.d; (D[d.t]||[]).splice(+d.i,1); if(!(D[d.t]||[]).length) D[d.t]=[{}]; render(); };
-ACOES.cvGuardar=async d=>{ const cd=await cvGravar(); if(!cd) return; if(d.seguir) R.cv.passo=Math.min((+R.cv.passo||0)+1,CV_PASSOS.length-1); render(); if(d.seguir) window.scrollTo(0,0); };
+ACOES.cvGuardar=async d=>{ const cd=await cvGravar(); if(!cd) return; if(d.seguir) R.cv.passo=Math.min((+R.cv.passo||0)+1,CV_PASSOS.length-1); render(); if(d.seguir) window.scrollTo(0,0);
+  /* Canvas já cadastrado: o arquivo PDF guardado acompanha cada alteração, para o leitor das etapas 3 a 5 não mostrar uma versão antiga */
+  if(S.canvas[cd]&&S.canvas[cd].status!=="rascunho") cvArquivarDepois(cd); };
+/* refaz o arquivo PDF pouco depois da última gravação (uma vez só, mesmo com várias gravações seguidas); só no banco */
+function cvArquivarDepois(code){ if(S.modo!=="nuvem"||window.SEM_ARQUIVOS) return; const T=cvArquivarDepois.t=cvArquivarDepois.t||{}; clearTimeout(T[code]);
+  T[code]=setTimeout(()=>{ delete T[code]; cvArquivar(code).then(ok=>{ if(!ok) aviso("O arquivo PDF do Canvas não foi atualizado agora. Ele pode ser baixado na etapa 3."); }); },1200); }
 ACOES.cvCadastrar=async()=>{ const D=R.cv.d, falta=cvVerificar(D).filter(x=>!x.ok&&x.lvl==="req").length;
   if(falta) return aviso("Faltam "+falta+(falta===1?" item obrigatório.":" itens obrigatórios."));
   const ja=!!(R.cv.code&&S.canvas[R.cv.code]&&S.canvas[R.cv.code].status!=="rascunho"), cd=await cvGravar("enviado",ja?"Alterações guardadas":"Canvas cadastrado"); if(!cd) return;
   const f=E(cd).ficha=E(cd).ficha||{}; f.novo=D.situ==="Projeto novo";   /* a situação do projeto, informada no Canvas, alimenta a pergunta da etapa 2 */
   await salvar(cd,2,ja?"Canvas revisto.":"Canvas cadastrado.",ja?"Alterações guardadas":"Canvas cadastrado"); ir("#/etapa/2/"+cd);
   /* o arquivo PDF é gerado e guardado depois, sem segurar o cadastro: se a biblioteca ou o banco falharem, o Canvas já está cadastrado */
-  if(S.modo==="nuvem"&&!window.SEM_ARQUIVOS) cvArquivar(cd).then(ok=>{ aviso(ok?"Arquivo PDF do Canvas guardado":"O arquivo PDF não foi guardado agora. Ele pode ser baixado na etapa 3."); if(ok) render(); }); };
+  if(S.modo==="nuvem"&&!window.SEM_ARQUIVOS){ clearTimeout((cvArquivarDepois.t||{})[cd]); cvArquivar(cd).then(ok=>{ aviso(ok?"Arquivo PDF do Canvas guardado":"O arquivo PDF não foi guardado agora. Ele pode ser baixado na etapa 3."); if(ok) render(); }); } };
 ACOES.cvExcluir=d=>{ R.cvExc=d.code; render(); };
 ACOES.cvExcluirNao=()=>{ delete R.cvExc; render(); };
 ACOES.cvExcluirSim=async d=>{ const c=S.canvas[d.code]; delete R.cvExc; if(!c||c.status!=="rascunho"){ render(); return aviso("Só rascunhos podem ser excluídos."); }

@@ -64,12 +64,13 @@ ACOES.novoFicticio=async()=>{ const v=R.nv||{}; if(!(v.nome||"").trim()) return 
   let i=1; while(S.base["F"+String(i).padStart(2,"0")]) i++; const code="F"+String(i).padStart(2,"0");
   S.base[code]={code,nome:v.nome.trim(),dir:v.dir,unidade:(v.unidade||"").trim()||"Unidade fictícia",missao:v.missao,novos:num(v.novos)||0,problema:"Texto fictício.",meta:"Texto fictício.",evidencia:"Texto fictício."};
   await Dados.gravarBase(code,S.base[code]); E(code); await salvar(code,2,"Projeto fictício acrescentado.","Projeto acrescentado"); ir("#/etapa/2/"+code); };
-function fichaDoRascunho(c){ const f=E(c.code).ficha=E(c.code).ficha||{}, r=R.f||{}; f.novo=r.novo==="sim"; f.pedidoPolitico=r.pedido==="sim"; f.documento=f.pedidoPolitico?(r.documento||"").trim():""; if(!f.pedidoPolitico){ delete f.etiqueta; delete f.etiquetaPor; } return f; }
+/* monta o Canvas do projeto a partir das respostas na tela, numa cópia: só passa a valer quando a ação é aceita (uma resposta desfeita não fica guardada na memória) */
+function fichaDoRascunho(c){ const f={...(E(c.code).ficha||{})}, r=R.f||{}; f.novo=r.novo==="sim"; f.pedidoPolitico=r.pedido==="sim"; f.documento=f.pedidoPolitico?(r.documento||"").trim():""; if(!f.pedidoPolitico){ delete f.etiqueta; delete f.etiquetaPor; } return f; }
 ACOES.etiqueta=async d=>{ const c=S.base[d.code], f=fichaDoRascunho(c); if(!f.documento) return aviso("Informe o documento que comprova o pedido.");
-  f.etiqueta=d.v; f.etiquetaPor=quem(); await salvar(c.code,2,"Etiqueta de relevância política "+d.v+". Documento: "+f.documento,"Etiqueta "+d.v); render(); };
+  f.etiqueta=d.v; f.etiquetaPor=quem(); E(c.code).ficha=f; await salvar(c.code,2,"Etiqueta de relevância política "+d.v+". Documento: "+f.documento,"Etiqueta "+d.v); render(); };
 ACOES.enviarFicha=async d=>{ const c=S.base[d.code], f=fichaDoRascunho(c);
   if(f.pedidoPolitico&&!f.etiqueta) return aviso("A Diretoria Executiva ainda não decidiu a etiqueta.");
-  const ja=f.enviada; f.enviada=true; f.enviadaEm=f.enviadaEm||agora(); await salvar(c.code,2,ja?"Canvas atualizado.":"Canvas enviado à Unidade de Gestão Estratégica.",ja?"Canvas guardado":"Canvas enviado"); ir("#/etapa/2"); };
+  const ja=f.enviada; f.enviada=true; f.enviadaEm=f.enviadaEm||agora(); E(c.code).ficha=f; await salvar(c.code,2,ja?"Canvas atualizado.":"Canvas enviado à Unidade de Gestão Estratégica.",ja?"Canvas guardado":"Canvas enviado"); ir("#/etapa/2"); };
 
 /* ---------- etapa 3: elegibilidade (os nomes internos continuam "porta", para não mudar os dados gravados) ---------- */
 function resultadoPorta(p,tag){
