@@ -114,7 +114,7 @@ TELAS[4]=c=>{
   let corpo="";
   if(tem&&st&&st.atual){ const n=ARVD[a.m].nos[st.atual];
     corpo=`<div class="pergunta"><p class="meta">Pergunta ${esc(n.k||"")}${n.reg?" · registro de vínculo: a resposta não muda o resultado da árvore":""}</p><h3>${esc(n.t)}</h3>${
-      n.lista?`<details class="espaco-p" open><summary class="meta"><b>${esc(n.lista.t)}</b></summary>${n.lista.grupos.map(g=>`<p class="meta"><b>${esc(g[0])}:</b> ${esc(g[1].join("; "))}.</p>`).join("")}</details>`:""}<div class="opcoes" style="flex-direction:column;align-items:stretch">${
+      n.lista?`<details class="espaco-p" open><summary class="meta"><b>${esc(n.lista.t)}</b></summary>${n.lista.grupos.map(g=>`<p class="meta"><b>${esc(g[0])}:</b> ${esc(g[1].join("; "))}.</p>`).join("")}${n.lista.nota?`<p class="meta">${esc(n.lista.nota)}</p>`:""}</details>`:""}<div class="opcoes" style="flex-direction:column;align-items:stretch">${
       n.tipo==="q"?n.opts.map((o,i)=>`<button type="button" class="op" data-acao="arvPasso" data-i="${i}" data-fid="arv:${i}">${esc(o.t)}</button>`).join("")
       :n.elos.map((x,i)=>`<button type="button" class="op" data-acao="arvPasso" data-elo="${i}" data-fid="arv:e${i}">Elo ${i+1}: ${esc(x.t)}${x.pr?` <span class="tag etq">★ cadeia prioritária</span>`:""}</button>`).join("")
        +(n.alts||[]).map((x,i)=>`<button type="button" class="op" data-acao="arvPasso" data-alt="${i}" data-fid="arv:a${i}">${esc(x.t)}</button>`).join("")
