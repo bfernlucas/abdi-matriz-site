@@ -106,10 +106,12 @@ function render(){
   else vInicio(M);
   if(fid){ const el=document.querySelector(`[data-fid="${CSS.escape(fid)}"]`); if(el) el.focus({preventScroll:true}); } }
 function rota(){
-  const nova=location.hash.replace(/^#\/?/,"").split("/").filter(Boolean).map(decodeURIComponent), chave=nova.join("/");
+  /* aceita "#/etapa/3/F15" e também "#etapa-3-F15" (forma simples, usada onde o endereço só admite letras, números e hífen) */
+  const nova=location.hash.replace(/^#\/?/,"").split(/[\/-]/).filter(Boolean).map(decodeURIComponent), chave=nova.join("/");
   const mudou=chave!==ROTA_ANT; if(mudou){ R={}; ROTA_ANT=chave; } ROTA=nova; render();
   if(mudou){ window.scrollTo(0,0); $("#main").focus({preventScroll:true}); } }
-const ir=h=>{ if(location.hash===h) rota(); else location.hash=h; };
+const hx=h=>window.ROTA_SIMPLES?"#"+h.replace(/^#\/?/,"").replace(/\//g,"-"):h;
+const ir=h=>{ h=hx(h); if(location.hash===h||(h==="#"&&!location.hash)) rota(); else location.hash=h; };
 
 /* ---------- entrada: exemplo fictício ou login ---------- */
 const soLogado=()=>!!window.SO_LOGADO&&Dados.temNuvem();   /* no site público, nada aparece sem login, nem o exemplo */
@@ -191,7 +193,8 @@ function vProjeto(M,c){
      <section class="bloco"><h2>Registro</h2>${(E(c.code).log||[]).length?`<ol class="diario">${E(c.code).log.slice().reverse().map(g=>`<li><time>${esc(dataHora(g.em))}</time><span>Etapa ${g.etapa}: ${esc(g.oque)} <span class="meta">${esc(g.por)}</span></span></li>`).join("")}</ol>`:`<p class="meta">Nada registrado ainda.</p>`}</section></div></div>`; }
 
 /* ---------- eventos e partida ---------- */
-document.addEventListener("click",ev=>{ const b=ev.target.closest("[data-acao]"); if(!b) return; const f=ACOES[b.dataset.acao]; if(f){ ev.preventDefault(); f(b.dataset,b); } });
+document.addEventListener("click",ev=>{ const lk=window.ROTA_SIMPLES&&ev.target.closest('a[href^="#/"]'); if(lk){ ev.preventDefault(); ir(lk.getAttribute("href")); return; }
+  const b=ev.target.closest("[data-acao]"); if(!b) return; const f=ACOES[b.dataset.acao]; if(f){ ev.preventDefault(); f(b.dataset,b); } });
 document.addEventListener("input",ev=>{ const t=ev.target; if(t.dataset&&t.dataset.rasc) rset(t.dataset.rasc,t.type==="checkbox"?t.checked:t.value); });
 document.addEventListener("change",ev=>{ const t=ev.target; if(t.dataset&&t.dataset.muda){ const f=ACOES[t.dataset.muda]; if(f) f(t.dataset,t); } });
 document.addEventListener("submit",ev=>{ if(ev.target.id==="f-login"){ ev.preventDefault(); ACOES.entrar(); } });
@@ -201,7 +204,7 @@ async function partida(){
   if(Dados.temNuvem()){
     try{ const sess=await Dados.iniciarNuvem(s=>{ if(s&&!S.modo&&!S.carregando) abrirNuvem(s); else if(!s&&S.modo==="nuvem"){ S.modo=null; S.base={}; S.est={}; render(); } });
       if(sess){ if(demo) ACOES.demo(); else await abrirNuvem(sess); return; } }catch(e){ console.error(e); } }
-  if(demo&&!soLogado()){ ACOES.demo(); return; }
+  if((demo||window.ABRE_EXEMPLO)&&!soLogado()){ ACOES.demo(); return; }   /* ABRE_EXEMPLO: cópia que só tem o exemplo já abre nele */
   rota(); }
 /* só parte depois que todos os arquivos da página carregaram */
 document.addEventListener("DOMContentLoaded",partida);
