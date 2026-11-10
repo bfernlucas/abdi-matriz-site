@@ -5,16 +5,55 @@
      "alts" são respostas alternativas (quase sempre redirecionamentos); "to" é o próximo nó, ou "star" decide pelo ★ do elo.
    Saídas (out): c = pri (aderente prioritário), ade (aderente), par (parcial), des (descartado), nad (não aderente), red (redirecionar para outra missão);
    oe = objetivo específico vinculado ("@cat" usa o mapa catOE da missão); red = missão de destino; prop = 1 marca saída proposta pela equipe onde o quadro do Miro não tinha destino.
-   Fonte: árvores desenhadas pela equipe no quadro de trabalho (Miro), a partir do Plano de Ação 2024–2026 da Nova Indústria Brasil, edição atualizada (Brasil, 2025), e das fontes setoriais indicadas. Transcrição em 8 de novembro de 2026. */
+   Pergunta de registro (reg:1): a resposta não muda o resultado; a opção pode levar um vínculo "v" ({o: objetivo, m: meta}), guardado no percurso.
+   A saída com oe "@vinc" junta o objetivo da categoria (catOE) aos vínculos registrados no caminho.
+   Fonte: árvores desenhadas pela equipe no quadro de trabalho (Miro), a partir do Plano de Ação 2024–2026 da Nova Indústria Brasil, edição atualizada (Brasil, 2025), e das fontes setoriais indicadas. Transcrição em 8 de novembro de 2026; Missão 1 em 10 de novembro de 2026, a partir da planilha de critérios e do quadro. */
 const PCOM="O projeto desenvolve, produz ou fortalece fornecedores, tecnologia ou conteúdo nacional em algum elo da cadeia?";
 const NAO_IND="Descartado: não incentiva a indústria";
 const SAI_PROP="Saída proposta pela equipe (seção 4.3.8 do Produto 3): setor correto, fora dos elos mapeados.";
 const ARVD={
- M1:{nome:"Cadeias agroindustriais sustentáveis e digitais para a segurança alimentar, nutricional e energética",estado:"ausente",
-  meta:"70% da agricultura familiar mecanizada, com máquinas nacionais.",
-  pend:["Árvore ainda não desenhada. Três árvores já redirecionam projetos para esta missão: adoção digital pela agroindústria (Missão 4), drones e máquinas agrícolas (Missões 4 e 6) e bioinsumos agrícolas e alimentos (Missão 5).",
-   "Enquanto não há árvore, o filtro 2 é respondido manualmente e a aderência usa o grau declarado no Canvas, com a marca de provisório.",
-   "A pontuação usa descrições provisórias para a missão: máquinas agrícolas e agricultura de precisão, fertilizantes e bioinsumos, têxtil."]},
+ M1:{nome:"Cadeias agroindustriais sustentáveis e digitais para a segurança alimentar, nutricional e energética",estado:"completa",
+  fonte:"Planilha Matriz de Priorização – Critérios, aba NIB v2 (versão de 10 de novembro de 2026), e moldura \"Árvore de Decisão – Missão 1 NIB\" do quadro de trabalho. Objetivos: incisos oficiais I a VI da missão.",
+  meta:"Crescimento do produto interno bruto da agroindústria de até 3% ao ano em 2024–2026 e até 6% ao ano em 2027–2033; mecanização da agricultura familiar de 28% em 2026 e 35% em 2033; tecnificação da agricultura familiar de 43% em 2026 e 66% em 2033.",
+  catOE:{D:"V"},
+  oes:[["I","Bioinsumos e rotas biotecnológicas no setor alimentício e na produção agropecuária. Vínculo: categoria A, pergunta A2."],["II","Reduzir a dependência externa e adensar a produção nacional de máquinas, implementos agrícolas, fertilizantes e outros insumos. Vínculo: categorias A e B, perguntas A2 e B2."],["III","Conectividade no meio rural e equipamentos e soluções digitais seguras, com rastreabilidade. Vínculo: categoria C, pergunta C3."],["IV","Máquinas, equipamentos e implementos adaptados às necessidades e escalas da agricultura familiar. Vínculo: categoria B, pergunta B3."],["V","Tecnologias para aprimorar a qualidade, agregar valor e reduzir perdas e desperdícios. Vínculo: categoria D, sem pergunta própria."],["VI","Recuperar áreas degradadas. Vínculo: categoria E, pergunta E2."]],
+  regra:"A prioridade vem da pergunta Q1 (elo frágil), e não da estrela ★, que só registra o vínculo com as cadeias prioritárias e com as metas da missão. As perguntas de registro de cada categoria (A2, A3, B2, B3, C3, D2 e E2) anotam vínculos com os objetivos I a VI e com as metas e não mudam o resultado. A pergunta comum não tem adaptação: a adoção sem conteúdo nacional não passa, ao contrário das Missões 4 e 5.",
+  pend:["Não havia árvore anterior desta missão: os elos e a lista de elos frágeis vêm da planilha de critérios e precisam ser conferidos com a fonte setorial usada no preenchimento.",
+   "Fronteira com a Missão 4: a árvore da Missão 4 manda para cá a adoção digital pela agroindústria, mas aqui a pergunta comum descarta a adoção sem conteúdo nacional. Decidir se esse projeto fica descartado ou é avaliado pela regra de adoção da Missão 4.",
+   "O objetivo V não tem pergunta própria na planilha; aqui toda a categoria D vincula-se a ele.",
+   "A pergunta A3 (descentralização dos bioinsumos para o Norte e o Nordeste) não nomeia objetivo; a resposta fica só no caminho percorrido.",
+   "Máquinas sem aplicação agropecuária, fibras sintéticas de origem fóssil e restauração só para conservação ou crédito de carbono não têm missão de destino na planilha; aqui saem como não aderentes, pela resposta \"nenhum dos elos\"."],
+  nos:{
+   p0:{tipo:"q",k:"P0",t:"O projeto atua em alguma cadeia da Missão 1? Em qual?",opts:[
+    {t:"Fertilizantes e bioinsumos",cat:"A",to:"pc"},{t:"Máquinas, implementos e componentes",cat:"B",to:"pc"},{t:"Agricultura de precisão, digital e conectividade",cat:"C",to:"pc"},{t:"Agroindústria e agregação de valor (inclui têxtil do algodão)",cat:"D",to:"pc"},{t:"Recuperação de áreas degradadas",cat:"E",to:"pc"},
+    {t:"Nenhuma dessas",out:{c:"nad",t:"Não se insere na Missão 1"}}]},
+   pc:{tipo:"q",k:"P-comum",el:1,t:PCOM,opts:[{t:"Sim",to:"@cat"},{t:"Não: só adquire, implanta, distribui ou doa máquinas, insumos ou unidades",out:{c:"des",t:"Descartado: não desenvolve fornecedor nem tecnologia"}}]},
+   eA:{tipo:"elo",k:"A1",t:"Em qual elo da cadeia de fertilizantes e bioinsumos o projeto atua?",src:"planilha de critérios, aba NIB v2, linhas A1.1 a A1.9",elos:[
+    {t:"Matérias-primas e insumos básicos (gás natural, enxofre, rocha fosfática, minério potássico)"},{t:"Fertilizantes nitrogenados (amônia, ureia), inclusive rotas de baixo carbono",pr:1},{t:"Fertilizantes fosfatados e potássicos",pr:1},{t:"Formulação, mistura e distribuição (misturadoras, fertilizantes especiais)"},{t:"Fontes alternativas de nutrientes (organominerais, remineralizadores de solo)"},{t:"Produção industrial de bioinsumos (biofertilizantes, inoculantes, biodefensivos)",pr:1},{t:"Biofábricas de pequeno porte e produção na fazenda (cooperativas, agricultura familiar)"},{t:"Tecnologia, regulação e qualidade de bioinsumos"},{t:"Rotas biotecnológicas para o setor alimentício (fermentação, enzimas, proteínas alternativas)"}],
+    alts:[{t:"Biogás, biometano ou hidrogênio para energia ou combustível, sem destinação a fertilizantes",out:{c:"red",red:"M5",t:"Avaliar na Missão 5"}}],none:{out:{c:"nad",t:"Não aderente"}},to:"a2"},
+   a2:{tipo:"q",k:"A2",reg:1,t:"O projeto reduz a importação de nutriente de alta dependência (potássio, nitrogênio) ou atua em elo regulatório pendente da Lei nº 15.070/2024?",opts:[{t:"Sim",v:{o:"I ou II"},to:"a3"},{t:"Não",to:"a3"}]},
+   a3:{tipo:"q",k:"A3",reg:1,t:"O projeto descentraliza a produção de bioinsumos para o Norte e o Nordeste?",opts:[{t:"Sim",to:"q1"},{t:"Não",to:"q1"}]},
+   eB:{tipo:"elo",k:"B1",t:"Em qual elo da cadeia de máquinas, implementos e componentes o projeto atua?",src:"planilha de critérios, aba NIB v2, linhas B1.1 a B1.8",elos:[
+    {t:"Tratores, colheitadeiras e máquinas autopropelidas",pr:1},{t:"Partes e componentes críticos (motores, transmissões, eletrônica embarcada)",pr:1},{t:"Implementos agrícolas (plantadeiras, semeadoras, distribuidores)",pr:1},{t:"Máquinas e equipamentos adaptados à agricultura familiar",pr:1},{t:"Armazenagem e pós-colheita (silos, secadores, armazenagem na fazenda)"},{t:"Equipamentos de irrigação e manejo de água"},{t:"Serviços e uso compartilhado de máquinas"},{t:"Tecnologia, normas e competências (ensaios, certificação, capacitação)"}],
+    alts:[{t:"Robótica ou automação industrial sem aplicação agropecuária",out:{c:"red",red:"M4",t:"Avaliar na Missão 4"}}],none:{out:{c:"nad",t:"Não aderente"}},to:"b2"},
+   b2:{tipo:"q",k:"B2",reg:1,t:"O projeto nacionaliza componente hoje importado ou gera bem credenciável no Finame, a linha de financiamento de máquinas e equipamentos do Banco Nacional de Desenvolvimento Econômico e Social?",opts:[{t:"Sim",v:{o:"II"},to:"b3"},{t:"Não",to:"b3"}]},
+   b3:{tipo:"q",k:"B3",reg:1,t:"O projeto atende agricultura familiar no Norte, no Nordeste ou no semiárido?",opts:[{t:"Sim",v:{o:"IV",m:"mecanização"},to:"q1"},{t:"Não",to:"q1"}]},
+   eC:{tipo:"elo",k:"C1",t:"Em qual elo da agricultura de precisão, digital e conectividade o projeto atua?",src:"planilha de critérios, aba NIB v2, linhas C1.1 a C1.7",elos:[
+    {t:"Drones agrícolas: projeto, fabricação ou integração nacional",pr:1},{t:"Sensores e dispositivos conectados e seus componentes eletrônicos",pr:1},{t:"Sistemas de guiamento e aplicação em taxa variável (se embarcados em máquina, classificar na categoria de máquinas, em partes e componentes críticos)"},{t:"Software, plataformas e dados agro"},{t:"Conectividade da área produtiva (redes privativas, satélite)"},{t:"Rastreabilidade e certificação"},{t:"Serviços tecnológicos e capacitação digital no campo"}],
+    alts:[{t:"Solução digital ou conectividade sem aplicação agropecuária",out:{c:"red",red:"M4",t:"Avaliar na Missão 4"}}],none:{out:{c:"nad",t:"Não aderente"}},to:"c2"},
+   c2:{tipo:"q",k:"C2",t:"Os dados e a tecnologia permanecem sob domínio nacional (propriedade, hospedagem, segurança)?",opts:[{t:"Sim",to:"c3"},{t:"Não",out:{c:"par",t:"Parcial: solução digital sem domínio nacional de dados e tecnologia"}}]},
+   c3:{tipo:"q",k:"C3",reg:1,t:"O projeto atende pequenos produtores, assentamentos ou áreas sem cobertura?",opts:[{t:"Sim",v:{o:"III",m:"tecnificação"},to:"q1"},{t:"Não",to:"q1"}]},
+   eD:{tipo:"elo",k:"D1",t:"Em qual elo da agroindústria e agregação de valor o projeto atua?",src:"planilha de critérios, aba NIB v2, linhas D1.1 a D1.5",elos:[
+    {t:"Processamento e beneficiamento de alimentos"},{t:"Tecnologias de qualidade, conservação e redução de perdas"},{t:"Fiação e tecelagem de algodão",pr:1},{t:"Beneficiamento e acabamento têxtil; fibras naturais de base agrícola",pr:1},{t:"Confecção integrada à cadeia do algodão nacional",pr:1}],
+    alts:[{t:"Química sustentável ou materiais de base renovável, fora da cadeia agroindustrial",out:{c:"red",red:"M5",t:"Avaliar na Missão 5"}}],none:{out:{c:"nad",t:"Não aderente"}},to:"d2"},
+   d2:{tipo:"q",k:"D2",reg:1,t:"O projeto amplia a transformação no país de matéria-prima hoje exportada in natura (pluma, grãos, fibras)?",opts:[{t:"Sim",v:{m:"crescimento do produto interno bruto da agroindústria"},to:"q1"},{t:"Não",to:"q1"}]},
+   eE:{tipo:"elo",k:"E1",t:"Em qual elo da recuperação de áreas degradadas o projeto atua?",src:"planilha de critérios, aba NIB v2, linhas E1.1 a E1.5",elos:[
+    {t:"Insumos para recuperação (corretivos, sementes e mudas forrageiras e florestais)"},{t:"Sistemas integrados e tecnologias de recuperação (lavoura-pecuária-floresta, agroflorestas)"},{t:"Monitoramento e verificação (sensoriamento remoto, carbono no solo, certificação)"},{t:"Cadeia da restauração produtiva (redes de sementes, viveiros, mudas)"},{t:"Modelos de agregação de pequenos produtores (cooperativas, integradoras)"}],
+    alts:[{t:"Restauração florestal com cadeia de produtos florestais, sem produção agropecuária",out:{c:"red",red:"M5",t:"Avaliar na Missão 5"}}],none:{out:{c:"nad",t:"Não aderente"}},to:"e2"},
+   e2:{tipo:"q",k:"E2",reg:1,t:"O projeto converte pastagem degradada em sistema produtivo sem novo desmatamento, em linha com o programa Caminho Verde Brasil?",opts:[{t:"Sim",v:{o:"VI"},to:"q1"},{t:"Não",to:"q1"}]},
+   q1:{tipo:"q",k:"Q1",t:"O projeto atua em um elo frágil da Missão 1?",
+    lista:{t:"Quadro auxiliar: elos frágeis da Missão 1",grupos:[["Dependência externa",["Nitrogenados, potássio e fosfato","Componentes e eletrônica de máquinas","Drones e componentes eletrônicos"]],["Capacidade",["Produção industrial de bioinsumos","Máquinas na escala da agricultura familiar","Fiação e tecelagem","Armazenagem na fazenda"]],["Difusão",["Conectividade da área produtiva","Crédito, assistência técnica e uso coletivo de máquinas","Rastreabilidade de pequenos fornecedores","Recuperação de pastagens por pequenos e médios produtores","Bioinsumos no Norte e Nordeste"]],["Institucional",["Regulamentação dos bioinsumos","Tributação de fertilizantes"]]]},
+    opts:[{t:"Sim",out:{c:"pri",oe:"@vinc"}},{t:"Não",out:{c:"ade",oe:"@vinc"}}]}}},
  M2:{nome:"Complexo econômico-industrial da saúde resiliente para reduzir as vulnerabilidades do Sistema Único de Saúde e ampliar o acesso à saúde",estado:"completa",
   fonte:"Gadelha et al. (2025) para os elos; objetivos II e IV da missão para a pesquisa e desenvolvimento; Portaria GM/MS nº 2.261/2023 para a prioridade.",
   catOE:{A:"2.1 a 2.3",B:"2.3",C:"2.4",D:"2.4",E:"2.4"},
@@ -169,20 +208,26 @@ const ARVD={
 
 /* ===== percurso da árvore (esteira v3.0): mesma lógica da v2.0, sem depender da tela ===== */
 const arvTem=m=>!!(ARVD[m]&&ARVD[m].nos);
-const arvNovo=m=>({m,atual:"p0",cat:null,catNome:null,elo:null,eloK:null,eloPr:false,trilha:[],out:null});
+const arvNovo=m=>({m,atual:"p0",cat:null,catNome:null,elo:null,eloK:null,eloPr:false,trilha:[],vinc:[],out:null});
+/* junta o objetivo da categoria aos vínculos registrados no caminho: "II e IV; meta de mecanização" */
+function arvVinculo(A,st){
+  const un=a=>a.filter((x,i)=>x&&a.indexOf(x)===i), v=st.vinc||[];
+  const o=un([(A.catOE||{})[st.cat],...v.map(x=>x.o)]), m=un(v.map(x=>x.m));
+  const lista=a=>a.length>1?a.slice(0,-1).join(", ")+" e "+a[a.length-1]:a.join("");
+  return [lista(o),lista(m.map(x=>"meta de "+x))].filter(Boolean).join("; "); }
 function arvDestino(A,st,d){
   if(d==null) return null;
   if(typeof d==="string"){
     if(d==="@cat") return {no:"e"+st.cat};
     if(d==="@star"){ const n=A.nos[st.atual]||{}, s=n.star||(A.nos["e"+st.cat]||{}).star||{}; return arvDestino(A,st,st.eloPr?s.pr:s.npr); }
     return {no:d}; }
-  if(d.out) return {out:{...d.out,oe:d.out.oe==="@cat"?(A.catOE||{})[st.cat]:d.out.oe}};
+  if(d.out) return {out:{...d.out,oe:d.out.oe==="@cat"?(A.catOE||{})[st.cat]:d.out.oe==="@vinc"?arvVinculo(A,st):d.out.oe}};
   if(d.to) return arvDestino(A,st,d.to);
   return null; }
 /* escolha: {i} opção de pergunta; {elo} elo da cadeia; {alt} resposta alternativa; {none:1} nenhum dos elos */
 function arvPasso(st,esc_){
-  const A=ARVD[st.m], n=A.nos[st.atual], s={...st,trilha:[...st.trilha]}; let dest=null, resp="";
-  if(n.tipo==="q"){ const o=n.opts[esc_.i]; resp=o.t; if(o.cat){ s.cat=o.cat; s.catNome=o.t; } dest=arvDestino(A,s,o.to!=null?o.to:{out:o.out}); }
+  const A=ARVD[st.m], n=A.nos[st.atual], s={...st,trilha:[...st.trilha],vinc:[...(st.vinc||[])]}; let dest=null, resp="";
+  if(n.tipo==="q"){ const o=n.opts[esc_.i]; resp=o.t; if(o.cat){ s.cat=o.cat; s.catNome=o.t; } if(o.v) s.vinc.push(o.v); dest=arvDestino(A,s,o.to!=null?o.to:{out:o.out}); }
   else if(esc_.elo!=null){ const e=n.elos[esc_.elo]; resp="Elo "+(esc_.elo+1)+": "+e.t+(e.pr?" ★":""); s.elo=e.t; s.eloK=n.k; s.eloPr=!!e.pr; dest=n.star?arvDestino(A,s,s.eloPr?n.star.pr:n.star.npr):arvDestino(A,s,n.to); }
   else if(esc_.alt!=null){ const a=n.alts[esc_.alt]; resp=a.t; dest=arvDestino(A,s,a.to!=null?a.to:{out:a.out}); }
   else { resp="Nenhum dos elos listados"; dest=arvDestino(A,s,n.none.to!=null?n.none.to:{out:n.none.out}); }

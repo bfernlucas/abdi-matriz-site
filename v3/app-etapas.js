@@ -109,13 +109,14 @@ TELAS[4]=c=>{
   const a=R.a, tem=arvTem(a.m), st=a.st, comArvore=Object.keys(MISSOES).filter(arvTem);
   let corpo="";
   if(tem&&st&&st.atual){ const n=ARVD[a.m].nos[st.atual];
-    corpo=`<div class="pergunta"><p class="meta">Pergunta ${esc(n.k||"")}</p><h3>${esc(n.t)}</h3><div class="opcoes" style="flex-direction:column;align-items:stretch">${
+    corpo=`<div class="pergunta"><p class="meta">Pergunta ${esc(n.k||"")}${n.reg?" · registro de vínculo: a resposta não muda o resultado da árvore":""}</p><h3>${esc(n.t)}</h3>${
+      n.lista?`<details class="espaco-p" open><summary class="meta"><b>${esc(n.lista.t)}</b></summary>${n.lista.grupos.map(g=>`<p class="meta"><b>${esc(g[0])}:</b> ${esc(g[1].join("; "))}.</p>`).join("")}</details>`:""}<div class="opcoes" style="flex-direction:column;align-items:stretch">${
       n.tipo==="q"?n.opts.map((o,i)=>`<button type="button" class="op" data-acao="arvPasso" data-i="${i}" data-fid="arv:${i}">${esc(o.t)}</button>`).join("")
       :n.elos.map((x,i)=>`<button type="button" class="op" data-acao="arvPasso" data-elo="${i}" data-fid="arv:e${i}">Elo ${i+1}: ${esc(x.t)}${x.pr?` <span class="tag etq">★ cadeia prioritária</span>`:""}</button>`).join("")
        +(n.alts||[]).map((x,i)=>`<button type="button" class="op" data-acao="arvPasso" data-alt="${i}" data-fid="arv:a${i}">${esc(x.t)}</button>`).join("")
        +(n.none?`<button type="button" class="op" data-acao="arvPasso" data-none="1" data-fid="arv:n">Nenhum dos elos listados</button>`:"")}</div></div>`; }
   else if(tem&&st&&st.out){ const o=st.out, nota=aderencia3(o.c);
-    corpo=`<p class="nota ${o.c==="pri"||o.c==="ade"?"ok":"at"}" role="status"><b>${esc(ARV_TXT[o.c]||o.c)}</b>${nota?`: nota de aderência ${nota}`:""}.${o.t&&o.t!==ARV_TXT[o.c]?" "+esc(o.t)+".":""}${o.d?" "+esc(o.d):""}</p>
+    corpo=`<p class="nota ${o.c==="pri"||o.c==="ade"?"ok":"at"}" role="status"><b>${esc(ARV_TXT[o.c]||o.c)}</b>${nota?`: nota de aderência ${nota}`:""}.${o.t&&o.t!==ARV_TXT[o.c]?" "+esc(o.t)+".":""}${o.d?" "+esc(o.d):""}${o.oe?" Vínculo registrado: objetivo "+esc(o.oe)+".":""}</p>
      ${o.c==="red"?`<p class="espaco-p">A árvore indica outra missão. Refaça a etapa 4 nela.</p><div class="acoes"><button class="bt" data-acao="arvMissao" data-m="${esc(o.red)}">Refazer na missão ${esc(MISSOES[o.red]||o.red)}</button></div>`
       :`<div class="acoes"><button class="bt" data-acao="arvRegistrar" data-code="${esc(c.code)}">Registrar o resultado da árvore</button></div>`}`; }
   else corpo=`<p class="nota at">A missão ${esc(MISSOES[a.m]||a.m)} ainda não tem árvore carregada. Registre o resultado à mão, com justificativa, ou percorra a árvore de outra missão.</p>
