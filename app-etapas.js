@@ -1,19 +1,21 @@
 /* ===== Matriz de priorização da carteira · etapas 1 a 6: regras, Canvas, elegibilidade, árvore, notas e farol ===== */
 const agora=()=>new Date().toISOString();
-const outros=(n,titulo)=>{ const L=projetos().filter(c=>estacao(c)>n); return L.length?`<section class="bloco"><h2>${esc(titulo)} <span class="tag">${L.length}</span></h2><div class="chips" style="display:flex;flex-wrap:wrap;gap:6px">${L.map(chip).join("")}</div></section>`:""; };
+const outros=(n,titulo)=>faixa("",titulo,"Para rever, abra o projeto.",projetos().filter(c=>estacao(c)>n));
 
 /* ---------- etapa 1: regras do ciclo ---------- */
 TELAS[1]=()=>{
   if(!R.ini){ R={ini:1,ciclo:{...clone(S.ciclo),teto:S.ciclo.teto?String(S.ciclo.teto):""}}; }
   const pub=S.ciclo.publicadoEm, h=(S.ciclo.historico||[]).slice().reverse();
-  return `<section class="bloco"><h2>Definidos a cada ciclo</h2>
+  const arq=blocoAvaliacao(), partes=[["ciclo","Definições do ciclo"],["regua","A régua deste ciclo"],...(arq?[["arquivo","Avaliação em arquivo"]]:[]),["historico","Histórico",h.length]];
+  if(!partes.some(x=>x[0]===S.vista.aba1)) S.vista.aba1="ciclo";
+  return abas("aba1",partes,"Partes das regras do ciclo")+abaPainel("aba1","ciclo",`<section class="bloco"><h2>Definidos a cada ciclo</h2>
     ${pub?`<p class="nota ok">Regras publicadas em ${dataBR(pub)} por ${esc(S.ciclo.publicadoPor||"—")}. Mudanças depois disso ficam no histórico.</p>`:`<p class="nota at">Regras ainda não publicadas. As áreas só preenchem o Canvas depois da publicação.</p>`}
     <div class="grade2">${texto("ciclo.ciclo","Ciclo","Ano da carteira a que as regras se referem.")}${texto("ciclo.teto","Teto de referência, em reais","Dinheiro novo disponível no ano. Quem fixa é a Diretoria Executiva.","reais")}
      ${texto("ciclo.tetoFonte","De onde vem o teto","Documento ou decisão que fixou o valor.")}${texto("ciclo.dataFichas","Data limite para enviar os Canvas","","date")}
      ${texto("ciclo.dataDecisao","Data da decisão da Diretoria Executiva","","date")}</div>
     ${area("ciclo.obs","O que mudou em relação ao ciclo anterior","Entra no histórico junto com a publicação.")}
-    <div class="acoes"><button class="bt" data-acao="publicar">${pub?"Publicar de novo":"Publicar regras"}</button><button class="bt sec" data-acao="guardarCiclo">Guardar sem publicar</button></div></section>
-   <section class="bloco"><h2>A régua deste ciclo</h2><p class="nota at">Valores de partida, para discussão. A régua ainda não foi combinada com a Agência.</p>
+    <div class="acoes"><button class="bt" data-acao="publicar">${pub?"Publicar de novo":"Publicar regras"}</button><button class="bt sec" data-acao="guardarCiclo">Guardar sem publicar</button></div></section>`)
+   +abaPainel("aba1","regua",`<section class="bloco"><h2>A régua deste ciclo</h2><p class="nota at">Valores de partida, para discussão. A régua ainda não foi combinada com a Agência.</p>
     <h3 class="espaco-p">Elegibilidade: quatro perguntas, nesta ordem</h3><ol class="ativ espaco-p">${PORTA.map(p=>`<li><span class="perg">${esc(p.q)}<small>Se ${p.para}: ${esc(minus(p.efeito))}</small></span></li>`).join("")}</ol>
     <h3 class="espaco">Quatro notas, com o mesmo peso</h3><p class="meta">O valor do projeto é a média das quatro.</p>
     <div class="rolavel"><table class="lista"><thead><tr><th>Nota</th><th>Vale 1</th><th>Vale 3</th><th>Vale 5</th></tr></thead><tbody>
@@ -35,9 +37,9 @@ TELAS[1]=()=>{
       ["A etiqueta vence o limite legal do papel da Agência?",REGUA3.etiqueta.venceMandato?"Sim":"Não","Ponto em aberto. Hoje: não vence."],
       ["Repetir a entrega de outro projeto tira o projeto do caminho?",REGUA3.repeticaoTira?"Sim":"Não","Regra de 11/11/2026: não tira. O projeto segue, com alerta de repetição. Com sim, a saída seria incorporar."],
       ["Amostra da auditoria",Math.round(REGUA3.amostra.parte*100)+"% dos decididos, mínimo de "+REGUA3.amostra.minimo,"Sorteio com o número "+(S.ciclo.sorteio||REGUA3.amostra.semente)+": com o mesmo número, qualquer pessoa refaz o mesmo sorteio."]
-     ].map(l=>`<tr><td class="pj"><b>${esc(l[0])}</b></td><td class="n">${esc(l[1])}</td><td>${esc(l[2])}</td></tr>`).join("")}</tbody></table></div></section>
-   ${blocoAvaliacao()}
-   <section class="bloco"><h2>Histórico</h2>${h.length?`<ol class="diario">${h.map(g=>`<li><time>${esc(dataHora(g.em))}</time><span>${esc(g.oque)} <span class="meta">${esc(g.por||"")}</span></span></li>`).join("")}</ol>`:`<p class="meta">Nenhuma publicação registrada.</p>`}</section>`; };
+     ].map(l=>`<tr><td class="pj"><b>${esc(l[0])}</b></td><td class="n">${esc(l[1])}</td><td>${esc(l[2])}</td></tr>`).join("")}</tbody></table></div></section>`)
+   +(arq?abaPainel("aba1","arquivo",arq):"")
+   +abaPainel("aba1","historico",`<section class="bloco"><h2>Histórico</h2>${h.length?`<ol class="diario">${h.map(g=>`<li><time>${esc(dataHora(g.em))}</time><span>${esc(g.oque)} <span class="meta">${esc(g.por||"")}</span></span></li>`).join("")}</ol>`:`<p class="meta">Nenhuma publicação registrada.</p>`}</section>`); };
 function lerCiclo(){ const c=R.ciclo||{}, t=num(c.teto); return {...S.ciclo,ciclo:(c.ciclo||"").trim(),teto:t&&t>0?t:null,tetoFonte:c.tetoFonte||"",dataFichas:c.dataFichas||"",dataDecisao:c.dataDecisao||"",obs:c.obs||""}; }
 ACOES.guardarCiclo=async()=>{ S.ciclo=lerCiclo(); try{ await Dados.gravarCiclo(S.ciclo); aviso("Regras guardadas"); }catch(e){ aviso("Não foi gravado. Tente de novo."); } R={}; render(); };
 ACOES.publicar=async()=>{ const c=lerCiclo(); if(!c.ciclo) return aviso("Informe o ciclo.");
@@ -52,7 +54,7 @@ TELAS[2]=c=>{
     const todos=projetos().filter(x=>estacao(x)>2);
     return cvBlocoCadastro()
      +fila(2,"Canvas a enviar","Todos os Canvas foram enviados.")
-     +(todos.length?`<section class="bloco"><h2>Canvas já enviados <span class="tag">${todos.length}</span></h2><ol class="fila">${todos.map(x=>linhaFila(x,2,"Rever")).join("")}</ol></section>`:"")
+     +(todos.length?`<section class="bloco"><details class="dobra-bloco" data-dobra="enviados"${S.vista.dobras.enviados?" open":""}><summary><h2>Canvas já enviados <span class="tag">${todos.length}</span></h2><span class="meta">Abra para rever o Canvas de um projeto.</span></summary><ol class="fila espaco-p">${todos.map(x=>linhaFila(x,2,"Rever")).join("")}</ol></details></section>`:"")
      +(S.modo==="demo"?novoFicticio():""); }
   const e=E(c.code), f=e.ficha||{};
   if(!R.ini){ R={ini:1,f:{novo:ehNovo(c)?"sim":"não",pedido:f.pedidoPolitico?"sim":"não",documento:f.documento||""}}; }

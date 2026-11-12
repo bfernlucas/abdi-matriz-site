@@ -7,7 +7,7 @@
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lato:wght@500&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@500&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
@@ -15,6 +15,7 @@
 <header class="topo">
   <div class="cx topo-in">
     <a class="marca" href="#/">Matriz de priorização 2027</a>
+    <nav id="menu" class="menu" aria-label="Seções"></nav>
     <div id="topo-dir" class="topo-dir"></div>
   </div>
   <div class="filete" aria-hidden="true"></div>
@@ -24,12 +25,12 @@
 <footer class="rodape">
   <div class="cx rodape-in">
     <p>Proposta para discussão. A régua ainda não foi combinada com a Agência.</p>
-    <p><a href="#/como">Glossário e pontos em aberto</a><a href="#/etiqueta">A etiqueta, do início ao fim</a><a href="#/painel">Painel da carteira</a><a href="#/sensibilidade">Análise de sensibilidade</a><a href="#/">Voltar ao início</a></p>
+    <p id="rodape-extra"></p>
   </div>
 </footer>
 <div id="aviso" class="aviso" role="status" aria-live="polite"></div>
 
-<!-- Matriz de priorização da carteira: aplicação web, versão final (4.0). Banco com login; sem ele, a página abre só o exemplo fictício. -->
+<!-- Matriz de priorização da carteira: aplicação web, versão final (4.1: regras da 4.0, interface redesenhada). Banco com login; sem ele, a página abre só o exemplo fictício. -->
 <script>window.SO_LOGADO=true;</script>
 <script>window.NUVEM={url:"https://khppgnjcgeazzhjhjchr.supabase.co",key:"sb_publishable_8v3U3pwBu4Exwlq5Dq6qSg_kGkbFcuF"};</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.min.js"></script>

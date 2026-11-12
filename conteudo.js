@@ -116,6 +116,9 @@ const ABERTOS=["Quem dá as notas e quantos leitores.","Se a etiqueta vence tamb
  "Os parâmetros da análise de sensibilidade (5 e 10 pontos de peso, 3 posições, teto livre de 50% dos pedidos): valores de partida da equipe."];
 
 const MISSOES={M1:"Agroindústria",M2:"Saúde",M3:"Infraestrutura e cidades",M4:"Transformação digital",M5:"Bioeconomia e energia",M6:"Soberania e defesa",T:"Transversal"};
+/* como a missão aparece no quadro da carteira e nas etiquetas: título da coluna e linha de apoio (as cores ficam em estilo.css, classes m-M1 a m-T) */
+const MISSAO_TIT={M1:"Missão 1",M2:"Missão 2",M3:"Missão 3",M4:"Missão 4",M5:"Missão 5",M6:"Missão 6",T:"Transversal"};
+const MISSAO_SUB={...MISSOES,T:"Serve a mais de uma missão"};
 const DIRETORIAS={DISTT:"Industrialização Sustentável e Transformação Tecnológica",DIEI:"Inteligência e Economia da Indústria",PRES:"Presidência"};
 
 /* exemplo fictício: nenhum projeto real. "ate" é a etapa até onde o exemplo já vem preenchido.

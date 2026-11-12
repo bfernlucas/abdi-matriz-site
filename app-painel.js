@@ -78,10 +78,9 @@ function vPainel(M){
   const D=painelDados(), A=D.A, n=D.P.length, av=S.ciclo.avaliacao, julg=A.projetos.filter(o=>o.julg==="Sim").length, usado=D.r.usado;
   const cls=l=>l==="Muda de lado"?"res-par":l==="Acima em todos"?"res-pri":l==="Abaixo em todos"?"res-lar":"res-nada";
   const bloco=(id,tit,sub,corpo)=>`<section class="bloco p-bloco" id="p-${id}"><h2>${esc(tit)}</h2><p class="meta">${sub}</p>${corpo}</section>`;
-  M.innerHTML=`<header><p class="passo"><a href="#/">Início</a></p><h1>Painel da carteira</h1>
-    <p class="frase">A carteira em gráficos: onde os projetos estão, o que a matriz sugere, até onde o dinheiro alcança e quanto a lista depende dos pesos, de quem lê e do teto.</p></header>
-   ${av?`<p class="nota at faixa-aval"><b>${esc(av.titulo||"Avaliação da carteira")}.</b> As notas são da leitura preliminar da equipe: enquanto não forem validadas, os gráficos valem como teste do instrumento. <a href="#/metodo">Como a avaliação foi feita</a></p>`:""}
-   <div class="p-cartoes espaco">
+  M.innerHTML=pgCab({titulo:"Painel da carteira",frase:"A carteira em gráficos: onde os projetos estão, o que a matriz sugere, até onde o dinheiro alcança e quanto a lista depende dos pesos, de quem lê e do teto.",extra:abasPaineis()})
+   +`${av?`<p class="nota at faixa-aval"><b>${esc(av.titulo||"Avaliação da carteira")}.</b> As notas são da leitura preliminar da equipe: enquanto não forem validadas, os gráficos valem como teste do instrumento. <a href="#/metodo">Como a avaliação foi feita</a></p>`:""}
+   <div class="p-cartoes${av?" espaco-p":""}">
      <div><b>${n}</b><span>projetos na carteira</span></div><div><b>${esc(pMi(D.soma))}</b><span>pedidos de recurso novo</span></div>
      <div><b>${A.nBase}</b><span>disputam recurso novo: ${esc(pMi(A.pedidos))}</span></div><div><b>${esc(pMi(D.t.valor-usado))}</b><span>saldo do teto (${esc(D.t.publicado?"teto publicado":Math.round((D.t.parte||1)*100)+"% dos pedidos")})</span></div>
      <div><b>${julg} de ${A.nBase}</b><span>pedem julgamento adicional</span></div></div>
@@ -105,14 +104,14 @@ function vPainel(M){
    </div>
    <div class="p-grade">
    ${bloco("missao","Recurso novo por missão avaliada","Pedidos de cada missão: a parte com sugestão de priorizar e o restante.",
-     (()=>{ const mx=Math.max(1,...D.mis.map(o=>o.rs)); return `<div class="p-barras longo">${D.mis.map(o=>`<div class="p-b"><span class="r">${esc(o.nome)}</span><span class="t"><i style="width:${(o.rsPri/mx*100).toFixed(2)}%;background:${COR_SAIDA.priorizar}"${pTip(o.nome+": "+brl(o.rsPri)+" com sugestão de priorizar ("+o.pri+" de "+o.n+" projetos)")}></i><i class="resto" style="width:${((o.rs-o.rsPri)/mx*100).toFixed(2)}%;background:${COR_SAIDA.caminho}"${pTip(o.nome+": "+brl(o.rs-o.rsPri)+" em pedidos sem sugestão de priorizar")}></i><b>${o.pri} de ${o.n} · ${esc(pMi(o.rsPri))}</b></span></div>`).join("")}</div>`; })()
+     (()=>{ const mx=Math.max(1,...D.mis.map(o=>o.rs)); return `<div class="p-barras longo">${D.mis.map(o=>`<div class="p-b"><span class="r m-${o.m}"><i></i>${esc(o.nome)}</span><span class="t"><i style="width:${(o.rsPri/mx*100).toFixed(2)}%;background:${COR_SAIDA.priorizar}"${pTip(o.nome+": "+brl(o.rsPri)+" com sugestão de priorizar ("+o.pri+" de "+o.n+" projetos)")}></i><i class="resto" style="width:${((o.rs-o.rsPri)/mx*100).toFixed(2)}%;background:${COR_SAIDA.caminho}"${pTip(o.nome+": "+brl(o.rs-o.rsPri)+" em pedidos sem sugestão de priorizar")}></i><b>${o.pri} de ${o.n} · ${esc(pMi(o.rsPri))}</b></span></div>`).join("")}</div>`; })()
      +pLegenda([[COR_SAIDA.priorizar,"Com sugestão de priorizar"],[COR_SAIDA.caminho,"Demais pedidos"]])+pTabela(["Missão avaliada","Projetos","Com sugestão de priorizar","Recurso com sugestão de priorizar","Recurso pedido"],D.mis.map(o=>[o.nome,o.n,o.pri,brl(o.rsPri),brl(o.rs)]),[1,2,3,4]))}
    ${bloco("abdi","Vínculo com a ABDI 5.0","Projetos que contribuem por cada eixo. Um projeto pode contribuir por mais de um."+(D.semAbdi?` ${D.semAbdi} ainda sem vínculo definido.`:""),
      pBarras(D.eixos.map(o=>[o.nome,o.n,o.n+" de "+n,o.nome+": "+o.n+" de "+n+" projetos; "+o.pri+" com sugestão de priorizar"]),"#183EFF")+pTabela(["Eixo","Projetos com vínculo","Com sugestão de priorizar"],D.eixos.map(o=>[o.nome,o.n,o.pri]),[1,2]))}
    </div>
    ${A.nBase?bloco("sens","Análise de sensibilidade: quem é estável e quem pede julgamento adicional",`Posição de cada projeto na fila quando mudam os pesos e quem lê, e de que lado da linha ele fica em quatro tetos, nos ${A.nCont} cenários. <a href="#/sensibilidade">Abrir a análise completa</a>`,
      `<div class="rolavel"><table class="lista p-sens"><thead><tr><th>Projeto</th><th>Posição na fila: 1ª à esquerda, ${A.nBase}ª à direita</th>${A.tetos.map(x=>`<th>${esc(x.nome)}</th>`).join("")}<th>Julgamento adicional?</th></tr></thead>
-       <tbody>${A.projetos.filter(o=>o.naDisputa).map(o=>`<tr><td class="pj"><a href="#/projeto/${encodeURIComponent(o.code)}"><b>${esc(o.code)}</b></a>${esc(o.nome)}</td>
+       <tbody>${A.projetos.filter(o=>o.naDisputa).map(o=>`<tr><td class="pj ${S.base[o.code]?mk(S.base[o.code]):""}"><a href="#/projeto/${encodeURIComponent(o.code)}"><b>${esc(o.code)}</b></a>${esc(o.nome)}</td>
          <td${pTip(o.code+": "+o.pos+"ª na base\nCom pequenas alterações de peso: da "+o.melhor17+"ª à "+o.pior17+"ª\nEm todos os cenários de pesos e de leitores: da "+o.melhor25+"ª à "+o.pior25+"ª")}>${pFaixaPos(o,A.nBase)}</td>
          ${o.leitura.map((x,k)=>`<td><span class="tag ${cls(x)}"${pTip(o.code+", "+A.tetos[k].nome+": acima da linha em "+o.acima[k]+" de "+A.nCont+" cenários")}>${o.acima[k]} de ${A.nCont}</span></td>`).join("")}
          <td>${o.julg==="Sim"?`<span class="tag res-par">Sim</span>`:`<span class="tag res-ade">Não</span>`}</td></tr>`).join("")}</tbody></table></div>
