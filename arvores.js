@@ -1,4 +1,4 @@
-/* ================= v2.0 · árvores de decisão por missão, em formato percorrível ================= */
+/* ================= Matriz de priorização · árvores de decisão das seis missões, em formato percorrível ================= */
 /* Cada missão é um grafo de nós. Tipos de nó:
    - q: pergunta com opções; cada opção leva a outro nó ("to"), à categoria escolhida ("@cat"), à regra de cadeia prioritária ("@star") ou a uma saída ("out").
    - elo: lista de elos da cadeia da categoria; o elo escolhido pode ter pr:1 (cadeia prioritária ★). "none" é a saída para quem não atua em nenhum elo;
@@ -187,12 +187,12 @@ const ARVD={
    q:{tipo:"q",k:"Q",t:"O elo consta das prioridades de financiamento à inovação da Nova Indústria Brasil para a Missão 5?",
     lista:{t:"Quadro auxiliar: prioridades de financiamento à inovação da Missão 5",grupos:[["Linhas não reembolsáveis (Mais Inovação Brasil, bioeconomia e transição energética, R$ 700 milhões, 2024 a 2026)",["Redução da pegada de carbono (captura e armazenamento), substituição de fósseis por renováveis e biocombustíveis do futuro","Componentes e equipamentos para renováveis: células fotovoltaicas, aerogeradores, eletrolisadores e células a combustível","Minerais estratégicos; armazenamento de energia (baterias, hidrogênio subterrâneo) e estocagem de carbono","Transmissão em ultra alta tensão e resiliência do sistema interligado","Químicos, bioprodutos e bioinsumos de fontes renováveis; biorrefinarias integradas"]],["Crédito à inovação",["Bioprodutos e bioinsumos da sociobioeconomia florestal","Biotecnologia para geração e processamento de biomassa","Captura de carbono","Diesel verde, combustíveis sintéticos e combustível sustentável de aviação","Hidrogênio de baixo carbono (equipamentos, produção, armazenamento, transporte e uso)","Armazenamento de energia, aerogeradores, células fotovoltaicas e refino de materiais"]]]},
     opts:[{t:"Sim",out:{c:"pri",oe:"@cat"}},{t:"Não",out:{c:"ade",oe:"@cat"}}]}}},
- M6:{nome:"Tecnologias de interesse para a soberania e a defesa nacionais",estado:"rascunho",
+ M6:{nome:"Tecnologias de interesse para a soberania e a defesa nacionais",estado:"completa",
   fonte:"Cadeias de veículos lançadores e satélites a partir de Matos (2016) e Instituto de Economia da Universidade Estadual de Campinas (2026); radares a partir de Vianello (2016) e da mesma fonte.",
   catOE:{A:"6.1 ou 6.2",B:"6.1 ou 6.2",C:"6.1 ou 6.2"},
   oes:[["6.1","Domínio de tecnologias críticas (materiais, propulsão, controle e comunicações): 55% em 2026 e 75% em 2033; ponto de partida 42,7%."],["6.2","Adensamento das cadeias de defesa e aeroespacial (micro e nanoeletrônica, sensoriamento remoto, áreas cibernética, nuclear e espacial), sem meta."],["6.3","Tecnologias duais e exportação, sem meta."]],
   regra:"Atuar em elo ★, ou em área citada nos objetivos oficiais (materiais, propulsão, controle, comunicações, micro e nanoeletrônica, sensoriamento remoto), torna o projeto aderente prioritário; uso dual ou potencial de exportação acrescenta o vínculo com o objetivo 6.3.",
-  pend:["Árvore em rascunho avançado no quadro.","Não há pergunta de financiamento nem painel de fontes, ao contrário das Missões 4 e 5.","A legenda do quadro dizia que a prioridade vinha das perguntas 2 ou 3; foi alinhada ao fluxo em 10 de novembro de 2026 (decisão 2 da revisão transversal): só a pergunta 2 qualifica, e a pergunta 3 acrescenta o vínculo com o objetivo 6.3. Validar com quem desenhou a árvore."],
+  pend:["Não há pergunta de financiamento nem painel de fontes, ao contrário das Missões 4 e 5.","A legenda do quadro dizia que a prioridade vinha das perguntas 2 ou 3; foi alinhada ao fluxo em 10 de novembro de 2026 (decisão 2 da revisão transversal): só a pergunta 2 qualifica, e a pergunta 3 acrescenta o vínculo com o objetivo 6.3. Validar com quem desenhou a árvore."],
   nos:{
    p0:{tipo:"q",k:"P0",t:"Em qual setor o projeto atua?",opts:[
     {t:"Veículos lançadores",cat:"A",to:"pc"},{t:"Satélites",cat:"B",to:"pc"},{t:"Radares",cat:"C",to:"pc"},
@@ -212,7 +212,7 @@ const ARVD={
    g2:{tipo:"q",k:"2",t:"O projeto atua em um elo ★, ou envolve materiais, propulsão, controle, comunicações, micro e nanoeletrônica ou sensoriamento remoto?",opts:[{t:"Sim",to:"g3"},{t:"Não",out:{c:"ade",oe:"@cat"}}]},
    g3:{tipo:"q",k:"3",t:"O projeto tem uso dual (civil e militar) ou potencial de exportação?",opts:[{t:"Sim",out:{c:"pri",oe:"6.1 ou 6.2, e 6.3"}},{t:"Não",out:{c:"pri",oe:"6.1 ou 6.2"}}]}}}};
 
-/* ===== percurso da árvore (esteira v3.0): mesma lógica da v2.0, sem depender da tela ===== */
+/* ===== percurso da árvore: funções puras, sem depender da tela ===== */
 const arvTem=m=>!!(ARVD[m]&&ARVD[m].nos);
 const arvNovo=m=>({m,atual:"p0",cat:null,catNome:null,elo:null,eloK:null,eloPr:false,trilha:[],vinc:[],out:null});
 /* junta o objetivo da categoria aos vínculos registrados no caminho: "II e IV; meta de mecanização" */

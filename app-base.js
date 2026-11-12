@@ -1,4 +1,4 @@
-/* ===== Esteira v3.0 · estado, cálculo e moldura ===== */
+/* ===== Matriz de priorização da carteira · estado, cálculo e moldura ===== */
 const $=(s,r=document)=>r.querySelector(s);
 const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const brl=v=>new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL",maximumFractionDigits:0}).format(+v||0);
@@ -14,7 +14,7 @@ function moedaValor(v){ if(typeof v==="number") return isNaN(v)?"":moedaMascara(
 const clone=o=>JSON.parse(JSON.stringify(o||{}));
 const minus=t=>t.charAt(0).toLowerCase()+t.slice(1);
 
-const S={modo:null,usuario:{nome:"Visitante",papel:UGE},base:{},est:{},canvas:{},ciclo:{},cenario:1,erro:"",carregando:false};   /* canvas: os Canvas como estão guardados, com os rascunhos */
+const S={modo:null,usuario:{nome:"Visitante",papel:UGE},base:{},est:{},canvas:{},ciclo:{},cenario:1,sens:{},erro:"",carregando:false};   /* canvas: os Canvas como estão guardados, com os rascunhos */
 let R={}, ROTA=[], ROTA_ANT=null, _rec=null;
 const TELAS={}, ACOES={};
 const rget=(k,d)=>{ const v=k.split(".").reduce((o,p)=>o==null?o:o[p],R); return v==null?d:v; };
@@ -22,48 +22,37 @@ const rset=(k,v)=>{ const ps=k.split("."); let o=R; ps.slice(0,-1).forEach(p=>{ 
 const quem=()=>S.usuario.nome+" ("+S.usuario.papel+")";
 const projetos=()=>Object.values(S.base).sort((a,b)=>String(a.code).localeCompare(String(b.code),"pt-BR",{numeric:true}));
 const rotSaida=s=>(SAIDAS.find(x=>x[0]===s)||[,"—"])[1];
+/* cores de resultado, as mesmas da planilha: árvore (pri, ade, par, nad, des, red) e saída */
+const clsArv=s=>s?"res-"+s:"";
+const clsSaida=s=>({priorizar:"res-pri",manter:"res-ade",reformular:"res-par",concluir:"res-lar",orgao:"res-nad",incorporar:"res-red"})[s]||"";
 
-/* ---------- o que se sabe de cada projeto ---------- */
+/* ---------- o que se sabe de cada projeto ----------
+   As contas ficam em motor.js (notas3, fatos3, estacao3), para a tela e os testes usarem as mesmas funções. */
 const E=code=>S.est[code]||(S.est[code]={ficha:{},log:[]});
-const etiquetado=code=>(E(code).ficha||{}).etiqueta==="concedida";
-const ehNovo=c=>{ const f=E(c.code).ficha||{}; return f.novo!=null?!!f.novo:/^N/i.test(c.code); };
-const missaoDe=c=>(E(c.code).arvore||{}).missao||c.missao;
-
-/* etapa 5: junta as duas leituras. Diferença de 2 pontos ou mais pede a nota conciliada. */
-function notasDe(c){
-  const e=E(c.code), L=e.leituras||{}, l1=L.L1, l2=L.L2, con=e.conciliacao||{};
-  const o={A:aderencia3((e.arvore||{}).saida),n:(l1?1:0)+(l2?1:0),diverge:[],danoDiverge:false,dano:false,completo:false};
-  if(l1&&l2){
-    for(const k of ["R","E","I"]){ if(Math.abs(l1[k]-l2[k])>=REGUA3.divergencia){ o.diverge.push(k); o[k]=con[k]!=null?+con[k]:null; } else o[k]=(l1[k]+l2[k])/2; }
-    if(!!l1.dano!==!!l2.dano){ o.danoDiverge=true; o.dano=con.dano!=null?!!con.dano:null; } else o.dano=!!l1.dano;
-    o.completo=["R","E","I"].every(k=>o[k]!=null)&&o.dano!==null; }
-  return o; }
+const etiquetado=code=>etiquetado3(E(code));
+const ehNovo=c=>novo3(c,E(c.code));
+/* missão indicada no Canvas (a avaliação pode ter conferido a missão principal no documento da Agência) e missão em que o projeto foi avaliado */
+const missaoCanvas=c=>{ const m=(E(c.code).ficha||{}).missao; return MISSOES[m]?m:c.missao; };
+const missaoDe=c=>(E(c.code).arvore||{}).missao||missaoCanvas(c);
+const notasDe=c=>notas3(E(c.code));
 const valorDe=c=>{ const n=notasDe(c); return n.completo?valor3({A:n.A,R:n.R,E:n.E,I:n.I}):null; };
-
-/* os fatos que o motor recebe */
-function fatos(c){
-  const e=E(c.code), p=e.porta||{}, n=notasDe(c), sn=v=>v==="sim"?true:v==="não"?false:undefined;
-  return {code:c.code,novos:+c.novos||0,novo:ehNovo(c),completa:sn(p.completa),mandato:sn(p.mandato),repete:sn(p.repete),medicao:sn(p.medicao),
-    arvore:(e.arvore||{}).saida,notas:n.completo?{A:n.A,R:n.R,E:n.E,I:n.I}:{A:n.A},dano:n.completo&&n.dano===true,exq:(e.farol||{}).exq,etiqueta:etiquetado(c.code)}; }
-
-/* em que etapa o projeto está agora */
-function estacao(c){
-  const e=E(c.code);
-  if(e.decisao) return 9;
-  if(!(e.ficha||{}).enviada) return 2;
-  if(!(e.porta||{}).fechada) return 3;
-  const pr=porta3(fatos(c)); if(pr&&pr.saida) return 8;
-  const a=e.arvore||{}; if(!a.saida||a.saida==="red") return 4;
-  if(!notasDe(c).completo) return 5;
-  if(!farol3((e.farol||{}).exq)) return 6;
-  return 8; }
+const fatos=c=>fatos3(c,E(c.code));
+const estacao=c=>estacao3(c,E(c.code));
 function contagem(){ const o={}; projetos().forEach(c=>{ const n=estacao(c); o[n]=(o[n]||0)+1; }); return o; }
+/* vínculo com a ABDI 5.0: pelo elo da árvore ou, sem elo, pela leitura direta do Canvas */
+const abdiDe=c=>abdiDoProjeto(E(c.code).arvore,E(c.code).abdi);
+/* alerta de repetição de entrega (etapa 3): o projeto segue, e o alerta o acompanha */
+const alertaDe=c=>alerta3(fatos(c));
+const tagAlerta=c=>alertaDe(c)?` <span class="tag res-par" title="${esc(ALERTA_REPETE)}">Alerta de repetição</span>`:"";
+/* posição fixa do projeto na carteira, usada no sorteio da amostra: a linha da planilha, quando veio dela; senão, a ordem dos códigos */
+const linhaFixa=c=>{ const l=+(E(c.code).ficha||{}).linha; return l>0?l:projetos().findIndex(x=>x.code===c.code)+4; };
 
 /* etapa 7: teto e recomendação */
 function tetoAtual(){
-  const t=+S.ciclo.teto; if(t>0) return {valor:t,origem:"Teto de referência publicado nas regras do ciclo"};
+  const t=+S.ciclo.teto; if(t>0) return {valor:t,origem:"Teto de referência publicado nas regras do ciclo",publicado:true};
   const tot=projetos().reduce((a,c)=>a+(+c.novos||0),0);
-  return {valor:tot*S.cenario,origem:"Cenário: "+Math.round(S.cenario*100)+"% dos pedidos. Não há teto publicado."}; }
+  return {valor:tot*S.cenario,origem:"Cenário: "+Math.round(S.cenario*100)+"% dos pedidos. Não há teto publicado.",parte:S.cenario}; }
+const somaPedidos=()=>projetos().reduce((a,c)=>a+(+c.novos||0),0);
 const rec=()=>_rec||(_rec=recomendar3(projetos().map(fatos),tetoAtual().valor));
 const linhaDe=code=>rec().linhas.find(x=>x.code===code)||{};
 function saidaDe(c){ const d=E(c.code).decisao, l=linhaDe(c.code); if(d) return {saida:d.saida||l.saida,decidida:true,linha:l}; return {saida:l.saida,decidida:false,linha:l}; }
@@ -78,10 +67,10 @@ const sinal=(f,g)=>f?`<span class="sinal ${f}${g?" g":""}" role="img" aria-label
 const chip=c=>`<a class="chip${etiquetado(c.code)?" etq":""}" href="#/projeto/${encodeURIComponent(c.code)}"><b>${esc(c.code)}</b>${esc(c.nome)}</a>`;
 /* no exemplo fictício, cada projeto diz que caso ele mostra */
 const licaoDe=c=>S.modo==="demo"&&c&&c.licao?c.licao:"";
-function linhaFila(c,n,rot){ return `<li><span class="cod">${esc(c.code)}</span><span class="nm">${esc(c.nome)}${etiquetado(c.code)?` <span class="tag etq">Etiqueta</span>`:""}<small>${esc([c.unidade,DIRETORIAS[c.dir]||c.dir].filter(Boolean).join(", "))}</small>${licaoDe(c)?`<small class="licao">${esc(licaoDe(c))}</small>`:""}</span><span class="vl">${+c.novos>0?brl(c.novos):"Sem pedido novo"}</span><span class="ac"><a class="bt sec peq" href="#/etapa/${n}/${encodeURIComponent(c.code)}">${rot||"Abrir"}</a></span></li>`; }
+function linhaFila(c,n,rot){ return `<li><span class="cod">${esc(c.code)}</span><span class="nm">${esc(c.nome)}${etiquetado(c.code)?` <span class="tag etq">Etiqueta</span>`:""}${tagAlerta(c)}<small>${esc([c.unidade,DIRETORIAS[c.dir]||c.dir].filter(Boolean).join(", "))}</small>${licaoDe(c)?`<small class="licao">${esc(licaoDe(c))}</small>`:""}</span><span class="vl">${+c.novos>0?brl(c.novos):"Sem pedido novo"}</span><span class="ac"><a class="bt sec peq" href="#/etapa/${n}/${encodeURIComponent(c.code)}">${rot||"Abrir"}</a></span></li>`; }
 function fila(n,titulo,vazio){ const L=projetos().filter(c=>estacao(c)===n);
   return `<section class="bloco"><h2>${esc(titulo)} <span class="tag${L.length?" etq":""}">${L.length}</span></h2>${L.length?`<ol class="fila">${L.map(c=>linhaFila(c,n)).join("")}</ol>`:`<p class="meta">${esc(vazio)}</p>`}</section>`; }
-function cabProjeto(c,n){ return `<p class="meta"><a href="#/etapa/${n}">Voltar à fila da etapa ${n}</a></p><div class="cab-proj espaco-p"><h2><b>${esc(c.code)}</b>${esc(c.nome)}</h2>${etiquetado(c.code)?`<span class="tag etq">Etiqueta de relevância política</span>`:""}</div>
+function cabProjeto(c,n){ return `<p class="meta"><a href="#/etapa/${n}">Voltar à fila da etapa ${n}</a></p><div class="cab-proj espaco-p"><h2><b>${esc(c.code)}</b>${esc(c.nome)}</h2>${etiquetado(c.code)?`<span class="tag etq">Etiqueta de relevância política</span>`:""}${tagAlerta(c)}</div>
   <p class="fatos"><span><b>Unidade</b> ${esc(c.unidade||"—")}</span><span><b>Diretoria</b> ${esc(DIRETORIAS[c.dir]||c.dir||"—")}</span><span><b>Missão</b> ${esc(MISSOES[missaoDe(c)]||"—")}</span><span><b>Pedido novo</b> ${+c.novos>0?brl(c.novos):"não há"}</span><span><a href="#/projeto/${encodeURIComponent(c.code)}">Ver o percurso completo</a></span></p>${licaoDe(c)?`<p class="nota licao espaco-p"><b>O que este exemplo mostra.</b> ${esc(licaoDe(c))}</p>`:""}`; }
 async function salvar(code,etapa,oque,msg){
   const e=E(code); (e.log=e.log||[]).push({em:new Date().toISOString(),por:quem(),etapa,oque});
@@ -109,6 +98,8 @@ function render(){
   if(a==="etapa"&&ETAPAS[+b-1]) vEtapa(M,+b,c&&S.base[c]?S.base[c]:null);
   else if(a==="projeto"&&S.base[b]) vProjeto(M,S.base[b]);
   else if(a==="etiqueta") vEtiqueta(M);
+  else if(a==="sensibilidade") vSensibilidade(M);
+  else if(a==="metodo") vMetodo(M);
   else if(a==="como") vComo(M);
   else vInicio(M);
   if(typeof leitorMontar==="function") leitorMontar();
@@ -125,7 +116,7 @@ const ir=h=>{ h=hx(h); if(location.hash===h||(h==="#"&&!location.hash)) rota(); 
 const soLogado=()=>!!window.SO_LOGADO&&Dados.temNuvem();   /* no site público, nada aparece sem login, nem o exemplo */
 function vEntrada(M){
   M.innerHTML=`<div class="abertura"><h1><span class="leve">Do Canvas à decisão,</span><span class="forte">em nove etapas.</span></h1>
-   <p class="sub">Esta página mostra o caminho que cada projeto percorre até virar prioridade da carteira: regras do ciclo, Canvas, elegibilidade, vínculo à NIB, pontuação, farol, portfólio, decisão e registro.</p></div>
+   <p class="sub">Esta página aplica a matriz de priorização da carteira: mostra o caminho que cada projeto percorre até virar prioridade, em nove etapas (regras do ciclo, Canvas, elegibilidade, vínculo à Nova Indústria Brasil, pontuação, farol, portfólio, decisão e registro).</p></div>
   <div class="entrada">
    ${soLogado()?"":`<section class="bloco"><h2>Ver com um exemplo fictício</h2><p>Trinta e três projetos inventados, espalhados pelas nove etapas. Cada um mostra um caso: o que devolve um Canvas, o que a árvore responde, quando as leituras divergem, as três cores do farol. Nada é enviado: tudo fica neste navegador.</p><div class="acoes"><button class="bt" data-acao="demo">Abrir o exemplo fictício</button></div></section>`}
    <section class="bloco"><h2>${soLogado()?"Entrar":"Entrar com os projetos reais"}</h2>${Dados.temNuvem()?`<p>Para a equipe do projeto. Use o mesmo e-mail e a mesma senha do site atual.${soLogado()?" Depois de entrar, dá para abrir também um exemplo fictício.":""}</p>
@@ -137,9 +128,9 @@ async function abrirNuvem(sess){
   try{ const d=await Dados.abrirNuvem(); S.base=d.base; S.est=d.est; S.canvas=d.canvas||{}; S.ciclo=d.ciclo||{}; S.modo="nuvem"; }
   catch(err){ console.error(err); S.modo=null; S.erro="Não foi possível ler os projetos. Verifique a conexão e tente de novo."; }
   S.carregando=false; rota(); }
-ACOES.demo=()=>{ const d=Dados.abrirDemo(); S.base=d.base; S.est=d.est; S.canvas=d.canvas; S.ciclo=d.ciclo; S.modo="demo"; S.usuario.nome="Visitante"; try{ sessionStorage.setItem("esteira3.modo","demo"); }catch(e){} rota(); };
+ACOES.demo=()=>{ const d=Dados.abrirDemo(); S.base=d.base; S.est=d.est; S.canvas=d.canvas; S.ciclo=d.ciclo; S.modo="demo"; S.usuario.nome="Visitante"; try{ sessionStorage.setItem("matriz.modo","demo"); }catch(e){} rota(); };
 ACOES.reiniciar=()=>{ const d=Dados.reiniciarDemo(); S.base=d.base; S.est=d.est; S.canvas=d.canvas; S.ciclo=d.ciclo; R={}; aviso("Exemplo recomeçado"); rota(); };
-ACOES.fechar=async()=>{ try{ sessionStorage.removeItem("esteira3.modo"); }catch(e){}
+ACOES.fechar=async()=>{ try{ sessionStorage.removeItem("matriz.modo"); }catch(e){}
   if(Dados.sb){ const {data}=await Dados.sb.auth.getSession(); if(data&&data.session){ ir("#/"); return abrirNuvem(data.session); } }
   S.modo=null; ir("#/"); render(); };
 ACOES.sair=async()=>{ await Dados.sair(); S.modo=null; S.base={}; S.est={}; S.canvas={}; ir("#/"); render(); };
@@ -147,7 +138,7 @@ ACOES.entrar=async()=>{ const erro=await Dados.entrar($("#lg-e").value.trim().to
 ACOES.papel=(d,el)=>{ S.usuario.papel=el.value; };
 ACOES.set=d=>{ rset(d.k,d.num?+d.v:d.v); render(); };
 
-/* ---------- início: a esteira com os projetos em cada etapa ---------- */
+/* ---------- início: o caminho, com os projetos em cada etapa ---------- */
 function vInicio(M){
   const por={}; projetos().forEach(c=>{ const n=estacao(c); (por[n]=por[n]||[]).push(c); });
   const nLista=rec().linhas.filter(l=>l.saida).length, cs={}; projetos().forEach(c=>{ const s=saidaDe(c).saida; if(s) cs[s]=(cs[s]||0)+1; });
@@ -156,12 +147,14 @@ function vInicio(M){
     else if(e.n===7) corpo=`<p class="vazio">${nLista} com sugestão de saída.</p>`;
     else { const L=por[e.n]||[]; corpo=L.length?`<div class="chips">${L.map(chip).join("")}</div>`:`<p class="vazio">${e.n===9?"Nenhuma decisão registrada.":"Ninguém aguarda aqui."}</p>`; }
     return `<section class="col" aria-label="Etapa ${e.n}: ${esc(e.t)}"><h3><b>${e.n}</b> ${esc(e.curto)}</h3>${corpo}</section>`; };
+  const av=S.ciclo.avaliacao, nAl=projetos().filter(alertaDe).length;
   M.innerHTML=`<div class="abertura"><h1><span class="leve">Do Canvas à decisão,</span><span class="forte">em nove etapas.</span></h1>
     <p class="sub">Cada projeto percorre o mesmo caminho. Abaixo, onde cada um está agora. Abra uma etapa no trilho para ver quem faz, o que entra, o que sai e a fila de trabalho.</p></div>
-   <div class="esteira" aria-label="Projetos em cada etapa">${ETAPAS.map(col).join("")}</div>
-   <h2 class="espaco">Saídas até agora</h2><p class="meta">Sugeridas pela esteira ou já decididas pela Diretoria Executiva.</p>
-   <div class="saidas">${SAIDAS.map(([k,t])=>`<div><b>${cs[k]||0}</b><span>${esc(t)}</span></div>`).join("")}</div>
-   <div class="acoes"><a class="bt" href="#/etapa/7">Ver a lista e a linha do teto</a><a class="bt sec" href="#/como">Glossário e pontos em aberto</a></div>`; }
+   ${av?`<p class="nota at faixa-aval"><b>${esc(av.titulo||"Avaliação da carteira")}.</b> ${esc(av.faixa||"")} <a href="#/metodo">Como a avaliação foi feita</a></p>`:""}
+   <div class="caminho" aria-label="Projetos em cada etapa">${ETAPAS.map(col).join("")}</div>
+   <h2 class="espaco">Saídas até agora</h2><p class="meta">Sugeridas pela matriz ou já decididas pela Diretoria Executiva.${nAl?` ${nAl} ${nAl===1?"projeto segue":"projetos seguem"} com alerta de repetição de entrega.`:""}</p>
+   <div class="saidas">${SAIDAS.map(([k,t])=>`<div class="${clsSaida(k)}"><b>${cs[k]||0}</b><span>${esc(t)}</span></div>`).join("")}</div>
+   <div class="acoes"><a class="bt" href="#/etapa/7">Ver a lista e a linha do teto</a><a class="bt sec" href="#/sensibilidade">Análise de sensibilidade</a><a class="bt sec" href="#/como">Glossário e pontos em aberto</a></div>`; }
 
 /* ---------- página de etapa: como funciona, à esquerda; trabalho, à direita ---------- */
 function vEtapa(M,n,c){
@@ -185,11 +178,11 @@ function resumoEtapa(c,n){
   switch(n){
     case 1: return S.ciclo.publicadoEm?"Regras publicadas em "+dataBR(S.ciclo.publicadoEm)+".":"Regras ainda não publicadas.";
     case 2: return (f.enviada?"Canvas enviado"+(f.enviadaEm?" em "+dataBR(f.enviadaEm):"")+".":"Canvas ainda não enviado.")+(f.etiqueta==="concedida"?" Etiqueta de relevância política concedida.":f.etiqueta==="negada"?" Pedido de etiqueta negado.":f.pedidoPolitico?" Pedido de etiqueta aguarda a Diretoria Executiva.":"");
-    case 3: return !p.fechada?"":p.mandato==="não"?"Fora do papel legal da Agência.":p.repete==="sim"?"Repete a entrega de outro projeto.":p.medicao==="não"?"Sem indicador nem plano de medição.":"Canvas aceito.";
-    case 4: return a.saida?ARV_TXT[a.saida]+(aderencia3(a.saida)?": nota de aderência "+aderencia3(a.saida):"")+"."+(a.oe?" Vínculo: objetivo "+a.oe+".":"")+(a.estrela?" Elo com estrela.":""):"";
+    case 3: return !p.fechada?(p.devolvidaEm?"Canvas devolvido para completar"+(p.nota?": "+p.nota:"."):""):p.mandato==="não"?"Fora do papel legal da Agência.":p.repete==="sim"&&REGUA3.repeticaoTira?"Repete a entrega de outro projeto.":(p.medicao==="não"?"Sem indicador nem plano de medição.":"Canvas aceito.")+(p.repete==="sim"?" "+ALERTA_REPETE:"");
+    case 4: return a.saida?ARV_TXT[a.saida]+(aderencia3(a.saida)?": nota de aderência "+aderencia3(a.saida):"")+"."+(a.oe?" Vínculo: objetivo "+a.oe+".":"")+(a.elo?" Elo: "+a.elo+(a.estrela?" ★":"")+".":"")+(abdiDe(c).eixos?" ABDI 5.0: "+abdiDe(c).texto+".":""):"";
     case 5: return nt.n?nt.n+" de 2 leituras."+(nt.completo?" Valor "+nf(valorDe(c))+".":nt.n===2?" Falta conciliar.":""):"";
     case 6: return fr?FAROL_TXT[fr]+".":"";
-    case 7: return l.saida?"Sugestão: "+l.rotulo.toLowerCase()+". "+l.motivo:(l.estado||"");
+    case 7: return l.saida?"Sugestão: "+l.rotulo.toLowerCase()+". "+l.motivo+(l.condicao?" "+l.condicao:"")+(l.alerta?" "+l.alerta:""):(l.estado||"");
     case 8: return d?(d.tipo==="seguir"?"Sugestão confirmada.":"Decisão diferente da sugestão: "+rotSaida(d.saida).toLowerCase()+". Motivo: "+d.motivo):"";
     case 9: return d?(e.log||[]).length+" registros guardados junto ao Canvas.":""; } }
 function vProjeto(M,c){
@@ -198,11 +191,12 @@ function vProjeto(M,c){
     return `<li class="${agora?"agora":feito?"feito":""}"><span class="num">${e.n}</span><div><h3>${esc(e.t)}</h3><p>${esc(r||(pulo?"O projeto não passou por esta etapa: saiu antes.":agora?"O projeto está aqui.":"Ainda não chegou."))}</p></div>
       <div>${agora&&e.n<=6?`<a class="bt peq" href="#/etapa/${e.n}/${encodeURIComponent(c.code)}">Trabalhar nesta etapa</a>`:agora?`<a class="bt peq" href="#/etapa/${e.n}">Abrir a etapa</a>`:feito&&e.n>=2&&e.n<=6?`<a class="bt discreto peq" href="#/etapa/${e.n}/${encodeURIComponent(c.code)}">Rever</a>`:""}</div></li>`; }).join("");
   M.innerHTML=`<header><p class="passo"><a href="#/">Início</a></p><div class="cab-proj"><h1>${esc(c.code)}: ${esc(c.nome)}</h1></div>
-    <p class="fatos"><span><b>Unidade</b> ${esc(c.unidade||"—")}</span><span><b>Diretoria</b> ${esc(DIRETORIAS[c.dir]||c.dir||"—")}</span><span><b>Missão</b> ${esc(MISSOES[missaoDe(c)]||"—")}</span><span><b>Pedido novo</b> ${+c.novos>0?brl(c.novos):"não há"}</span><span><b>Projeto</b> ${ehNovo(c)?"novo":"em execução"}</span></p>${licaoDe(c)?`
+    <p class="fatos"><span><b>Unidade</b> ${esc(c.unidade||"—")}</span><span><b>Diretoria</b> ${esc(DIRETORIAS[c.dir]||c.dir||"—")}</span><span><b>Missão</b> ${esc(MISSOES[missaoDe(c)]||"—")}${missaoDe(c)!==missaoCanvas(c)?` <span class="meta">(o Canvas indicava ${esc(MISSOES[missaoCanvas(c)]||"—")})</span>`:""}</span><span><b>Pedido novo</b> ${+c.novos>0?brl(c.novos):"não há"}</span><span><b>Projeto</b> ${ehNovo(c)?"novo":"em execução"}</span></p>${licaoDe(c)?`
     <p class="nota licao espaco-p"><b>O que este exemplo mostra.</b> ${esc(licaoDe(c))}</p>`:""}
-    <p class="espaco-p">${etiquetado(c.code)?`<span class="tag etq">Etiqueta de relevância política</span> `:""}${s.saida?`<span class="tag ${s.decidida?"ok":"az"}">${s.decidida?"Decidido":"Sugestão"}: ${esc(rotSaida(s.saida))}</span>`:`<span class="tag">Sem saída ainda</span>`}</p></header>
+    <p class="espaco-p">${etiquetado(c.code)?`<span class="tag etq">Etiqueta de relevância política</span> `:""}${s.saida?`<span class="tag ${clsSaida(s.saida)}">${s.decidida?"Decidido":"Sugestão"}: ${esc(rotSaida(s.saida))}</span>`:`<span class="tag res-nada">Sem saída ainda</span>`}${tagAlerta(c)}</p></header>
    <div class="duas"><aside class="como"><dl><div><dt>Problema</dt><dd>${esc(c.problema||"—")}</dd></div><div><dt>Meta</dt><dd>${esc(c.meta||"—")}</dd></div><div><dt>Evidência</dt><dd>${esc(c.evidencia||"—")}</dd></div></dl></aside>
     <div class="trabalho"><section class="bloco"><h2>Percurso pelas nove etapas</h2><ol class="percurso">${li}</ol></section>
+     ${blocoAbdi(c)}${blocoEvidencias(c)}
      <section class="bloco"><h2>Registro</h2>${(E(c.code).log||[]).length?`<ol class="diario">${E(c.code).log.slice().reverse().map(g=>`<li><time>${esc(dataHora(g.em))}</time><span>Etapa ${g.etapa}: ${esc(g.oque)} <span class="meta">${esc(g.por)}</span></span></li>`).join("")}</ol>`:`<p class="meta">Nada registrado ainda.</p>`}</section></div></div>`; }
 
 /* ---------- eventos e partida ---------- */
@@ -215,7 +209,7 @@ document.addEventListener("change",ev=>{ const t=ev.target; if(t.dataset&&t.data
 document.addEventListener("submit",ev=>{ if(ev.target.id==="f-login"){ ev.preventDefault(); ACOES.entrar(); } });
 window.addEventListener("hashchange",rota);
 async function partida(){
-  let demo=false; try{ demo=sessionStorage.getItem("esteira3.modo")==="demo"; }catch(e){}
+  let demo=false; try{ demo=sessionStorage.getItem("matriz.modo")==="demo"; }catch(e){}
   if(Dados.temNuvem()){
     try{ const sess=await Dados.iniciarNuvem(s=>{ if(s&&!S.modo&&!S.carregando) abrirNuvem(s); else if(!s&&S.modo==="nuvem"){ S.modo=null; S.base={}; S.est={}; S.canvas={}; render(); } });
       if(sess){ if(demo) ACOES.demo(); else await abrirNuvem(sess); return; } }catch(e){ console.error(e); } }

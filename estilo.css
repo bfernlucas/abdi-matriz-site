@@ -1,5 +1,5 @@
-/* ===== Esteira v3.0 · linguagem visual =====
-   Segue esteira/DESIGN.md: identidade do site da Agência, fundo sempre branco, Poppins, azul #183EFF,
+/* ===== Matriz de priorização da carteira · linguagem visual =====
+   Segue docs/DESIGN.md: identidade do site da Agência, fundo sempre branco, Poppins, azul #183EFF,
    filete multicolorido uma única vez, botões em pílula, amarelo só para atenção, limite e etiqueta.
    Elemento-assinatura do conjunto: o trilho das nove etapas. Por módulo: o sinal do farol e a linha do teto. */
 :root{
@@ -95,13 +95,13 @@ h3{font:500 18px/26px var(--f);color:var(--ink)}
 .sinal.g i{width:22px;height:22px}
 .sinal.g{padding:10px 12px;gap:10px}
 
-/* início: a esteira */
-.esteira{display:grid;grid-template-columns:repeat(9,1fr);margin-top:32px;border:1px solid var(--line);border-radius:var(--r-xl);overflow:hidden}
-.esteira .col{padding:16px 10px 20px;border-left:1px solid var(--line);min-height:220px;min-width:0}
-.esteira .col:first-child{border-left:0}
-.esteira .col h3{font:500 13px/20px var(--f);color:var(--ink);margin-bottom:10px}
-.esteira .col h3 b{font-weight:600;color:var(--accent)}
-.esteira .vazio{font:400 12px/16px var(--f);color:var(--ink-3)}
+/* início: o caminho das nove etapas */
+.caminho{display:grid;grid-template-columns:repeat(9,1fr);margin-top:32px;border:1px solid var(--line);border-radius:var(--r-xl);overflow:hidden}
+.caminho .col{padding:16px 10px 20px;border-left:1px solid var(--line);min-height:220px;min-width:0}
+.caminho .col:first-child{border-left:0}
+.caminho .col h3{font:500 13px/20px var(--f);color:var(--ink);margin-bottom:10px}
+.caminho .col h3 b{font-weight:600;color:var(--accent)}
+.caminho .vazio{font:400 12px/16px var(--f);color:var(--ink-3)}
 .chip{display:block;padding:6px 8px;margin-bottom:6px;border-radius:var(--r-m);background:var(--sunk);text-decoration:none;color:var(--ink-2);font:400 12px/16px var(--f);overflow-wrap:anywhere}
 .chip b{font-weight:600;color:var(--ink);margin-right:4px}
 .chip:hover{background:var(--accent-soft)}
@@ -158,7 +158,7 @@ h3{font:500 18px/26px var(--f);color:var(--ink)}
 .regua .op[aria-pressed="true"] span{color:#fff}
 
 /* etapa 7: a linha do teto */
-.conta{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border:1px solid var(--line);border-radius:var(--r-xl)}
+.conta{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));border:1px solid var(--line);border-radius:var(--r-xl)}
 .conta div{padding:16px;border-left:1px solid var(--line)}
 .conta div:first-child{border-left:0}
 .conta b{display:block;font:600 19px/28px var(--f);color:var(--ink);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
@@ -215,11 +215,11 @@ h3{font:500 18px/26px var(--f);color:var(--ink)}
   .pares{grid-template-columns:1fr 1fr}
 }
 @media (max-width:900px){
-  .esteira{grid-template-columns:1fr;border-radius:var(--r-l)}
-  .esteira .col{border-left:0;border-top:1px solid var(--line);min-height:0;padding:16px}
-  .esteira .col:first-child{border-top:0}
-  .esteira .col .chips{display:flex;flex-wrap:wrap;gap:6px}
-  .esteira .chip{margin:0}
+  .caminho{grid-template-columns:1fr;border-radius:var(--r-l)}
+  .caminho .col{border-left:0;border-top:1px solid var(--line);min-height:0;padding:16px}
+  .caminho .col:first-child{border-top:0}
+  .caminho .col .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .caminho .chip{margin:0}
   .saidas{grid-template-columns:repeat(3,1fr)}
   .saidas div:nth-child(4){border-left:0;padding-left:0}
   .entrada{grid-template-columns:1fr}
@@ -318,3 +318,34 @@ h3{font:500 18px/26px var(--f);color:var(--ink)}
 
 /* exemplo fictício: o caso que cada projeto mostra */
 .fila small.licao{color:var(--accent-2);margin-top:2px}
+
+/* ===== versão final: cores de resultado, vínculo com a ABDI 5.0, evidências e análise de sensibilidade ===== */
+/* cores de resultado, as mesmas da planilha da matriz: só em etiquetas e marcas pequenas, sobre fundo branco */
+:root{ --res-pri:#A9D08E; --res-ade:#E2EFDA; --res-par:#FFE699; --res-lar:#F8CBAD; --res-nad:#FFC7CE; --res-des:#FF9999; --res-red:#DDEBF7; --res-nada:#D9D2E9; }
+.tag.res-pri{background:var(--res-pri);color:var(--ink)} .tag.res-ade{background:var(--res-ade);color:var(--ink)} .tag.res-par{background:var(--res-par);color:var(--ink)}
+.tag.res-lar{background:var(--res-lar);color:var(--ink)} .tag.res-nad{background:var(--res-nad);color:var(--ink)} .tag.res-des{background:var(--res-des);color:var(--ink)}
+.tag.res-red{background:var(--res-red);color:var(--ink)} .tag.res-nada{background:var(--res-nada);color:var(--ink)}
+.saidas div[class^="res-"] b{display:inline-block;padding:0 10px;border-radius:var(--r-m)}
+.saidas .res-pri b{background:var(--res-pri)} .saidas .res-ade b{background:var(--res-ade)} .saidas .res-par b{background:var(--res-par)} .saidas .res-lar b{background:var(--res-lar)} .saidas .res-nad b{background:var(--res-nad)} .saidas .res-red b{background:var(--res-red)}
+.tag.base-doc{background:var(--res-ade);color:var(--ink)} .tag.base-tri{background:var(--res-red);color:var(--ink)} .tag.base-sup{background:var(--res-par);color:var(--ink)}
+b.alerta{font-weight:600;color:var(--ink);background:var(--res-par);padding:0 4px;border-radius:var(--r-s)}
+.faixa-aval{margin-top:24px} .faixa-aval a{white-space:nowrap}
+.lista td small.abdi{color:var(--ink-2)}
+/* vínculo com a ABDI 5.0: quatro eixos */
+.eixos{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.eixos li{border:1px solid var(--line);border-radius:var(--r-m);padding:10px 12px;font:400 13px/20px var(--f);color:var(--ink-2)}
+.eixos li b{display:block;font:600 14px/20px var(--f);color:var(--ink)}
+.eixos li.sim{border-color:#7FB25B;background:var(--res-ade)} .eixos li.nao{color:var(--ink-3)} .eixos li.nao b{color:var(--ink-3);font-weight:500}
+blockquote.trecho{margin:8px 0 0;padding:8px 16px;border-left:3px solid var(--line-2);color:var(--ink-2);font:400 14px/22px var(--f);white-space:pre-line}
+/* evidências */
+details.evid{border-top:1px solid var(--line);padding:12px 0} details.evid:last-of-type{border-bottom:1px solid var(--line)}
+details.evid>summary{cursor:pointer;color:var(--ink);font:500 14px/24px var(--f)}
+details summary{cursor:pointer}
+.evid-tab{margin-top:8px;font-size:13px;line-height:20px} .evid-tab td{min-width:120px} .evid-tab td:nth-child(4),.evid-tab td:nth-child(5){min-width:260px}
+small.pre{white-space:pre-line}
+/* análise de sensibilidade */
+.grade4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0 24px}
+.lista.sens{font-size:13px;line-height:20px} .lista.sens th{vertical-align:bottom;white-space:normal;min-width:72px} .lista.sens td.pj{min-width:320px} .lista.sens td .tag{white-space:normal;height:auto;min-height:22px;padding:2px 8px}
+.lista.sens td.n small{white-space:nowrap}
+@media (max-width:900px){ .eixos{grid-template-columns:1fr 1fr} .grade4{grid-template-columns:1fr 1fr} }
+@media (max-width:560px){ .eixos,.grade4{grid-template-columns:1fr} }

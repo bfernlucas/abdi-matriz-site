@@ -1,5 +1,5 @@
-/* ===== Esteira v3.0 · conteúdo: as nove etapas, a régua e o exemplo fictício =====
-   Textos transcritos do quadro "Fluxo completo da matriz de priorização" (Miro), com as edições de 10/11/2026.
+/* ===== Matriz de priorização da carteira · conteúdo: as nove etapas, a régua e o exemplo fictício =====
+   Textos do fluxo das nove etapas (quadro de trabalho no Miro), alinhados à planilha "Matriz de Priorização ABDI 2027", versão 0.7 (11/11/2026).
    Em cada etapa, "ativ" lista as atividades na ordem do quadro:
      [quem, o que faz]                         atividade
      {p, sim, nao}                              pergunta de sim ou não e o que acontece em cada resposta
@@ -18,12 +18,12 @@ const ETAPAS=[
   ativ:[[AREA,"Tem um projeto novo ou quer continuar um projeto"],[AREA,"Preenche o Canvas: objetivo, entregas, orçamento e indicadores"],[AREA,"Completa o Canvas com a página de missão, medição, parceiros, emprego e ambiente, execução e custo"],[AREA,"Anexa documentos: contrato, convênio, relatório de resultado"],{p:"Há pedido formal político para este projeto?",sim:"A Diretoria Executiva confere o documento e decide se concede a etiqueta de relevância política.",nao:"Segue sem etiqueta."},[AREA,"Envia o Canvas à Unidade de Gestão Estratégica até a data"],{s:"Segue para a etapa 3"}]},
  {n:3,t:"Elegibilidade",curto:"Elegibilidade",quem:UGE,
   frase:"Perguntas de sim ou não, sem nota, decidem se o Canvas segue adiante.",
-  faz:"A Unidade de Gestão Estratégica; a Unidade Jurídica dá parecer quando há dúvida legal.",entra:"Canvas entregue.",sai:"Canvas aceito ou uma saída.",etiqueta:"Só o limite legal barra (ponto em aberto); o resto vira pendência anotada.",
-  ativ:[[UGE,"Recebe o Canvas e faz quatro perguntas, nesta ordem"],{p:"O Canvas está completo?",nao:"Volta à etapa 2 para completar."},{p:"Está dentro do papel legal da Agência?",nao:"Saída: outro órgão."},{p:"Repete a entrega de outro projeto?",sim:"Saída: incorporar ao projeto parecido."},{p:"Há indicador ou plano de medição?",nao:"Saída: reformular, com a lista do que falta."},[UGE,"Anota pendências e aceita o Canvas"],{s:"Segue para a etapa 4"}]},
- {n:4,t:"Vínculo à NIB",curto:"Vínculo à NIB",quem:UGE,
+  faz:"A Unidade de Gestão Estratégica; a Unidade Jurídica dá parecer quando há dúvida legal.",entra:"Canvas entregue.",sai:"Canvas aceito, devolvido ou uma saída, e o alerta de repetição de entrega.",etiqueta:"Só o limite legal barra (ponto em aberto); o resto vira pendência anotada.",
+  ativ:[[UGE,"Recebe o Canvas e faz quatro perguntas, nesta ordem"],{p:"O Canvas está completo?",nao:"Volta à etapa 2 para completar."},{p:"Está dentro do papel legal da Agência?",nao:"Saída: outro órgão."},{p:"Repete a entrega de outro projeto?",sim:"Alerta de repetição: o projeto segue, e o alerta acompanha a sugestão e a decisão."},{p:"Há indicador ou plano de medição?",nao:"Saída: reformular, com a lista do que falta."},[UGE,"Anota pendências e aceita o Canvas"],{s:"Segue para a etapa 4"}]},
+ {n:4,t:"Vínculo à Nova Indústria Brasil",curto:"Vínculo",quem:UGE,
   frase:"Uma sequência de perguntas mostra se o projeto pertence à missão e a uma cadeia prioritária.",
-  faz:"A Unidade de Gestão Estratégica, com as respostas do Canvas.",entra:"Canvas aceito.",sai:"Nota de aderência 1, 3 ou 5. Ninguém atribui essa nota: ela decorre das respostas.",etiqueta:"O resultado é anotado, mas não barra.",
-  ativ:[[UGE,"Abre a árvore da missão principal indicada no Canvas"],{p:"O projeto pertence a esta missão?",nao:"Se a árvore indica outra missão, refaz a etapa 4 nela. Se não indica, saída: reformular."},{p:"Passa no filtro comum da missão?",nao:"Saída: reformular."},{p:"Atua em algum elo da cadeia?",nao:"Resultado parcial, nota de aderência 1. Saída: reformular."},{p:"O projeto atende à regra de prioridade da missão?",sim:"Aderente prioritário, nota de aderência 5.",nao:"Aderente, nota de aderência 3."},[UGE,"Registra no Canvas o caminho percorrido"],{s:"Segue para a etapa 5"}]},
+  faz:"A Unidade de Gestão Estratégica, com as respostas do Canvas.",entra:"Canvas aceito.",sai:"Nota de aderência 1, 3 ou 5, vínculo com a missão e com a ABDI 5.0. Ninguém atribui essa nota: ela decorre das respostas.",etiqueta:"O resultado é anotado, mas não barra.",
+  ativ:[[UGE,"Abre a árvore da missão principal indicada no Canvas"],{p:"O projeto pertence a esta missão?",nao:"Se a árvore indica outra missão, refaz a etapa 4 nela. Se não indica, saída: reformular."},{p:"Passa no filtro comum da missão?",nao:"Saída: reformular."},{p:"Atua em algum elo da cadeia?",nao:"Resultado parcial, nota de aderência 1. Saída: reformular."},{p:"O projeto atende à regra de prioridade da missão?",sim:"Aderente prioritário, nota de aderência 5.",nao:"Aderente, nota de aderência 3."},[UGE,"Registra no Canvas o caminho percorrido"],[UGE,"Liga o projeto aos quatro eixos da ABDI 5.0, pelo elo da árvore ou por leitura direta do Canvas: é classificação, não muda a nota"],{s:"Segue para a etapa 5"}]},
  {n:5,t:"Pontuação",curto:"Pontuação",quem:UGE,
   frase:"Dois leitores dão notas de 1 a 5 em três critérios, cada um com exemplos escritos do que vale 1, 3 e 5.",
   faz:"Dois analistas da Unidade de Gestão Estratégica; para Canvas da Presidência, um leitor de fora.",entra:"Canvas com a nota de aderência.",sai:"Quatro notas e o valor, que é a média delas.",etiqueta:"Recebe nota como os outros; nenhuma nota barra.",
@@ -33,9 +33,9 @@ const ETAPAS=[
   faz:"A Superintendência Executiva, com fatos de orçamento e contratos.",entra:"Canvas pontuado.",sai:"Farol e custo confirmados.",
   ativ:[[SUPX,"Confere os fatos: contrato ou convênio assinado, histórico de execução, dependência de terceiros"],[SUPX,"Confirma o custo: dinheiro já comprometido e dinheiro novo pedido"],{p:"Há pendência de execução?",nao:"Farol verde."},{p:"A pendência trava o projeto?",nao:"Farol amarelo: segue com condição.",sim:"Farol vermelho: projeto travado."},{s:"Segue para a etapa 7"}]},
  {n:7,t:"Portfólio",curto:"Portfólio",quem:UGE,
-  frase:"A esteira ordena os projetos, vê até onde o dinheiro alcança e sugere uma saída para cada um.",
-  faz:"A Unidade de Gestão Estratégica.",entra:"Notas, valor, farol e custo.",sai:"Lista com uma linha por projeto e mapa do conjunto.",etiqueta:"Entra primeiro no teto; a lista mostra quanto consome e se o projeto passaria sem a etiqueta.",
-  ativ:[[UGE,"Reserva primeiro o dinheiro dos projetos com etiqueta"],[UGE,"Ordena os demais por valor e soma os pedidos até o teto: o último que cabe marca a linha"],{p:"O projeto está acima da linha?",sim:"Com farol verde ou amarelo, sugestão: priorizar (amarelo, com condição). Com farol vermelho, sugestão: reformular, para destravar.",nao:"Projeto novo, sugestão: reformular. Em execução e andando, sugestão: manter, sem recurso novo. Em execução e parado, sugestão: concluir sem nova fase."},{p:"Um ponto em uma nota faria cruzar a linha?",sim:"A Unidade de Gestão Estratégica marca como caso de fronteira."},[UGE,"Monta a lista, uma linha por projeto, e o mapa do conjunto por missão"],{s:"Segue para a etapa 8"}]},
+  frase:"A matriz ordena os projetos, vê até onde o dinheiro alcança e sugere uma saída para cada um.",
+  faz:"A Unidade de Gestão Estratégica.",entra:"Notas, valor, farol e custo.",sai:"Lista com uma linha por projeto, mapa do conjunto e análise de sensibilidade.",etiqueta:"Entra primeiro no teto; a lista mostra quanto consome e se o projeto passaria sem a etiqueta.",
+  ativ:[[UGE,"Reserva primeiro o dinheiro dos projetos com etiqueta"],[UGE,"Ordena os demais por valor e soma os pedidos até o teto: o último que cabe marca a linha"],{p:"O projeto está acima da linha?",sim:"Com farol verde ou amarelo, sugestão: priorizar (amarelo, com condição). Com farol vermelho, sugestão: reformular, para destravar.",nao:"Projeto novo, sugestão: reformular. Em execução e andando, sugestão: manter, sem recurso novo. Em execução e parado, sugestão: concluir sem nova fase."},{p:"Um ponto em uma nota faria cruzar a linha?",sim:"A Unidade de Gestão Estratégica marca como caso de fronteira."},[UGE,"Monta a lista, uma linha por projeto, e o mapa do conjunto por missão"],[UGE,"Testa a lista na análise de sensibilidade: outros pesos, as notas de um leitor só, outra aderência mínima e outros tetos"],{p:"O projeto muda de lado da linha ou de posição conforme o cenário?",sim:"Pede julgamento adicional da Diretoria Executiva."},{s:"Segue para a etapa 8"}]},
  {n:8,t:"Decisão",curto:"Decisão",quem:DIRX,
   frase:"A Diretoria Executiva decide com a lista na mão. Pode discordar da sugestão, mas escreve o motivo.",
   faz:"A Diretoria Executiva; depois, o Conselho Deliberativo aprova o plano.",entra:"Lista e mapa do conjunto.",sai:"Carteira aprovada e Plano de Ação.",etiqueta:"O Conselho recebe a lista dos etiquetados, com notas e valores.",
@@ -52,7 +52,7 @@ const TRECHOS=[{de:1,ate:1,t:"Abertura do ciclo"},{de:2,ate:6,t:"Projeto a proje
 const PORTA=[
  {k:"completa",q:"O Canvas está completo?",para:"não",efeito:"Volta à etapa 2 para completar.",d:"Todos os campos preenchidos e os documentos anexados."},
  {k:"mandato",q:"Está dentro do papel legal da Agência?",para:"não",efeito:"Saída: outro órgão.",d:"A Agência executa e articula. Não financia, não regula e não forma em escala."},
- {k:"repete",q:"Repete a entrega de outro projeto?",para:"sim",efeito:"Saída: incorporar ao projeto parecido.",d:"Mesma entrega para o mesmo público. Ponto em discussão: sobreposição pode ser positiva quando o público ou o território é outro."},
+ {k:"repete",q:"Repete a entrega de outro projeto?",para:"sim",efeito:"Alerta de repetição: o projeto segue, e o alerta acompanha a sugestão e a decisão. Só tira o projeto (saída: incorporar) se a régua mandar.",d:"Mesma entrega para o mesmo público. Público ou território diferente não é repetição."},
  {k:"medicao",q:"Há indicador ou plano de medição?",para:"não",efeito:"Saída: reformular, com a lista do que falta.",d:"Indicador com meta, ou um plano que diga como o resultado será medido."}];
 
 /* etapa 5: as três notas dadas pelos leitores. A quarta, aderência, vem da árvore. */
@@ -76,9 +76,19 @@ const FAROL_TXT={verde:"Farol verde",amarelo:"Farol amarelo: segue com condiçã
 /* as seis saídas, na ordem em que aparecem */
 const SAIDAS=[["priorizar","Priorizar"],["reformular","Reformular"],["incorporar","Incorporar"],["orgao","Outro órgão"],["manter","Manter, sem recurso novo"],["concluir","Concluir sem nova fase"]];
 
+/* quando a matriz sugere cada saída (etapa 7) */
+const SAIDAS_QUANDO={priorizar:"Acima da linha do teto com farol verde ou amarelo (amarelo: com condição), ou projeto com etiqueta, que entra primeiro no teto.",
+ reformular:"Sem indicador nem plano de medição; não se insere na missão; aderência abaixo da mínima; dano a emprego ou ambiente; acima da linha mas travado (farol vermelho); ou projeto novo abaixo da linha.",
+ incorporar:"Repete a entrega de outro projeto, só quando a régua manda a repetição tirar o projeto. Pela regra de 11/11/2026, a repetição gera alerta, e esta saída fica como opção da Diretoria Executiva na decisão.",
+ orgao:"Fora do papel legal da Agência (pergunta 2 da elegibilidade).",
+ manter:"Projeto em execução, abaixo da linha ou sem pedido de recurso novo, e andando.",
+ concluir:"Projeto em execução, abaixo da linha ou sem pedido de recurso novo, e parado."};
+/* bases de uma resposta dada sem que o Canvas diga tudo: documento, triangulação ou suposição */
+const BASES=["Documento","Triangulação","Suposição"];
+
 /* a etiqueta, do início ao fim */
 const ETIQUETA={frase:"Projeto com pedido formal político passa por todas as etapas, com a nota à vista, e não é barrado.",porque:"Dá um canal declarado a decisões que hoje já acontecem.",
- blocos:[["Quem pede","A área que propõe, com documento: pedido formal político, instrumento assinado ou política vigente."],["Quem concede","Só a Diretoria Executiva."],["O que muda","O projeto percorre todas as etapas e recebe nota como os outros; nenhum resultado o barra."],["O que não muda","Fora do papel legal a etiqueta não vale (ponto em aberto); projeto repetido é incorporado."],["Custo à mostra","Entra primeiro no teto; a lista mostra quanto consome e quem foi deslocado."],["Depois","Vale por um ciclo; o Conselho Deliberativo recebe a lista com notas e valores."]]};
+ blocos:[["Quem pede","A área que propõe, com documento: pedido formal político, instrumento assinado ou política vigente."],["Quem concede","Só a Diretoria Executiva."],["O que muda","O projeto percorre todas as etapas e recebe nota como os outros; nenhum resultado o barra."],["O que não muda","Fora do papel legal a etiqueta não vale (ponto em aberto). Repetir a entrega de outro projeto gera alerta, com ou sem etiqueta."],["Custo à mostra","Entra primeiro no teto; a lista mostra quanto consome e quem foi deslocado."],["Depois","Vale por um ciclo; o Conselho Deliberativo recebe a lista com notas e valores."]]};
 
 const GLOSSARIO=[
  ["Agência","Agência Brasileira de Desenvolvimento Industrial. Executa projetos de política industrial com recursos de um contrato com o governo federal."],
@@ -94,8 +104,16 @@ const GLOSSARIO=[
  ["Teto de referência e linha","O teto é o dinheiro novo disponível no ano. A linha é o ponto da lista ordenada em que esse dinheiro acaba."],
  ["Farol","Sinal verde, amarelo ou vermelho sobre execução e custo."],
  ["Caso de fronteira","Projeto que cruzaria a linha com um ponto a mais ou a menos em uma nota."],
- ["Etiqueta de relevância política","Marca dada pela Diretoria Executiva a projeto com pedido formal político."]];
-const ABERTOS=["Quem dá as notas e quantos leitores.","Se a etiqueta vence também o limite legal do papel da Agência.","Qual é o teto de referência.","O reagrupamento dos critérios em quatro notas, ainda não combinado com a Agência.","Se sobreposição entre projetos é positiva ou negativa.","O limiar do farol e o critério de \"está andando\"."];
+ ["Etiqueta de relevância política","Marca dada pela Diretoria Executiva a projeto com pedido formal político."],
+ ["Alerta de repetição de entrega","Aviso de que o projeto repete a entrega de outro, para o mesmo público. O projeto segue no fluxo; o alerta acompanha a sugestão e a decisão."],
+ ["Vínculo com a ABDI 5.0","Classificação do projeto nos quatro eixos da ABDI 5.0 (Inteligência e conhecimento; Trabalhador do Futuro; Governança e Articulação; Difusão e Tecnologia), pelo elo da árvore ou por leitura direta do Canvas. Não entra na nota nem muda a saída sugerida."],
+ ["Análise de sensibilidade","Teste da lista da etapa 7: refaz a ordem e a linha do teto com outros pesos, com as notas de um leitor só, com outra aderência mínima e com outros tetos."],
+ ["Julgamento adicional","Pedido feito à Diretoria Executiva quando o projeto muda de lado da linha do teto conforme o cenário, ou se desloca três posições ou mais com pequenas alterações de peso."],
+ ["Base da resposta","De onde vem cada resposta da avaliação: documento da Agência, triangulação entre documentos ou suposição declarada, sempre com a lógica escrita."]];
+const ABERTOS=["Quem dá as notas e quantos leitores.","Se a etiqueta vence também o limite legal do papel da Agência.","Qual é o teto de referência.","O reagrupamento dos critérios em quatro notas, ainda não combinado com a Agência.",
+ "Se sobreposição entre projetos é positiva ou negativa. Regra provisória de 11/11/2026: a repetição de entrega não tira o projeto; gera alerta.","O limiar do farol e o critério de \"está andando\".",
+ "Os vínculos com a ABDI 5.0 completados pela equipe na tabela de elos e as leituras diretas do Canvas: a validar com quem pontuou a matriz de critérios e com a Unidade de Gestão Estratégica.",
+ "Os parâmetros da análise de sensibilidade (5 e 10 pontos de peso, 3 posições, teto livre de 50% dos pedidos): valores de partida da equipe."];
 
 const MISSOES={M1:"Agroindústria",M2:"Saúde",M3:"Infraestrutura e cidades",M4:"Transformação digital",M5:"Bioeconomia e energia",M6:"Soberania e defesa",T:"Transversal"};
 const DIRETORIAS={DISTT:"Industrialização Sustentável e Transformação Tecnológica",DIEI:"Inteligência e Economia da Indústria",PRES:"Presidência"};
@@ -103,32 +121,33 @@ const DIRETORIAS={DISTT:"Industrialização Sustentável e Transformação Tecno
 /* exemplo fictício: nenhum projeto real. "ate" é a etapa até onde o exemplo já vem preenchido.
    Cada projeto foi escolhido para mostrar um caso: "l" diz o que o caso mostra; "pb", "mt" e "ev" são o problema, a meta e a evidência
    que aparecem no resumo do Canvas (sem eles, entra um texto genérico). "volta": Canvas devolvido pela elegibilidade, com a nota do que falta.
-   Nas leituras ("n"), o quarto número marca que o leitor viu dano a emprego ou ambiente. */
+   Nas leituras ("n"), o quarto número marca que o leitor viu dano a emprego ou ambiente.
+   "ab": vínculo fictício com os quatro eixos da ABDI 5.0, na ordem dos eixos (1 = há vínculo), para os projetos que já passaram pela árvore. */
 const DEMO={ciclo:{ciclo:"2027",teto:24000000,tetoFonte:"Valor inventado para o exemplo",dataFichas:"2026-10-30",dataDecisao:"2026-11-25"},
  projetos:[
  /* etapas 7 a 9: a carteira já montada, com as seis saídas */
- {code:"F01",nome:"Rede de laboratórios abertos de manufatura",dir:"DISTT",unidade:"Difusão de Tecnologias",missao:"M4",novos:6200000,ate:9,arv:"pri",n:[[5,4,4],[4,4,4]],exq:[5,5,5,5],dec:{tipo:"seguir"},
+ {code:"F01",nome:"Rede de laboratórios abertos de manufatura",ab:"1011",dir:"DISTT",unidade:"Difusão de Tecnologias",missao:"M4",novos:6200000,ate:9,arv:"pri",n:[[5,4,4],[4,4,4]],exq:[5,5,5,5],dec:{tipo:"seguir"},
   l:"Percurso completo: aderente prioritário, farol verde, acima da linha, e a Diretoria Executiva seguiu a sugestão de priorizar."},
- {code:"F02",nome:"Painel de inteligência de cadeias produtivas",dir:"DIEI",unidade:"Inteligência Competitiva",missao:"M4",novos:5000000,ate:8,arv:"ade",n:[[5,4,4],[4,4,4]],exq:[5,3,5,5],
+ {code:"F02",nome:"Painel de inteligência de cadeias produtivas",ab:"1010",dir:"DIEI",unidade:"Inteligência Competitiva",missao:"M4",novos:5000000,ate:8,arv:"ade",n:[[5,4,4],[4,4,4]],exq:[5,3,5,5],
   l:"Último projeto que cabe no teto: é ele que marca a linha. Caso de fronteira, com farol amarelo: prioriza com condição."},
- {code:"F03",nome:"Selo de eficiência para pequenas indústrias",dir:"DISTT",unidade:"Tecnologias Sustentáveis",missao:"M5",novos:4800000,ate:8,arv:"pri",n:[[4,3,5],[4,4,5]],exq:[0,5,3,5],
+ {code:"F03",nome:"Selo de eficiência para pequenas indústrias",ab:"0011",dir:"DISTT",unidade:"Tecnologias Sustentáveis",missao:"M5",novos:4800000,ate:8,arv:"pri",n:[[4,3,5],[4,4,5]],exq:[0,5,3,5],
   l:"Nota alta com farol vermelho: fica acima da linha, mas travado. O dinheiro dele fica retido e a sugestão é reformular, para destravar."},
- {code:"F04",nome:"Corredor logístico de ônibus elétricos",dir:"DISTT",unidade:"Indústria Verde",missao:"M3",novos:9500000,novo:true,ate:8,arv:"pri",n:[[3,3,3],[2,3,3]],exq:[1,1,3,5],
+ {code:"F04",nome:"Corredor logístico de ônibus elétricos",ab:"0011",dir:"DISTT",unidade:"Indústria Verde",missao:"M3",novos:9500000,novo:true,ate:8,arv:"pri",n:[[3,3,3],[2,3,3]],exq:[1,1,3,5],
   l:"Projeto novo que ficou abaixo da linha: a sugestão é reformular."},
- {code:"F05",nome:"Observatório de insumos para a saúde",dir:"DIEI",unidade:"Monitoramento e Avaliação",missao:"M2",novos:2600000,ate:9,arv:"ade",n:[[3,3,3],[3,3,2]],exq:[5,5,5,5],dec:{tipo:"diferente",saida:"priorizar",motivo:"Compromisso assumido em acordo de cooperação vigente."},
+ {code:"F05",nome:"Observatório de insumos para a saúde",ab:"1010",dir:"DIEI",unidade:"Monitoramento e Avaliação",missao:"M2",novos:2600000,ate:9,arv:"ade",n:[[3,3,3],[3,3,2]],exq:[5,5,5,5],dec:{tipo:"diferente",saida:"priorizar",motivo:"Compromisso assumido em acordo de cooperação vigente."},
   l:"A Diretoria Executiva decidiu diferente da sugestão, com motivo escrito. O caso vai para a lista do Conselho Deliberativo."},
- {code:"F06",nome:"Plataforma de compras de defesa",dir:"PRES",unidade:"Presidência",missao:"M6",novos:7000000,novo:true,ate:8,arv:"par",n:[[2,3,2],[2,2,2]],exq:[1,1,3,3],tag:true,
+ {code:"F06",nome:"Plataforma de compras de defesa",ab:"0010",dir:"PRES",unidade:"Presidência",missao:"M6",novos:7000000,novo:true,ate:8,arv:"par",n:[[2,3,2],[2,2,2]],exq:[1,1,3,3],tag:true,
   l:"Etiqueta de relevância política: entra primeiro no teto, mesmo com valor baixo. A lista mostra o que o projeto teria sem a etiqueta."},
- {code:"F07",nome:"Capacitação digital de trabalhadores",dir:"DISTT",unidade:"Transformação Digital",missao:"M4",novos:5500000,novo:true,ate:8,arv:"ade",n:[[4,4,4],[4,4,4]],exq:[5,5,5,5],
+ {code:"F07",nome:"Capacitação digital de trabalhadores",ab:"0101",dir:"DISTT",unidade:"Transformação Digital",missao:"M4",novos:5500000,novo:true,ate:8,arv:"ade",n:[[4,4,4],[4,4,4]],exq:[5,5,5,5],
   l:"Primeiro projeto que não cabe no teto. Caso de fronteira, do lado de fora: um ponto em uma nota mudaria o lado da linha."},
- {code:"F09",nome:"Diagnóstico de maturidade industrial",dir:"DIEI",unidade:"Ambiente de Negócios",missao:"M4",novos:0,ate:8,arv:"ade",n:[[3,3,3],[3,3,3]],exq:[5,3,5,5],
+ {code:"F09",nome:"Diagnóstico de maturidade industrial",ab:"1010",dir:"DIEI",unidade:"Ambiente de Negócios",missao:"M4",novos:0,ate:8,arv:"ade",n:[[3,3,3],[3,3,3]],exq:[5,3,5,5],
   l:"Projeto em execução, sem pedido novo e andando: a sugestão é manter, sem recurso novo."},
- {code:"F10",nome:"Portal de dados abertos da indústria",dir:"DIEI",unidade:"Inteligência Competitiva",missao:"M4",novos:0,ate:8,arv:"ade",n:[[3,2,3],[3,2,3]],exq:[5,1,3,5],
+ {code:"F10",nome:"Portal de dados abertos da indústria",ab:"1000",dir:"DIEI",unidade:"Inteligência Competitiva",missao:"M4",novos:0,ate:8,arv:"ade",n:[[3,2,3],[3,2,3]],exq:[5,1,3,5],
   l:"Projeto em execução, sem pedido novo e parado: a sugestão é concluir sem nova fase."},
  {code:"F12",nome:"Fundo de crédito para máquinas",dir:"DISTT",unidade:"Novos Negócios",missao:"M1",novos:8000000,novo:true,ate:3,porta:{mandato:"não"},
   l:"Saiu na elegibilidade, pela pergunta 2: conceder crédito está fora do papel legal da Agência. Saída: outro órgão."},
- {code:"F13",nome:"Segundo painel de cadeias produtivas",dir:"DIEI",unidade:"Monitoramento e Avaliação",missao:"M4",novos:1800000,novo:true,ate:3,porta:{repete:"sim"},
-  l:"Saiu na elegibilidade, pela pergunta 3: repete a entrega do F02. Saída: incorporar ao projeto parecido."},
+ {code:"F13",nome:"Segundo painel de cadeias produtivas",dir:"DIEI",unidade:"Monitoramento e Avaliação",missao:"M4",novos:1800000,novo:true,ate:3,porta:{repete:"sim",nota:"Repete a entrega do F02, Painel de inteligência de cadeias produtivas."},
+  l:"Repete a entrega do F02. Pela regra de 11/11/2026, a repetição não tira o projeto: ele segue para a árvore com alerta, e o alerta acompanha a sugestão e a decisão."},
  {code:"F16",nome:"Estudo de cadeias sem medição",dir:"DIEI",unidade:"Inteligência Competitiva",missao:"M5",novos:2200000,novo:true,ate:3,porta:{medicao:"não"},
   l:"Saiu na elegibilidade, pela pergunta 4: não tem indicador nem plano de medição. Saída: reformular, com a lista do que falta."},
  /* etapa 2: Canvas */
@@ -147,14 +166,14 @@ const DEMO={ciclo:{ciclo:"2027",teto:24000000,tetoFonte:"Valor inventado para o 
   l:"Pergunta 2: fiscalizar e aplicar sanção é competência de outro órgão. A saída é \"outro órgão\", mesmo com tema prioritário."},
  {code:"F20",nome:"Diagnóstico digital de pequenas indústrias",dir:"DIEI",unidade:"Ambiente de Negócios",missao:"M4",novos:2300000,novo:true,ate:3,
   pb:"Pequenas indústrias não sabem em que estágio de digitalização estão.",mt:"Aplicar o diagnóstico em 500 empresas até novembro de 2027. Indicador: empresas com diagnóstico concluído.",ev:"Pesquisa fictícia: 7 de cada 10 pequenas indústrias nunca mediram a própria maturidade digital.",
-  l:"Pergunta 3: a entrega é a mesma do F09, Diagnóstico de maturidade industrial. A saída é incorporar ao projeto parecido."},
+  l:"Pergunta 3: a entrega é a mesma do F09, Diagnóstico de maturidade industrial. Responder \"sim\" não tira o projeto: gera o alerta de repetição, que o acompanha até a decisão."},
  {code:"F21",nome:"Certificação de fornecedores de aerogeradores",dir:"DISTT",unidade:"Tecnologias Sustentáveis",missao:"M5",novos:3600000,novo:true,ate:3,
   pb:"Fabricantes de aerogeradores importam componentes porque os fornecedores nacionais não têm certificação aceita pelas montadoras.",mt:"Certificar 25 fornecedores até dezembro de 2027. Indicador: fornecedores certificados. Linha de base: 4. Fonte: registro das montadoras. Medição semestral.",ev:"Estudo fictício: a certificação reduz em 30% o prazo de homologação.",
   l:"Passa nas quatro perguntas: Canvas completo, dentro do papel da Agência, entrega própria e indicador com linha de base e fonte."},
  {code:"F22",nome:"Semicondutores para sistemas de defesa",dir:"PRES",unidade:"Presidência",missao:"M6",novos:6000000,novo:true,ate:3,tag:true,
   pb:"Sistemas de defesa dependem de semicondutores importados, sujeitos a restrição de exportação.",mt:"Apoiar o desenho de três chips nacionais. O Canvas não traz indicador nem plano de medição.",ev:"Não há medição anterior.",
   l:"Projeto com etiqueta e sem indicador: a falta de medição vira pendência anotada e o Canvas é aceito. Sem a etiqueta, a saída seria reformular."},
- /* etapa 4: vínculo à NIB. Os desfechos da árvore */
+ /* etapa 4: vínculo à Nova Indústria Brasil. Os desfechos da árvore */
  {code:"F14",nome:"Biorrefinaria piloto",dir:"DISTT",unidade:"Indústria Verde",missao:"M5",novos:5600000,novo:true,ate:4,
   pb:"Resíduos da cana e da soja são queimados ou exportados sem transformação.",mt:"Operar uma biorrefinaria piloto até 2028. Indicador: toneladas de biomassa transformadas por ano.",ev:"Ensaio fictício de bancada: rendimento de 62%.",
   l:"Aceito na elegibilidade, aguarda a árvore da Missão 5. O elo de biorrefinarias está na frente de novas fontes de energia e combustíveis."},
@@ -174,36 +193,36 @@ const DEMO={ciclo:{ciclo:"2027",teto:24000000,tetoFonte:"Valor inventado para o 
   pb:"Os projetos da carteira são acompanhados em planilhas separadas, sem padrão.",mt:"Acompanhar todos os projetos em um só sistema até junho de 2027. Indicador: projetos com relatório mensal.",ev:"Levantamento fictício: 4 de cada 10 projetos não têm relatório mensal.",
   l:"Projeto transversal: não há árvore própria. O resultado é registrado à mão, com justificativa, ou pela árvore de outra missão."},
  /* etapa 5: pontuação. As situações das duas leituras */
- {code:"F28",nome:"Rastreabilidade do algodão brasileiro",dir:"DISTT",unidade:"Difusão de Tecnologias",missao:"M1",novos:3100000,novo:true,ate:5,arv:"pri",n:[],
+ {code:"F28",nome:"Rastreabilidade do algodão brasileiro",ab:"1011",dir:"DISTT",unidade:"Difusão de Tecnologias",missao:"M1",novos:3100000,novo:true,ate:5,arv:"pri",n:[],
   pb:"Compradores externos pedem prova de origem do algodão, e os produtores não têm como dar.",mt:"Rastrear 30% da safra até 2028. Indicador: fardos com origem certificada. Linha de base: 5%.",ev:"Piloto fictício em duas cooperativas: prêmio de 4% no preço.",
   l:"Nenhuma leitura feita. Cada leitor dá as três notas em separado, com o Canvas ao lado. A aderência já veio da árvore."},
- {code:"F11",nome:"Rede de polos de inovação regional",dir:"PRES",unidade:"Polos de tecnologia",missao:"M4",novos:4100000,ate:5,arv:"pri",n:[[4,5,3]],
+ {code:"F11",nome:"Rede de polos de inovação regional",ab:"1011",dir:"PRES",unidade:"Polos de tecnologia",missao:"M4",novos:4100000,ate:5,arv:"pri",n:[[4,5,3]],
   pb:"Indústrias fora das capitais não têm onde testar tecnologia nova.",mt:"Manter 12 polos em operação. Indicador: empresas atendidas por polo.",ev:"Relatório fictício: 340 empresas atendidas no ciclo anterior.",
   l:"Unidade ligada à Presidência: a segunda leitura, que falta, é de um leitor de fora da linha da Presidência."},
- {code:"F29",nome:"Laboratório de ensaios de hidrogênio",dir:"DISTT",unidade:"Tecnologias Sustentáveis",missao:"M5",novos:4700000,novo:true,ate:5,arv:"ade",n:[[4,4,3],[2,4,3]],
+ {code:"F29",nome:"Laboratório de ensaios de hidrogênio",ab:"1011",dir:"DISTT",unidade:"Tecnologias Sustentáveis",missao:"M5",novos:4700000,novo:true,ate:5,arv:"ade",n:[[4,4,3],[2,4,3]],
   pb:"Fabricantes de eletrolisadores mandam os equipamentos ao exterior para ensaio e certificação.",mt:"Abrir um laboratório até 2028. Indicador: ensaios realizados por ano.",ev:"O Canvas cita um estudo de demanda, sem medição própria de resultado.",
   l:"As duas leituras diferem em 2 pontos em resultados medidos. Os leitores conciliam e registram a conversa antes de o valor sair."},
- {code:"F30",nome:"Automação de linhas de montagem",dir:"DISTT",unidade:"Transformação Digital",missao:"M4",novos:5300000,ate:5,arv:"pri",n:[[4,4,2,1],[4,4,3]],
+ {code:"F30",nome:"Automação de linhas de montagem",ab:"0101",dir:"DISTT",unidade:"Transformação Digital",missao:"M4",novos:5300000,ate:5,arv:"pri",n:[[4,4,2,1],[4,4,3]],
   pb:"Montadoras de pequeno porte têm baixa produtividade nas linhas manuais.",mt:"Automatizar 30 linhas até 2027. Indicador: produtividade por trabalhador. O Canvas prevê eliminar 400 postos, sem plano de requalificação.",ev:"Piloto fictício: produtividade 25% maior em três linhas.",
   l:"Um leitor apontou dano a emprego e o outro não. A conciliação decide. Com dano confirmado, a saída é reformular."},
  /* etapa 6: farol. As três cores */
- {code:"F08",nome:"Bioinsumos para a agricultura familiar",dir:"DISTT",unidade:"Novos Negócios",missao:"M1",novos:3900000,ate:6,arv:"ade",n:[[4,3,4],[4,3,4]],
+ {code:"F08",nome:"Bioinsumos para a agricultura familiar",ab:"0011",dir:"DISTT",unidade:"Novos Negócios",missao:"M1",novos:3900000,ate:6,arv:"ade",n:[[4,3,4],[4,3,4]],
   pb:"Agricultores familiares compram insumos químicos caros por falta de oferta local de bioinsumos.",mt:"Apoiar 15 biofábricas comunitárias. Indicador: hectares tratados com bioinsumo.",ev:"Convênio em vigor. No ciclo anterior o projeto executou 80% do previsto e depende de registro de produto ainda em análise.",
   l:"Tem as quatro notas e aguarda o farol: quatro itens de execução e custo, que ficam fora da nota."},
- {code:"F31",nome:"Centro de usinagem compartilhada",dir:"DISTT",unidade:"Difusão de Tecnologias",missao:"M4",novos:2700000,ate:6,arv:"ade",n:[[4,4,3],[4,3,3]],
+ {code:"F31",nome:"Centro de usinagem compartilhada",ab:"0101",dir:"DISTT",unidade:"Difusão de Tecnologias",missao:"M4",novos:2700000,ate:6,arv:"ade",n:[[4,4,3],[4,3,3]],
   pb:"Pequenas metalúrgicas não têm escala para comprar máquinas de usinagem de precisão.",mt:"Atender 150 empresas por ano. Indicador: horas de máquina usadas.",ev:"Convênio assinado. No ciclo anterior o projeto executou 92% do previsto, não depende de terceiros e as entregas cabem no ano.",
   l:"Instrumento assinado, boa execução, sem dependência e prazo viável: os quatro itens sem pendência dão farol verde."},
- {code:"F32",nome:"Parque tecnológico em área a desapropriar",dir:"PRES",unidade:"Polos de tecnologia",missao:"M4",novos:8800000,novo:true,ate:6,arv:"pri",n:[[5,4,4],[5,4,4]],
+ {code:"F32",nome:"Parque tecnológico em área a desapropriar",ab:"1010",dir:"PRES",unidade:"Polos de tecnologia",missao:"M4",novos:8800000,novo:true,ate:6,arv:"pri",n:[[5,4,4],[5,4,4]],
   pb:"A região não tem espaço físico para reunir empresas de base tecnológica.",mt:"Instalar 20 empresas até 2028. Indicador: empresas instaladas.",ev:"O terreno ainda precisa ser desapropriado pelo município, e o processo não começou. Não há instrumento definido.",
   l:"Nota alta, mas depende de desapropriação que não começou: é impedimento. O farol vermelho trava o projeto mesmo acima da linha."},
- {code:"F33",nome:"Núcleos de economia circular",dir:"DISTT",unidade:"Tecnologias Sustentáveis",missao:"M5",novos:3400000,ate:6,arv:"ade",n:[[3,4,4],[3,4,4]],
+ {code:"F33",nome:"Núcleos de economia circular",ab:"0011",dir:"DISTT",unidade:"Tecnologias Sustentáveis",missao:"M5",novos:3400000,ate:6,arv:"ade",n:[[3,4,4],[3,4,4]],
   pb:"Indústrias pequenas pagam para descartar resíduos que outras empresas comprariam.",mt:"Manter 8 núcleos regionais. Indicador: toneladas de resíduo reaproveitadas.",ev:"No ciclo anterior o projeto executou 55% do previsto e depende de convênio estadual em negociação.",
   l:"Execução parcial e convênio em negociação são pendências administráveis: farol amarelo, segue com condição."}]};
-if(typeof module!=="undefined"&&module.exports) module.exports={ETAPAS,PORTA,NOTAS3,FAROL,SAIDAS,DEMO};
+if(typeof module!=="undefined"&&module.exports) module.exports={ETAPAS,PORTA,NOTAS3,FAROL,SAIDAS,SAIDAS_QUANDO,DEMO};
 
 /* ---------- cadastro do Canvas (etapa 2) ----------
-   Mesmas seções, campos e chaves do formulário de cadastro da primeira versão da esteira (seções do guia de preenchimento do Canvas),
-   para que um Canvas cadastrado aqui abra na versão 2.0 e vice-versa. Tipos de campo: texto (padrão), area, sel, num, radio,
+   Mesmas seções, campos e chaves do formulário de cadastro das versões anteriores da página (seções do guia de preenchimento do Canvas),
+   para que os Canvas já gravados no banco continuem abrindo. Tipos de campo: texto (padrão), area, sel, num, radio,
    table (linhas com colunas), grades (grau de aderência por missão), temas e projetos (escolha múltipla). req:1 = obrigatório para cadastrar. */
 const CV_EIXOS=["Difusão de Tecnologias","Inteligência e Conhecimento","Governança e Articulação","Trabalhador do Futuro"];
 const CV_TEMAS=["Adoção e difusão tecnológica","Agro 4.0","Ampliação do acesso à saúde","ASG","Avaliação de impacto de novas tecnologias","Competências e habilidades digitais","Compras públicas","Conectividade 5G","Construções inteligentes","Espaços de dados","Disseminação de conhecimento","Economia circular","Educação","Encomendas tecnológicas","Hub de inovação","Indústria 4.0","Inovação","Jornadas de capacitação","Maturidade digital","Mobilidade","Novas tecnologias","Privacidade e segurança da informação","Qualificação profissional","Saúde","Segurança cibernética","Soluções digitais","Soluções de internet das coisas","Sustentabilidade","Transformação digital"];

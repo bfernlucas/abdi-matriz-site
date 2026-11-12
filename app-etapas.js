@@ -1,4 +1,4 @@
-/* ===== Esteira v3.0 · etapas 1 a 6: regras, Canvas, elegibilidade, árvore, notas e farol ===== */
+/* ===== Matriz de priorização da carteira · etapas 1 a 6: regras, Canvas, elegibilidade, árvore, notas e farol ===== */
 const agora=()=>new Date().toISOString();
 const outros=(n,titulo)=>{ const L=projetos().filter(c=>estacao(c)>n); return L.length?`<section class="bloco"><h2>${esc(titulo)} <span class="tag">${L.length}</span></h2><div class="chips" style="display:flex;flex-wrap:wrap;gap:6px">${L.map(chip).join("")}</div></section>`:""; };
 
@@ -22,7 +22,21 @@ TELAS[1]=()=>{
     <h3 class="espaco">Farol: quatro itens, fora da nota</h3><p class="meta">Vermelho quando algum item é impedimento. Amarelo quando algum item tem pendência. Verde quando não há pendência.</p>
     <div class="rolavel"><table class="lista"><thead><tr><th>Item</th><th>Impedimento</th><th>Pendência séria</th><th>Pendência administrável</th><th>Sem pendência</th></tr></thead><tbody>
      ${FAROL.map(f=>`<tr><td class="pj"><b>${esc(f.t)}</b></td><td>${esc(f.a[0])}</td><td>${esc(f.a[1])}</td><td>${esc(f.a[3])}</td><td>${esc(f.a[5])}</td></tr>`).join("")}</tbody></table></div>
-    <h3 class="espaco">A linha e as seis saídas</h3><p>Os projetos com etiqueta entram primeiro no teto. Os demais entram por valor, do maior para o menor, até o dinheiro acabar: o último que cabe marca a linha. Cada projeto recebe uma de seis saídas: ${SAIDAS.map(s=>s[1].toLowerCase()).join("; ")}.</p></section>
+    <h3 class="espaco">A linha e as seis saídas</h3><p>Os projetos com etiqueta entram primeiro no teto. Os demais entram por valor, do maior para o menor, até o dinheiro acabar: o último que cabe marca a linha. Cada projeto recebe uma de seis saídas.</p>
+    <div class="rolavel"><table class="lista"><thead><tr><th>Saída</th><th>Quando a matriz sugere</th></tr></thead><tbody>${SAIDAS.map(([k,t])=>`<tr><td class="pj"><span class="tag ${clsSaida(k)}">${esc(t)}</span></td><td>${esc(SAIDAS_QUANDO[k])}</td></tr>`).join("")}</tbody></table></div>
+    <h3 class="espaco">Parâmetros do cálculo</h3><p class="meta">São os mesmos da planilha da matriz. Mudam só por decisão publicada.</p>
+    <div class="rolavel"><table class="lista"><thead><tr><th>Parâmetro</th><th class="n">Valor</th><th>O que faz</th></tr></thead><tbody>${[
+      ["Nota de aderência: aderente prioritário, aderente e parcial",REGUA3.arvore.pri+", "+REGUA3.arvore.ade+" e "+REGUA3.arvore.par,"A nota de aderência vem da árvore da missão. Ninguém a atribui."],
+      ["Aderência mínima",REGUA3.aderenciaMin,"Abaixo dela, a saída é reformular (salvo projeto com etiqueta)."],
+      ["Diferença entre os dois leitores que pede conciliação",REGUA3.divergencia+" pontos","Com essa diferença ou mais, os leitores conversam e registram a nota conciliada."],
+      ["Farol vermelho: algum item com nota até",REGUA3.farol.vermelhoAte,"A pendência trava o projeto."],
+      ["Farol amarelo: algum item com nota até",REGUA3.farol.amareloAte,"Há pendência; o projeto segue com condição."],
+      ["Está andando: execução histórica com nota a partir de",REGUA3.andando.min,"Separa manter (andando) de concluir (parado) nos projetos em execução abaixo da linha."],
+      ["A etiqueta vence o limite legal do papel da Agência?",REGUA3.etiqueta.venceMandato?"Sim":"Não","Ponto em aberto. Hoje: não vence."],
+      ["Repetir a entrega de outro projeto tira o projeto do caminho?",REGUA3.repeticaoTira?"Sim":"Não","Regra de 11/11/2026: não tira. O projeto segue, com alerta de repetição. Com sim, a saída seria incorporar."],
+      ["Amostra da auditoria",Math.round(REGUA3.amostra.parte*100)+"% dos decididos, mínimo de "+REGUA3.amostra.minimo,"Sorteio com o número "+(S.ciclo.sorteio||REGUA3.amostra.semente)+": com o mesmo número, qualquer pessoa refaz o mesmo sorteio."]
+     ].map(l=>`<tr><td class="pj"><b>${esc(l[0])}</b></td><td class="n">${esc(l[1])}</td><td>${esc(l[2])}</td></tr>`).join("")}</tbody></table></div></section>
+   ${blocoAvaliacao()}
    <section class="bloco"><h2>Histórico</h2>${h.length?`<ol class="diario">${h.map(g=>`<li><time>${esc(dataHora(g.em))}</time><span>${esc(g.oque)} <span class="meta">${esc(g.por||"")}</span></span></li>`).join("")}</ol>`:`<p class="meta">Nenhuma publicação registrada.</p>`}</section>`; };
 function lerCiclo(){ const c=R.ciclo||{}, t=num(c.teto); return {...S.ciclo,ciclo:(c.ciclo||"").trim(),teto:t&&t>0?t:null,tetoFonte:c.tetoFonte||"",dataFichas:c.dataFichas||"",dataDecisao:c.dataDecisao||"",obs:c.obs||""}; }
 ACOES.guardarCiclo=async()=>{ S.ciclo=lerCiclo(); try{ await Dados.gravarCiclo(S.ciclo); aviso("Regras guardadas"); }catch(e){ aviso("Não foi gravado. Tente de novo."); } R={}; render(); };
@@ -79,10 +93,11 @@ function resultadoPorta(p,tag){
   if(!p.mandato) return {tipo:"falta",em:1};
   if(p.mandato==="não"&&!(tag&&REGUA3.etiqueta.venceMandato)) return {tipo:"saida",ate:1,txt:"Saída: outro órgão."};
   if(!p.repete) return {tipo:"falta",em:2};
-  if(p.repete==="sim") return {tipo:"saida",ate:2,txt:"Saída: incorporar ao projeto parecido."};
+  if(p.repete==="sim"&&REGUA3.repeticaoTira) return {tipo:"saida",ate:2,txt:"Saída: incorporar ao projeto parecido."};
   if(!p.medicao) return {tipo:"falta",em:3};
-  if(p.medicao==="não"&&!tag) return {tipo:"saida",ate:3,txt:"Saída: reformular, com a lista do que falta."};
-  return {tipo:"aceita",ate:3,txt:p.medicao==="não"?"Canvas aceito, com pendência anotada: falta indicador ou plano de medição. A etiqueta impede que isso barre o projeto.":"Canvas aceito. Segue para a árvore da missão."}; }
+  const alerta=p.repete==="sim", al=alerta?" "+ALERTA_REPETE:"";   /* regra de 11/11/2026: repetir a entrega não tira o projeto; gera alerta */
+  if(p.medicao==="não"&&!tag) return {tipo:"saida",ate:3,alerta,txt:"Saída: reformular, com a lista do que falta."+al};
+  return {tipo:"aceita",ate:3,alerta,txt:(p.medicao==="não"?"Canvas aceito, com pendência anotada: falta indicador ou plano de medição. A etiqueta impede que isso barre o projeto.":"Canvas aceito. Segue para a árvore da missão.")+al}; }
 TELAS[3]=c=>{
   if(!c) return fila(3,"Canvas que aguardam a verificação de elegibilidade","Nenhum Canvas aguarda a verificação de elegibilidade.")+outros(3,"Já passaram pela elegibilidade");
   const e=E(c.code), sv=e.porta||{}, tag=etiquetado(c.code);
@@ -91,26 +106,27 @@ TELAS[3]=c=>{
   const irmaos=projetos().filter(x=>x.code!==c.code&&missaoDe(x)===missaoDe(c)).map(x=>x.code+" "+x.nome);
   return `<section class="bloco">${cabProjeto(c,3)}
     ${sv.fechada?`<p class="nota ok espaco-p">Elegibilidade já registrada. Registrar de novo substitui a resposta anterior.</p>`:""}
-    ${tag?`<p class="nota at espaco-p">Projeto com etiqueta: só o limite legal e a repetição barram. O resto vira pendência anotada.</p>`:""}
+    ${tag?`<p class="nota at espaco-p">Projeto com etiqueta: só o limite legal barra. O resto vira pendência anotada.</p>`:""}
     <div class="espaco-p">${PORTA.map((q,i)=>`<div class="pergunta${i>ate?" travada":""}"><h3>${i+1}. ${esc(q.q)}</h3><p class="meta">${esc(q.d)} Se ${q.para}: ${esc(minus(q.efeito))}</p>
       ${q.k==="repete"&&irmaos.length?`<p class="meta">Outros projetos da mesma missão: ${esc(irmaos.slice(0,6).join("; "))}${irmaos.length>6?"; e mais "+(irmaos.length-6):""}.</p>`:""}
       ${i>ate?"":ops("p."+q.k,SIMNAO,p[q.k])}</div>`).join("")}</div>
-    ${r.tipo==="falta"?"":`<p class="nota ${r.tipo==="aceita"?"ok":"at"}" role="status">${esc(r.txt)}</p>`}
-    ${area("p.nota",r.tipo==="aceita"?"Pendências anotadas":"Justificativa",r.tipo==="aceita"?"O que a área precisa resolver, sem impedir o projeto de seguir.":"Obrigatória quando o Canvas volta ou sai.")}
+    ${r.tipo==="falta"?"":`<p class="nota ${r.tipo==="aceita"&&!r.alerta?"ok":"at"}" role="status">${esc(r.txt)}</p>`}
+    ${area("p.nota",r.tipo==="aceita"&&!r.alerta?"Pendências anotadas":"Justificativa",r.alerta?"Alerta de repetição: diga qual projeto tem a mesma entrega.":r.tipo==="aceita"?"O que a área precisa resolver, sem impedir o projeto de seguir.":"Obrigatória quando o Canvas volta ou sai.")}
     <div class="acoes"><button class="bt" data-acao="porta" data-code="${esc(c.code)}"${r.tipo==="falta"?" disabled":""}>${r.tipo==="volta"?"Devolver para completar":r.tipo==="saida"?"Registrar a saída":"Aceitar o Canvas"}</button></div></section>`; };
 ACOES.porta=async d=>{ const c=S.base[d.code], e=E(c.code), p=R.p, r=resultadoPorta(p,etiquetado(c.code));
   if(r.tipo==="falta") return aviso("Responda às perguntas na ordem.");
   if(r.tipo!=="aceita"&&!(p.nota||"").trim()) return aviso("Escreva a justificativa.");
+  if(r.alerta&&!(p.nota||"").trim()) return aviso("Alerta de repetição: escreva qual projeto tem a mesma entrega.");
   if(r.tipo==="volta"){ e.ficha.enviada=false; e.porta={devolvidaEm:agora(),nota:p.nota.trim()}; await salvar(c.code,3,"Canvas devolvido para completar. "+p.nota.trim(),"Canvas devolvido"); }
   else { e.porta={completa:p.completa,mandato:p.mandato,repete:p.repete,medicao:p.medicao,nota:(p.nota||"").trim(),fechada:true,por:quem(),em:agora()};
-    await salvar(c.code,3,r.txt+(p.nota?" "+p.nota.trim():""),r.tipo==="aceita"?"Canvas aceito":"Saída registrada"); }
+    await salvar(c.code,3,r.txt+(p.nota?" "+p.nota.trim():""),r.tipo==="aceita"?(r.alerta?"Canvas aceito, com alerta":"Canvas aceito"):"Saída registrada"); }
   ir("#/etapa/3"); };
 
 /* ---------- etapa 4: árvore da missão ---------- */
 TELAS[4]=c=>{
   if(!c) return fila(4,"Projetos que aguardam a árvore da missão","Nenhum projeto aguarda a árvore.")+outros(4,"Já passaram pela árvore");
   const e=E(c.code), sv=e.arvore;
-  if(!R.ini){ const m=missaoDe(c); R={ini:1,a:{m,st:arvTem(m)?arvNovo(m):null,pilha:[],saida:"",just:""}}; }
+  if(!R.ini){ const m=missaoDe(c), man=sv&&sv.manual; R={ini:1,a:{m,st:arvTem(m)?arvNovo(m):null,pilha:[],saida:man?sv.saida:"",just:man?((sv.trilha||[])[0]||{}).r||"":""}}; }
   const a=R.a, tem=arvTem(a.m), st=a.st, comArvore=Object.keys(MISSOES).filter(arvTem);
   let corpo="";
   if(tem&&st&&st.atual){ const n=ARVD[a.m].nos[st.atual];
@@ -121,18 +137,21 @@ TELAS[4]=c=>{
        +(n.alts||[]).map((x,i)=>`<button type="button" class="op" data-acao="arvPasso" data-alt="${i}" data-fid="arv:a${i}">${esc(x.t)}</button>`).join("")
        +(n.none?`<button type="button" class="op" data-acao="arvPasso" data-none="1" data-fid="arv:n">Nenhum dos elos listados</button>`:"")}</div></div>`; }
   else if(tem&&st&&st.out){ const o=st.out, nota=aderencia3(o.c);
+    const vab=st.elo?abdiDoElo(a.m,st.catNome,st.elo):null;
     corpo=`<p class="nota ${o.c==="pri"||o.c==="ade"?"ok":"at"}" role="status"><b>${esc(ARV_TXT[o.c]||o.c)}</b>${nota?`: nota de aderência ${nota}`:""}.${o.t&&o.t!==ARV_TXT[o.c]?" "+esc(o.t)+".":""}${o.d?" "+esc(o.d):""}${o.oe?" Vínculo registrado: objetivo "+esc(o.oe)+".":""}</p>
+     ${o.c==="red"?"":`<p class="meta espaco-p"><b>Vínculo com a ABDI 5.0.</b> ${vab?esc(abdiTexto(vab.eixos))+". Vem do elo da cadeia ("+esc(st.elo)+"), pela tabela de vínculos"+(vab.completadas?", com célula completada pela equipe":"")+".":"O percurso não passou por um elo da cadeia: depois de registrar, faça a leitura direta do Canvas na página do projeto."}</p>`}
      ${o.c==="red"?`<p class="espaco-p">A árvore indica outra missão. Refaça a etapa 4 nela.</p><div class="acoes"><button class="bt" data-acao="arvMissao" data-m="${esc(o.red)}">Refazer na missão ${esc(MISSOES[o.red]||o.red)}</button></div>`
       :`<div class="acoes"><button class="bt" data-acao="arvRegistrar" data-code="${esc(c.code)}">Registrar o resultado da árvore</button></div>`}`; }
-  else corpo=`<p class="nota at">A missão ${esc(MISSOES[a.m]||a.m)} ainda não tem árvore carregada. Registre o resultado à mão, com justificativa, ou percorra a árvore de outra missão.</p>
+  else corpo=`<p class="nota at">${a.m==="T"?"Projeto transversal: não há árvore própria.":"A missão "+esc(MISSOES[a.m]||a.m)+" não tem árvore."} Registre o resultado à mão, com justificativa, ou percorra a árvore de outra missão, se alguma se aplica.</p>
      <div class="pergunta espaco-p"><h3>Resultado, sem árvore</h3>${ops("a.saida",[["pri","Aderente prioritário: atende à regra de prioridade da missão"],["ade","Aderente: atua em elo da cadeia"],["par","Parcial: não atua em elo"],["nad","Não se insere na missão"]],a.saida)}
      ${area("a.just","Justificativa","Obrigatória: diga em que cadeia e em que elo o projeto atua.")}</div>
      <div class="acoes"><button class="bt" data-acao="arvManual" data-code="${esc(c.code)}">Registrar o resultado, sem árvore</button></div>`;
   const trilha=st&&st.trilha.length?`<h3 class="espaco">Caminho percorrido</h3><ol class="ativ espaco-p">${st.trilha.map(t=>`<li><span class="perg">${esc(t.t)}<small>${esc(t.r)}</small></span></li>`).join("")}</ol>
      <div class="acoes"><button class="bt discreto peq" data-acao="arvVoltar">Voltar uma pergunta</button><button class="bt discreto peq" data-acao="arvMissao" data-m="${esc(a.m)}">Recomeçar a árvore</button></div>`:"";
   return `<section class="bloco">${cabProjeto(c,4)}
-    ${sv&&sv.saida?`<p class="nota ok espaco-p">Resultado já registrado: ${esc(ARV_TXT[sv.saida]||sv.saida)}${sv.manual?", sem árvore":""}. Registrar de novo substitui o anterior.</p>`:""}
-    <p class="espaco-p"><b>Árvore da missão:</b> ${esc(MISSOES[a.m]||a.m)}${a.m!==c.missao?` <span class="meta">(o Canvas indicava ${esc(MISSOES[c.missao]||c.missao)})</span>`:""}</p>
+    ${sv&&sv.saida?`<p class="nota ok espaco-p">Resultado já registrado: <span class="tag ${clsArv(sv.saida)}">${esc(ARV_TXT[sv.saida]||sv.saida)}</span>${sv.manual?", sem árvore":""}${sv.elo?". Elo: "+esc(sv.elo)+(sv.estrela?" ★":""):""}. Registrar de novo substitui o anterior.</p>
+      ${sv.trilha&&sv.trilha.length?`<details class="espaco-p"><summary class="meta"><b>Caminho registrado</b></summary><ol class="ativ espaco-p">${sv.trilha.map(t=>`<li><span class="perg">${esc(t.t)}<small>${esc(t.r)}</small></span></li>`).join("")}</ol></details>`:""}`:""}
+    <p class="espaco-p"><b>Árvore da missão:</b> ${esc(MISSOES[a.m]||a.m)}${a.m!==missaoCanvas(c)?` <span class="meta">(o Canvas indicava ${esc(MISSOES[missaoCanvas(c)]||missaoCanvas(c))})</span>`:""}</p>
     ${tem&&ARVD[a.m].validar?`<p class="nota at espaco-p"><b>Árvore em validação.</b> ${esc(ARVD[a.m].validar)}</p>`:""}
     ${tem&&ARVD[a.m].regra?`<p class="meta espaco-p"><b>Regra de prioridade desta missão.</b> ${esc(ARVD[a.m].regra)}</p>`:""}
     <div class="espaco-p">${corpo}</div>${trilha}
@@ -141,7 +160,7 @@ ACOES.arvPasso=d=>{ const a=R.a, esc_=d.i!=null?{i:+d.i}:d.elo!=null?{elo:+d.elo
 ACOES.arvVoltar=()=>{ const a=R.a; if(a.pilha.length) a.st=a.pilha.pop(); render(); };
 ACOES.arvMissao=d=>{ R.a={m:d.m,st:arvTem(d.m)?arvNovo(d.m):null,pilha:[],saida:"",just:""}; render(); };
 ACOES.arvRegistrar=async d=>{ const c=S.base[d.code], a=R.a, o=a.st.out;
-  E(c.code).arvore={missao:a.m,saida:o.c,titulo:o.t||ARV_TXT[o.c],trilha:a.st.trilha,elo:a.st.elo,estrela:!!a.st.eloPr,oe:o.oe||"",manual:false,por:quem(),em:agora()};
+  E(c.code).arvore={missao:a.m,saida:o.c,titulo:o.t||ARV_TXT[o.c],detalhe:o.d||"",trilha:a.st.trilha,cat:a.st.catNome||"",elo:a.st.elo||"",estrela:!!a.st.eloPr,oe:o.oe||"",manual:false,por:quem(),em:agora()};
   await salvar(c.code,4,"Árvore da missão "+(MISSOES[a.m]||a.m)+": "+(ARV_TXT[o.c]||o.c).toLowerCase()+".","Resultado da árvore registrado"); ir("#/etapa/4"); };
 ACOES.arvManual=async d=>{ const c=S.base[d.code], a=R.a; if(!a.saida) return aviso("Escolha o resultado."); if(!(a.just||"").trim()) return aviso("Escreva a justificativa.");
   E(c.code).arvore={missao:a.m,saida:a.saida,titulo:ARV_TXT[a.saida],trilha:[{k:"Sem árvore",t:"Resultado registrado à mão",r:a.just.trim()}],manual:true,por:quem(),em:agora()};

@@ -1,12 +1,12 @@
-/* ===== Esteira v3.0 · guarda dos dados =====
+/* ===== Matriz de priorização da carteira · guarda dos dados =====
    Dois modos, com a mesma interface:
    - exemplo fictício: tudo fica no navegador de quem abre; nenhum dado real;
-   - banco com login: lê os Canvas da coleção "canvas" e grava o percurso da v3.0 em coleções
-     próprias ("v3proj" e "v3cfg"). Na coleção "canvas", só grava os Canvas cadastrados ou revistos
-     pelo formulário da etapa 2, no mesmo formato da versão 2.0, para que as duas páginas leiam o mesmo documento. */
+   - banco com login: lê os Canvas da coleção "canvas" e grava o percurso das nove etapas em coleções
+     próprias ("v3proj" e "v3cfg": os nomes vêm da versão 3.0 e foram mantidos para não mover os dados). Na coleção
+     "canvas", só grava os Canvas cadastrados ou revistos pelo formulário da etapa 2, no formato de sempre. */
 /* o que o percurso das nove etapas usa de cada Canvas */
 const baseDoCanvas=(code,d)=>({code,nome:d.nome||code,dir:d.dir||"",unidade:d.unidade||"",missao:MISSOES[d.missao]?d.missao:"T",novos:+d.novos||0,problema:d.problema||"",meta:d.meta||"",evidencia:d.evidencia||""});
-const CHAVE_DEMO="esteira3.exemplo.v2";   /* v2: 33 projetos, com um caso em cada etapa (o exemplo guardado da v1 é deixado de lado) */
+const CHAVE_DEMO="matriz.exemplo.v3";   /* v3: 33 projetos, com a regra do alerta de repetição e o vínculo com a ABDI 5.0 (os exemplos guardados antes são deixados de lado) */
 
 function semearDemo(){
   const agora=new Date().toISOString(), por="Exemplo fictício", base={}, est={};
@@ -18,9 +18,11 @@ function semearDemo(){
     if(p.volta){ e.porta={devolvidaEm:agora,nota:p.volta}; log(2,"Canvas enviado."); log(3,"Canvas devolvido para completar. "+p.volta); }
     if(p.ate<3) continue;
     e.ficha.enviada=true; e.ficha.enviadaEm=agora; log(2,"Canvas enviado.");
-    if(p.porta||p.ate>3){ e.porta={completa:"sim",mandato:"sim",repete:"não",medicao:"sim",...(p.porta||{}),just:{},fechada:true,por,em:agora}; log(3,p.porta?"Elegibilidade: saída registrada.":"Canvas aceito na etapa de elegibilidade."); }
+    if(p.porta||p.ate>3){ e.porta={completa:"sim",mandato:"sim",repete:"não",medicao:"sim",...(p.porta||{}),just:{},fechada:true,por,em:agora};
+      const sai=porta3(fatos3({code:p.code,novos:p.novos},e)); log(3,sai&&sai.saida?"Elegibilidade: saída registrada.":e.porta.repete==="sim"?"Canvas aceito, com alerta de repetição de entrega.":"Canvas aceito na etapa de elegibilidade."); }
     if(p.porta||p.ate<5) continue;
     e.arvore={missao:p.missao,saida:p.arv,titulo:ARV_TXT[p.arv],trilha:[{k:"Exemplo",t:"Percurso fictício da árvore",r:ARV_TXT[p.arv]}],manual:false,por,em:agora}; log(4,"Árvore da missão: "+ARV_TXT[p.arv].toLowerCase()+".");
+    if(p.ab) e.abdi={eixos:p.ab.split("").map(x=>x==="1"),base:"Suposição",logica:"Vínculo inventado para o exemplo.",trecho:"",por,em:agora};
     if(p.n){ e.leituras={}; p.n.forEach((v,i)=>{ e.leituras["L"+(i+1)]={por:"Leitor "+(i+1)+" (exemplo)",R:v[0],E:v[1],I:v[2],dano:!!v[3],danoJust:v[3]?"Elimina postos de trabalho sem plano de requalificação.":"",just:"",em:agora}; log(5,"Leitura "+(i+1)+" registrada."); }); }
     if(p.exq){ e.farol={exq:p.exq,comprometido:p.novo?0:Math.round(p.novos*0.4)||1200000,obs:"",por,em:agora}; log(6,"Farol registrado."); }
     if(p.dec){ e.decisao={...p.dec,por:"Diretoria Executiva (exemplo)",em:agora}; log(8,p.dec.tipo==="seguir"?"Decisão: sugestão confirmada.":"Decisão diferente da sugestão, com motivo."); }
@@ -76,6 +78,11 @@ const Dados={
   async gravarCanvas(code,doc){
     if(this.modo==="demo"){ this._demo.canvas=this._demo.canvas||{}; this._demo.canvas[code]=doc; if(doc.status!=="rascunho") this._demo.base[code]=baseDoCanvas(code,doc); this._gravaDemo(); return; }
     await this._por("canvas",code,doc); },
+  /* avaliação da carteira: grava de uma vez as regras do ciclo e o percurso de vários projetos (importação de arquivo) */
+  async gravarAvaliacao(ciclo,projetos,aoAndar){ let k=0; const cods=Object.keys(projetos);
+    if(ciclo) await this.gravarCiclo(ciclo);
+    for(const code of cods){ await this.gravarProjeto(code,projetos[code]); k++; if(aoAndar) aoAndar(k,cods.length); }
+    return k; },
   async excluirCanvas(code){
     if(this.modo==="demo"){ delete (this._demo.canvas||{})[code]; this._gravaDemo(); return; }
     const {error}=await this.sb.from("docs").delete().eq("colecao","canvas").eq("id",code); if(error) throw error; }

@@ -1,5 +1,7 @@
-# Esteira de seleção 2027
+# abdi-matriz-site
 
-Página da esteira de seleção da carteira 2027, publicada em https://bfernlucas.github.io/abdi-matriz-site/.
+Página da matriz de priorização da carteira 2027 (aplicação web, versão final 4.0). Só a página: sem login, não mostra nada, e nenhum dado de projeto fica neste repositório.
 
-Este repositório tem só a página. Os dados ficam num banco protegido por login, e só a equipe dos Produtos 2 e 3 tem acesso. O código-fonte, os documentos e as bases estão num repositório privado.
+- Endereço: https://bfernlucas.github.io/abdi-matriz-site/
+- O endereço antigo `/v3/` leva para a raiz.
+- Código, testes e documentação: repositório privado `bfernlucas/abdi-matriz` (pasta `aplicacao/`). Não editar aqui: a página é copiada de lá por `ferramentas/publicar.sh`.

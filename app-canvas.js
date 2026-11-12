@@ -1,5 +1,5 @@
-/* ===== Esteira v3.0 · cadastro do Canvas, na etapa 2 =====
-   Formulário em passos, com as mesmas seções e chaves do cadastro da primeira versão da esteira (CV_PASSOS, em conteudo.js).
+/* ===== Matriz de priorização da carteira · cadastro do Canvas, na etapa 2 =====
+   Formulário em passos, com as mesmas seções e chaves do cadastro das versões anteriores da página (CV_PASSOS, em conteudo.js).
    Guarda rascunho a cada passo; o rascunho só entra no percurso das nove etapas depois de cadastrado.
    O rascunho de trabalho fica em R.cv: {code, passo, d}. Os campos gravam em R pelo atributo data-rasc ("cv.d.<chave>"). */
 const cvVazio=v=>v==null||String(v).trim()==="";
@@ -79,7 +79,7 @@ function cvBlocoCadastro(){
 
 /* o formulário, novo (code vazio) ou de um Canvas guardado */
 function cvTela(code){
-  if(code&&!cvTemFormulario(code)) return `<section class="bloco"><p class="nota at">${S.canvas[code]?"Este Canvas veio da importação e não tem o formulário preenchido. Para revê-lo, use o cadastro da versão anterior da esteira.":"Canvas não encontrado."}</p><div class="acoes"><a class="bt sec" href="#/etapa/2">Voltar aos Canvas</a></div></section>`;
+  if(code&&!cvTemFormulario(code)) return `<section class="bloco"><p class="nota at">${S.canvas[code]?"Este Canvas veio do documento original da Agência e não tem o formulário preenchido. O documento aparece ao lado do trabalho nas etapas 3, 4 e 5. A correção de dados de um Canvas importado não é feita nesta página.":"Canvas não encontrado."}</p><div class="acoes"><a class="bt sec" href="#/etapa/2">Voltar aos Canvas</a></div></section>`;
   if(!R.ini) R={ini:1,cv:{code:code||null,passo:0,d:cvDados(code)}};
   const W=R.cv, D=W.d, ult=CV_PASSOS.length-1, st=Math.min(Math.max(+W.passo||0,0),ult), P=CV_PASSOS[st], chk=cvVerificar(D), g=W.code&&S.canvas[W.code], cadastrado=!!(g&&g.status!=="rascunho");
   const passos=`<ol class="cv-passos" aria-label="Seções do Canvas">${CV_PASSOS.map((p,i)=>{ const pc=i<ult?cvPreenchido(D,p):null;
@@ -115,7 +115,7 @@ function cvDoc(D,code,status){
   const I=cvLinhas(d.indicadores)[0]||{}, em=new Date().toISOString();
   return {...prev,code,nome:String(d.nome||"").trim(),dir:d.dir||"",unidade:String(d.unidade||"").trim(),missao:d.missao||"",eixo:d.eixo||"",novos:d.novos,grades:d.grades,
     problema:d.problema||"",evidencia:d.numeros||"",meta:[I.nome,I.meta&&("meta "+I.meta),I.calc&&("cálculo: "+I.calc)].filter(Boolean).join("; "),
-    cv,eleg:prev.eleg||["","","","","",""],elegJust:prev.elegJust||["","","","","",""],origem:prev.origem||"Cadastrado na esteira das nove etapas",
+    cv,eleg:prev.eleg||["","","","","",""],elegJust:prev.elegJust||["","","","","",""],origem:prev.origem||"Cadastrado na matriz de priorização, etapa 2",
     ordem:prev.ordem||900+Object.keys(S.canvas).length,ts:em,atualizadoPor:S.usuario.nome,atualizadoEm:em,status:status||prev.status||"rascunho"}; }
 async function cvGravar(status,msg){
   const W=R.cv, D=W.d; if(cvVazio(D.nome)){ W.passo=0; render(); aviso("Informe o nome do projeto para guardar."); return null; }
@@ -235,7 +235,7 @@ async function cvPDF(c){
     else { nova(p.t); p.blocos.forEach(b=>{ cabe(34); texto(b.l,FB,9,tinta,LARG,MX,13); if(b.tab) tabela(b.tab); else texto(b.v==null?LV_NADA:b.v,F,10.5,b.v==null?cinza:tinta,LARG,MX,15); y-=8; }); }
     if(p.nota){ y-=2; texto(p.nota,F,9.5,cinza,LARG,MX,14); } }
   const pgs=doc.getPages(); pgs.forEach((q,i)=>{ const s="Folha "+(i+1)+" de "+pgs.length; q.drawText(s,{x:W-MX-F.widthOfTextAtSize(s,8),y:24,size:8,font:F,color:cinza}); });
-  doc.setTitle(limpa("Canvas "+c.code+" - "+c.nome)); doc.setCreator("Esteira de seleção");
+  doc.setTitle(limpa("Canvas "+c.code+" - "+c.nome)); doc.setCreator("Matriz de priorização da carteira");
   return doc.save(); }
 
 /* gera o arquivo PDF do Canvas cadastrado e o guarda no banco, como documento do Canvas. Se falhar, o cadastro continua valendo. */
@@ -243,7 +243,7 @@ async function cvArquivar(code){
   if(S.modo!=="nuvem"||window.SEM_ARQUIVOS) return false;
   try{ const bytes=await cvPDF(S.base[code]), id="esteira3-"+code, doc=S.canvas[code], hoje=new Date().toISOString();
     await Dados.guardarArquivo(id,bytes);
-    doc.anexos=[{id,url:"/_blob/"+id,ciclo:String((S.ciclo&&S.ciclo.ciclo)||""),nome:"Canvas cadastrado na esteira em "+dataBR(hoje),arquivo:"Canvas_"+code+".pdf",gerado:hoje},...(doc.anexos||[]).filter(a=>a.id!==id)];
+    doc.anexos=[{id,url:"/_blob/"+id,ciclo:String((S.ciclo&&S.ciclo.ciclo)||""),nome:"Canvas cadastrado na matriz de priorização em "+dataBR(hoje),arquivo:"Canvas_"+code+".pdf",gerado:hoje},...(doc.anexos||[]).filter(a=>a.id!==id)];
     await Dados.gravarCanvas(code,doc); delete LEITOR.pdfs["/_blob/"+id]; delete Dados._urls[id]; return true; }
   catch(err){ console.warn("Arquivo PDF do Canvas não guardado:",err&&err.message||err); return false; } }
 
