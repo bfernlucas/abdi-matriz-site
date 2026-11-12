@@ -33,7 +33,7 @@ TELAS[7]=()=>{
     <div class="rolavel"><table class="lista"><thead><tr><th>Eixo</th><th class="n">Projetos com vínculo</th><th class="n">Com sugestão de priorizar</th><th class="n">Recurso novo priorizado</th></tr></thead><tbody>${ABDI_EIXOS.map((x,i)=>{ const ls=projetos().filter(c=>{ const v=abdiDe(c); return v.eixos&&v.eixos[i]; }), lp=ls.filter(c=>porCod[c.code].saida==="priorizar"); return `<tr><td class="pj"><b>${esc(x)}</b></td><td class="n">${ls.length}</td><td class="n">${lp.length}</td><td class="n">${brl(lp.reduce((a,c)=>a+(+c.novos||0),0))}</td></tr>`; }).join("")}</tbody></table></div>
     ${nSemAbdi?`<p class="meta espaco-p">${nSemAbdi} ${nSemAbdi===1?"projeto ainda sem vínculo definido":"projetos ainda sem vínculo definido"}: a leitura direta do Canvas é feita na página de cada projeto.</p>`:""}</section>
    <section class="bloco"><h2>Análise de sensibilidade</h2><p>Pequenas alterações de peso mudam a ordem da lista? E a linha do teto, com outro leitor, outra aderência mínima ou outro teto? A análise refaz a lista em 28 cenários e aponta os projetos que pedem julgamento adicional.</p>
-    <div class="acoes"><a class="bt sec" href="#/sensibilidade">Abrir a análise de sensibilidade</a><a class="bt" href="#/etapa/8">Levar a lista à Diretoria Executiva</a></div></section>`; };
+    <div class="acoes"><a class="bt sec" href="#/painel">Ver a carteira em gráficos</a><a class="bt sec" href="#/sensibilidade">Abrir a análise de sensibilidade</a><a class="bt" href="#/etapa/8">Levar a lista à Diretoria Executiva</a></div></section>`; };
 ACOES.cenario=d=>{ S.cenario=+d.v; render(); };
 
 /* ---------- etapa 8: decisão da Diretoria Executiva ---------- */

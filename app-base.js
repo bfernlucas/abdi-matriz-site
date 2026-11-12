@@ -98,6 +98,7 @@ function render(){
   if(a==="etapa"&&ETAPAS[+b-1]) vEtapa(M,+b,c&&S.base[c]?S.base[c]:null);
   else if(a==="projeto"&&S.base[b]) vProjeto(M,S.base[b]);
   else if(a==="etiqueta") vEtiqueta(M);
+  else if(a==="painel") vPainel(M);
   else if(a==="sensibilidade") vSensibilidade(M);
   else if(a==="metodo") vMetodo(M);
   else if(a==="como") vComo(M);
@@ -154,7 +155,7 @@ function vInicio(M){
    <div class="caminho" aria-label="Projetos em cada etapa">${ETAPAS.map(col).join("")}</div>
    <h2 class="espaco">Saídas até agora</h2><p class="meta">Sugeridas pela matriz ou já decididas pela Diretoria Executiva.${nAl?` ${nAl} ${nAl===1?"projeto segue":"projetos seguem"} com alerta de repetição de entrega.`:""}</p>
    <div class="saidas">${SAIDAS.map(([k,t])=>`<div class="${clsSaida(k)}"><b>${cs[k]||0}</b><span>${esc(t)}</span></div>`).join("")}</div>
-   <div class="acoes"><a class="bt" href="#/etapa/7">Ver a lista e a linha do teto</a><a class="bt sec" href="#/sensibilidade">Análise de sensibilidade</a><a class="bt sec" href="#/como">Glossário e pontos em aberto</a></div>`; }
+   <div class="acoes"><a class="bt" href="#/etapa/7">Ver a lista e a linha do teto</a><a class="bt sec" href="#/painel">Painel da carteira</a><a class="bt sec" href="#/sensibilidade">Análise de sensibilidade</a><a class="bt sec" href="#/como">Glossário e pontos em aberto</a></div>`; }
 
 /* ---------- página de etapa: como funciona, à esquerda; trabalho, à direita ---------- */
 function vEtapa(M,n,c){
